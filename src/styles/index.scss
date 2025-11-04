@@ -1,0 +1,11 @@
+@use "mixins" as *;
+@use "windows";
+
+* {
+    all: unset;
+}
+
+.bar {
+    @extend %bar;
+    @include shadow;
+}

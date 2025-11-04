@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "lint": "biome check",
+    "build": "sudo rm result -r; nix build",
+    "start": "./result/bin/shell",
+    "dev": "./watch.sh"
+  },
+  "dependencies": {
+    "@biomejs/biome": "^2.3.3",
+    "ags": "*",
+    "gnim": "*"
+  },
+  "prettier": {
+    "semi": true
+  }
+}

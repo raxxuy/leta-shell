@@ -1,0 +1,9 @@
+@use "../modules/bar" as *;
+
+%bar {
+    background: transparent;
+    color: black;
+    margin: 0 0.6rem;
+
+    @extend %workspaces;
+}
