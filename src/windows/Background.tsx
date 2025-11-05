@@ -1,9 +1,8 @@
 import { createState } from "ags";
-import { monitorFile } from "ags/file";
+import { monitorFile, readFile } from "ags/file";
 import type { Gdk } from "ags/gtk4";
 import { cacheDir } from "@/constants";
 import { Exclusivity, Layer } from "@/enums";
-import { useCache } from "@/lib/cache";
 
 export default function Background(gdkmonitor: Gdk.Monitor) {
   const { width } = gdkmonitor.geometry;
@@ -11,10 +10,10 @@ export default function Background(gdkmonitor: Gdk.Monitor) {
   const [wallpaper, setWallpaper] = createState<string>("");
 
   const fetchWallpaper = () => {
-    setWallpaper(useCache("wallpaper") as string);
+    setWallpaper(readFile(`${cacheDir}/wal/wal`));
   };
 
-  monitorFile(`${cacheDir}/wallpaper`, () => {
+  monitorFile(`${cacheDir}/wal/wal`, () => {
     fetchWallpaper();
   });
 

@@ -1,7 +1,3 @@
 export default function Launcher() {
-  return (
-    <window>
-      
-    </window>
-  )
+  return <window></window>;
 }

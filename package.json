@@ -1,8 +1,8 @@
 {
   "scripts": {
     "lint": "biome check",
-    "build": "sudo rm result -r; nix build",
-    "start": "./result/bin/shell",
+    "build": "rm result -r; nix build",
+    "start": "./result/bin/leta-shell",
     "dev": "./watch.sh"
   },
   "dependencies": {

@@ -17,7 +17,7 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-      pname = "shell";
+      pname = "leta-shell";
       entry = "app.ts";
 
       astalPackages = with ags.packages.${system}; [
@@ -42,6 +42,8 @@
         gjs
         biome
         python3
+        pywal16
+        dart-sass
         inotify-tools
       ];
 
