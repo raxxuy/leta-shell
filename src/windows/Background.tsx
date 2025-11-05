@@ -1,8 +1,8 @@
-import { createState } from "ags";
+import { createState, With } from "ags";
 import { monitorFile, readFile } from "ags/file";
 import type { Gdk } from "ags/gtk4";
-import { cacheDir } from "@/constants";
-import { Exclusivity, Layer } from "@/enums";
+import { walFile } from "@/constants";
+import { Align, Exclusivity, Layer } from "@/enums";
 
 export default function Background(gdkmonitor: Gdk.Monitor) {
   const { width } = gdkmonitor.geometry;
@@ -10,10 +10,10 @@ export default function Background(gdkmonitor: Gdk.Monitor) {
   const [wallpaper, setWallpaper] = createState<string>("");
 
   const fetchWallpaper = () => {
-    setWallpaper(readFile(`${cacheDir}/wal/wal`));
+    setWallpaper(readFile(walFile));
   };
 
-  monitorFile(`${cacheDir}/wal/wal`, () => {
+  monitorFile(walFile, () => {
     fetchWallpaper();
   });
 
@@ -22,11 +22,23 @@ export default function Background(gdkmonitor: Gdk.Monitor) {
   return (
     <window
       visible
+      name="background"
+      class="background"
       layer={Layer.BACKGROUND}
       gdkmonitor={gdkmonitor}
       exclusivity={Exclusivity.IGNORE}
     >
-      <image pixelSize={width} file={wallpaper} />
+      <With value={wallpaper}>
+        {(wallpaper) =>
+          wallpaper !== "" ? (
+            <image pixelSize={width} file={wallpaper} />
+          ) : (
+            <box class="background-no-wallpaper" halign={Align.CENTER}>
+              No wallpaper selected
+            </box>
+          )
+        }
+      </With>
     </window>
   );
 }

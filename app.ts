@@ -1,6 +1,6 @@
 import app from "ags/gtk4/app";
 import style from "src/styles/index.scss";
-import { createCacheDir } from "@/lib/cache";
+import { createCacheDir, restartCss } from "@/lib/cache";
 import request from "@/lib/request";
 import Background from "@/windows/Background";
 import BarPanel from "@/windows/BarPanel";
@@ -10,6 +10,7 @@ app.start({
   css: style,
   main() {
     createCacheDir();
+    restartCss();
     WallpaperManager();
     app.monitors.forEach((monitor) => {
       BarPanel(monitor);

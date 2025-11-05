@@ -3,6 +3,7 @@
     "lint": "biome check",
     "build": "rm result -r; nix build",
     "start": "./result/bin/leta-shell",
+    "clear": "rm $HOME/.cache/leta-shell -r",
     "dev": "./watch.sh"
   },
   "dependencies": {

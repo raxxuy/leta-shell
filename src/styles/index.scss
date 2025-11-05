@@ -9,3 +9,7 @@
     @extend %bar;
     @include shadow;
 }
+
+.background {
+    @extend %background;
+}

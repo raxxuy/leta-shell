@@ -6,4 +6,5 @@ while true; do
     echo "File change detected. Killing bar"
     pkill ags
     pkill gjs
+    npm run clear
 done
