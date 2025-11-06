@@ -38,12 +38,10 @@
           libsoup_3
         ]);
 
-      buildPackages = with pkgs; [
-        gjs
-        biome
-        python3
+      shellPackages = with pkgs; [
         pywal16
         dart-sass
+        imagemagick
         inotify-tools
       ];
 
@@ -77,15 +75,11 @@
 
       devShells.${system} = {
         default = pkgs.mkShell {
-          buildInputs = buildPackages ++ [
+          buildInputs = shellPackages ++ [
             (ags.packages.${system}.default.override {
               inherit extraPackages;
             })
           ];
-
-          shellHook = ''
-            fish
-          '';
         };
       };
     };

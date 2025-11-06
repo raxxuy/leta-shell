@@ -45,7 +45,7 @@ const WorkspaceButton = ({
 
 export default function Workspaces({ maxWorkspaces }: WorkspacesProps) {
   return (
-    <Adw.Clamp maximumSize={15} orientation={Orientation.VERTICAL}>
+    <Adw.Clamp maximumSize={16} orientation={Orientation.VERTICAL}>
       <box class="workspaces" spacing={4}>
         {Array.from({ length: maxWorkspaces }).map((_, i) => (
           <WorkspaceButton

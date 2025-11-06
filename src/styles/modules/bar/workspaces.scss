@@ -24,7 +24,7 @@ $color11_light: color.scale($color11, $lightness: 20%);
             }
 
             &.active {
-                margin: 0;
+                margin-bottom: 0;
                 padding: 0 0.6rem;
                 background-color: $color11_light;
             }

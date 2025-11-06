@@ -22,3 +22,5 @@ export const cursors = {
   default: Gdk.Cursor.new_from_name("default", null),
   pointer: Gdk.Cursor.new_from_name("pointer", null),
 };
+
+export const now = () => GLib.DateTime.new_now_local();

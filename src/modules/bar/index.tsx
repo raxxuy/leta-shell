@@ -1,4 +1,5 @@
 import Workspaces from "@/modules/bar/Workspaces";
+import Clock from "./Clock";
 
 const Start = () => {
   return (
@@ -9,7 +10,11 @@ const Start = () => {
 };
 
 const Center = () => {
-  return <box $type="center" class="bar-module-center"></box>;
+  return (
+    <box $type="center" class="bar-module-center">
+      <Clock />
+    </box>
+  );
 };
 
 const End = () => {

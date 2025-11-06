@@ -1,7 +1,11 @@
 @use "../modules/bar" as *;
+@use "../colors" as *;
 
 %bar {
-    margin: 0 1rem;
+    background-color: $background;
+    color: $foreground;
+    padding: 0 1rem;
 
     @extend %workspaces;
+    @extend %clock;
 }

@@ -49,6 +49,8 @@ export const restartCss = async () => {
       cssFile,
     ]);
 
+    await execAsync(["hyprctl", "reload"]);
+
     app.apply_css(cssFile, true);
   } catch (error) {
     console.error("Failed to restart CSS:", error);
