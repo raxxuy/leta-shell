@@ -12,6 +12,7 @@ export default function BarPanel(gdkmonitor: Gdk.Monitor) {
       class="bar"
       anchor="TOP_FULL"
       application={app}
+      defaultHeight={20}
       gdkmonitor={gdkmonitor}
       exclusivity={Exclusivity.EXCLUSIVE}
     >

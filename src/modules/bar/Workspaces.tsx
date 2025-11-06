@@ -1,12 +1,14 @@
+import Adw from "gi://Adw";
 import AstalHyprland from "gi://AstalHyprland";
 import { createBinding, createComputed } from "gnim";
 import { cursors } from "@/constants";
+import { Orientation } from "@/enums";
 
 interface WorkspacesProps {
   maxWorkspaces: number;
 }
 
-export const WorkspaceButton = ({
+const WorkspaceButton = ({
   workspace,
 }: {
   workspace: AstalHyprland.Workspace;
@@ -43,12 +45,14 @@ export const WorkspaceButton = ({
 
 export default function Workspaces({ maxWorkspaces }: WorkspacesProps) {
   return (
-    <box class="workspaces">
-      {Array.from({ length: maxWorkspaces }).map((_, i) => (
-        <WorkspaceButton
-          workspace={AstalHyprland.Workspace.dummy(i + 1, null)}
-        />
-      ))}
-    </box>
+    <Adw.Clamp maximumSize={15} orientation={Orientation.VERTICAL}>
+      <box class="workspaces" spacing={4}>
+        {Array.from({ length: maxWorkspaces }).map((_, i) => (
+          <WorkspaceButton
+            workspace={AstalHyprland.Workspace.dummy(i + 1, null)}
+          />
+        ))}
+      </box>
+    </Adw.Clamp>
   );
 }
