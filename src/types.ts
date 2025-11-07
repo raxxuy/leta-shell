@@ -1,7 +1,3 @@
-import type { Gtk } from "ags/gtk4";
-import type { CCProps } from "gnim";
-
-export type Props<T extends Gtk.Widget, Props> = CCProps<T, Partial<Props>>;
 export type Anchor =
   | "NONE"
   | "TOP"

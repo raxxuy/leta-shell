@@ -1,13 +1,12 @@
 @use "windows" as *;
-@use "mixins" as *;
 
 * {
     all: unset;
+    font-family: "FiraCode Nerd Font Mono";
 }
 
 .bar {
     @extend %bar;
-    @include shadow;
 }
 
 .background {

@@ -10,7 +10,7 @@ run_dev_loop() {
         echo "File change detected. Killing bar"
         pkill ags
         pkill gjs
-        npm run clean
+        pnpm run clean
     done
 }
 

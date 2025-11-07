@@ -12,10 +12,10 @@ export default function request(
       break;
     case "toggle":
       if (!args[1]) {
-        response("ERROR: Must set an instance name")
+        response("ERROR: Must set an instance name");
         return;
       }
-      
+
       switch (args[1]) {
         case "wallpapers":
           response("Wallpapers toggled");

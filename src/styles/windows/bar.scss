@@ -2,9 +2,8 @@
 @use "../colors" as *;
 
 %bar {
-    background-color: $background;
     color: $foreground;
-    padding: 0 1rem;
+    padding: 0 0.7rem;
 
     @extend %workspaces;
     @extend %clock;

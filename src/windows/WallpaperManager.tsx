@@ -3,7 +3,7 @@ import { Gtk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import { exec } from "ags/process";
 import { createState, For } from "gnim";
-import { picturesDir } from "@/constants";
+import { PICTURES_DIR } from "@/constants";
 import { Align, Orientation } from "@/enums";
 import { setWallpaper } from "@/lib/cache";
 import Window from "@/widgets/Window";
@@ -12,13 +12,13 @@ export default function WallpaperManager() {
   const [pictures, setPictures] = createState<string[]>([]);
 
   const fetchPictures = () => {
-    const pictures = exec(`ls ${picturesDir}`)
+    const pictures = exec(`ls ${PICTURES_DIR}`)
       .split("\n")
-      .map((picture) => `${picturesDir}/${picture}`);
+      .map((picture) => `${PICTURES_DIR}/${picture}`);
     setPictures(pictures);
   };
 
-  monitorFile(picturesDir, () => {
+  monitorFile(PICTURES_DIR, () => {
     fetchPictures();
   });
 

@@ -1,26 +1,30 @@
 import GLib from "gi://GLib";
 import { Gdk } from "ags/gtk4";
 
-export const homeDir = GLib.get_home_dir();
-export const cacheDir = GLib.build_filenamev([
+// System directories
+export const HOME_DIR = GLib.get_home_dir();
+export const CACHE_DIR = GLib.build_filenamev([
   GLib.get_user_cache_dir(),
   "leta-shell",
 ]);
-export const walDir = GLib.build_filenamev([cacheDir, "wal"]);
-export const walFile = GLib.build_filenamev([walDir, "wal"]);
-export const stylesDir = GLib.build_filenamev([cacheDir, "styles"]);
-export const cssFile = GLib.build_filenamev([stylesDir, "index.css"]);
-export const srcStylesDir = GLib.build_filenamev([SRC, "src", "styles"]);
-export const colorsSource = GLib.build_filenamev([walDir, "colors.scss"]);
-export const colorsDest = GLib.build_filenamev([stylesDir, "colors.scss"]);
-
-export const picturesDir =
+export const PICTURES_DIR =
   GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES) ??
-  GLib.build_filenamev([homeDir, "Pictures"]);
+  GLib.build_filenamev([HOME_DIR, "Pictures"]);
 
-export const cursors = {
+// App directories
+export const WAL_DIR = GLib.build_filenamev([CACHE_DIR, "wal"]);
+export const STYLES_DIR = GLib.build_filenamev([CACHE_DIR, "styles"]);
+export const SRC_STYLES_DIR = GLib.build_filenamev([SRC, "src", "styles"]);
+export const CONFIG_DIR = GLib.build_filenamev([SRC, "config"]);
+
+// Files
+export const WAL_FILE = GLib.build_filenamev([WAL_DIR, "wal"]);
+export const CSS_FILE = GLib.build_filenamev([STYLES_DIR, "index.css"]);
+export const COLORS_SOURCE = GLib.build_filenamev([WAL_DIR, "colors.scss"]);
+export const COLORS_DEST = GLib.build_filenamev([STYLES_DIR, "colors.scss"]);
+
+// Cursors
+export const CURSORS = {
   default: Gdk.Cursor.new_from_name("default", null),
   pointer: Gdk.Cursor.new_from_name("pointer", null),
-};
-
-export const now = () => GLib.DateTime.new_now_local();
+} as const;

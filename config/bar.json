@@ -1,0 +1,18 @@
+{
+  "window": {
+    "defaultHeight": 24
+  },
+  "modules": {
+    "workspaces": {
+      "count": 10,
+      "spacing": 4
+    }
+  },
+  "extras": {
+    "container": {
+      "enabled": true,
+      "gradient": true,
+      "spacing": 20
+    }
+  }
+}

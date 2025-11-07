@@ -1,32 +1,38 @@
 @use "sass:color";
 @use "../../colors" as *;
+@use "../../mixins" as *;
 
+$color8_light: color.scale($color8, $lightness: 20%);
 $color11_light: color.scale($color11, $lightness: 20%);
+$color11_lighter: color.scale($color11, $lightness: 40%);
 
 %workspaces {
     .workspaces {
         min-height: 1.2rem;
 
         .workspace-button {
-            min-height: 1rem;
+            @include border($color8_light, 1px);
             min-width: 0.8rem;
+            min-height: 1rem;
+            background-color: $color8;
             color: $foreground;
             padding: 0 0.3rem;
             border-radius: 0.4rem;
-            background-color: $color8;
             transition: all 100ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
 
             margin-top: 0.1rem;
             margin-bottom: 0.1rem;
 
             &.occupied {
-                background: $color11;
+                @include border($color11_light, 1px);
+                background-color: $color11;
             }
 
             &.active {
-                margin-bottom: 0;
-                padding: 0 0.6rem;
+                @include border($color11_lighter, 1px);
                 background-color: $color11_light;
+                padding: 0 0.6rem;
+                margin-bottom: 0;
             }
 
             &:hover {

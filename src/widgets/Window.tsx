@@ -1,11 +1,7 @@
-import type { Astal } from "ags/gtk4";
 import { mapAnchorToNumber } from "@/lib/utils/widget";
-import type { Anchor, Props } from "@/types";
+import type { Anchor } from "@/types";
 
-type WindowProps = Omit<
-  Props<Astal.Window, Astal.Window.ConstructorProps>,
-  "anchor"
-> & {
+type WindowProps = Omit<JSX.IntrinsicElements["window"], "anchor"> & {
   anchor: Anchor;
 };
 

@@ -1,8 +1,9 @@
 import Adw from "gi://Adw";
 import AstalHyprland from "gi://AstalHyprland";
 import { createBinding, createComputed } from "gnim";
-import { cursors } from "@/constants";
+import { CURSORS } from "@/constants";
 import { Orientation } from "@/enums";
+import { configs } from "@/lib/config";
 
 interface WorkspacesProps {
   maxWorkspaces: number;
@@ -37,7 +38,7 @@ const WorkspaceButton = ({
   return (
     <button
       cssClasses={classNames}
-      cursor={cursors.pointer}
+      cursor={CURSORS.pointer}
       onClicked={() => workspace.focus()}
     />
   );
@@ -46,7 +47,7 @@ const WorkspaceButton = ({
 export default function Workspaces({ maxWorkspaces }: WorkspacesProps) {
   return (
     <Adw.Clamp maximumSize={16} orientation={Orientation.VERTICAL}>
-      <box class="workspaces" spacing={4}>
+      <box class="workspaces" spacing={configs.bar.modules.workspaces.spacing}>
         {Array.from({ length: maxWorkspaces }).map((_, i) => (
           <WorkspaceButton
             workspace={AstalHyprland.Workspace.dummy(i + 1, null)}

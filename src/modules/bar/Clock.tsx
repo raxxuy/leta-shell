@@ -1,7 +1,7 @@
 import { Gtk } from "ags/gtk4";
 import { interval } from "ags/time";
 import { createState } from "gnim";
-import { now } from "@/constants";
+import { now } from "@/lib/utils/time";
 
 const FORMATS = {
   NORMAL: "%H:%M",
@@ -31,13 +31,15 @@ export default function Clock() {
   interval(1000, () => setTime(getCurrentTime()));
 
   return (
-    <box>
+    <box class="clock">
       <Gtk.EventControllerMotion
         onEnter={handleMouseEnter}
         onLeave={handleMouseLeave}
       />
       <label
-        class={isHovered((hover) => `clock ${hover ? "hover" : "normal"}`)}
+        class={isHovered(
+          (hover) => `clock-label ${hover ? "hover" : "normal"}`,
+        )}
         label={time}
       />
     </box>

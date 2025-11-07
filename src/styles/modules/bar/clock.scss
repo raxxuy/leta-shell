@@ -1,7 +1,8 @@
-@use "../../colors" as *;
-
 %clock {
     .clock {
-        font-weight: 600;
+        .clock-label {
+            font-weight: bolder;
+            font-size: 1rem;
+        }
     }
 }

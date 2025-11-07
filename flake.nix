@@ -39,6 +39,7 @@
         ]);
 
       shellPackages = with pkgs; [
+        pnpm
         pywal16
         dart-sass
         imagemagick

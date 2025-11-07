@@ -1,7 +1,7 @@
 import { createState, With } from "ags";
 import { monitorFile, readFile } from "ags/file";
 import type { Gdk } from "ags/gtk4";
-import { walFile } from "@/constants";
+import { WAL_FILE } from "@/constants";
 import { Align, Exclusivity, Layer } from "@/enums";
 
 export default function Background(gdkmonitor: Gdk.Monitor) {
@@ -10,10 +10,10 @@ export default function Background(gdkmonitor: Gdk.Monitor) {
   const [wallpaper, setWallpaper] = createState<string>("");
 
   const fetchWallpaper = () => {
-    setWallpaper(readFile(walFile));
+    setWallpaper(readFile(WAL_FILE));
   };
 
-  monitorFile(walFile, () => {
+  monitorFile(WAL_FILE, () => {
     fetchWallpaper();
   });
 
