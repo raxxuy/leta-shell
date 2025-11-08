@@ -11,31 +11,30 @@ $color11_lighter: color.scale($color11, $lightness: 40%);
         min-height: 1.2rem;
 
         .workspace-button {
-            @include border($color8_light, 1px);
-            min-width: 0.8rem;
-            min-height: 1rem;
+            @include border($color8_light, 1px, 0.4rem);
+            @include min-width-height(0.8rem, 1rem);
             background-color: $color8;
             color: $foreground;
             padding: 0 0.3rem;
-            border-radius: 0.4rem;
-            transition: all 100ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
 
+            transition: all 100ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
             margin-top: 0.1rem;
             margin-bottom: 0.1rem;
 
             &.occupied {
-                @include border($color11_light, 1px);
+                @include border($color11_light, 1px, 0.4rem);
                 background-color: $color11;
             }
 
             &.active {
-                @include border($color11_lighter, 1px);
+                @include border($color11_lighter, 1px, 0.4rem);
                 background-color: $color11_light;
-                padding: 0 0.6rem;
+                /* padding: 0 0.5rem; */
                 margin-bottom: 0;
             }
 
             &:hover {
+                @include border($color11_lighter, 1px, 0.4rem);
                 background-color: $color11_light;
             }
         }

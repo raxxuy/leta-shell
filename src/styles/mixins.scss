@@ -2,6 +2,12 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-@mixin border($color: black, $width: 1px) {
+@mixin border($color: black, $width: 1px, $radius: 0) {
     border: $width solid $color;
+    border-radius: $radius;
+}
+
+@mixin min-width-height($width, $height) {
+    min-width: $width;
+    min-height: $height;
 }

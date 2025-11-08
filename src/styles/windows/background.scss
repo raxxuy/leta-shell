@@ -1,4 +1,10 @@
 %background {
+    .background-wallpaper {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
     .background-no-wallpaper {
         background-color: #111111;
         color: white;

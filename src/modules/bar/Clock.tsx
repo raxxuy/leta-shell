@@ -1,6 +1,6 @@
+import { createState } from "ags";
 import { Gtk } from "ags/gtk4";
 import { interval } from "ags/time";
-import { createState } from "gnim";
 import { now } from "@/lib/utils/time";
 
 const FORMATS = {

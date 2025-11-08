@@ -40,6 +40,7 @@
 
       shellPackages = with pkgs; [
         pnpm
+        nodejs
         pywal16
         dart-sass
         imagemagick

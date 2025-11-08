@@ -6,12 +6,12 @@
 
 $color11_dark: color.scale($color11, $lightness: -50%);
 $color14_dark: color.scale($color14, $lightness: -30%);
+
 .container {
-    @include border($color11, 2px);
+    @include border($color11, 2px, 0.4rem);
     @include shadow;
-    padding: 0.3rem 0.4rem;
-    border-radius: 0.4rem;
     background-color: $color11_dark;
+    padding: 0.3rem 0.4rem;
 
     &.gradient {
         background: linear-gradient(to right $color11_dark, $color14_dark);

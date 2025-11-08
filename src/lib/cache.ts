@@ -1,6 +1,5 @@
 import GLib from "gi://GLib";
 import app from "ags/gtk4/app";
-import { execAsync } from "ags/process";
 import {
   CACHE_DIR,
   COLORS_DEST,
@@ -11,14 +10,19 @@ import {
   WAL_DIR,
   WAL_FILE,
 } from "@/constants";
+import { bash } from "@/lib/utils/shell";
 import {
   generateColorSchemesByImage,
   generateRandomColorSchemes,
-} from "./utils/wal";
+} from "@/lib/utils/wal";
+
+// Helper to check if directory/file exists
+const dirExists = (path: string) => GLib.file_test(path, GLib.FileTest.IS_DIR);
+const fileExists = (path: string) => GLib.file_test(path, GLib.FileTest.EXISTS);
 
 export const createCacheDir = () => {
   try {
-    if (!GLib.file_test(CACHE_DIR, GLib.FileTest.IS_DIR)) {
+    if (!dirExists(CACHE_DIR)) {
       GLib.mkdir_with_parents(CACHE_DIR, 0o755);
       GLib.mkdir_with_parents(WAL_DIR, 0o755);
       GLib.file_set_contents(WAL_FILE, "");
@@ -29,31 +33,24 @@ export const createCacheDir = () => {
   }
 };
 
-export const restartCss = async () => {
-  const firstRun = !GLib.file_test(STYLES_DIR, GLib.FileTest.IS_DIR);
+export const applyCss = async () => {
+  const firstRun = !dirExists(STYLES_DIR);
 
   try {
-    // Copy all styles on first run only
     if (firstRun) {
       GLib.mkdir_with_parents(STYLES_DIR, 0o755);
-      await execAsync(["cp", "-r", `${SRC_STYLES_DIR}/.`, STYLES_DIR]);
-      await execAsync(["chmod", "-R", "u+w", STYLES_DIR]);
+      await bash(`cp -r ${SRC_STYLES_DIR}/. ${STYLES_DIR}`);
+      await bash(`chmod -R u+w ${STYLES_DIR}`);
       await generateRandomColorSchemes();
     }
 
-    await execAsync(["cp", COLORS_SOURCE, COLORS_DEST]);
-
-    await execAsync([
-      "sass",
-      GLib.build_filenamev([STYLES_DIR, "index.scss"]),
-      CSS_FILE,
-    ]);
-
-    await execAsync(["hyprctl", "reload"]);
+    await bash(`cp ${COLORS_SOURCE} ${COLORS_DEST}`);
+    await bash(`sass ${STYLES_DIR}/index.scss ${CSS_FILE}`);
+    await bash("hyprctl reload");
 
     app.apply_css(CSS_FILE, true);
   } catch (error) {
-    console.error("Failed to restart CSS:", error);
+    console.error("Failed to apply CSS:", error);
     throw error;
   }
 };
@@ -64,21 +61,20 @@ export const getWallpaper = () => {
 };
 
 export const setWallpaper = async (wallpaper: string) => {
-  // Remove existing wallpaper if it exists
   if (!wallpaper) {
     GLib.file_set_contents(WAL_FILE, "");
-    await restartCss();
+    await applyCss();
     return;
   }
 
-  if (!GLib.file_test(wallpaper, GLib.FileTest.EXISTS)) {
+  if (!fileExists(wallpaper)) {
     throw new Error(`Wallpaper file does not exist: ${wallpaper}`);
   }
 
   try {
     GLib.file_set_contents(WAL_FILE, wallpaper);
     await generateColorSchemesByImage(wallpaper);
-    await restartCss();
+    await applyCss();
   } catch (error) {
     console.error("Failed to set wallpaper:", error);
     throw error;

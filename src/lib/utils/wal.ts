@@ -1,18 +1,14 @@
-import { execAsync } from "ags/process";
 import { WAL_DIR } from "@/constants";
+import { bash } from "@/lib/utils/shell";
 
-export const generateColorSchemesByImage = (image: string) => {
-  return execAsync([
-    "bash",
-    "-c",
-    `env PYWAL_CACHE_DIR='${WAL_DIR}' wal -i '${image}' --out-dir '${WAL_DIR}'`,
-  ]);
+export const generateColorSchemesByImage = (path: string) => {
+  return bash(
+    `env PYWAL_CACHE_DIR='${WAL_DIR}' wal -i '${path}' --out-dir '${WAL_DIR}'`,
+  );
 };
 
 export const generateRandomColorSchemes = () => {
-  return execAsync([
-    "bash",
-    "-c",
+  return bash(
     `env PYWAL_CACHE_DIR='${WAL_DIR}' wal --theme random --out-dir '${WAL_DIR}'`,
-  ]);
+  );
 };

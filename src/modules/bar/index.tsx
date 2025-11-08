@@ -1,4 +1,4 @@
-import type GObject from "gnim/gobject";
+import type GObject from "ags/gobject";
 import { configs } from "@/lib/config";
 import Workspaces from "@/modules/bar/Workspaces";
 import Container from "@/widgets/Container";

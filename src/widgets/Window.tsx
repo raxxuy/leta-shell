@@ -6,5 +6,5 @@ type WindowProps = Omit<JSX.IntrinsicElements["window"], "anchor"> & {
 };
 
 export default function Window({ anchor, ...props }: WindowProps) {
-  return <window {...props} anchor={mapAnchorToNumber(anchor)} />;
+  return <window anchor={mapAnchorToNumber(anchor)} {...props} />;
 }
