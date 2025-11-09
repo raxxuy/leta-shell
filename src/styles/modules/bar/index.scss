@@ -4,16 +4,16 @@
 @use "../../colors" as *;
 @use "../../mixins" as *;
 
-$color11_dark: color.scale($color11, $lightness: -50%);
-$color14_dark: color.scale($color14, $lightness: -30%);
+$color10_dark: color.scale($color10, $lightness: -50%);
+$color12_dark: color.scale($color12, $lightness: -30%);
 
 .container {
-    @include border($color11, 2px, 0.4rem);
+    @include border($color10, 2px, 0.4rem);
     @include shadow;
-    background-color: $color11_dark;
+    background-color: $color10_dark;
     padding: 0.3rem 0.4rem;
 
     &.gradient {
-        background: linear-gradient(to right $color11_dark, $color14_dark);
+        background: linear-gradient(to right $color10_dark, $color12_dark);
     }
 }

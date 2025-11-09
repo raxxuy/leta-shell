@@ -2,18 +2,18 @@
 @use "../../colors" as *;
 @use "../../mixins" as *;
 
-$color8_light: color.scale($color8, $lightness: 20%);
 $color11_light: color.scale($color11, $lightness: 20%);
-$color11_lighter: color.scale($color11, $lightness: 40%);
+$color13_light: color.scale($color13, $lightness: 20%);
+$color13_lighter: color.scale($color13, $lightness: 40%);
 
 %workspaces {
     .workspaces {
         min-height: 1.2rem;
 
         .workspace-button {
-            @include border($color8_light, 1px, 0.4rem);
+            @include border($color11_light, 1px, 0.4rem);
             @include min-width-height(0.8rem, 1rem);
-            background-color: $color8;
+            background-color: $color11;
             color: $foreground;
             padding: 0 0.3rem;
 
@@ -22,20 +22,18 @@ $color11_lighter: color.scale($color11, $lightness: 40%);
             margin-bottom: 0.1rem;
 
             &.occupied {
-                @include border($color11_light, 1px, 0.4rem);
-                background-color: $color11;
+                @include border($color13_light, 1px, 0.4rem);
+                background-color: $color13;
             }
 
-            &.active {
-                @include border($color11_lighter, 1px, 0.4rem);
-                background-color: $color11_light;
+            &.active, &:hover {
+                @include border($color13_lighter, 1px, 0.4rem);
+                background-color: $color13_light;
                 /* padding: 0 0.5rem; */
-                margin-bottom: 0;
-            }
-
-            &:hover {
-                @include border($color11_lighter, 1px, 0.4rem);
-                background-color: $color11_light;
+                
+                &.active {
+                    margin-bottom: 0;
+                }
             }
         }
     }
