@@ -1,20 +1,11 @@
-import { createBinding, createComputed, With } from "ags";
+import { createBinding } from "ags";
 import type { Gdk } from "ags/gtk4";
 import { Align, Exclusivity, Layer } from "@/enums";
 import Wallpaper from "@/services/wallpaper";
 
 export default function Background(gdkmonitor: Gdk.Monitor) {
-  const { width, height } = gdkmonitor.geometry;
   const wallpaper = Wallpaper.get_default();
-
-  const details = createComputed(
-    [createBinding(wallpaper, "wallpaper")],
-    (wallpaper) => ({
-      source: wallpaper.source,
-      width,
-      height,
-    }),
-  );
+  const source = createBinding(wallpaper, "source");
 
   return (
     <window
@@ -25,24 +16,20 @@ export default function Background(gdkmonitor: Gdk.Monitor) {
       gdkmonitor={gdkmonitor}
       exclusivity={Exclusivity.IGNORE}
     >
-      <With value={details}>
-        {(details) =>
-          details.source !== "" ? (
-            <box
-              class="background-wallpaper"
-              css={`
-                background-image: url("file://${details.source}");
-                min-width: ${details.width}px;
-                min-height: ${details.height}px;
-              `}
-            />
-          ) : (
-            <box class="background-no-wallpaper" halign={Align.CENTER}>
-              No wallpaper selected
-            </box>
-          )
-        }
-      </With>
+      <box
+        class="background-wallpaper"
+        css={source(
+          (source) => `
+            background-image: url("file://${source}");
+          `,
+        )}
+      >
+        <label
+          hexpand
+          halign={Align.CENTER}
+          label={source((source) => (!source ? "No wallpaper selected" : ""))}
+        />
+      </box>
     </window>
   );
 }

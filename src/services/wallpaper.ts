@@ -1,25 +1,10 @@
-import Gio from "gi://Gio";
-import { monitorFile, readFileAsync } from "ags/file";
-import GObject, { getter, register, setter, signal } from "ags/gobject";
-import { PICTURES_DIR, WAL_FILE } from "@/constants";
-import { setWallpaper } from "@/lib/cache";
+import { monitorFile } from "ags/file";
+import type GObject from "ags/gobject";
+import { getter, register, setter, signal } from "ags/gobject";
+import { PICTURES_DIR } from "@/constants";
+import { getWallpaper, setWallpaper } from "@/lib/cache";
 import { bash } from "@/lib/utils/shell";
 import Service from "@/services/base";
-
-@register()
-class WallpaperImage extends GObject.Object {
-  constructor(
-    public source: string,
-    public format: string,
-    public width: number,
-    public height: number,
-    public depth: string,
-    public colorspace: string,
-    public size: string,
-  ) {
-    super();
-  }
-}
 
 interface WallpaperSignals extends GObject.Object.SignalSignatures {
   "wallpaper-changed": Wallpaper["wallpaperChanged"];
@@ -29,8 +14,8 @@ interface WallpaperSignals extends GObject.Object.SignalSignatures {
 @register({ GTypeName: "Wallpaper" })
 export default class Wallpaper extends Service<WallpaperSignals> {
   private static instance: Wallpaper;
-  #wallpaper: WallpaperImage = new WallpaperImage("", "", 0, 0, "", "", "");
   #pictures: string[] = [];
+  #source = "";
 
   static get_default() {
     if (!Wallpaper.instance) Wallpaper.instance = new Wallpaper();
@@ -43,9 +28,9 @@ export default class Wallpaper extends Service<WallpaperSignals> {
   @signal()
   picturesChanged() {}
 
-  @getter(WallpaperImage)
-  get wallpaper() {
-    return this.#wallpaper;
+  @getter(String)
+  get source() {
+    return this.#source;
   }
 
   @getter(Array)
@@ -55,37 +40,12 @@ export default class Wallpaper extends Service<WallpaperSignals> {
 
   @setter(String)
   set source(path: string) {
-    if (!path) {
-      this.#wallpaper = new WallpaperImage("", "", 0, 0, "", "", "");
-      setWallpaper("");
-      this.notify("wallpaper");
-      this.emit("wallpaper-changed");
-      return;
-    }
+    if (path === this.#source) return;
 
-    bash(["identify", path])
-      .then((details) => {
-        const [source, format, resolution, , depth, colorspace, size, , ,] =
-          details.split(" ");
-        const [width, height] = resolution.split("x").map(Number);
-
-        this.#wallpaper = new WallpaperImage(
-          source,
-          format,
-          width,
-          height,
-          depth,
-          colorspace,
-          size,
-        );
-
-        setWallpaper(path);
-        this.notify("wallpaper");
-        this.emit("wallpaper-changed");
-      })
-      .catch((error) => {
-        console.error("Failed to set wallpaper:", error);
-      });
+    this.#source = path;
+    setWallpaper(path);
+    this.notify("source");
+    this.emit("wallpaper-changed");
   }
 
   fetchPictures() {
@@ -108,16 +68,7 @@ export default class Wallpaper extends Service<WallpaperSignals> {
   constructor() {
     super();
 
-    // Monitor wallpaper file changes
-    monitorFile(WAL_FILE, async (file, event) => {
-      if (event === Gio.FileMonitorEvent.RENAMED) {
-        this.source = await readFileAsync(file);
-      }
-
-      if (event === Gio.FileMonitorEvent.DELETED) {
-        this.source = "";
-      }
-    });
+    this.source = getWallpaper();
 
     // Monitor pictures directory
     monitorFile(PICTURES_DIR, () => this.fetchPictures());

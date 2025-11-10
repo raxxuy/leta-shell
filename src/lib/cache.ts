@@ -56,7 +56,9 @@ export const applyCss = async () => {
 };
 
 export const getWallpaper = () => {
-  const wallpaper = GLib.file_get_contents(WAL_FILE).toString().trim();
+  const wallpaper = new TextDecoder().decode(
+    GLib.file_get_contents(WAL_FILE)[1],
+  );
   return wallpaper;
 };
 
