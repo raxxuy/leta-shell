@@ -6,13 +6,16 @@
     "workspaces": {
       "count": 10,
       "spacing": 4
+    },
+    "clock": {
+      "format": "%H:%M"
     }
   },
   "extras": {
     "container": {
       "enabled": true,
       "gradient": true,
-      "spacing": 20
+      "spacing": 10
     }
   }
 }

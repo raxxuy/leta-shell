@@ -4,6 +4,7 @@ import { Align, Exclusivity, Layer } from "@/enums";
 import Wallpaper from "@/services/wallpaper";
 
 export default function Background(gdkmonitor: Gdk.Monitor) {
+  const { width, height } = gdkmonitor.get_geometry();
   const wallpaper = Wallpaper.get_default();
   const source = createBinding(wallpaper, "source");
 
@@ -13,10 +14,12 @@ export default function Background(gdkmonitor: Gdk.Monitor) {
       name="background"
       class="background"
       layer={Layer.BACKGROUND}
-      gdkmonitor={gdkmonitor}
       exclusivity={Exclusivity.IGNORE}
+      gdkmonitor={gdkmonitor}
     >
       <box
+        widthRequest={width}
+        heightRequest={height}
         class="background-wallpaper"
         css={source(
           (source) => `

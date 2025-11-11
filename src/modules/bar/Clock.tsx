@@ -1,34 +1,29 @@
-import { createState } from "ags";
+import { createState, onCleanup } from "ags";
 import { Gtk } from "ags/gtk4";
 import { interval } from "ags/time";
+import { configs } from "@/lib/config";
 import { now } from "@/lib/utils/time";
 
-const FORMATS = {
-  NORMAL: "%H:%M",
-  DETAILED: "%H:%M:%S",
-};
-
 export default function Clock() {
-  const [format, setFormat] = createState(FORMATS.NORMAL);
-  const [isHovered, setIsHovered] = createState(false);
+  const initialFormat = configs.bar.modules.clock.format;
+  const [format, setFormat] = createState(initialFormat);
 
   const getCurrentTime = () => now().format(format.get()) as string;
-
   const [time, setTime] = createState(getCurrentTime());
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
-    setFormat(FORMATS.DETAILED);
-    setTime(now().format(FORMATS.DETAILED) as string);
+    setFormat("%a %H:%M:%S");
+    setTime(getCurrentTime());
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
-    setFormat(FORMATS.NORMAL);
-    setTime(now().format(FORMATS.NORMAL) as string);
+    setFormat(initialFormat);
+    setTime(getCurrentTime());
   };
 
-  interval(1000, () => setTime(getCurrentTime()));
+  const clockInterval = interval(1000, () => setTime(getCurrentTime()));
+
+  onCleanup(() => clockInterval.cancel());
 
   return (
     <box class="clock">
@@ -36,12 +31,7 @@ export default function Clock() {
         onEnter={handleMouseEnter}
         onLeave={handleMouseLeave}
       />
-      <label
-        class={isHovered(
-          (hover) => `clock-label ${hover ? "hover" : "normal"}`,
-        )}
-        label={time}
-      />
+      <label class="clock-label" label={time} />
     </box>
   );
 }

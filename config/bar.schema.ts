@@ -7,6 +7,9 @@ export type BarSchema = {
       count: number;
       spacing: number;
     };
+    clock: {
+      format: string;
+    };
   };
   extras: {
     container: {

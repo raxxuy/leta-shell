@@ -23,7 +23,12 @@ const wrap = (children: GObject.Object) =>
 
 const Start = () => (
   <box $type="start" class="bar-module-left">
-    {wrap(<Workspaces maxWorkspaces={maxWorkspaces} />)}
+    {wrap(
+      <>
+        <Workspaces maxWorkspaces={maxWorkspaces} />
+        <Tray />
+      </>,
+    )}
   </box>
 );
 
@@ -33,11 +38,7 @@ const Center = () => (
   </box>
 );
 
-const End = () => (
-  <box $type="end" class="bar-module-right">
-    {wrap(<Tray />)}
-  </box>
-);
+const End = () => <box $type="end" class="bar-module-right"></box>;
 
 export default function BarModule() {
   return (

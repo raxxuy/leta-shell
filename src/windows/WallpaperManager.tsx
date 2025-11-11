@@ -9,6 +9,10 @@ export default function WallpaperManager() {
   const wallpaper = Wallpaper.get_default();
   const pictures = createBinding(wallpaper, "pictures");
 
+  const handlePictureClick = (picture: string = "") => {
+    wallpaper.source = picture;
+  };
+
   return (
     <Window
       visible={false}
@@ -18,27 +22,43 @@ export default function WallpaperManager() {
       anchor="center-inline"
       onNotifyVisible={(self) => self.visible && self.get_focus()}
     >
-      <box orientation={Orientation.VERTICAL}>
-        <Gtk.Grid halign={Align.CENTER} valign={Align.CENTER} rowHomogeneous>
-          <For each={pictures}>
-            {(picture) => (
-              <button
-                onClicked={() => {
-                  wallpaper.source = picture;
-                }}
-              >
-                <image file={picture} pixelSize={400} />
-              </button>
-            )}
-          </For>
-        </Gtk.Grid>
-        <button
-          onClicked={() => {
-            wallpaper.source = "";
-          }}
+      <box
+        spacing={40}
+        class="wallpapers-main"
+        orientation={Orientation.VERTICAL}
+      >
+        <scrolledwindow
+          class="wallpapers-scrolledwindow"
+          minContentWidth={1920}
+          minContentHeight={500}
+          vscrollbarPolicy={Gtk.PolicyType.NEVER}
+          hscrollbarPolicy={Gtk.PolicyType.ALWAYS}
         >
-          Clear Wallpaper
-        </button>
+          <box spacing={40}>
+            <For each={pictures}>
+              {(picture) => (
+                <button
+                  heightRequest={533}
+                  widthRequest={300}
+                  css={`
+                    background-image: url(file://${picture});
+                    background-size: cover;
+                    background-position: center;
+                  `}
+                  overflow={Gtk.Overflow.HIDDEN}
+                  onClicked={() => handlePictureClick(picture)}
+                />
+              )}
+            </For>
+          </box>
+        </scrolledwindow>
+        <box hexpand halign={Align.CENTER}>
+          <button
+            label="Clear wallpaper"
+            class="wallpapers-clear"
+            onClicked={() => handlePictureClick()}
+          />
+        </box>
       </box>
     </Window>
   );

@@ -1,0 +1,38 @@
+@use "../colors" as *;
+@use "../mixins" as *;
+
+%wallpapers {
+    padding: 2rem;
+    background-color: $background;
+
+    .wallpapers-scrolledwindow {
+        scrollbar.horizontal {
+            range {
+                trough {
+                    margin: 4px 9px;
+                    outline: 1px solid black;
+
+                    slider {
+                        min-height: 3px;
+                        min-width: 40px;
+                        background-color: white;
+                        outline: 1px solid #ccc;
+                    }
+                }
+            }
+        }
+    }
+
+    .wallpapers-clear {
+        @include border(rgba($color11, 0.4), 2px, 0.4rem);
+        background-color: rgba($color11, 0.2);
+        padding: 0.5rem 1rem;
+        font-weight: bolder;
+        font-size: 1rem;
+        
+        &:hover {
+            border-color: rgba($color11, 0.6);
+            background-color: rgba($color11, 0.3);
+        }
+    }
+}
