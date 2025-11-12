@@ -26,6 +26,7 @@
         tray
         apps
         notifd
+        battery
         hyprland
         wireplumber
         # notifd tray wireplumber

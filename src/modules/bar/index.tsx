@@ -1,5 +1,6 @@
 import type GObject from "ags/gobject";
 import { configs } from "@/lib/config";
+import Battery from "@/modules/bar/Battery";
 import Clock from "@/modules/bar/Clock";
 import Tray from "@/modules/bar/Tray";
 import Workspaces from "@/modules/bar/Workspaces";
@@ -38,7 +39,15 @@ const Center = () => (
   </box>
 );
 
-const End = () => <box $type="end" class="bar-module-right"></box>;
+const End = () => (
+  <box $type="end" class="bar-module-right">
+    {wrap(
+      <>
+        <Battery />
+      </>,
+    )}
+  </box>
+);
 
 export default function BarModule() {
   return (
