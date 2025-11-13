@@ -14,7 +14,9 @@
         font-weight: 500;
 
         .launcher-entry {
-            padding: 0 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            background-color: color.scale($background, $lightness: 5%);
         }
 
         .launcher-scrollwindow {
@@ -43,9 +45,12 @@
             }
 
             .launcher-list {
-                padding-right: 0.5rem;
+                background-color: color.scale($background, $lightness: -10%);
+                border-radius: 1rem;
+                padding: 0.5rem;
 
                 .launcher-item {
+                    min-height: 2rem;
                     border-radius: 1rem;
                     padding: 0.5rem 1rem;
 
@@ -57,7 +62,8 @@
                         );
                     }
 
-                    &:focus, &:active {
+                    &:focus,
+                    &:active {
                         background-color: color.scale(
                             $background,
                             $lightness: 20%

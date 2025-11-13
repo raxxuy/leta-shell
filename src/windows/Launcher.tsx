@@ -66,7 +66,7 @@ export default function Launcher() {
         halign={Align.CENTER}
         valign={Align.CENTER}
         revealChild={revealed}
-        transitionDuration={200}
+        transitionDuration={100}
         transitionType={RevealerTransitionType.SLIDE_UP}
       >
         <LauncherModule setEntry={setEntry} />

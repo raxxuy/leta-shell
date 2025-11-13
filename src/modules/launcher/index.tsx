@@ -1,6 +1,6 @@
 import AstalApps from "gi://AstalApps";
 import { createState, For, type Setter } from "ags";
-import { Gtk } from "ags/gtk4";
+import type { Gtk } from "ags/gtk4";
 import { Align, Orientation } from "@/enums";
 import LauncherItem from "@/modules/launcher/LauncherItem";
 
@@ -19,7 +19,6 @@ export default function Launcher({ setEntry }: LauncherProps) {
 
   return (
     <box
-      heightRequest={640}
       widthRequest={400}
       spacing={20}
       class="launcher-content"
@@ -27,7 +26,12 @@ export default function Launcher({ setEntry }: LauncherProps) {
       halign={Align.CENTER}
       orientation={Orientation.VERTICAL}
     >
-      <scrolledwindow class="launcher-scrollwindow" hexpand vexpand>
+      <scrolledwindow
+        heightRequest={524}
+        class="launcher-scrollwindow"
+        hexpand
+        vexpand
+      >
         <box
           spacing={10}
           class="launcher-list"
@@ -36,7 +40,6 @@ export default function Launcher({ setEntry }: LauncherProps) {
           <For each={list}>{(app) => <LauncherItem app={app} />}</For>
         </box>
       </scrolledwindow>
-      <Gtk.Separator visible={list((l) => l.length > 0)} />
       <entry
         widthRequest={500}
         $={setEntry}
