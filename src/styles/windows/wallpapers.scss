@@ -2,14 +2,26 @@
 @use "../mixins" as *;
 
 %wallpapers {
-    padding: 2rem;
     background-color: $background;
+    padding: 2rem 0;
 
     .wallpapers-scrolledwindow {
+        viewport {
+            padding: 0 2.5rem;
+        }
+
         scrollbar.horizontal {
+            margin-bottom: -2rem;
+            
+            &:hover {
+                slider {
+                    min-height: 5px;
+                }
+            }
+            
             range {
                 trough {
-                    margin: 4px 9px;
+                    margin: 10px 9px;
                     outline: 1px solid black;
 
                     slider {
@@ -18,6 +30,7 @@
                         background-color: white;
                         outline: 1px solid #ccc;
                     }
+                    
                 }
             }
         }
@@ -29,7 +42,7 @@
         padding: 0.5rem 1rem;
         font-weight: bolder;
         font-size: 1rem;
-        
+
         &:hover {
             border-color: rgba($color11, 0.6);
             background-color: rgba($color11, 0.3);

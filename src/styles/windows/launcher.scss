@@ -1,0 +1,76 @@
+@use "sass:color";
+@use "../colors" as *;
+@use "../mixins" as *;
+
+%launcher {
+    .launcher-content {
+        @include border(color.scale($background, $lightness: 20%), 2px, 1rem);
+        background-color: $background;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom: 0;
+        padding: 1rem;
+        font-size: medium;
+        font-weight: 500;
+
+        .launcher-entry {
+            padding: 0 1rem;
+        }
+
+        .launcher-scrollwindow {
+            scrollbar.vertical {
+                margin-right: -1rem;
+
+                &:hover {
+                    slider {
+                        min-height: 5px;
+                    }
+                }
+
+                range {
+                    trough {
+                        border-radius: 1rem;
+                        outline: 1px solid rgba(black, 0.5);
+
+                        slider {
+                            border-radius: 1rem;
+                            min-width: 3px;
+                            background-color: white;
+                            outline: 1px solid #ccc;
+                        }
+                    }
+                }
+            }
+
+            .launcher-list {
+                padding-right: 0.5rem;
+
+                .launcher-item {
+                    border-radius: 1rem;
+                    padding: 0.5rem 1rem;
+
+                    &:hover {
+                        transition: all 250ms cubic-bezier(0.19, 1, 0.22, 1);
+                        background-color: color.scale(
+                            $background,
+                            $lightness: 10%
+                        );
+                    }
+
+                    &:focus, &:active {
+                        background-color: color.scale(
+                            $background,
+                            $lightness: 20%
+                        );
+                    }
+                }
+            }
+
+            .app-button {
+                .app-description {
+                    font-size: small;
+                }
+            }
+        }
+    }
+}

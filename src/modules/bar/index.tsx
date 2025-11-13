@@ -23,13 +23,9 @@ const wrap = (children: GObject.Object) =>
   );
 
 const Start = () => (
-  <box $type="start" class="bar-module-left">
-    {wrap(
-      <>
-        <Workspaces maxWorkspaces={maxWorkspaces} />
-        <Tray />
-      </>,
-    )}
+  <box $type="start" class="bar-module-left" spacing={10}>
+    {wrap(<Workspaces maxWorkspaces={maxWorkspaces} />)}
+    {wrap(<Tray />)}
   </box>
 );
 
@@ -41,11 +37,7 @@ const Center = () => (
 
 const End = () => (
   <box $type="end" class="bar-module-right">
-    {wrap(
-      <>
-        <Battery />
-      </>,
-    )}
+    {wrap(<Battery />)}
   </box>
 );
 

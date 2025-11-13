@@ -4,6 +4,7 @@ import { applyCss, createCacheDir } from "@/lib/cache";
 import request from "@/lib/request";
 import Background from "@/windows/Background";
 import BarPanel from "@/windows/BarPanel";
+import Launcher from "@/windows/Launcher";
 import WallpaperManager from "@/windows/WallpaperManager";
 
 app.start({
@@ -11,6 +12,7 @@ app.start({
   main() {
     createCacheDir();
     applyCss();
+    Launcher();
     WallpaperManager();
     app.monitors.forEach((monitor) => {
       BarPanel(monitor);

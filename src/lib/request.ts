@@ -21,6 +21,10 @@ export default function request(
           response("Wallpapers toggled");
           toggleWindow("wallpapers");
           break;
+        case "launcher":
+          response("Launcher toggled");
+          toggleWindow("launcher");
+          break;
         default:
           response("Unknown request");
       }

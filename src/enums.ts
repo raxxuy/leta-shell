@@ -1,4 +1,10 @@
 import { Astal, Gtk } from "ags/gtk4";
 
-export const { WindowAnchor, Exclusivity, Layer } = Astal;
-export const { Align, Orientation } = Gtk;
+export const { WindowAnchor, Exclusivity, Layer, Keymode } = Astal;
+export const {
+  Align,
+  Orientation,
+  RevealerTransitionType,
+  PolicyType,
+  Overflow,
+} = Gtk;
