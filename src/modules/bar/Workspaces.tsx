@@ -15,15 +15,15 @@ const WorkspaceButton = ({
   workspace: AstalHyprland.Workspace;
 }) => {
   const hyprland = AstalHyprland.get_default();
+  const focusedWorkspace = createBinding(hyprland, "focusedWorkspace");
+  const clients = createBinding(hyprland, "clients");
+
   const classNames = createComputed(
-    [
-      createBinding(hyprland, "focusedWorkspace"),
-      createBinding(hyprland, "clients"),
-    ],
-    (focusedWorkspace) => {
+    [focusedWorkspace, clients],
+    (focused) => {
       const classes = ["workspace-button"];
 
-      if (focusedWorkspace.id === workspace.id) {
+      if (focused.id === workspace.id) {
         classes.push("active");
       }
 

@@ -48,13 +48,29 @@ export default class Wallpaper extends Service<WallpaperSignals> {
     this.emit("wallpaper-changed");
   }
 
-  fetchPictures() {
-    bash(["ls", PICTURES_DIR])
+  fetchPictures(): void {
+    const imageExtensions = [
+      ".jpg",
+      ".jpeg",
+      ".png",
+      ".gif",
+      ".bmp",
+      ".webp",
+      ".svg",
+    ];
+
+    bash(["find", PICTURES_DIR, "-maxdepth", "1", "-type", "f"])
       .then((output) => {
         this.#pictures = output
           .split("\n")
-          .filter((line) => line.trim())
-          .map((picture) => `${PICTURES_DIR}/${picture}`);
+          .filter((line) => {
+            const trimmed = line.trim();
+            if (!trimmed) return false;
+
+            const lower = trimmed.toLowerCase();
+            return imageExtensions.some((ext) => lower.endsWith(ext));
+          })
+          .sort();
 
         this.notify("pictures");
         this.emit("pictures-changed");
@@ -62,6 +78,7 @@ export default class Wallpaper extends Service<WallpaperSignals> {
       .catch((error) => {
         console.error("Failed to fetch pictures:", error);
         this.#pictures = [];
+        this.notify("pictures");
       });
   }
 

@@ -5,6 +5,7 @@ import Clock from "@/modules/bar/Clock";
 import Tray from "@/modules/bar/Tray";
 import Workspaces from "@/modules/bar/Workspaces";
 import Container from "@/widgets/Container";
+import Sound from "./Sound";
 
 const { count: maxWorkspaces } = configs.bar.modules.workspaces;
 const {
@@ -37,7 +38,12 @@ const Center = () => (
 
 const End = () => (
   <box $type="end" class="bar-module-right">
-    {wrap(<Battery />)}
+    {wrap(
+      <>
+        <Sound />
+        <Battery />
+      </>,
+    )}
   </box>
 );
 

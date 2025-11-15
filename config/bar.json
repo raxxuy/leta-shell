@@ -14,7 +14,7 @@
   "extras": {
     "container": {
       "enabled": true,
-      "gradient": true,
+      "gradient": false,
       "spacing": 10
     }
   }
