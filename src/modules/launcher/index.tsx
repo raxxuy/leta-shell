@@ -37,7 +37,11 @@ export default function Launcher({ setEntry }: LauncherProps) {
           class="launcher-list"
           orientation={Orientation.VERTICAL}
         >
-          <For each={list}>{(app) => <LauncherItem app={app} />}</For>
+          <For each={list}>
+            {(app, index) => (
+              <LauncherItem app={app} delay={index.get() * 100} />
+            )}
+          </For>
         </box>
       </scrolledwindow>
       <entry
