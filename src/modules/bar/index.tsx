@@ -40,8 +40,8 @@ const End = () => (
   <box $type="end" class="bar-module-right">
     {wrap(
       <>
-        <Sound />
         <Battery />
+        <Sound />
       </>,
     )}
   </box>

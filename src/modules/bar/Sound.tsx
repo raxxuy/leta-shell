@@ -1,7 +1,7 @@
 import AstalWp from "gi://AstalWp";
 import { createBinding, createState } from "ags";
 import { Gtk } from "ags/gtk4";
-import { RevealerTransitionType } from "@/enums";
+import { EventControllerScrollFlags, RevealerTransitionType } from "@/enums";
 
 const Endpoint = ({
   endpoint,
@@ -17,7 +17,7 @@ const Endpoint = ({
   const roundVolume = (v: number) => Math.round(v * 100);
 
   const adjustVolume = (direction: number) => {
-    if (direction === -1)
+    if (Math.round(direction) === -1)
       endpoint.set_volume(Math.min(1, endpoint.volume + 0.05));
     else endpoint.set_volume(Math.max(0, endpoint.volume - 0.05));
   };
@@ -27,9 +27,9 @@ const Endpoint = ({
   };
 
   return (
-    <box class={className}>
+    <box class={className} spacing={4}>
       <Gtk.EventControllerScroll
-        flags={Gtk.EventControllerScrollFlags.BOTH_AXES}
+        flags={EventControllerScrollFlags.VERTICAL}
         onScroll={(_, __, direction) => adjustVolume(direction)}
       />
       <Gtk.EventControllerMotion

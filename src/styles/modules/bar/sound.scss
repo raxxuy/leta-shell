@@ -1,10 +1,8 @@
 %sound {
     .sound {
-        font-weight: bolder;
-        font-size: 1rem;
-        
-        .sound-speaker-label {
-            padding-right: 0.4rem;
+        .sound-speaker-label, .sound-microphone-label {
+            font-weight: bolder;
+            font-size: 1rem;
         }
     }
 }

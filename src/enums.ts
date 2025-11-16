@@ -5,6 +5,7 @@ export const {
   Align,
   Orientation,
   RevealerTransitionType,
+  EventControllerScrollFlags,
   PolicyType,
   Overflow,
 } = Gtk;
