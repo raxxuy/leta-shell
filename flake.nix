@@ -1,7 +1,8 @@
 {
+  description = "Leta Shell - A custom AGS-based desktop shell";
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-
     ags = {
       url = "github:aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -19,26 +20,22 @@
       pkgs = nixpkgs.legacyPackages.${system};
       pname = "leta-shell";
       entry = "app.ts";
-
       astalPackages = with ags.packages.${system}; [
         io
-        astal4 # or astal3 for gtk3
+        astal4
         tray
         apps
         notifd
         battery
         hyprland
         wireplumber
-        # notifd tray wireplumber
       ];
-
       extraPackages =
         astalPackages
         ++ (with pkgs; [
           libadwaita
           libsoup_3
         ]);
-
       shellPackages = with pkgs; [
         pnpm
         nodejs
@@ -47,12 +44,12 @@
         imagemagick
         inotify-tools
       ];
-
     in
     {
       packages.${system} = {
         default = pkgs.stdenv.mkDerivation {
-          name = pname;
+          inherit pname;
+          version = "0.1.0";
           src = ./.;
 
           nativeBuildInputs = with pkgs; [
@@ -63,16 +60,24 @@
 
           buildInputs = extraPackages ++ [ pkgs.gjs ];
 
+          dontStrip = true;
+
           installPhase = ''
             runHook preInstall
-
             mkdir -p $out/bin
             mkdir -p $out/share
             cp -r * $out/share
             ags bundle ${entry} $out/bin/${pname} -d "SRC='$out/share'"
-
             runHook postInstall
           '';
+
+          meta = with pkgs.lib; {
+            description = "Leta Shell - A custom AGS-based desktop shell";
+            homepage = "https://github.com/raxxuy/leta-shell";
+            license = licenses.mit;
+            platforms = platforms.linux;
+            mainProgram = pname;
+          };
         };
       };
 
@@ -85,5 +90,29 @@
           ];
         };
       };
+
+      nixosModules.default =
+        { config, lib, ... }:
+        {
+          options.programs.leta-shell = {
+            enable = lib.mkEnableOption "Leta Shell";
+          };
+
+          config = lib.mkIf config.programs.leta-shell.enable {
+            environment.systemPackages = [ self.packages.${system}.default ];
+          };
+        };
+
+      homeManagerModules.default =
+        { config, lib, ... }:
+        {
+          options.programs.leta-shell = {
+            enable = lib.mkEnableOption "Leta Shell";
+          };
+
+          config = lib.mkIf config.programs.leta-shell.enable {
+            home.packages = [ self.packages.${system}.default ];
+          };
+        };
     };
 }
