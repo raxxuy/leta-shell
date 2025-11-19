@@ -64,16 +64,33 @@
 
           installPhase = ''
             runHook preInstall
+
             mkdir -p $out/bin
-            mkdir -p $out/share
-            cp -r * $out/share
-            ags bundle ${entry} $out/bin/${pname} -d "SRC='$out/share'"
+            mkdir -p $out/share/${pname}
+            mkdir -p $out/libexec
+
+            cp -r $src/* $out/share/${pname}/
+
+            cd $out/share/${pname}
+            ags bundle ${entry} $out/libexec/${pname}
+
+            cat > $out/bin/${pname} << 'EOF'
+            #!/usr/bin/env bash
+            export SRC="$out/share/${pname}"
+            exec "$out/libexec/${pname}" "$@"
+            EOF
+
+            substituteInPlace $out/bin/${pname} \
+              --replace '$out' "$out"
+
+            chmod +x $out/bin/${pname}
+
             runHook postInstall
           '';
 
           meta = with pkgs.lib; {
             description = "Leta Shell - A custom AGS-based desktop shell";
-            homepage = "https://github.com/raxxuy/leta-shell";
+            homepage = "https://github.com/yourusername/leta-shell";
             license = licenses.mit;
             platforms = platforms.linux;
             mainProgram = pname;
@@ -91,6 +108,7 @@
         };
       };
 
+      # Optional: NixOS module
       nixosModules.default =
         { config, lib, ... }:
         {
@@ -103,6 +121,7 @@
           };
         };
 
+      # Optional: Home-Manager module
       homeManagerModules.default =
         { config, lib, ... }:
         {
