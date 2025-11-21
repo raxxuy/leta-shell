@@ -90,7 +90,7 @@
 
           meta = with pkgs.lib; {
             description = "Leta Shell - A custom AGS-based desktop shell";
-            homepage = "https://github.com/yourusername/leta-shell";
+            homepage = "https://github.com/raxxuy/leta-shell";
             license = licenses.mit;
             platforms = platforms.linux;
             mainProgram = pname;
@@ -108,7 +108,6 @@
         };
       };
 
-      # Optional: NixOS module
       nixosModules.default =
         { config, lib, ... }:
         {
@@ -121,7 +120,6 @@
           };
         };
 
-      # Optional: Home-Manager module
       homeManagerModules.default =
         { config, lib, ... }:
         {
