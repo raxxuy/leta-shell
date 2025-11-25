@@ -18,22 +18,19 @@ const WorkspaceButton = ({
   const focusedWorkspace = createBinding(hyprland, "focusedWorkspace");
   const clients = createBinding(hyprland, "clients");
 
-  const classNames = createComputed(
-    [focusedWorkspace, clients],
-    (focused) => {
-      const classes = ["workspace-button"];
+  const classNames = createComputed([focusedWorkspace, clients], (focused) => {
+    const classes = ["workspace-button"];
 
-      if (focused.id === workspace.id) {
-        classes.push("active");
-      }
+    if (focused.id === workspace.id) {
+      classes.push("active");
+    }
 
-      if (hyprland.get_workspace(workspace.id)?.clients.length > 0) {
-        classes.push("occupied");
-      }
+    if (hyprland.get_workspace(workspace.id)?.clients.length > 0) {
+      classes.push("occupied");
+    }
 
-      return classes;
-    },
-  );
+    return classes;
+  });
 
   return (
     <button

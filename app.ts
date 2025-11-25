@@ -5,6 +5,7 @@ import request from "@/lib/request";
 import Background from "@/windows/Background";
 import BarPanel from "@/windows/BarPanel";
 import Launcher from "@/windows/Launcher";
+import OSD from "@/windows/OSD";
 import WallpaperManager from "@/windows/WallpaperManager";
 
 app.start({
@@ -17,6 +18,7 @@ app.start({
     app.monitors.forEach((monitor) => {
       BarPanel(monitor);
       Background(monitor);
+      OSD(monitor);
     });
   },
   requestHandler(argv, res) {

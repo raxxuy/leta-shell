@@ -1,11 +1,11 @@
 import type GObject from "ags/gobject";
 import { configs } from "@/lib/config";
 import Battery from "@/modules/bar/Battery";
-import Clock from "@/modules/bar/Clock";
+import Dashboard from "@/modules/bar/Dashboard";
+import Sound from "@/modules/bar/Sound";
 import Tray from "@/modules/bar/Tray";
 import Workspaces from "@/modules/bar/Workspaces";
 import Container from "@/widgets/Container";
-import Sound from "./Sound";
 
 const { count: maxWorkspaces } = configs.bar.modules.workspaces;
 const {
@@ -31,8 +31,8 @@ const Start = () => (
 );
 
 const Center = () => (
-  <box $type="center" class="bar-module-center">
-    {wrap(<Clock />)}
+  <box $type="center" class="bar-module-center" spacing={10}>
+    {wrap(<Dashboard />)}
   </box>
 );
 

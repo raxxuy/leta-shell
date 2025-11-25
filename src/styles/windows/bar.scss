@@ -1,12 +1,29 @@
+@use "sass:color";
 @use "../modules/bar" as *;
+@use "../mixins" as *;
 @use "../colors" as *;
+
+$color10_dark: color.scale($color10, $lightness: -50%);
+$color12_dark: color.scale($color12, $lightness: -30%);
+$background_light: color.scale($background, $lightness: 20%);
 
 %bar {
     color: $foreground;
     padding: 0 0.7rem;
 
+    .container {
+        @include border($background_light, 2px, 0.4rem);
+        @include shadow;
+        background-color: $background;
+        padding: 0.3rem 0.4rem;
+
+        &.gradient {
+            background: linear-gradient(to right $color10_dark, $color12_dark);
+        }
+    }
+
     @extend %workspaces;
-    @extend %clock;
+    @extend %dashboard;
     @extend %sound;
     @extend %battery;
 }

@@ -1,25 +1,7 @@
 @use "workspaces";
-@use "clock";
+@use "dashboard";
 @use "sound";
 @use "battery";
 @use "sass:color";
 @use "../../colors" as *;
 @use "../../mixins" as *;
-
-$color10_dark: color.scale($color10, $lightness: -50%);
-$color12_dark: color.scale($color12, $lightness: -30%);
-$background_light: color.scale($background, $lightness: 20%);
-
-.container {
-    @include border($background_light, 2px, 0.4rem);
-    @include shadow;
-    background-color: $background;
-    border-top-width: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    padding: 0.3rem 0.4rem;
-
-    &.gradient {
-        background: linear-gradient(to right $color10_dark, $color12_dark);
-    }
-}

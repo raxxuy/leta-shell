@@ -2,6 +2,7 @@ import AstalWp from "gi://AstalWp";
 import { createBinding, createState } from "ags";
 import { Gtk } from "ags/gtk4";
 import { EventControllerScrollFlags, RevealerTransitionType } from "@/enums";
+import { adjustVolume, muteEndpoint, roundVolume } from "@/lib/utils/volume";
 
 const Endpoint = ({
   endpoint,
@@ -14,23 +15,11 @@ const Endpoint = ({
   const iconName = createBinding(endpoint, "volumeIcon");
   const volume = createBinding(endpoint, "volume");
 
-  const roundVolume = (v: number) => Math.round(v * 100);
-
-  const adjustVolume = (direction: number) => {
-    if (Math.round(direction) === -1)
-      endpoint.set_volume(Math.min(1, endpoint.volume + 0.05));
-    else endpoint.set_volume(Math.max(0, endpoint.volume - 0.05));
-  };
-
-  const muteEndpoint = () => {
-    endpoint.mute = !endpoint.mute;
-  };
-
   return (
     <box class={className} spacing={4}>
       <Gtk.EventControllerScroll
         flags={EventControllerScrollFlags.VERTICAL}
-        onScroll={(_, __, direction) => adjustVolume(direction)}
+        onScroll={(_, __, direction) => adjustVolume(endpoint, direction)}
       />
       <Gtk.EventControllerMotion
         onEnter={() => setRevealed(true)}
@@ -46,7 +35,7 @@ const Endpoint = ({
           label={volume((v) => `${roundVolume(v)}%`)}
         />
       </revealer>
-      <button onClicked={muteEndpoint}>
+      <button onClicked={() => muteEndpoint(endpoint)}>
         <image class={`${className}-icon`} iconName={iconName} pixelSize={16} />
       </button>
     </box>

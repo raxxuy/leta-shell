@@ -25,6 +25,7 @@
         astal4
         tray
         apps
+        mpris
         notifd
         battery
         hyprland
