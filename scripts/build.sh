@@ -8,21 +8,28 @@ run_build_process() {
     fi
 }
 
+SHOULD_CLEAN=false
+CLEAN_CACHE=false
+
 while getopts "c" opt; do
     case $opt in
         c)
-            echo "Cleaning build artifacts..."
-            $SCRIPT_DIR/clean.sh
-            run_build_process
-            exit 0
+            CLEAN_CACHE=true
             ;;
         \?)
             echo "Invalid option: -$OPTARG" >&2
             echo "Usage: $0 [-c]"
-            echo "  -c    Clean build artifacts by running ./clean.sh"
+            echo "  -c    Clean cache"
             exit 1
             ;;
     esac
 done
+
+echo "Cleaning build artifacts/cache..."
+if [ "$CLEAN_CACHE" = true ]; then
+    $SCRIPT_DIR/clean.sh -c
+else
+    $SCRIPT_DIR/clean.sh
+fi
 
 run_build_process

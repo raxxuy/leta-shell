@@ -2,6 +2,7 @@ import { createBinding } from "ags";
 import type { Gdk } from "ags/gtk4";
 import { Align, Exclusivity, Layer } from "@/enums";
 import Wallpaper from "@/services/wallpaper";
+import FallbackLabel from "@/widgets/FallbackLabel";
 
 export default function Background(gdkmonitor: Gdk.Monitor) {
   const { width, height } = gdkmonitor.get_geometry();
@@ -27,10 +28,12 @@ export default function Background(gdkmonitor: Gdk.Monitor) {
           `,
         )}
       >
-        <label
+        <FallbackLabel
           hexpand
           halign={Align.CENTER}
-          label={source((source) => (!source ? "No wallpaper selected" : ""))}
+          source={source}
+          label=""
+          fallback="No wallpaper selected"
         />
       </box>
     </window>

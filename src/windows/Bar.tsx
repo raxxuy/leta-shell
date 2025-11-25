@@ -4,7 +4,7 @@ import { configs } from "@/lib/config";
 import BarModule from "@/modules/bar";
 import Window from "@/widgets/Window";
 
-export default function BarPanel(gdkmonitor: Gdk.Monitor) {
+export default function Bar(gdkmonitor: Gdk.Monitor) {
   return (
     <Window
       visible

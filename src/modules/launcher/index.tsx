@@ -2,54 +2,59 @@ import AstalApps from "gi://AstalApps";
 import { createState, For, type Setter } from "ags";
 import type { Gtk } from "ags/gtk4";
 import { Align, Orientation } from "@/enums";
+import { configs } from "@/lib/config";
 import LauncherItem from "@/modules/launcher/LauncherItem";
 
-interface LauncherProps {
+interface LauncherModuleProps {
   setEntry: Setter<Gtk.Entry | null>;
 }
 
-export default function Launcher({ setEntry }: LauncherProps) {
+const {
+  spacing,
+  search: { width },
+  list: { delay, height, spacing: listSpacing },
+} = configs.launcher.content;
+
+export default function LauncherModule({ setEntry }: LauncherModuleProps) {
   const apps = new AstalApps.Apps();
   const [list, setList] = createState<AstalApps.Application[]>([]);
 
-  function search(text: string) {
-    if (text === "") setList([]);
-    else setList(apps.fuzzy_query(text));
-  }
+  const handleSearch = (text: string) => {
+    setList(text ? apps.fuzzy_query(text) : []);
+  };
 
   return (
     <box
-      widthRequest={400}
-      spacing={20}
       class="launcher-content"
       valign={Align.CENTER}
       halign={Align.CENTER}
       orientation={Orientation.VERTICAL}
+      spacing={spacing}
     >
       <scrolledwindow
-        heightRequest={524}
-        class="launcher-scrollwindow"
         hexpand
         vexpand
+        class="launcher-scrollwindow"
+        heightRequest={height}
       >
         <box
-          spacing={10}
           class="launcher-list"
+          spacing={listSpacing}
           orientation={Orientation.VERTICAL}
         >
           <For each={list}>
             {(app, index) => (
-              <LauncherItem app={app} delay={index.get() * 100} />
+              <LauncherItem app={app} delay={index.get() * delay} />
             )}
           </For>
         </box>
       </scrolledwindow>
       <entry
-        widthRequest={500}
         $={setEntry}
-        halign={Align.CENTER}
         class="launcher-entry"
-        onNotifyText={({ text }) => search(text)}
+        halign={Align.CENTER}
+        widthRequest={width}
+        onNotifyText={({ text }) => handleSearch(text)}
         placeholderText="Start typing to search"
       />
     </box>

@@ -2,6 +2,9 @@ export type BarSchema = {
   window: {
     defaultHeight: number;
   };
+  section: {
+    spacing: number;
+  };
   modules: {
     workspaces: {
       count: number;
@@ -10,6 +13,18 @@ export type BarSchema = {
     clock: {
       format: string;
     };
+    sound: {
+      spacing: number;
+      endpoint: {
+        spacing: number;
+      };
+    };
+    battery: {
+      spacing: number;
+    };
+    tray: {
+      spacing: number;
+    };
   };
   extras: {
     container: {
@@ -17,5 +32,8 @@ export type BarSchema = {
       gradient: boolean;
       spacing: number;
     };
+  };
+  icons: {
+    pixelSize: number;
   };
 };

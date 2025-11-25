@@ -1,0 +1,14 @@
+{
+  "main": {
+    "spacing": 20,
+    "list": {
+      "width": 1920,
+      "height": 500,
+      "spacing": 40,
+      "picture": {
+        "width": 533,
+        "height": 300
+      }
+    }
+  }
+}

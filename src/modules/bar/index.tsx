@@ -1,4 +1,3 @@
-import type GObject from "ags/gobject";
 import { configs } from "@/lib/config";
 import Battery from "@/modules/bar/Battery";
 import Dashboard from "@/modules/bar/Dashboard";
@@ -7,52 +6,56 @@ import Tray from "@/modules/bar/Tray";
 import Workspaces from "@/modules/bar/Workspaces";
 import Container from "@/widgets/Container";
 
-const { count: maxWorkspaces } = configs.bar.modules.workspaces;
 const {
-  enabled: containerEnabled,
-  gradient,
-  spacing,
-} = configs.bar.extras.container;
+  section: { spacing },
+  extras: {
+    container: {
+      enabled: containerEnabled,
+      gradient: containerGradient,
+      spacing: containerSpacing,
+    },
+  },
+} = configs.bar;
 
-const wrap = (children: GObject.Object) =>
+const wrap = (children: JSX.Element | JSX.Element[]) =>
   containerEnabled ? (
-    <Container gradient={gradient} spacing={spacing}>
+    <Container gradient={containerGradient} spacing={containerSpacing}>
       {children}
     </Container>
   ) : (
     children
   );
 
-const Start = () => (
-  <box $type="start" class="bar-module-left" spacing={10}>
-    {wrap(<Workspaces maxWorkspaces={maxWorkspaces} />)}
-    {wrap(<Tray />)}
-  </box>
-);
-
-const Center = () => (
-  <box $type="center" class="bar-module-center" spacing={10}>
-    {wrap(<Dashboard />)}
-  </box>
-);
-
-const End = () => (
-  <box $type="end" class="bar-module-right">
-    {wrap(
-      <>
-        <Battery />
-        <Sound />
-      </>,
-    )}
+const Section = ({
+  type,
+  className,
+  children,
+}: {
+  type: "start" | "center" | "end";
+  className: string;
+  children: JSX.Element | JSX.Element[];
+}) => (
+  <box $type={type} class={className} spacing={spacing}>
+    {wrap(children)}
   </box>
 );
 
 export default function BarModule() {
   return (
     <centerbox class="bar-module-container">
-      <Start />
-      <Center />
-      <End />
+      <Section type="start" className="bar-module-left">
+        <Workspaces />
+        <Tray />
+      </Section>
+
+      <Section type="center" className="bar-module-center">
+        <Dashboard />
+      </Section>
+
+      <Section type="end" className="bar-module-right">
+        <Battery />
+        <Sound />
+      </Section>
     </centerbox>
   );
 }
