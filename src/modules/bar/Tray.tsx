@@ -1,14 +1,9 @@
 import AstalTray from "gi://AstalTray";
 import { createBinding, For } from "ags";
 import { Gdk, Gtk } from "ags/gtk4";
-import { configs } from "@/lib/config";
+import { getConfig } from "@/lib/config";
 
-const {
-  modules: {
-    tray: { spacing },
-  },
-  icons: { pixelSize },
-} = configs.bar;
+const { icons, spacings } = getConfig("bar");
 
 export default function Tray() {
   const tray = AstalTray.get_default();
@@ -35,7 +30,7 @@ export default function Tray() {
   return (
     <box
       class="tray"
-      spacing={spacing}
+      spacing={spacings.medium}
       visible={items((items) => items.length > 0)}
     >
       <For each={items} id={(item) => item.id}>
@@ -43,7 +38,7 @@ export default function Tray() {
           <menubutton class="tray-item" $={(self) => init(self, item)}>
             <image
               class="tray-item-icon"
-              pixelSize={pixelSize}
+              pixelSize={icons.pixelSize}
               gicon={createBinding(item, "gicon")}
             />
           </menubutton>

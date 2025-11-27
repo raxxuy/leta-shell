@@ -2,36 +2,23 @@
   "window": {
     "defaultHeight": 24
   },
-  "section": {
-    "spacing": 10
-  },
   "modules": {
     "workspaces": {
-      "count": 10,
-      "spacing": 4
+      "count": 10
     },
     "clock": {
       "format": "%H:%M"
-    },
-    "sound": {
-      "spacing": 10,
-      "endpoint": {
-        "spacing": 4
-      }
-    },
-    "battery": {
-      "spacing": 4
-    },
-    "tray": {
-      "spacing": 10
     }
   },
   "extras": {
     "container": {
       "enabled": true,
-      "gradient": false,
-      "spacing": 10
+      "gradient": false
     }
+  },
+  "spacings": {
+    "medium": 10,
+    "small": 4
   },
   "icons": {
     "pixelSize": 16

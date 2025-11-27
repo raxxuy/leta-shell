@@ -16,69 +16,75 @@ import {
   generateRandomColorSchemes,
 } from "@/lib/utils/wal";
 
-// Helper to check if directory/file exists
-const dirExists = (path: string) => GLib.file_test(path, GLib.FileTest.IS_DIR);
-const fileExists = (path: string) => GLib.file_test(path, GLib.FileTest.EXISTS);
+const pathExists = (path: string, isDir = false): boolean =>
+  GLib.file_test(path, isDir ? GLib.FileTest.IS_DIR : GLib.FileTest.EXISTS);
 
-export const createCacheDir = () => {
-  try {
-    if (!dirExists(CACHE_DIR)) {
-      GLib.mkdir_with_parents(CACHE_DIR, 0o755);
-      GLib.mkdir_with_parents(WAL_DIR, 0o755);
-      GLib.file_set_contents(WAL_FILE, "");
-    }
-  } catch (error) {
-    console.error("Failed to create cache directory:", error);
-    throw error;
+const ensureDir = (path: string): void => {
+  if (!pathExists(path, true)) {
+    GLib.mkdir_with_parents(path, 0o755);
   }
 };
 
-export const applyCss = async () => {
-  const firstRun = !dirExists(STYLES_DIR);
+const readFile = (path: string): string => {
+  const [, contents] = GLib.file_get_contents(path);
+  return new TextDecoder().decode(contents);
+};
 
-  try {
-    if (firstRun) {
-      GLib.mkdir_with_parents(STYLES_DIR, 0o755);
-      await bash(`cp -r ${SRC_STYLES_DIR}/. ${STYLES_DIR}`);
-      await bash(`chmod -R u+w ${STYLES_DIR}`);
-      await generateRandomColorSchemes();
-    }
+export const createCacheDir = (): void => {
+  ensureDir(CACHE_DIR);
+  ensureDir(WAL_DIR);
 
-    await bash(`cp ${COLORS_SOURCE} ${COLORS_DEST}`);
-    await bash(`sass ${STYLES_DIR}/index.scss ${CSS_FILE}`);
-    await bash("hyprctl reload");
-
-    app.apply_css(CSS_FILE, true);
-  } catch (error) {
-    console.error("Failed to apply CSS:", error);
-    throw error;
+  if (!pathExists(WAL_FILE)) {
+    GLib.file_set_contents(WAL_FILE, "");
   }
 };
 
-export const getWallpaper = () => {
-  const wallpaper = new TextDecoder().decode(
-    GLib.file_get_contents(WAL_FILE)[1],
+const isFirstRun = (): boolean => !pathExists(STYLES_DIR, true);
+
+const initializeStyles = async (): Promise<void> => {
+  ensureDir(STYLES_DIR);
+  await bash(
+    [
+      `cp -r ${SRC_STYLES_DIR}/. ${STYLES_DIR}`,
+      `chmod -R u+w ${STYLES_DIR}`,
+    ].join(" && "),
   );
-  return wallpaper;
+  await generateRandomColorSchemes();
 };
 
-export const setWallpaper = async (wallpaper: string) => {
+export const applyCss = async (): Promise<void> => {
+  if (isFirstRun()) {
+    await initializeStyles();
+  }
+
+  await bash(
+    [
+      `cp ${COLORS_SOURCE} ${COLORS_DEST}`,
+      `sass ${STYLES_DIR}/index.scss ${CSS_FILE}`,
+      "hyprctl reload",
+    ].join(" && "),
+  );
+
+  app.apply_css(CSS_FILE, true);
+};
+
+export const getWallpaper = (): string => {
+  if (!pathExists(WAL_FILE)) return "";
+  return readFile(WAL_FILE).trim();
+};
+
+export const setWallpaper = async (wallpaper: string): Promise<void> => {
   if (!wallpaper) {
     GLib.file_set_contents(WAL_FILE, "");
     await applyCss();
     return;
   }
 
-  if (!fileExists(wallpaper)) {
-    throw new Error(`Wallpaper file does not exist: ${wallpaper}`);
+  if (!pathExists(wallpaper)) {
+    throw new Error(`Wallpaper not found: ${wallpaper}`);
   }
 
-  try {
-    GLib.file_set_contents(WAL_FILE, wallpaper);
-    await generateColorSchemesByImage(wallpaper);
-    await applyCss();
-  } catch (error) {
-    console.error("Failed to set wallpaper:", error);
-    throw error;
-  }
+  GLib.file_set_contents(WAL_FILE, wallpaper);
+  await generateColorSchemesByImage(wallpaper);
+  await applyCss();
 };

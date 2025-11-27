@@ -1,32 +1,45 @@
 import app from "ags/gtk4/app";
 import { toggleWindow } from "@/lib/utils/widget";
 
+type RequestHandler = (args: string[], response: (msg: string) => void) => void;
+
+const handlers: Record<string, RequestHandler> = {
+  quit: (_, response) => {
+    response("Quitting AGS");
+    app.quit();
+  },
+
+  toggle: (args, response) => {
+    const [, target] = args;
+
+    if (!target) {
+      response("ERROR: Must specify a window name");
+      return;
+    }
+
+    const validWindows = ["wallpapers", "launcher"] as const;
+
+    if (!validWindows.includes(target as (typeof validWindows)[number])) {
+      response(`ERROR: Unknown window "${target}"`);
+      return;
+    }
+
+    toggleWindow(target);
+    response(`${target} toggled`);
+  },
+};
+
 export default function request(
   args: string[],
   response: (res: string) => void,
-) {
-  switch (args[0]) {
-    case "quit":
-      response("Quitting AGS");
-      app.quit();
-      break;
-    case "toggle":
-      if (!args[1]) {
-        response("ERROR: Must set an instance name");
-        return;
-      }
+): void {
+  const [command] = args;
+  const handler = handlers[command];
 
-      switch (args[1]) {
-        case "wallpapers":
-          response("Wallpapers toggled");
-          toggleWindow("wallpapers");
-          break;
-        case "launcher":
-          response("Launcher toggled");
-          toggleWindow("launcher");
-          break;
-        default:
-          response("Unknown request");
-      }
+  if (!handler) {
+    response(`ERROR: Unknown command "${command}"`);
+    return;
   }
+
+  handler(args, response);
 }

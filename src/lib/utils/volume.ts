@@ -1,13 +1,23 @@
 import type AstalWp from "gi://AstalWp";
 
-export const roundVolume = (v: number) => Math.round(v * 100);
+const VOLUME_STEP = 0.05;
+const MIN_VOLUME = 0;
+const MAX_VOLUME = 1;
 
-export const adjustVolume = (endpoint: AstalWp.Endpoint, direction: number) => {
-  if (Math.round(direction) === -1)
-    endpoint.set_volume(Math.min(1, endpoint.volume + 0.05));
-  else endpoint.set_volume(Math.max(0, endpoint.volume - 0.05));
+const clamp = (value: number, min: number, max: number): number =>
+  Math.max(min, Math.min(max, value));
+
+export const roundVolume = (v: number): number => Math.round(v * 100);
+
+export const adjustVolume = (
+  endpoint: AstalWp.Endpoint,
+  direction: number,
+): void => {
+  const delta = -Math.sign(direction) * VOLUME_STEP;
+  const newVolume = clamp(endpoint.volume + delta, MIN_VOLUME, MAX_VOLUME);
+  endpoint.volume = newVolume;
 };
 
-export const muteEndpoint = (endpoint: AstalWp.Endpoint) => {
+export const toggleMute = (endpoint: AstalWp.Endpoint): void => {
   endpoint.mute = !endpoint.mute;
 };

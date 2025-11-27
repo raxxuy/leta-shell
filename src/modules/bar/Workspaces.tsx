@@ -3,9 +3,12 @@ import AstalHyprland from "gi://AstalHyprland";
 import { createBinding, createComputed } from "ags";
 import { CURSORS } from "@/constants";
 import { Orientation } from "@/enums";
-import { configs } from "@/lib/config";
+import { getConfig } from "@/lib/config";
 
-const { count, spacing } = configs.bar.modules.workspaces;
+const {
+  spacings,
+  modules: { workspaces },
+} = getConfig("bar");
 
 const WorkspaceButton = ({
   workspace,
@@ -40,14 +43,14 @@ const WorkspaceButton = ({
 };
 
 export default function Workspaces() {
-  const workspaces = Array.from({ length: count }, (_, i) =>
+  const ws = Array.from({ length: workspaces.count }, (_, i) =>
     AstalHyprland.Workspace.dummy(i + 1, null),
   );
 
   return (
     <Adw.Clamp maximumSize={16} orientation={Orientation.VERTICAL}>
-      <box class="workspaces" spacing={spacing}>
-        {workspaces.map((workspace) => (
+      <box class="workspaces" spacing={spacings.small}>
+        {ws.map((workspace) => (
           <WorkspaceButton workspace={workspace} />
         ))}
       </box>

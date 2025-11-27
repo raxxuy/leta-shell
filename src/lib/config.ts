@@ -10,3 +10,9 @@ export const configs = {
   launcher: launcherConfig as LauncherSchema,
   wallpapers: wallpapersConfig as WallpapersSchema,
 } as const;
+
+export const getConfig = <K extends keyof typeof configs>(
+  key: K,
+): (typeof configs)[K] => {
+  return configs[key];
+};

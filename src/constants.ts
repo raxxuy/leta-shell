@@ -1,18 +1,16 @@
 import GLib from "gi://GLib";
 import { Gdk } from "ags/gtk4";
 
+// Helper function to build paths
+const buildPath = (...segments: string[]): string =>
+  GLib.build_filenamev(segments);
+
 // System directories
 export const HOME_DIR = GLib.get_home_dir();
-export const CACHE_DIR = GLib.build_filenamev([
-  GLib.get_user_cache_dir(),
-  "leta-shell",
-]);
+export const CACHE_DIR = buildPath(GLib.get_user_cache_dir(), "leta-shell");
 export const PICTURES_DIR =
   GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES) ??
-  GLib.build_filenamev([HOME_DIR, "Pictures"]);
-
-// Helper function to build paths
-const buildPath = (...segments: string[]) => GLib.build_filenamev(segments);
+  buildPath(HOME_DIR, "Pictures");
 
 // App directories
 export const WAL_DIR = buildPath(CACHE_DIR, "wal");
@@ -27,7 +25,8 @@ export const COLORS_SOURCE = buildPath(WAL_DIR, "colors.scss");
 export const COLORS_DEST = buildPath(STYLES_DIR, "colors.scss");
 
 // Cursors
-const createCursor = (name: string) => Gdk.Cursor.new_from_name(name, null);
+const createCursor = (name: string): Gdk.Cursor =>
+  Gdk.Cursor.new_from_name(name, null);
 
 export const CURSORS = {
   default: createCursor("default"),

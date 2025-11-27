@@ -1,9 +1,9 @@
-import { Accessor } from "ags";
+import { Accessor, createState, onCleanup } from "ags";
 
 type FallbackLabelProps = JSX.IntrinsicElements["label"] & {
   source: unknown | Accessor<unknown>;
-  label: string | Accessor<string>;
-  fallback: string | Accessor<string>;
+  label: string;
+  fallback: string;
 };
 
 export default function FallbackLabel({
@@ -12,12 +12,17 @@ export default function FallbackLabel({
   fallback,
   ...props
 }: FallbackLabelProps) {
-  const value: string | Accessor<string> =
-    source instanceof Accessor
-      ? source((s) => (s ? label : fallback)).get()
-      : source
-        ? label
-        : fallback;
+  const [value, setValue] = createState<string>("");
+
+  if (source instanceof Accessor) {
+    const setLabel = () =>
+      source.get() ? setValue(label) : setValue(fallback);
+    const dispose = source.subscribe(setLabel);
+    onCleanup(() => dispose());
+    setLabel();
+  } else {
+    setValue(source ? label : fallback);
+  }
 
   return <label {...props} label={value} />;
 }

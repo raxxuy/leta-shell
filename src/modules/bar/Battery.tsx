@@ -2,14 +2,9 @@ import AstalBattery from "gi://AstalBattery";
 import { createBinding, createState } from "ags";
 import { Gtk } from "ags/gtk4";
 import { RevealerTransitionType } from "@/enums";
-import { configs } from "@/lib/config";
+import { getConfig } from "@/lib/config";
 
-const {
-  modules: {
-    battery: { spacing },
-  },
-  icons: { pixelSize },
-} = configs.bar;
+const { icons, spacings } = getConfig("bar");
 
 export default function Battery() {
   const [revealed, setRevealed] = createState<boolean>(false);
@@ -19,7 +14,7 @@ export default function Battery() {
   const batteryIconName = createBinding(battery, "batteryIconName");
 
   return (
-    <box visible={isPresent} class="battery" spacing={spacing}>
+    <box visible={isPresent} class="battery" spacing={spacings.small}>
       <Gtk.EventControllerMotion
         onEnter={() => setRevealed(true)}
         onLeave={() => setRevealed(false)}
@@ -39,7 +34,7 @@ export default function Battery() {
       <image
         class="battery-icon"
         iconName={batteryIconName}
-        pixelSize={pixelSize}
+        pixelSize={icons.pixelSize}
       />
     </box>
   );
