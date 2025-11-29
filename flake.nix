@@ -77,6 +77,7 @@
             mkdir -p $out/libexec
 
             cp -r $src/* $out/share/${pname}/
+            cp -r $assets/* $out/share/${pname}/
 
             cd $out/share/${pname}
             ags bundle ${entry} $out/libexec/${pname}
