@@ -34,7 +34,7 @@ export default function Battery() {
       <image
         class="battery-icon"
         iconName={batteryIconName}
-        pixelSize={icons.pixelSize}
+        pixelSize={icons.pixelSize.small}
       />
     </box>
   );

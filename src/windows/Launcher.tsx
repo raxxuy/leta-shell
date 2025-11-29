@@ -20,11 +20,10 @@ export default function Launcher() {
 
   const hide = () => window.get()?.hide();
 
-  const handleNotifyVisible = (self: Gtk.Widget) => {
-    const isVisible = self.visible;
-    setRevealed(isVisible);
+  const handleVisible = ({ visible }: { visible: boolean }) => {
+    setRevealed(visible);
 
-    if (isVisible) {
+    if (visible) {
       entry.get()?.grab_focus();
     } else {
       entry.get()?.set_text("");
@@ -62,10 +61,11 @@ export default function Launcher() {
       class="launcher"
       application={app}
       anchor="bottom-full"
+      namespace="leta-shell"
       layer={Layer.OVERLAY}
       keymode={Keymode.EXCLUSIVE}
       exclusivity={Exclusivity.IGNORE}
-      onNotifyVisible={handleNotifyVisible}
+      onNotifyVisible={handleVisible}
     >
       <Gtk.EventControllerKey onKeyPressed={handleKeyPress} />
       <Gtk.GestureClick onPressed={handleClickOutside} />

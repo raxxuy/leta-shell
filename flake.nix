@@ -7,6 +7,10 @@
       url = "github:aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    apple-fonts = {
+      url = "github:raxxuy/apple-fonts.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -14,6 +18,7 @@
       self,
       nixpkgs,
       ags,
+      apple-fonts,
     }:
     let
       system = "x86_64-linux";
@@ -36,7 +41,8 @@
         ++ (with pkgs; [
           libadwaita
           libsoup_3
-        ]);
+        ])
+        ++ [ apple-fonts.packages.${system}.apple-fonts ];
       shellPackages = with pkgs; [
         pnpm
         nodejs
@@ -118,6 +124,7 @@
 
           config = lib.mkIf config.programs.leta-shell.enable {
             environment.systemPackages = [ self.packages.${system}.default ];
+            fonts.packages = [ apple-fonts.packages.${system}.apple-fonts ];
           };
         };
 
@@ -129,7 +136,10 @@
           };
 
           config = lib.mkIf config.programs.leta-shell.enable {
-            home.packages = [ self.packages.${system}.default ];
+            home.packages = [
+              self.packages.${system}.default
+              apple-fonts.packages.${system}.apple-fonts
+            ];
           };
         };
     };

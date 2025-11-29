@@ -14,7 +14,7 @@ $background_light: color.scale($background, $lightness: 20%);
     .container {
         @include border($background_light, 2px, 0.4rem);
         @include shadow;
-        background-color: $background;
+        background-color: rgba($background, 0.9);
         padding: 0.3rem 0.4rem;
 
         &.gradient {

@@ -1,6 +1,19 @@
+@use "../../mixins" as *;
+
 %dashboard {
     .dashboard {
         font-weight: bolder;
         font-size: 1rem;
+        
+        .notifications {
+            .notifications-list {
+                padding: 8px;
+                
+                .notification {
+                    .notification-image {
+                    }
+                }
+            }
+        }
     }
 }

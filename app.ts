@@ -1,6 +1,6 @@
 import app from "ags/gtk4/app";
 import style from "src/styles/index.scss";
-import { applyCss, createCacheDir } from "@/lib/cache";
+import { applyTheme, initCache } from "@/lib/cache";
 import request from "@/lib/request";
 import Background from "@/windows/Background";
 import Bar from "@/windows/Bar";
@@ -8,10 +8,11 @@ import Launcher from "@/windows/Launcher";
 import WallpaperManager from "@/windows/WallpaperManager";
 
 app.start({
+  icons: `${SRC}/assets/icons`,
   css: style,
   main() {
-    createCacheDir();
-    applyCss();
+    initCache();
+    applyTheme();
     Launcher();
     WallpaperManager();
     app.monitors.forEach((monitor) => {

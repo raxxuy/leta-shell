@@ -1,22 +1,32 @@
 import AstalWp from "gi://AstalWp";
-import { createBinding, createState } from "ags";
+import { createBinding, createComputed, createState } from "ags";
 import { Gtk } from "ags/gtk4";
 import { EventControllerScrollFlags, RevealerTransitionType } from "@/enums";
 import { getConfig } from "@/lib/config";
-import { adjustVolume, roundVolume, toggleMute } from "@/lib/utils/volume";
+import {
+  adjustVolume,
+  getIcon,
+  roundVolume,
+  toggleMute,
+} from "@/lib/utils/volume";
 
 const { icons, spacings } = getConfig("bar");
 
 const Endpoint = ({
   endpoint,
   class: className,
+  type,
 }: {
   endpoint: AstalWp.Endpoint;
   class: string;
+  type: "speaker" | "microphone";
 }) => {
   const [revealed, setRevealed] = createState<boolean>(false);
-  const iconName = createBinding(endpoint, "volumeIcon");
+  const mute = createBinding(endpoint, "mute");
   const volume = createBinding(endpoint, "volume");
+  const iconName = createComputed([volume, mute], () =>
+    getIcon(type, endpoint),
+  );
 
   return (
     <box class={className} spacing={spacings.small}>
@@ -42,7 +52,7 @@ const Endpoint = ({
         <image
           class={`${className}-icon`}
           iconName={iconName}
-          pixelSize={icons.pixelSize}
+          pixelSize={icons.pixelSize.small}
         />
       </button>
     </box>
@@ -55,8 +65,12 @@ export default function Sound() {
 
   return (
     <box class="sound" spacing={spacings.medium}>
-      <Endpoint class="sound-speaker" endpoint={speaker} />
-      <Endpoint class="sound-microphone" endpoint={microphone} />
+      <Endpoint class="sound-speaker" endpoint={speaker} type="speaker" />
+      <Endpoint
+        endpoint={microphone}
+        class="sound-microphone"
+        type="microphone"
+      />
     </box>
   );
 }

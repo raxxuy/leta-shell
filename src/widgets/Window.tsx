@@ -1,4 +1,4 @@
-import { mapAnchorToNumber } from "@/lib/utils/widget";
+import { getAnchor } from "@/lib/utils/window";
 import type { Anchor } from "@/types";
 
 type WindowProps = Omit<JSX.IntrinsicElements["window"], "anchor"> & {
@@ -6,5 +6,5 @@ type WindowProps = Omit<JSX.IntrinsicElements["window"], "anchor"> & {
 };
 
 export default function Window({ anchor, ...props }: WindowProps) {
-  return <window anchor={mapAnchorToNumber(anchor)} {...props} />;
+  return <window anchor={getAnchor(anchor)} {...props} />;
 }

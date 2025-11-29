@@ -15,5 +15,5 @@ export default function Clock() {
 
   onCleanup(() => clockInterval.cancel());
 
-  return <label class="dashboard-clock" label={time} />;
+  return <label class="clock" label={time} />;
 }

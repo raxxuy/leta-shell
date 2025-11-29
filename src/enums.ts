@@ -1,3 +1,4 @@
+import Pango from "gi://Pango";
 import { Astal, Gtk } from "ags/gtk4";
 
 export const { WindowAnchor, Exclusivity, Layer, Keymode } = Astal;
@@ -9,3 +10,4 @@ export const {
   PolicyType,
   Overflow,
 } = Gtk;
+export const { EllipsizeMode } = Pango;

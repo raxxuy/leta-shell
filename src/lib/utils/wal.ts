@@ -1,13 +1,12 @@
 import { WAL_DIR } from "@/constants";
-import { bash } from "@/lib/utils/shell";
+import { exec } from "@/lib/utils/shell";
 
-const walCommand = (args: string): Promise<string> =>
-  bash(
+const runWal = (args: string): Promise<string> =>
+  exec(
     `env PYWAL_CACHE_DIR='${WAL_DIR}' wal ${args} --out-dir '${WAL_DIR}' -n`,
   );
 
-export const generateColorSchemesByImage = (path: string): Promise<string> =>
-  walCommand(`-i '${path}'`);
+export const generateFromImage = (imagePath: string): Promise<string> =>
+  runWal(`-i '${imagePath}'`);
 
-export const generateRandomColorSchemes = (): Promise<string> =>
-  walCommand("--theme random");
+export const generateRandom = (): Promise<string> => runWal("--theme random");

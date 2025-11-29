@@ -1,6 +1,11 @@
 export type BarSchema = {
   window: {
     defaultHeight: number;
+    background: {
+      enabled: boolean;
+      opacity: number;
+      color: string;
+    };
   };
   modules: {
     workspaces: {
@@ -21,6 +26,9 @@ export type BarSchema = {
     small: number;
   };
   icons: {
-    pixelSize: number;
+    pixelSize: {
+      small: number;
+      large: number;
+    };
   };
 };

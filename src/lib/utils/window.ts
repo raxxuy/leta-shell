@@ -5,7 +5,7 @@ import type { Anchor } from "@/types";
 
 const { TOP, RIGHT, LEFT, BOTTOM, NONE } = WindowAnchor;
 
-const anchorMap: Record<Anchor, Astal.WindowAnchor> = {
+const ANCHORS_MAP: Record<Anchor, Astal.WindowAnchor> = {
   none: NONE,
   top: TOP,
   left: LEFT,
@@ -19,10 +19,10 @@ const anchorMap: Record<Anchor, Astal.WindowAnchor> = {
   "bottom-full": BOTTOM | LEFT | RIGHT,
   center: LEFT | RIGHT | TOP | BOTTOM,
   "center-inline": LEFT | RIGHT,
-};
+} as const;
 
-export const mapAnchorToNumber = (anchor: Anchor): Astal.WindowAnchor =>
-  anchorMap[anchor] ?? NONE;
+export const getAnchor = (anchor: Anchor): Astal.WindowAnchor =>
+  ANCHORS_MAP[anchor] ?? NONE;
 
 export const toggleWindow = (windowName: string): void => {
   const window = app.get_window(windowName) as Astal.Window | null;

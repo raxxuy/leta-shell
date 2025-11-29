@@ -5,10 +5,8 @@ const { spacings } = getConfig("bar");
 
 export default function Dashboard() {
   return (
-    <menubutton class="dashboard">
-      <box spacing={spacings.medium}>
-        <Clock />
-      </box>
-    </menubutton>
+    <box class="dashboard" spacing={spacings.medium}>
+      <Clock />
+    </box>
   );
 }

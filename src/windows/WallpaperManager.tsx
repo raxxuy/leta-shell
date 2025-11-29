@@ -35,6 +35,7 @@ export default function WallpaperManager() {
       name="wallpapers"
       class="wallpapers"
       anchor="center-inline"
+      namespace="leta-shell"
       onNotifyVisible={handleVisible}
     >
       <box

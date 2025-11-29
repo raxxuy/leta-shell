@@ -4,7 +4,7 @@ import { createState } from "ags";
 import { timeout } from "ags/time";
 import { Align, Orientation, RevealerTransitionType } from "@/enums";
 import { configs } from "@/lib/config";
-import { toggleWindow } from "@/lib/utils/widget";
+import { toggleWindow } from "@/lib/utils/window";
 
 interface LauncherItemProps {
   app: AstalApps.Application;

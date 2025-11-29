@@ -1,6 +1,11 @@
 {
   "window": {
-    "defaultHeight": 24
+    "defaultHeight": 24,
+    "background": {
+      "enabled": true,
+      "opacity": 0.4,
+      "color": "0, 0, 0"
+    }
   },
   "modules": {
     "workspaces": {
@@ -12,7 +17,7 @@
   },
   "extras": {
     "container": {
-      "enabled": true,
+      "enabled": false,
       "gradient": false
     }
   },
@@ -21,6 +26,9 @@
     "small": 4
   },
   "icons": {
-    "pixelSize": 16
+    "pixelSize": {
+      "small": 16,
+      "large": 64
+    }
   }
 }

@@ -14,6 +14,7 @@ export default function Background(gdkmonitor: Gdk.Monitor) {
       visible
       name="background"
       class="background"
+      namespace="leta-shell"
       layer={Layer.BACKGROUND}
       exclusivity={Exclusivity.IGNORE}
       gdkmonitor={gdkmonitor}

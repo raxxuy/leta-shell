@@ -1,9 +1,6 @@
 import GLib from "gi://GLib";
 import { Gdk } from "ags/gtk4";
-
-// Helper function to build paths
-const buildPath = (...segments: string[]): string =>
-  GLib.build_filenamev(segments);
+import { buildPath } from "@/lib/utils/fs";
 
 // System directories
 export const HOME_DIR = GLib.get_home_dir();

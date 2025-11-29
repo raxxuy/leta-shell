@@ -3,7 +3,7 @@ import type GObject from "ags/gobject";
 import { getter, register, setter, signal } from "ags/gobject";
 import { PICTURES_DIR } from "@/constants";
 import { getWallpaper, setWallpaper } from "@/lib/cache";
-import { bash } from "@/lib/utils/shell";
+import { exec } from "@/lib/utils/shell";
 import Service from "@/services/base";
 
 interface WallpaperSignals extends GObject.Object.SignalSignatures {
@@ -59,7 +59,7 @@ export default class Wallpaper extends Service<WallpaperSignals> {
       ".svg",
     ];
 
-    bash(["find", PICTURES_DIR, "-maxdepth", "1", "-type", "f"])
+    exec(["find", PICTURES_DIR, "-maxdepth", "1", "-type", "f"])
       .then((output) => {
         this.#pictures = output
           .split("\n")

@@ -2,8 +2,8 @@ import GObject, { register } from "ags/gobject";
 
 interface ServiceSignals extends GObject.Object.SignalSignatures {}
 
-@register()
-export default class BaseService<
+@register({ GTypeName: "BaseService" })
+export default class Service<
   TSignals extends ServiceSignals = ServiceSignals,
 > extends GObject.Object {
   declare $signals: TSignals;
