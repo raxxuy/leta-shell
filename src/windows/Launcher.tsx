@@ -18,15 +18,15 @@ export default function Launcher() {
   const [window, setWindow] = createState<Gtk.Window | null>(null);
   const [revealer, setRevealer] = createState<Gtk.Revealer | null>(null);
 
-  const hide = () => window.get()?.hide();
+  const hide = () => window()?.hide();
 
   const handleVisible = ({ visible }: { visible: boolean }) => {
     setRevealed(visible);
 
     if (visible) {
-      entry.get()?.grab_focus();
+      entry()?.grab_focus();
     } else {
-      entry.get()?.set_text("");
+      entry()?.set_text("");
     }
   };
 
@@ -40,8 +40,8 @@ export default function Launcher() {
     x: number,
     y: number,
   ) => {
-    const revealerWidget = revealer.get();
-    const windowWidget = window.get();
+    const revealerWidget = revealer.peek();
+    const windowWidget = window.peek();
 
     if (!revealerWidget || !windowWidget) return;
 

@@ -19,10 +19,12 @@ const WorkspaceButton = ({
   const focusedWorkspace = createBinding(hyprland, "focusedWorkspace");
   const clients = createBinding(hyprland, "clients");
 
-  const classNames = createComputed([focusedWorkspace, clients], (focused) => {
+  const classNames = createComputed(() => {
     const classes = ["workspace-button"];
 
-    if (focused.id === workspace.id) {
+    clients();
+
+    if (focusedWorkspace().id === workspace.id) {
       classes.push("active");
     }
 

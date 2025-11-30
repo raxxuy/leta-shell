@@ -7,9 +7,10 @@ const { icons, spacings } = getConfig("bar");
 
 export default function Tray() {
   const tray = AstalTray.get_default();
-  const items = createBinding(tray, "items").as((items) =>
-    items.filter((item) => item?.gicon),
-  );
+  const items = createBinding(
+    tray,
+    "items",
+  )((items) => items.filter((item) => item?.gicon));
 
   const init = (self: Gtk.MenuButton, item: AstalTray.TrayItem) => {
     const gesture = new Gtk.GestureClick({

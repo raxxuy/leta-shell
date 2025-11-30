@@ -24,9 +24,11 @@ const Endpoint = ({
   const [revealed, setRevealed] = createState<boolean>(false);
   const mute = createBinding(endpoint, "mute");
   const volume = createBinding(endpoint, "volume");
-  const iconName = createComputed([volume, mute], () =>
-    getIcon(type, endpoint),
-  );
+  const iconName = createComputed(() => {
+    mute();
+    volume();
+    return getIcon(type, endpoint);
+  });
 
   return (
     <box class={className} spacing={spacings.small}>

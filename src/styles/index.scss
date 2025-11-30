@@ -5,6 +5,12 @@
     font-family: "SF Pro Text";
 }
 
+tooltip {
+    background: rgba(black, 0.5);
+    padding: 1rem;
+    font-size: 1rem;
+}
+
 .bar {
     @extend %bar;
 }

@@ -1,4 +1,4 @@
-import { Accessor, createState, onCleanup } from "ags";
+import { Accessor, createEffect, createState } from "ags";
 
 type FallbackLabelProps = JSX.IntrinsicElements["label"] & {
   source: unknown | Accessor<unknown>;
@@ -15,11 +15,8 @@ export default function FallbackLabel({
   const [value, setValue] = createState<string>("");
 
   if (source instanceof Accessor) {
-    const setLabel = () =>
-      source.get() ? setValue(label) : setValue(fallback);
-    const dispose = source.subscribe(setLabel);
-    onCleanup(() => dispose());
-    setLabel();
+    const setLabel = () => (source() ? setValue(label) : setValue(fallback));
+    createEffect(setLabel);
   } else {
     setValue(source ? label : fallback);
   }

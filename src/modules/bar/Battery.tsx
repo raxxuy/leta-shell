@@ -13,16 +13,20 @@ export default function Battery() {
   const charging = createBinding(battery, "charging");
   const percentage = createBinding(battery, "percentage");
 
-  const iconName = createComputed(
-    [charging, percentage],
-    (charging, percentage) => {
-      if (charging) return "battery-charging-symbolic";
-      if (percentage <= 0.05) return "battery-empty-symbolic";
-      if (percentage <= 0.3) return "battery-low-symbolic";
-      if (percentage <= 0.7) return "battery-mid-symbolic";
-      return "battery-full-symbolic";
-    },
-  );
+  const iconName = createComputed(() => {
+    const p = percentage();
+    if (charging()) return "battery-charging-symbolic";
+    if (p <= 0.05) return "battery-empty-1-symbolic";
+    if (p <= 0.3) return "battery-low-1-symbolic";
+    if (p <= 0.7) return "battery-mid-symbolic";
+    return "battery-full-symbolic";
+  });
+
+  const time = createComputed(() => {
+    percentage();
+    if (charging()) return { label: "Time to full", time: battery.timeToFull };
+    return { label: "Time to empty", time: battery.timeToEmpty };
+  });
 
   return (
     <box visible={isPresent} class="battery" spacing={spacings.small}>
@@ -37,15 +41,17 @@ export default function Battery() {
       >
         <label
           class="battery-label"
-          label={percentage.as(
-            (percentage) => `${Math.floor(percentage * 100)}%`,
-          )}
+          label={percentage((percentage) => `${Math.floor(percentage * 100)}%`)}
         />
       </revealer>
       <image
         class="battery-icon"
         iconName={iconName}
         pixelSize={icons.pixelSize.small}
+        tooltipText={time(
+          ({ label, time }) =>
+            `${label}: ${Math.round(time / 3600)}h ${Math.floor((time % 3600) / 60)}m`,
+        )}
       />
     </box>
   );
