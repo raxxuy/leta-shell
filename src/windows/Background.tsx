@@ -1,8 +1,9 @@
 import { createBinding } from "ags";
 import type { Gdk } from "ags/gtk4";
-import { Align, Exclusivity, Layer } from "@/enums";
+import { Align, Exclusivity, Layer, Overflow } from "@/enums";
 import Wallpaper from "@/services/wallpaper";
 import FallbackLabel from "@/widgets/FallbackLabel";
+import ImageWrapper from "@/widgets/ImageWrapper";
 
 export default function Background(gdkmonitor: Gdk.Monitor) {
   const { width, height } = gdkmonitor.get_geometry();
@@ -19,24 +20,22 @@ export default function Background(gdkmonitor: Gdk.Monitor) {
       exclusivity={Exclusivity.IGNORE}
       gdkmonitor={gdkmonitor}
     >
-      <box
+      <ImageWrapper
+        file
+        src={source}
+        class="background-wallpaper"
         widthRequest={width}
         heightRequest={height}
-        class="background-wallpaper"
-        css={source(
-          (source) => `
-            background-image: url("file://${source}");
-          `,
-        )}
+        overflow={Overflow.HIDDEN}
       >
         <FallbackLabel
-          hexpand
-          halign={Align.CENTER}
-          source={source}
+          src={source}
           label=""
           fallback="No wallpaper selected"
+          halign={Align.CENTER}
+          hexpand
         />
-      </box>
+      </ImageWrapper>
     </window>
   );
 }

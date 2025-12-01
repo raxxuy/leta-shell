@@ -1,20 +1,13 @@
 import { createBinding, For } from "ags";
-import { Gtk } from "ags/gtk4";
+import type { Gtk } from "ags/gtk4";
 import app from "ags/gtk4/app";
-import { Align, Orientation } from "@/enums";
+import { Align, Orientation, Overflow, PolicyType } from "@/enums";
 import { configs } from "@/lib/config";
 import Wallpaper from "@/services/wallpaper";
+import ImageWrapper from "@/widgets/ImageWrapper";
 import Window from "@/widgets/Window";
 
-const {
-  spacing,
-  list: {
-    spacing: listSpacing,
-    width: listWidth,
-    height: listHeight,
-    picture: { width: pictureWidth, height: pictureHeight },
-  },
-} = configs.wallpapers.main;
+const { spacing, list } = configs.wallpapers.main;
 
 export default function WallpaperManager() {
   const wallpaper = Wallpaper.get_default();
@@ -45,23 +38,21 @@ export default function WallpaperManager() {
       >
         <scrolledwindow
           class="wallpapers-scrolledwindow"
-          minContentWidth={listWidth}
-          minContentHeight={listHeight}
-          vscrollbarPolicy={Gtk.PolicyType.NEVER}
-          hscrollbarPolicy={Gtk.PolicyType.ALWAYS}
+          minContentWidth={list.width}
+          minContentHeight={list.height}
+          vscrollbarPolicy={PolicyType.NEVER}
+          hscrollbarPolicy={PolicyType.ALWAYS}
         >
-          <box spacing={listSpacing}>
+          <box spacing={list.spacing}>
             <For each={pictures}>
               {(picture) => (
-                <button
-                  heightRequest={pictureHeight}
-                  widthRequest={pictureWidth}
-                  css={`
-                    background-image: url(file://${picture});
-                    background-size: cover;
-                    background-position: center;
-                  `}
-                  overflow={Gtk.Overflow.HIDDEN}
+                <ImageWrapper
+                  file
+                  src={picture}
+                  type="button"
+                  overflow={Overflow.HIDDEN}
+                  widthRequest={list.picture.width}
+                  heightRequest={list.picture.height}
                   onClicked={() => setWallpaper(picture)}
                 />
               )}
