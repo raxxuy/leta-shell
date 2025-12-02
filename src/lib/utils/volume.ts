@@ -7,7 +7,8 @@ const MAX_VOLUME = 1;
 const clamp = (value: number, min: number, max: number): number =>
   Math.max(min, Math.min(max, value));
 
-export const roundVolume = (v: number): number => Math.round(v * 100);
+export const formatVolume = (volume: number): string =>
+  `${Math.round(volume * 100)}%`;
 
 export const adjustVolume = (
   endpoint: AstalWp.Endpoint,
@@ -24,14 +25,15 @@ export const toggleMute = (endpoint: AstalWp.Endpoint): void => {
 
 export const getIcon = (
   type: "speaker" | "microphone",
-  endpoint: AstalWp.Endpoint,
+  volume: number,
+  mute: boolean,
 ) => {
   if (type === "speaker") {
-    if (endpoint.volume === 0 || endpoint.mute) return "volume-off-symbolic";
-    if (endpoint.volume < 0.5) return "volume-min-symbolic";
+    if (volume === 0 || mute) return "volume-off-symbolic";
+    if (volume < 0.5) return "volume-min-symbolic";
     return "volume-max-symbolic";
   }
 
-  if (endpoint.volume === 0 || endpoint.mute) return "microphone-off-symbolic";
+  if (volume === 0 || mute) return "microphone-off-symbolic";
   return "microphone-1-symbolic";
 };

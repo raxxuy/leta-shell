@@ -5,8 +5,8 @@ import { EventControllerScrollFlags, RevealerTransitionType } from "@/enums";
 import { getConfig } from "@/lib/config";
 import {
   adjustVolume,
+  formatVolume,
   getIcon,
-  roundVolume,
   toggleMute,
 } from "@/lib/utils/volume";
 
@@ -24,10 +24,10 @@ const Endpoint = ({
   const [revealed, setRevealed] = createState<boolean>(false);
   const mute = createBinding(endpoint, "mute");
   const volume = createBinding(endpoint, "volume");
+  const description = createBinding(endpoint, "description");
+
   const iconName = createComputed(() => {
-    mute();
-    volume();
-    return getIcon(type, endpoint);
+    return getIcon(type, volume(), mute());
   });
 
   return (
@@ -45,16 +45,14 @@ const Endpoint = ({
         revealChild={revealed}
         transitionType={RevealerTransitionType.SWING_LEFT}
       >
-        <label
-          class={`${className}-label`}
-          label={volume((v) => `${roundVolume(v)}%`)}
-        />
+        <label class={`${className}-label`} label={volume(formatVolume)} />
       </revealer>
       <button onClicked={() => toggleMute(endpoint)}>
         <image
           class={`${className}-icon`}
           iconName={iconName}
           pixelSize={icons.pixelSize.small}
+          tooltipText={description}
         />
       </button>
     </box>

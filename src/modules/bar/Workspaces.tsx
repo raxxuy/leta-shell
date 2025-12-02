@@ -4,6 +4,7 @@ import { createBinding, createComputed } from "ags";
 import { CURSORS } from "@/constants";
 import { Orientation } from "@/enums";
 import { getConfig } from "@/lib/config";
+import { getWorkspaceClasses, isWorkspaceOccupied } from "@/lib/utils/hyprland";
 
 const {
   spacings,
@@ -20,19 +21,13 @@ const WorkspaceButton = ({
   const clients = createBinding(hyprland, "clients");
 
   const classNames = createComputed(() => {
-    const classes = ["workspace-button"];
-
     clients();
 
-    if (focusedWorkspace().id === workspace.id) {
-      classes.push("active");
-    }
-
-    if (hyprland.get_workspace(workspace.id)?.clients.length > 0) {
-      classes.push("occupied");
-    }
-
-    return classes;
+    return getWorkspaceClasses(
+      workspace.id,
+      focusedWorkspace().id,
+      isWorkspaceOccupied(hyprland, workspace.id),
+    );
   });
 
   return (

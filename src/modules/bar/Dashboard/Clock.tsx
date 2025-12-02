@@ -8,7 +8,7 @@ const {
 } = getConfig("bar");
 
 export default function Clock() {
-  const getCurrentTime = () => now().format(clock.format) as string;
+  const getCurrentTime = () => now(clock.format) as string;
   const [time, setTime] = createState<string>(getCurrentTime());
 
   const clockInterval = interval(1000, () => setTime(getCurrentTime()));

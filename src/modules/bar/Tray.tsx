@@ -5,14 +5,10 @@ import { getConfig } from "@/lib/config";
 
 const { icons, spacings } = getConfig("bar");
 
-export default function Tray() {
-  const tray = AstalTray.get_default();
-  const items = createBinding(
-    tray,
-    "items",
-  )((items) => items.filter((item) => item?.gicon));
+const TrayItem = ({ item }: { item: AstalTray.TrayItem }) => {
+  const gicon = createBinding(item, "gicon");
 
-  const init = (self: Gtk.MenuButton, item: AstalTray.TrayItem) => {
+  const init = (self: Gtk.MenuButton) => {
     const gesture = new Gtk.GestureClick({
       propagationPhase: Gtk.PropagationPhase.CAPTURE,
       button: Gdk.BUTTON_SECONDARY,
@@ -36,21 +32,31 @@ export default function Tray() {
   };
 
   return (
+    <menubutton class="tray-item" $={init}>
+      <image
+        class="tray-item-icon"
+        pixelSize={icons.pixelSize.small}
+        gicon={gicon}
+      />
+    </menubutton>
+  );
+};
+
+export default function Tray() {
+  const tray = AstalTray.get_default();
+  const items = createBinding(
+    tray,
+    "items",
+  )((items) => items.filter((item) => item?.gicon));
+
+  return (
     <box
       class="tray"
       spacing={spacings.medium}
       visible={items((items) => items.length > 0)}
     >
       <For each={items} id={(item) => item.id}>
-        {(item) => (
-          <menubutton class="tray-item" $={(self) => init(self, item)}>
-            <image
-              class="tray-item-icon"
-              pixelSize={icons.pixelSize.small}
-              gicon={createBinding(item, "gicon")}
-            />
-          </menubutton>
-        )}
+        {(item) => <TrayItem item={item} />}
       </For>
     </box>
   );

@@ -9,6 +9,24 @@ import Window from "@/widgets/Window";
 
 const { spacing, list } = configs.wallpapers.main;
 
+const WallpaperItem = ({
+  picture,
+  onSelect,
+}: {
+  picture: string;
+  onSelect: (picture: string) => void;
+}) => (
+  <ImageWrapper
+    file
+    src={picture}
+    type="button"
+    overflow={Overflow.HIDDEN}
+    widthRequest={list.picture.width}
+    heightRequest={list.picture.height}
+    onClicked={() => onSelect(picture)}
+  />
+);
+
 export default function WallpaperManager() {
   const wallpaper = Wallpaper.get_default();
   const pictures = createBinding(wallpaper, "pictures");
@@ -17,9 +35,7 @@ export default function WallpaperManager() {
     wallpaper.source = picture ?? "";
   };
 
-  const handleVisible = (self: Gtk.Window) => {
-    if (self.visible) self.get_focus();
-  };
+  const handleVisible = (self: Gtk.Window) => self.visible && self.get_focus();
 
   return (
     <Window
@@ -46,15 +62,7 @@ export default function WallpaperManager() {
           <box spacing={list.spacing}>
             <For each={pictures}>
               {(picture) => (
-                <ImageWrapper
-                  file
-                  src={picture}
-                  type="button"
-                  overflow={Overflow.HIDDEN}
-                  widthRequest={list.picture.width}
-                  heightRequest={list.picture.height}
-                  onClicked={() => setWallpaper(picture)}
-                />
+                <WallpaperItem picture={picture} onSelect={setWallpaper} />
               )}
             </For>
           </box>
