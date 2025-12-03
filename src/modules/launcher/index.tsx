@@ -1,13 +1,9 @@
 import AstalApps from "gi://AstalApps";
-import { createState, For, type Setter } from "ags";
+import { createState, For } from "ags";
 import type { Gtk } from "ags/gtk4";
 import { Align, Orientation } from "@/enums";
 import { configs } from "@/lib/config";
 import LauncherItem from "@/modules/launcher/LauncherItem";
-
-interface LauncherModuleProps {
-  setEntry: Setter<Gtk.Entry | null>;
-}
 
 const {
   spacing,
@@ -15,12 +11,24 @@ const {
   list: { delay, height, spacing: listSpacing },
 } = configs.launcher.content;
 
-export default function LauncherModule({ setEntry }: LauncherModuleProps) {
+export default function LauncherModule() {
   const apps = new AstalApps.Apps();
   const [list, setList] = createState<AstalApps.Application[]>([]);
 
+  let entry: Gtk.Entry;
+
   const handleSearch = (text: string) => {
     setList(text ? apps.fuzzy_query(text) : []);
+  };
+
+  const handleNotifyVisible = ({ visible }: { visible: boolean }) => {
+    if (!visible) {
+      apps.reload();
+      return;
+    }
+
+    entry.grab_focus();
+    entry.set_text("");
   };
 
   return (
@@ -30,6 +38,7 @@ export default function LauncherModule({ setEntry }: LauncherModuleProps) {
       halign={Align.CENTER}
       orientation={Orientation.VERTICAL}
       spacing={spacing}
+      onNotifyVisible={handleNotifyVisible}
     >
       <scrolledwindow
         hexpand
@@ -50,7 +59,9 @@ export default function LauncherModule({ setEntry }: LauncherModuleProps) {
         </box>
       </scrolledwindow>
       <entry
-        $={setEntry}
+        $={(self) => {
+          entry = self;
+        }}
         class="launcher-entry"
         halign={Align.CENTER}
         widthRequest={width}

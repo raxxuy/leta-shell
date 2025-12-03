@@ -1,4 +1,4 @@
-import AstalWp from "gi://AstalWp";
+import type AstalWp from "gi://AstalWp";
 import { createBinding, createComputed, createState } from "ags";
 import { Gtk } from "ags/gtk4";
 import { EventControllerScrollFlags, RevealerTransitionType } from "@/enums";
@@ -10,17 +10,19 @@ import {
   toggleMute,
 } from "@/lib/utils/volume";
 
-const { icons, spacings } = getConfig("bar");
+const { spacings, icons } = getConfig("bar");
 
-const Endpoint = ({
-  endpoint,
-  class: className,
-  type,
-}: {
+interface EndpointProps {
   endpoint: AstalWp.Endpoint;
   class: string;
   type: "speaker" | "microphone";
-}) => {
+}
+
+export default function Endpoint({
+  endpoint,
+  class: className,
+  type,
+}: EndpointProps) {
   const [revealed, setRevealed] = createState<boolean>(false);
   const mute = createBinding(endpoint, "mute");
   const volume = createBinding(endpoint, "volume");
@@ -55,22 +57,6 @@ const Endpoint = ({
           tooltipText={description}
         />
       </button>
-    </box>
-  );
-};
-
-export default function Sound() {
-  const wp = AstalWp.get_default();
-  const { defaultSpeaker: speaker, defaultMicrophone: microphone } = wp;
-
-  return (
-    <box class="sound" spacing={spacings.medium}>
-      <Endpoint class="sound-speaker" endpoint={speaker} type="speaker" />
-      <Endpoint
-        endpoint={microphone}
-        class="sound-microphone"
-        type="microphone"
-      />
     </box>
   );
 }

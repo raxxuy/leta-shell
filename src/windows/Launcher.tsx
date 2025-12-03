@@ -1,62 +1,11 @@
-import Graphene from "gi://Graphene";
-import { createState } from "ags";
-import { Gdk, Gtk } from "ags/gtk4";
 import app from "ags/gtk4/app";
-import {
-  Align,
-  Exclusivity,
-  Keymode,
-  Layer,
-  RevealerTransitionType,
-} from "@/enums";
+import { Exclusivity, Keymode, Layer, RevealerTransitionType } from "@/enums";
 import LauncherModule from "@/modules/launcher";
-import Window from "@/widgets/Window";
+import RevealerWindow from "@/widgets/RevealerWindow";
 
 export default function Launcher() {
-  const [revealed, setRevealed] = createState<boolean>(false);
-  const [entry, setEntry] = createState<Gtk.Entry | null>(null);
-  const [window, setWindow] = createState<Gtk.Window | null>(null);
-  const [revealer, setRevealer] = createState<Gtk.Revealer | null>(null);
-
-  const hide = () => window()?.hide();
-
-  const handleVisible = ({ visible }: { visible: boolean }) => {
-    setRevealed(visible);
-
-    if (visible) {
-      entry()?.grab_focus();
-    } else {
-      entry()?.set_text("");
-    }
-  };
-
-  const handleKeyPress = (_: unknown, keyval: number) => {
-    if (keyval === Gdk.KEY_Escape) hide();
-  };
-
-  const handleClickOutside = (
-    _e: unknown,
-    _w: unknown,
-    x: number,
-    y: number,
-  ) => {
-    const revealerWidget = revealer.peek();
-    const windowWidget = window.peek();
-
-    if (!revealerWidget || !windowWidget) return;
-
-    const [, rect] = revealerWidget.compute_bounds(windowWidget);
-    const position = new Graphene.Point({ x, y });
-
-    if (!rect.contains_point(position)) {
-      hide();
-    }
-  };
-
   return (
-    <Window
-      $={setWindow}
-      visible={false}
+    <RevealerWindow
       name="launcher"
       class="launcher"
       application={app}
@@ -65,21 +14,9 @@ export default function Launcher() {
       layer={Layer.OVERLAY}
       keymode={Keymode.EXCLUSIVE}
       exclusivity={Exclusivity.IGNORE}
-      onNotifyVisible={handleVisible}
+      transitionType={RevealerTransitionType.SLIDE_UP}
     >
-      <Gtk.EventControllerKey onKeyPressed={handleKeyPress} />
-      <Gtk.GestureClick onPressed={handleClickOutside} />
-      <revealer
-        vexpand
-        $={setRevealer}
-        halign={Align.CENTER}
-        valign={Align.CENTER}
-        revealChild={revealed}
-        transitionDuration={100}
-        transitionType={RevealerTransitionType.SLIDE_UP}
-      >
-        <LauncherModule setEntry={setEntry} />
-      </revealer>
-    </Window>
+      <LauncherModule />
+    </RevealerWindow>
   );
 }

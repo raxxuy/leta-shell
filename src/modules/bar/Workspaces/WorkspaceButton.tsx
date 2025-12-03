@@ -1,21 +1,13 @@
-import Adw from "gi://Adw";
 import AstalHyprland from "gi://AstalHyprland";
 import { createBinding, createComputed } from "ags";
 import { CURSORS } from "@/constants";
-import { Orientation } from "@/enums";
-import { getConfig } from "@/lib/config";
 import { getWorkspaceClasses, isWorkspaceOccupied } from "@/lib/utils/hyprland";
 
-const {
-  spacings,
-  modules: { workspaces },
-} = getConfig("bar");
-
-const WorkspaceButton = ({
-  workspace,
-}: {
+interface WorkspaceButtonProps {
   workspace: AstalHyprland.Workspace;
-}) => {
+}
+
+export default function WorkspaceButton({ workspace }: WorkspaceButtonProps) {
   const hyprland = AstalHyprland.get_default();
   const focusedWorkspace = createBinding(hyprland, "focusedWorkspace");
   const clients = createBinding(hyprland, "clients");
@@ -36,21 +28,5 @@ const WorkspaceButton = ({
       cursor={CURSORS.pointer}
       onClicked={() => workspace.focus()}
     />
-  );
-};
-
-export default function Workspaces() {
-  const ws = Array.from({ length: workspaces.count }, (_, i) =>
-    AstalHyprland.Workspace.dummy(i + 1, null),
-  );
-
-  return (
-    <Adw.Clamp maximumSize={16} orientation={Orientation.VERTICAL}>
-      <box class="workspaces" spacing={spacings.small}>
-        {ws.map((workspace) => (
-          <WorkspaceButton workspace={workspace} />
-        ))}
-      </box>
-    </Adw.Clamp>
   );
 }

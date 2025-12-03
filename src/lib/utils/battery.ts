@@ -1,7 +1,7 @@
 const THRESHOLDS = {
-  LOW: 0.05,
-  MID: 0.3,
-  FULL: 0.7,
+  LOW: 0.1,
+  MID: 0.4,
+  FULL: 0.8,
 };
 
 export const getBatteryIcon = (

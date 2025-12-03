@@ -1,11 +1,15 @@
-import AstalTray from "gi://AstalTray";
-import { createBinding, For, onCleanup } from "ags";
+import type AstalTray from "gi://AstalTray?version=0.1";
+import { createBinding, onCleanup } from "ags";
 import { Gdk, Gtk } from "ags/gtk4";
 import { getConfig } from "@/lib/config";
 
-const { icons, spacings } = getConfig("bar");
+const { icons } = getConfig("bar");
 
-const TrayItem = ({ item }: { item: AstalTray.TrayItem }) => {
+interface TrayItemProps {
+  item: AstalTray.TrayItem;
+}
+
+export default function TrayItem({ item }: TrayItemProps) {
   const gicon = createBinding(item, "gicon");
 
   const init = (self: Gtk.MenuButton) => {
@@ -39,25 +43,5 @@ const TrayItem = ({ item }: { item: AstalTray.TrayItem }) => {
         gicon={gicon}
       />
     </menubutton>
-  );
-};
-
-export default function Tray() {
-  const tray = AstalTray.get_default();
-  const items = createBinding(
-    tray,
-    "items",
-  )((items) => items.filter((item) => item?.gicon));
-
-  return (
-    <box
-      class="tray"
-      spacing={spacings.medium}
-      visible={items((items) => items.length > 0)}
-    >
-      <For each={items} id={(item) => item.id}>
-        {(item) => <TrayItem item={item} />}
-      </For>
-    </box>
   );
 }

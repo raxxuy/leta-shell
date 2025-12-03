@@ -19,6 +19,11 @@ const {
 export default function LauncherItem({ app, delay = 0 }: LauncherItemProps) {
   const [revealed, setRevealed] = createState<boolean>(false);
 
+  const handleClick = () => {
+    toggleWindow("launcher");
+    app.launch();
+  };
+
   timeout(0, () => setRevealed(true));
 
   return (
@@ -30,10 +35,7 @@ export default function LauncherItem({ app, delay = 0 }: LauncherItemProps) {
       <button
         class="launcher-item app-button"
         focusOnClick={false}
-        onClicked={() => {
-          toggleWindow("launcher");
-          app.launch();
-        }}
+        onClicked={handleClick}
       >
         <box spacing={spacing}>
           <image pixelSize={pixelSize} iconName={app.iconName} />
