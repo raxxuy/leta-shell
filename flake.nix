@@ -34,6 +34,7 @@
         notifd
         battery
         hyprland
+        bluetooth
         wireplumber
       ];
       extraPackages =

@@ -28,7 +28,9 @@ export type BarSchema = {
   icons: {
     pixelSize: {
       small: number;
+      medium: number;
       large: number;
+      larger: number;
     };
   };
 };

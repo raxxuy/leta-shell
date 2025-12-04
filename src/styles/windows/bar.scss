@@ -4,6 +4,7 @@
 @use "../colors" as *;
 
 $color10_dark: color.scale($color10, $lightness: -50%);
+$color11_dark: color.scale($color11, $lightness: -30%);
 $color12_dark: color.scale($color12, $lightness: -30%);
 $background_light: color.scale($background, $lightness: 20%);
 
@@ -19,6 +20,18 @@ $background_light: color.scale($background, $lightness: 20%);
 
         &.gradient {
             background: linear-gradient(to right $color10_dark, $color12_dark);
+        }
+    }
+
+    .toggler {
+        border-radius: 0.5rem;
+        
+        &.active {
+            background: $color11;
+        }
+        
+        &.inactive {
+            background: dimgray;
         }
     }
 

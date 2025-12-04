@@ -1,4 +1,5 @@
 import { getConfig } from "@/lib/config";
+import Settings from "@/modules/bar//Settings";
 import Battery from "@/modules/bar/Battery";
 import Dashboard from "@/modules/bar/Dashboard";
 import Notifications from "@/modules/bar/Notifications";
@@ -51,6 +52,7 @@ export default function BarModule() {
         <Battery />
         <Sound />
         <Notifications />
+        <Settings />
       </Section>
     </centerbox>
   );

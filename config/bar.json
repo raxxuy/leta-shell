@@ -28,7 +28,9 @@
   "icons": {
     "pixelSize": {
       "small": 16,
-      "large": 64
+      "medium": 32,
+      "large": 48,
+      "larger": 64
     }
   }
 }
