@@ -27,7 +27,7 @@ done
 
 echo "Cleaning build artifacts/cache..."
 if [ "$CLEAN_CACHE" = true ]; then
-    $SCRIPT_DIR/clean.sh -c
+    $SCRIPT_DIR/clean.sh -a
 else
     $SCRIPT_DIR/clean.sh
 fi

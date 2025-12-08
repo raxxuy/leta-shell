@@ -10,16 +10,17 @@ export const PICTURES_DIR =
   buildPath(HOME_DIR, "Pictures");
 
 // App directories
-export const WAL_DIR = buildPath(CACHE_DIR, "wal");
-export const STYLES_DIR = buildPath(CACHE_DIR, "styles");
+export const CACHE_WAL_DIR = buildPath(CACHE_DIR, "wal");
+export const CACHE_STYLES_DIR = buildPath(CACHE_DIR, "styles");
+export const CACHE_PICTURES_DIR = buildPath(CACHE_DIR, "pictures");
 export const SRC_STYLES_DIR = buildPath(SRC, "styles");
 export const CONFIG_DIR = buildPath(SRC, "config");
 
 // Files
-export const WAL_FILE = buildPath(WAL_DIR, "wal");
-export const CSS_FILE = buildPath(STYLES_DIR, "index.css");
-export const COLORS_SOURCE = buildPath(WAL_DIR, "colors.scss");
-export const COLORS_DEST = buildPath(STYLES_DIR, "colors.scss");
+export const WAL_FILE = buildPath(CACHE_WAL_DIR, "wal");
+export const CSS_FILE = buildPath(CACHE_STYLES_DIR, "index.css");
+export const COLORS_SOURCE = buildPath(CACHE_WAL_DIR, "colors.scss");
+export const COLORS_DEST = buildPath(CACHE_STYLES_DIR, "colors.scss");
 
 // Cursors
 const createCursor = (name: string): Gdk.Cursor =>

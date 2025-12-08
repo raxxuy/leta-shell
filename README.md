@@ -117,7 +117,7 @@ layerrule = xray 1, leta-shell
 
 # Todo
 
-- [ ] Improve the background/wallpapers system so it doesn't eat up a lot of memory
+- [X] Improve the background/wallpapers system so it doesn't eat up a lot of memory
 - [ ] Notification daemon/menu
 - [ ] Power menu
 - [ ] Settings menu

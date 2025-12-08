@@ -1,16 +1,24 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OS_NAME=$(awk -F'=' '/^NAME/{print $2}' /etc/os-release)
-CLEAN_CACHE=false
+CLEAN_FLAGS=""
 
-while getopts "c" opt; do
+while getopts "aps" opt; do
     case $opt in
-        c)
-            CLEAN_CACHE=true
+        a)
+            CLEAN_FLAGS="-a"
+            ;;
+        p)
+            CLEAN_FLAGS="${CLEAN_FLAGS} -p"
+            ;;
+        s)
+            CLEAN_FLAGS="${CLEAN_FLAGS} -s"
             ;;
         \?)
             echo "Invalid option: -$OPTARG" >&2
-            echo "Usage: $0 [-c]"
-            echo "  -c    Also clean cache on file changes"
+            echo "Usage: $0 [-a] [-p] [-s]"
+            echo "  -a    Clean all cache on file changes"
+            echo "  -p    Clean pictures cache on file changes"
+            echo "  -s    Clean styles cache on file changes"
             exit 1
             ;;
     esac
@@ -25,8 +33,8 @@ run_dev_loop() {
         echo "File change detected. Killing bar"
         pkill ags
         pkill gjs
-        if [ "$CLEAN_CACHE" = true ]; then
-            pnpm run clean -c
+        if [ -n "$CLEAN_FLAGS" ]; then
+            pnpm run clean $CLEAN_FLAGS
         else
             pnpm run clean
         fi
@@ -35,7 +43,7 @@ run_dev_loop() {
 
 if [[ "$OS_NAME" == *"NixOS"* ]]; then
     echo "[info] Setting up development environment for NixOS"
-    nix develop "$SCRIPT_DIR/../" --command bash -c "CLEAN_CACHE=$CLEAN_CACHE; $(declare -f run_dev_loop); run_dev_loop"
+    nix develop "$SCRIPT_DIR/../" --command bash -c "export CLEAN_FLAGS='$CLEAN_FLAGS'; $(declare -f run_dev_loop); run_dev_loop"
 else
     run_dev_loop
 fi

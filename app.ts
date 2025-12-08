@@ -16,11 +16,11 @@ app.start({
     initCache();
     applyTheme();
     Launcher();
-    WallpaperManager();
     Settings();
     app.monitors.forEach((monitor) => {
       Bar(monitor);
       Background(monitor);
+      WallpaperManager(monitor);
     });
   },
   requestHandler(argv, res) {
