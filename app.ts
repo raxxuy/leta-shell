@@ -1,7 +1,8 @@
 import app from "ags/gtk4/app";
-import style from "src/styles/index.scss";
-import { applyTheme, initCache } from "@/lib/cache";
+import style from "styles/index.scss";
+import { initCache } from "@/lib/cache";
 import request from "@/lib/request";
+import { applyTheme } from "@/lib/styles";
 import Background from "@/windows/Background";
 import Bar from "@/windows/Bar";
 import Launcher from "@/windows/Launcher";

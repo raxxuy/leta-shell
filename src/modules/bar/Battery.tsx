@@ -3,8 +3,8 @@ import { createBinding, createComputed, createState } from "ags";
 import { Gtk } from "ags/gtk4";
 import { RevealerTransitionType } from "@/enums";
 import { getConfig } from "@/lib/config";
-import { formatPercentage, getBatteryIcon } from "@/lib/utils/battery";
-import { formatTime } from "@/lib/utils/time";
+import { getIcon } from "@/lib/icons";
+import { formatPercentage, formatTime } from "@/lib/utils";
 
 const { icons, spacings } = getConfig("bar");
 
@@ -16,7 +16,7 @@ export default function Battery() {
   const percentage = createBinding(battery, "percentage");
 
   const iconName = createComputed(() =>
-    getBatteryIcon(percentage(), charging()),
+    getIcon("battery", percentage(), charging()),
   );
 
   const tooltipText = createComputed(() => {
@@ -37,7 +37,10 @@ export default function Battery() {
         revealChild={revealed}
         transitionType={RevealerTransitionType.SWING_LEFT}
       >
-        <label class="battery-label" label={percentage(formatPercentage)} />
+        <label
+          class="battery-label text-large"
+          label={percentage(formatPercentage)}
+        />
       </revealer>
       <image
         class="battery-icon"

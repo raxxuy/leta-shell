@@ -1,0 +1,9 @@
+@use "colors" as *;
+@use "colors-variations" as *;
+@use "mixins" as *;
+
+.tray {
+    .container {
+        padding: 0.5rem;
+    }
+}

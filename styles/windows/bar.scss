@@ -1,0 +1,10 @@
+@use "sass:color";
+@use "modules/bar" as *;
+@use "mixins" as *;
+@use "colors" as *;
+@use "colors-variations" as *;
+
+%bar {
+    background-color: rgba($background_dark, 0.8);
+    padding: 0 0.7rem;
+}

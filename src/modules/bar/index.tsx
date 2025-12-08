@@ -1,26 +1,14 @@
 import { getConfig } from "@/lib/config";
 import Settings from "@/modules/bar//Settings";
 import Battery from "@/modules/bar/Battery";
+import Bluetooth from "@/modules/bar/Bluetooth";
 import Dashboard from "@/modules/bar/Dashboard";
 import Notifications from "@/modules/bar/Notifications";
 import Sound from "@/modules/bar/Sound";
 import Tray from "@/modules/bar/Tray";
 import Workspaces from "@/modules/bar/Workspaces";
-import Container from "@/widgets/Container";
 
-const {
-  spacings,
-  extras: { container },
-} = getConfig("bar");
-
-const wrap = (children: JSX.Element | JSX.Element[]) =>
-  container.enabled ? (
-    <Container gradient={container.gradient} spacing={spacings.medium}>
-      {children}
-    </Container>
-  ) : (
-    children
-  );
+const { spacings } = getConfig("bar");
 
 const Section = ({
   type,
@@ -32,7 +20,7 @@ const Section = ({
   children: JSX.Element | JSX.Element[];
 }) => (
   <box $type={type} class={className} spacing={spacings.medium}>
-    {wrap(children)}
+    {children}
   </box>
 );
 
@@ -51,6 +39,7 @@ export default function BarModule() {
       <Section type="end" className="bar-module-right">
         <Battery />
         <Sound />
+        <Bluetooth />
         <Notifications />
         <Settings />
       </Section>

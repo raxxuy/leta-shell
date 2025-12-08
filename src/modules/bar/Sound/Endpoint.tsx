@@ -3,14 +3,10 @@ import { createBinding, createComputed, createState } from "ags";
 import { Gtk } from "ags/gtk4";
 import { EventControllerScrollFlags, RevealerTransitionType } from "@/enums";
 import { getConfig } from "@/lib/config";
-import {
-  adjustVolume,
-  formatVolume,
-  getIcon,
-  toggleMute,
-} from "@/lib/utils/volume";
+import { getIcon } from "@/lib/icons";
+import { adjustVolume, formatVolume, toggleMute } from "@/lib/utils";
 
-const { spacings, icons } = getConfig("bar");
+const { icons } = getConfig("bar");
 
 interface EndpointProps {
   endpoint: AstalWp.Endpoint;
@@ -29,11 +25,11 @@ export default function Endpoint({
   const description = createBinding(endpoint, "description");
 
   const iconName = createComputed(() => {
-    return getIcon(type, volume(), mute());
+    return getIcon("volume", type, volume(), mute());
   });
 
   return (
-    <box class={className} spacing={spacings.small}>
+    <box class={className}>
       <Gtk.EventControllerScroll
         flags={EventControllerScrollFlags.VERTICAL}
         onScroll={(_, __, direction) => adjustVolume(endpoint, direction)}
@@ -47,7 +43,10 @@ export default function Endpoint({
         revealChild={revealed}
         transitionType={RevealerTransitionType.SWING_LEFT}
       >
-        <label class={`${className}-label`} label={volume(formatVolume)} />
+        <label
+          class={`${className}-label text-large`}
+          label={volume(formatVolume)}
+        />
       </revealer>
       <button onClicked={() => toggleMute(endpoint)}>
         <image

@@ -1,10 +1,14 @@
 import type AstalApps from "gi://AstalApps";
-import Pango from "gi://Pango";
 import { createState } from "ags";
 import { timeout } from "ags/time";
-import { Align, Orientation, RevealerTransitionType } from "@/enums";
+import {
+  Align,
+  EllipsizeMode,
+  Orientation,
+  RevealerTransitionType,
+} from "@/enums";
 import { configs } from "@/lib/config";
-import { toggleWindow } from "@/lib/utils/window";
+import { toggleWindow } from "@/lib/utils";
 
 interface LauncherItemProps {
   app: AstalApps.Application;
@@ -44,13 +48,13 @@ export default function LauncherItem({ app, delay = 0 }: LauncherItemProps) {
               class={"app-name"}
               label={app.name}
               halign={Align.START}
-              ellipsize={Pango.EllipsizeMode.END}
+              ellipsize={EllipsizeMode.END}
             />
             {app.description && (
               <label
                 class={"app-description"}
                 label={app.description}
-                ellipsize={Pango.EllipsizeMode.END}
+                ellipsize={EllipsizeMode.END}
               />
             )}
           </box>

@@ -1,0 +1,33 @@
+@use "sass:color";
+@use "colors" as *;
+@use "colors-variations" as *;
+@use "mixins" as *;
+
+.workspaces {
+    min-height: 1.2rem;
+
+    .workspace-button {
+        @include border($color10, 1px, 0.4rem);
+        @include min-width-height(0.8rem, 1rem);
+        @include transition;
+
+        background-color: $color10;
+        color: $foreground;
+        padding: 0 0.3rem;
+
+        margin-top: 0.1rem;
+        margin-bottom: 0.1rem;
+
+        &.occupied,
+        &:hover {
+            border-color: $color13_light;
+            background-color: $color13;
+        }
+
+        &.active {
+            background-color: $color13_light;
+            border-color: $color13_lighter;
+            margin-bottom: 0;
+        }
+    }
+}

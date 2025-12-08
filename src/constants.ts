@@ -1,6 +1,6 @@
 import GLib from "gi://GLib";
 import { Gdk } from "ags/gtk4";
-import { buildPath } from "@/lib/utils/fs";
+import { buildPath } from "@/lib/utils";
 
 // System directories
 export const HOME_DIR = GLib.get_home_dir();
@@ -12,7 +12,7 @@ export const PICTURES_DIR =
 // App directories
 export const WAL_DIR = buildPath(CACHE_DIR, "wal");
 export const STYLES_DIR = buildPath(CACHE_DIR, "styles");
-export const SRC_STYLES_DIR = buildPath(SRC, "src", "styles");
+export const SRC_STYLES_DIR = buildPath(SRC, "styles");
 export const CONFIG_DIR = buildPath(SRC, "config");
 
 // Files

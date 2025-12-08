@@ -3,26 +3,27 @@ import { Orientation } from "@/enums";
 import { getConfig } from "@/lib/config";
 import NotificationsService from "@/services/notifications";
 import Container from "@/widgets/Container";
+import MenuButton from "@/widgets/MenuButton";
 
 // import Notification from "@/widgets/Notification";
 
 const { icons, spacings } = getConfig("bar");
 
 export default function Notifications() {
-  const [iconName, setIconName] = createState<string>("notifications-symbolic");
+  const [iconName, setIconName] = createState<string>("notifications");
   const notifd = NotificationsService.get_default();
   const notifications = createBinding(notifd, "notifications");
 
   const handleVisible = ({ visible }: { visible: boolean }) => {
-    if (visible) setIconName("notifications-symbolic");
+    if (visible) setIconName("notifications");
   };
 
   notifd.connect("notified", () => {
-    setIconName("notifications-notified-symbolic");
+    setIconName("notifications-notified");
   });
 
   return (
-    <menubutton class="notifications">
+    <MenuButton class="notifications menu-button">
       <image iconName={iconName} pixelSize={icons.pixelSize.small} />
       <popover onNotifyVisible={handleVisible}>
         <Container>
@@ -42,6 +43,6 @@ export default function Notifications() {
           </box>
         </Container>
       </popover>
-    </menubutton>
+    </MenuButton>
   );
 }

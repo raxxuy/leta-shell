@@ -7,10 +7,6 @@ import Window from "@/widgets/Window";
 const { window } = getConfig("bar");
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
-  const background = window.background.enabled
-    ? `rgba(${window.background.color}, ${window.background.opacity})`
-    : "transparent";
-
   return (
     <Window
       visible
@@ -21,9 +17,6 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
       gdkmonitor={gdkmonitor}
       exclusivity={Exclusivity.EXCLUSIVE}
       defaultHeight={window.defaultHeight}
-      css={`
-        background: ${background};
-      `}
     >
       <BarModule />
     </Window>

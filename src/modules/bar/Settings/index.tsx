@@ -1,18 +1,16 @@
 import { getConfig } from "@/lib/config";
 import Container from "@/widgets/Container";
-import Bluetooth from "./modules/Bluetooth";
+import MenuButton from "@/widgets/MenuButton";
 
 const { icons } = getConfig("bar");
 
 export default function Settings() {
   return (
-    <menubutton class="settings">
-      <image iconName="settings-symbolic" pixelSize={icons.pixelSize.small} />
+    <MenuButton class="settings menu-button">
+      <image iconName="settings" pixelSize={icons.pixelSize.small} />
       <popover>
-        <Container>
-          <Bluetooth />
-        </Container>
+        <Container class="settings-container"></Container>
       </popover>
-    </menubutton>
+    </MenuButton>
   );
 }

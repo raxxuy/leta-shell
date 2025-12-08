@@ -1,5 +1,5 @@
 import app from "ags/gtk4/app";
-import { toggleWindow } from "@/lib/utils/window";
+import { toggleWindow } from "@/lib/utils";
 
 type RequestHandler = (args: string[], response: (msg: string) => void) => void;
 
@@ -17,11 +17,8 @@ const handlers: Record<string, RequestHandler> = {
       return;
     }
 
-    const validWindows = ["wallpapers", "launcher"] as const;
-
-    if (!validWindows.includes(target as (typeof validWindows)[number])) {
-      response(`ERROR: Unknown window "${target}"`);
-      return;
+    if (!app.windows.some((w) => w.name === target)) {
+      return response(`ERROR: Unknown window "${target}"`);
     }
 
     toggleWindow(target);

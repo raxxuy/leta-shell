@@ -1,7 +1,7 @@
 import AstalHyprland from "gi://AstalHyprland";
 import { createBinding, createComputed } from "ags";
 import { CURSORS } from "@/constants";
-import { getWorkspaceClasses, isWorkspaceOccupied } from "@/lib/utils/hyprland";
+import { getWorkspaceClasses, isWorkspaceOccupied } from "@/lib/utils";
 
 interface WorkspaceButtonProps {
   workspace: AstalHyprland.Workspace;

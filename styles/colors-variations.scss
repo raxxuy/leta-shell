@@ -1,0 +1,112 @@
+@use "sass:color";
+@use "colors" as *;
+
+// Dark
+$background_dark: color.adjust($background, $lightness: -5%);
+$background_darker: color.adjust($background, $lightness: -20%);
+
+$foreground_dark: color.adjust($foreground, $lightness: -5%);
+$foreground_darker: color.adjust($foreground, $lightness: -20%);
+
+$color0_dark: color.adjust($color0, $lightness: -25%);
+$color0_darker: color.adjust($color0, $lightness: -50%);
+
+$color1_dark: color.adjust($color1, $lightness: -25%);
+$color1_darker: color.adjust($color1, $lightness: -50%);
+
+$color2_dark: color.adjust($color2, $lightness: -25%);
+$color2_darker: color.adjust($color2, $lightness: -50%);
+
+$color3_dark: color.adjust($color3, $lightness: -25%);
+$color3_darker: color.adjust($color3, $lightness: -50%);
+
+$color4_dark: color.adjust($color4, $lightness: -25%);
+$color4_darker: color.adjust($color4, $lightness: -50%);
+
+$color5_dark: color.adjust($color5, $lightness: -25%);
+$color5_darker: color.adjust($color5, $lightness: -50%);
+
+$color6_dark: color.adjust($color6, $lightness: -25%);
+$color6_darker: color.adjust($color6, $lightness: -50%);
+
+$color7_dark: color.adjust($color7, $lightness: -25%);
+$color7_darker: color.adjust($color7, $lightness: -50%);
+
+$color8_dark: color.adjust($color8, $lightness: -25%);
+$color8_darker: color.adjust($color8, $lightness: -50%);
+
+$color9_dark: color.adjust($color9, $lightness: -25%);
+$color9_darker: color.adjust($color9, $lightness: -50%);
+
+$color10_dark: color.adjust($color10, $lightness: -25%);
+$color10_darker: color.adjust($color10, $lightness: -50%);
+
+$color11_dark: color.adjust($color11, $lightness: -25%);
+$color11_darker: color.adjust($color11, $lightness: -50%);
+
+$color12_dark: color.adjust($color12, $lightness: -25%);
+$color12_darker: color.adjust($color12, $lightness: -50%);
+
+$color13_dark: color.adjust($color13, $lightness: -25%);
+$color13_darker: color.adjust($color13, $lightness: -50%);
+
+$color14_dark: color.adjust($color14, $lightness: -25%);
+$color14_darker: color.adjust($color14, $lightness: -50%);
+
+$color15_dark: color.adjust($color15, $lightness: -25%);
+$color15_darker: color.adjust($color15, $lightness: -50%);
+
+// Light
+$background_light: color.adjust($background, $lightness: 5%);
+$background_lighter: color.adjust($background, $lightness: 20%);
+
+$foreground_light: color.adjust($foreground, $lightness: 5%);
+$foreground_lighter: color.adjust($foreground, $lightness: 20%);
+
+$color0_light: color.adjust($color0, $lightness: 5%);
+$color0_lighter: color.adjust($color0, $lightness: 20%);
+
+$color1_light: color.adjust($color1, $lightness: 5%);
+$color1_lighter: color.adjust($color1, $lightness: 20%);
+
+$color2_light: color.adjust($color2, $lightness: 5%);
+$color2_lighter: color.adjust($color2, $lightness: 20%);
+
+$color3_light: color.adjust($color3, $lightness: 5%);
+$color3_lighter: color.adjust($color3, $lightness: 20%);
+
+$color4_light: color.adjust($color4, $lightness: 5%);
+$color4_lighter: color.adjust($color4, $lightness: 20%);
+
+$color5_light: color.adjust($color5, $lightness: 5%);
+$color5_lighter: color.adjust($color5, $lightness: 20%);
+
+$color6_light: color.adjust($color6, $lightness: 5%);
+$color6_lighter: color.adjust($color6, $lightness: 20%);
+
+$color7_light: color.adjust($color7, $lightness: 5%);
+$color7_lighter: color.adjust($color7, $lightness: 20%);
+
+$color8_light: color.adjust($color8, $lightness: 5%);
+$color8_lighter: color.adjust($color8, $lightness: 20%);
+
+$color9_light: color.adjust($color9, $lightness: 5%);
+$color9_lighter: color.adjust($color9, $lightness: 20%);
+
+$color10_light: color.adjust($color10, $lightness: 5%);
+$color10_lighter: color.adjust($color10, $lightness: 20%);
+
+$color11_light: color.adjust($color11, $lightness: 5%);
+$color11_lighter: color.adjust($color11, $lightness: 20%);
+
+$color12_light: color.adjust($color12, $lightness: 5%);
+$color12_lighter: color.adjust($color12, $lightness: 20%);
+
+$color13_light: color.adjust($color13, $lightness: 5%);
+$color13_lighter: color.adjust($color13, $lightness: 20%);
+
+$color14_light: color.adjust($color14, $lightness: 5%);
+$color14_lighter: color.adjust($color14, $lightness: 20%);
+
+$color15_light: color.adjust($color15, $lightness: 5%);
+$color15_lighter: color.adjust($color15, $lightness: 20%);

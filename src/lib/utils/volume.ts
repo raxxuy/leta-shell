@@ -22,18 +22,3 @@ export const adjustVolume = (
 export const toggleMute = (endpoint: AstalWp.Endpoint): void => {
   endpoint.mute = !endpoint.mute;
 };
-
-export const getIcon = (
-  type: "speaker" | "microphone",
-  volume: number,
-  mute: boolean,
-) => {
-  if (type === "speaker") {
-    if (volume === 0 || mute) return "volume-off-symbolic";
-    if (volume < 0.5) return "volume-min-symbolic";
-    return "volume-max-symbolic";
-  }
-
-  if (volume === 0 || mute) return "microphone-off-symbolic";
-  return "microphone-1-symbolic";
-};

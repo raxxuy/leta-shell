@@ -1,9 +1,9 @@
 import { monitorFile } from "ags/file";
 import type GObject from "ags/gobject";
 import { getter, register, setter, signal } from "ags/gobject";
-import { PICTURES_DIR } from "@/constants";
-import { getWallpaper, setWallpaper } from "@/lib/cache";
-import { exec } from "@/lib/utils/shell";
+import { PICTURES_DIR, WAL_FILE } from "@/constants";
+import { applyTheme } from "@/lib/styles";
+import { exec, generateColors, isImageFile, readFile } from "@/lib/utils";
 import Service from "@/services/base";
 
 interface WallpaperSignals extends GObject.Object.SignalSignatures {
@@ -43,49 +43,37 @@ export default class Wallpaper extends Service<WallpaperSignals> {
     if (path === this.#source) return;
 
     this.#source = path;
-    setWallpaper(path);
+    this.setWallpaper(path);
+
     this.notify("source");
-    this.emit("wallpaper-changed");
+    this.wallpaperChanged();
   }
 
-  fetchPictures(): void {
-    const imageExtensions = [
-      ".jpg",
-      ".jpeg",
-      ".png",
-      ".gif",
-      ".bmp",
-      ".webp",
-      ".svg",
-    ];
+  async setWallpaper(path?: string): Promise<void> {
+    await generateColors(path);
+    await applyTheme();
+  }
 
-    exec(["find", PICTURES_DIR, "-maxdepth", "1", "-type", "f"])
-      .then((output) => {
-        this.#pictures = output
-          .split("\n")
-          .filter((line) => {
-            const trimmed = line.trim();
-            if (!trimmed) return false;
-
-            const lower = trimmed.toLowerCase();
-            return imageExtensions.some((ext) => lower.endsWith(ext));
-          })
-          .sort();
-
-        this.notify("pictures");
-        this.emit("pictures-changed");
-      })
-      .catch((error) => {
-        console.error("Failed to fetch pictures:", error);
-        this.#pictures = [];
-        this.notify("pictures");
-      });
+  async fetchPictures(): Promise<void> {
+    try {
+      const output = await exec(["find", PICTURES_DIR, "-maxdepth 1 -type f"]);
+      this.#pictures = output
+        .split("\n")
+        .filter((line) => isImageFile(line.trim()))
+        .sort();
+    } catch (error) {
+      console.error("Failed to fetch pictures:", error);
+      this.#pictures = [];
+    } finally {
+      this.notify("pictures");
+      this.picturesChanged();
+    }
   }
 
   constructor() {
     super();
 
-    this.source = getWallpaper();
+    this.source = readFile(WAL_FILE);
 
     // Monitor pictures directory
     monitorFile(PICTURES_DIR, () => this.fetchPictures());

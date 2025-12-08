@@ -1,18 +1,14 @@
 {
   "window": {
-    "defaultHeight": 24,
-    "background": {
-      "enabled": true,
-      "opacity": 0.4,
-      "color": "0, 0, 0"
-    }
+    "defaultHeight": 24
   },
   "modules": {
     "workspaces": {
       "count": 10
     },
     "clock": {
-      "format": "%H:%M"
+      "format": "%H:%M",
+      "tooltipFormat": "%a, %b %d %Y"
     }
   },
   "extras": {

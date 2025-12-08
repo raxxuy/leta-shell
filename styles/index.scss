@@ -1,0 +1,73 @@
+@use "windows" as *;
+@use "widgets" as *;
+@use "colors" as *;
+@use "mixins" as *;
+@use "colors-variations" as *;
+
+* {
+    all: unset;
+    color: $foreground;
+    font-family: "SF Pro Text";
+}
+
+tooltip {
+    background: rgba(black, 0.5);
+    padding: 1rem;
+    font-size: 1rem;
+}
+
+image {
+    min-width: 24px;
+}
+
+.button,
+.menu-button,
+modelbutton {
+    @include transition;
+    border-radius: 0.4rem;
+    padding: 0.4rem;
+
+    &:hover {
+        background-color: $background_light;
+        color: $foreground_lighter;
+    }
+
+    &.active,
+    &:active {
+        background-color: $background_lighter;
+        color: $foreground_lighter;
+    }
+}
+
+.menu-button {
+    padding: 0;
+}
+
+modelbutton {
+    margin: 0.2rem 0;
+
+    label:disabled {
+        color: $foreground_darker;
+    }
+}
+
+.text-large {
+    font-weight: bolder;
+    font-size: 1rem;
+}
+
+.bar {
+    @extend %bar;
+}
+
+.background {
+    @extend %background;
+}
+
+.wallpapers {
+    @extend %wallpapers;
+}
+
+.launcher {
+    @extend %launcher;
+}

@@ -33,6 +33,7 @@
         mpris
         notifd
         battery
+        network
         hyprland
         bluetooth
         wireplumber
