@@ -1,7 +1,7 @@
 import AstalHyprland from "gi://AstalHyprland";
 import { createBinding, createComputed } from "ags";
 import { CURSORS } from "@/constants";
-import { getWorkspaceClasses, isWorkspaceOccupied } from "@/lib/utils";
+import { cls, isWorkspaceOccupied } from "@/lib/utils";
 
 interface WorkspaceButtonProps {
   workspace: AstalHyprland.Workspace;
@@ -15,16 +15,20 @@ export default function WorkspaceButton({ workspace }: WorkspaceButtonProps) {
   const classNames = createComputed(() => {
     clients();
 
-    return getWorkspaceClasses(
-      workspace.id,
-      focusedWorkspace().id,
-      isWorkspaceOccupied(hyprland, workspace.id),
+    const isOccupied = isWorkspaceOccupied(hyprland, workspace.id);
+    const isFocused = focusedWorkspace().id === workspace.id;
+
+    return cls(
+      "transition bg-color-10 border-1 border-color-10-light px-1.5 my-0.5 w-2.5 h-4 rounded-md",
+      "hover:bg-color-13-light hover:border-color-13-lighter",
+      isOccupied && "bg-color-13 border-color-13-light",
+      isFocused && "bg-color-13-light border-color-13-lighter mb-0",
     );
   });
 
   return (
     <button
-      cssClasses={classNames}
+      class={classNames}
       cursor={CURSORS.pointer}
       onClicked={() => workspace.focus()}
     />

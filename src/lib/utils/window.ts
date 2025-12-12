@@ -24,8 +24,12 @@ const ANCHORS_MAP: Record<Anchor, Astal.WindowAnchor> = {
 export const getAnchor = (anchor: Anchor): Astal.WindowAnchor =>
   ANCHORS_MAP[anchor] ?? NONE;
 
+export const getWindow = (windowName: string): Astal.Window | null => {
+  return app.get_window(windowName) as Astal.Window | null;
+};
+
 export const toggleWindow = (windowName: string): void => {
-  const window = app.get_window(windowName) as Astal.Window | null;
+  const window = getWindow(windowName);
 
   if (!window) {
     console.warn(`Window "${windowName}" not found`);

@@ -1,4 +1,5 @@
 import type { Gdk } from "ags/gtk4";
+import app from "ags/gtk4/app";
 import { Exclusivity } from "@/enums";
 import { getConfig } from "@/lib/config";
 import BarModule from "@/modules/bar";
@@ -12,6 +13,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
       visible
       name="bar"
       class="bar"
+      application={app}
       anchor="top-full"
       namespace="leta-shell"
       gdkmonitor={gdkmonitor}

@@ -3,7 +3,7 @@ import { createBinding, For } from "ags";
 import { getConfig } from "@/lib/config";
 import TrayItem from "@/modules/bar/Tray/TrayItem";
 
-const { spacings } = getConfig("bar");
+const { spacings } = getConfig("global");
 
 export default function Tray() {
   const tray = AstalTray.get_default();

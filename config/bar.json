@@ -16,17 +16,5 @@
       "enabled": false,
       "gradient": false
     }
-  },
-  "spacings": {
-    "medium": 10,
-    "small": 4
-  },
-  "icons": {
-    "pixelSize": {
-      "small": 16,
-      "medium": 32,
-      "large": 48,
-      "larger": 64
-    }
   }
 }

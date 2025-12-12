@@ -1,7 +1,7 @@
 import { getConfig } from "@/lib/config";
 import Clock from "@/modules/bar/Dashboard/Clock";
 
-const { spacings } = getConfig("bar");
+const { spacings } = getConfig("global");
 
 export default function Dashboard() {
   return (

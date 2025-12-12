@@ -1,4 +1,2 @@
-@use "bar";
-@use "background";
-@use "wallpapers";
-@use "launcher";
+@forward "launcher";
+@forward "wallpapers";

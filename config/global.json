@@ -1,0 +1,16 @@
+{
+  "spacings": {
+    "small": 4,
+    "medium": 10,
+    "large": 20,
+    "larger": 40
+  },
+  "icons": {
+    "pixelSize": {
+      "small": 16,
+      "medium": 32,
+      "large": 48,
+      "larger": 64
+    }
+  }
+}

@@ -6,19 +6,14 @@ import { getConfig } from "@/lib/config";
 import { getIcon } from "@/lib/icons";
 import { adjustVolume, formatVolume, toggleMute } from "@/lib/utils";
 
-const { icons } = getConfig("bar");
+const { icons } = getConfig("global");
 
 interface EndpointProps {
   endpoint: AstalWp.Endpoint;
-  class: string;
   type: "speaker" | "microphone";
 }
 
-export default function Endpoint({
-  endpoint,
-  class: className,
-  type,
-}: EndpointProps) {
+export default function Endpoint({ endpoint, type }: EndpointProps) {
   const [revealed, setRevealed] = createState<boolean>(false);
   const mute = createBinding(endpoint, "mute");
   const volume = createBinding(endpoint, "volume");
@@ -29,7 +24,7 @@ export default function Endpoint({
   });
 
   return (
-    <box class={className}>
+    <box>
       <Gtk.EventControllerScroll
         flags={EventControllerScrollFlags.VERTICAL}
         onScroll={(_, __, direction) => adjustVolume(endpoint, direction)}
@@ -43,14 +38,10 @@ export default function Endpoint({
         revealChild={revealed}
         transitionType={RevealerTransitionType.SWING_LEFT}
       >
-        <label
-          class={`${className}-label text-large`}
-          label={volume(formatVolume)}
-        />
+        <label class="font-bold" label={volume(formatVolume)} />
       </revealer>
       <button onClicked={() => toggleMute(endpoint)}>
         <image
-          class={`${className}-icon`}
           iconName={iconName}
           pixelSize={icons.pixelSize.small}
           tooltipText={description}

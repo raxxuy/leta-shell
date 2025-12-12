@@ -1,15 +1,30 @@
+import { Accessor, createComputed } from "ags";
+
 type ContainerProps = JSX.IntrinsicElements["box"] & {
-  gradient?: boolean;
-  class?: string;
+  gradient?: boolean | Accessor<boolean>;
+  class?: string | Accessor<string>;
+  cssClasses?: string[] | Accessor<string[]>;
 };
 
 export default function Container({
   gradient = false,
   class: className = "",
+  cssClasses,
   ...props
 }: ContainerProps) {
-  const classes = ["container", ...className.split(" ")];
-  if (gradient) classes.push("gradient");
+  const classNames = createComputed(() => {
+    const classes = ["container"];
+    const _gradient = gradient instanceof Accessor ? gradient() : gradient;
+    const _class = className instanceof Accessor ? className() : className;
+    const _cssClasses =
+      cssClasses instanceof Accessor ? cssClasses() : cssClasses;
 
-  return <box cssClasses={classes} {...props} />;
+    if (_gradient) classes.push("gradient");
+    if (_class) classes.push(..._class.split(" "));
+    if (_cssClasses) classes.push(..._cssClasses);
+
+    return classes;
+  });
+
+  return <box cssClasses={classNames} {...props} />;
 }

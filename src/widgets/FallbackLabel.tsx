@@ -2,8 +2,8 @@ import { Accessor, createComputed } from "ags";
 
 type FallbackLabelProps = JSX.IntrinsicElements["label"] & {
   src: unknown | Accessor<unknown>;
-  label: string;
-  fallback: string;
+  label: string | Accessor<string>;
+  fallback: string | Accessor<string>;
 };
 
 export default function FallbackLabel({
@@ -14,7 +14,9 @@ export default function FallbackLabel({
 }: FallbackLabelProps) {
   const value = createComputed(() => {
     const source = src instanceof Accessor ? src() : src;
-    return source ? label : fallback;
+    const labelValue = label instanceof Accessor ? label() : label;
+    const fallbackValue = fallback instanceof Accessor ? fallback() : fallback;
+    return source ? labelValue : fallbackValue;
   });
 
   return <label {...props} label={value} />;

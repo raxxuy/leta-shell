@@ -15,10 +15,10 @@ app.start({
   main() {
     initCache();
     applyTheme();
-    Launcher();
     Settings();
     app.monitors.forEach((monitor) => {
       Bar(monitor);
+      Launcher(monitor);
       Background(monitor);
       WallpaperManager(monitor);
     });

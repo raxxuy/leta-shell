@@ -7,7 +7,7 @@ import MenuButton from "@/widgets/MenuButton";
 
 // import Notification from "@/widgets/Notification";
 
-const { icons, spacings } = getConfig("bar");
+const { icons, spacings } = getConfig("global");
 
 export default function Notifications() {
   const [iconName, setIconName] = createState<string>("notifications");
@@ -23,12 +23,11 @@ export default function Notifications() {
   });
 
   return (
-    <MenuButton class="notifications menu-button">
+    <MenuButton class="notifications button">
       <image iconName={iconName} pixelSize={icons.pixelSize.small} />
       <popover onNotifyVisible={handleVisible}>
         <Container>
           <box
-            class="notifications-list"
             widthRequest={400}
             spacing={spacings.small}
             orientation={Orientation.VERTICAL}

@@ -1,19 +1,7 @@
 {
-  "content": {
-    "spacing": 20,
-    "list": {
-      "height": 524,
-      "spacing": 10,
-      "delay": 100,
-      "item": {
-        "spacing": 16,
-        "icon": {
-          "pixelSize": 24
-        }
-      }
-    },
-    "search": {
-      "width": 500
-    }
-  }
+  "window": {},
+  "modules": {
+    "items": { "delay": 100 }
+  },
+  "classes": "transition h-11 text-foreground-light text-sm text-md rounded-xl px-4 py-1.5 text-foreground-lighter hover:bg-background-light focus:bg-background-lighter active:bg-background-lighter"
 }

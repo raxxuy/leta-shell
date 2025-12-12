@@ -1,51 +1,31 @@
 @use "colors" as *;
 @use "mixins" as *;
 
-%wallpapers {
-    .wallpapers-main {
-        background-color: $background;
-        padding: 2rem 0;
+.wallpapers {
+    viewport {
+        padding: 0 2.5rem;
+    }
 
-        .wallpapers-scrolledwindow {
-            viewport {
-                padding: 0 2.5rem;
-            }
+    scrollbar.horizontal {
+        margin-bottom: -2rem;
 
-            scrollbar.horizontal {
-                margin-bottom: -2rem;
-
-                &:hover {
-                    slider {
-                        min-height: 5px;
-                    }
-                }
-
-                range {
-                    trough {
-                        margin: 10px 9px;
-                        outline: 1px solid black;
-
-                        slider {
-                            min-height: 3px;
-                            min-width: 40px;
-                            background-color: white;
-                            outline: 1px solid #ccc;
-                        }
-                    }
-                }
+        &:hover {
+            slider {
+                min-height: 5px;
             }
         }
 
-        .wallpapers-clear {
-            @include border(rgba($color11, 0.4), 2px, 0.4rem);
-            background-color: rgba($color11, 0.2);
-            padding: 0.5rem 1rem;
-            font-weight: bolder;
-            font-size: 1rem;
+        range {
+            trough {
+                margin: 10px 9px;
+                outline: 1px solid black;
 
-            &:hover {
-                border-color: rgba($color11, 0.6);
-                background-color: rgba($color11, 0.3);
+                slider {
+                    min-height: 3px;
+                    min-width: 40px;
+                    background-color: white;
+                    outline: 1px solid #ccc;
+                }
             }
         }
     }

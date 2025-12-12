@@ -3,12 +3,13 @@ import Settings from "@/modules/bar//Settings";
 import Battery from "@/modules/bar/Battery";
 import Bluetooth from "@/modules/bar/Bluetooth";
 import Dashboard from "@/modules/bar/Dashboard";
+import Launcher from "@/modules/bar/Launcher";
 import Notifications from "@/modules/bar/Notifications";
 import Sound from "@/modules/bar/Sound";
 import Tray from "@/modules/bar/Tray";
 import Workspaces from "@/modules/bar/Workspaces";
 
-const { spacings } = getConfig("bar");
+const { spacings } = getConfig("global");
 
 const Section = ({
   type,
@@ -26,17 +27,18 @@ const Section = ({
 
 export default function BarModule() {
   return (
-    <centerbox class="bar-module-container">
-      <Section type="start" className="bar-module-left">
+    <centerbox class="px-4 bg-background-dark/80">
+      <Section type="start" className="bar-left">
+        <Launcher />
         <Workspaces />
         <Tray />
       </Section>
 
-      <Section type="center" className="bar-module-center">
+      <Section type="center" className="bar-middle">
         <Dashboard />
       </Section>
 
-      <Section type="end" className="bar-module-right">
+      <Section type="end" className="bar-right">
         <Battery />
         <Sound />
         <Bluetooth />

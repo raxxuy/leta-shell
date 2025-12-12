@@ -1,5 +1,6 @@
 import { createBinding } from "ags";
 import type { Gdk } from "ags/gtk4";
+import app from "ags/gtk4/app";
 import { Align, Exclusivity, Layer, Overflow } from "@/enums";
 import Wallpaper from "@/services/wallpaper";
 import FallbackLabel from "@/widgets/FallbackLabel";
@@ -13,6 +14,7 @@ export default function Background(gdkmonitor: Gdk.Monitor) {
   return (
     <window
       visible
+      application={app}
       name="background"
       class="background"
       namespace="leta-shell"
@@ -23,7 +25,6 @@ export default function Background(gdkmonitor: Gdk.Monitor) {
       <ImageWrapper
         file
         src={source}
-        class="background-wallpaper"
         widthRequest={width}
         heightRequest={height}
         overflow={Overflow.HIDDEN}
@@ -32,6 +33,7 @@ export default function Background(gdkmonitor: Gdk.Monitor) {
           src={source}
           label=""
           fallback="No wallpaper selected"
+          class="text-3xl text-white"
           halign={Align.CENTER}
           hexpand
         />

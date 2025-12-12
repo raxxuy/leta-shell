@@ -8,7 +8,7 @@ import PairedDevice from "@/modules/bar/Bluetooth/PairedDevice";
 import Container from "@/widgets/Container";
 import MenuButton from "@/widgets/MenuButton";
 
-const { icons, spacings } = getConfig("bar");
+const { icons, spacings } = getConfig("global");
 
 export default function Bluetooth() {
   const bluetooth = AstalBluetooth.get_default();
@@ -21,9 +21,8 @@ export default function Bluetooth() {
   const iconName = createComputed(() => getIcon("bluetooth", isPowered()));
 
   return (
-    <MenuButton class="bluetooth menu-button">
+    <MenuButton class="bluetooth button">
       <image
-        class="bluetooth-icon"
         iconName={iconName}
         pixelSize={icons.pixelSize.small}
         tooltipText={isPowered((p) => (p ? "Connected" : "Disconnected"))}
@@ -34,14 +33,10 @@ export default function Bluetooth() {
             {(isPowered) =>
               isPowered ? (
                 <box
-                  class="paired-devices"
                   orientation={Orientation.VERTICAL}
                   spacing={spacings.medium}
                 >
-                  <label
-                    class="paired-devices-label text-large"
-                    label="Paired devices"
-                  />
+                  <label class="font-bold" label="Paired devices" />
                   <For each={pairedDevices}>
                     {(device) => <PairedDevice device={device} />}
                   </For>
@@ -52,7 +47,7 @@ export default function Bluetooth() {
                   orientation={Orientation.VERTICAL}
                   spacing={spacings.medium}
                 >
-                  <label class="text-large" label="Bluetooth is disabled" />
+                  <label class="font-bold" label="Bluetooth is disabled" />
                   <button
                     label="Enable Bluetooth"
                     cursor={CURSORS.pointer}

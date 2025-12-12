@@ -69,16 +69,23 @@ export function getIcon(
   device: AstalBluetooth.Device,
 ): string;
 export function getIcon(type: "network", network: AstalNetwork.Network): string;
-export function getIcon(type: string, ...args: any[]): string {
+export function getIcon(type: string, ...args: unknown[]): string {
   switch (type) {
     case "volume":
-      return getVolumeIcon(args[0], args[1], args[2]);
+      return getVolumeIcon(
+        args[0] as "speaker" | "microphone",
+        args[1] as number,
+        args[2] as boolean,
+      );
     case "battery":
-      return getBatteryIcon(args[0], args[1]);
+      return getBatteryIcon(args[0] as number, args[1] as boolean);
     case "bluetooth":
-      return getBluetoothIcon(args[0]);
+      return getBluetoothIcon(args[0] as boolean);
     case "bluetooth-device":
-      return getBluetoothDeviceIcon(args[0], args[1]);
+      return getBluetoothDeviceIcon(
+        args[0] as "connectivity" | "device",
+        args[1] as AstalBluetooth.Device,
+      );
     default:
       return "";
   }

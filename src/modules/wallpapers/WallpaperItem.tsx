@@ -1,26 +1,29 @@
 import { Overflow } from "@/enums";
-import { getConfig } from "@/lib/config";
 import ImageWrapper from "@/widgets/ImageWrapper";
 
 interface WallpaperItemProps {
   src: string;
+  width: number;
+  height: number;
   onClicked: (src: string) => void;
 }
 
-const {
-  list: { picture },
-} = getConfig("wallpapers").main;
-
-export default function WallpaperItem({ src, onClicked }: WallpaperItemProps) {
+export default function WallpaperItem({
+  src,
+  width,
+  height,
+  onClicked,
+}: WallpaperItemProps) {
   return (
     <ImageWrapper
       file
       src={src}
       type="button"
+      class="transition rounded-4xl"
+      widthRequest={width}
+      heightRequest={height}
       overflow={Overflow.HIDDEN}
       onClicked={() => onClicked(src)}
-      widthRequest={picture.width}
-      heightRequest={picture.height}
     />
   );
 }

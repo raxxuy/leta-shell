@@ -1,12 +1,14 @@
 @use "windows" as *;
-@use "widgets" as *;
 @use "colors" as *;
 @use "mixins" as *;
+@use "classes" as *;
+@use "utilities" as *;
 @use "colors-variations" as *;
 
 * {
     all: unset;
     color: $foreground;
+    font-size: 1rem;
     font-family: "SF Pro Text";
 }
 
@@ -20,12 +22,11 @@ image {
     min-width: 24px;
 }
 
-.button,
-.menu-button,
 modelbutton {
     @include transition;
-    border-radius: 0.4rem;
-    padding: 0.4rem;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin-top: 0.2rem;
 
     &:hover {
         background-color: $background_light;
@@ -37,37 +38,8 @@ modelbutton {
         background-color: $background_lighter;
         color: $foreground_lighter;
     }
-}
-
-.menu-button {
-    padding: 0;
-}
-
-modelbutton {
-    margin: 0.2rem 0;
 
     label:disabled {
         color: $foreground_darker;
     }
-}
-
-.text-large {
-    font-weight: bolder;
-    font-size: 1rem;
-}
-
-.bar {
-    @extend %bar;
-}
-
-.background {
-    @extend %background;
-}
-
-.wallpapers {
-    @extend %wallpapers;
-}
-
-.launcher {
-    @extend %launcher;
 }

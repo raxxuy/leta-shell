@@ -4,7 +4,7 @@ import { Gdk, Gtk } from "ags/gtk4";
 import { getConfig } from "@/lib/config";
 import MenuButton from "@/widgets/MenuButton";
 
-const { icons } = getConfig("bar");
+const { icons } = getConfig("global");
 
 interface TrayItemProps {
   item: AstalTray.TrayItem;
@@ -31,7 +31,7 @@ export default function TrayItem({ item }: TrayItemProps) {
   };
 
   const popoverInit = (self: Gtk.PopoverMenu) => {
-    self.get_child()?.set_css_classes(["container"]);
+    self.get_child()?.set_css_classes("container p-3".split(" "));
 
     const itemHandler = item.connect("notify::action-group", () => {
       self.insert_action_group("dbusmenu", item.actionGroup);
@@ -43,18 +43,13 @@ export default function TrayItem({ item }: TrayItemProps) {
   };
 
   return (
-    <MenuButton class="tray-item menu-button" $={buttonInit}>
+    <MenuButton class="tray-item button" $={buttonInit}>
       <image
-        class="tray-item-icon"
         gicon={gicon}
         pixelSize={icons.pixelSize.small}
         tooltipText={item.tooltip?.title ?? item.title}
       />
-      <Gtk.PopoverMenu
-        $={popoverInit}
-        class="tray-item-popover"
-        menuModel={item.menuModel}
-      />
+      <Gtk.PopoverMenu $={popoverInit} menuModel={item.menuModel} />
     </MenuButton>
   );
 }

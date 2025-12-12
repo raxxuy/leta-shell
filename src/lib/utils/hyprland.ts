@@ -6,21 +6,3 @@ export const isWorkspaceOccupied = (
 ): boolean => {
   return hyprland.get_workspace(workspaceId)?.clients.length > 0;
 };
-
-export const getWorkspaceClasses = (
-  workspaceId: number,
-  focusedId: number,
-  isOccupied: boolean,
-): string[] => {
-  const classes = ["workspace-button"];
-
-  if (workspaceId === focusedId) {
-    classes.push("active");
-  }
-
-  if (isOccupied) {
-    classes.push("occupied");
-  }
-
-  return classes;
-};

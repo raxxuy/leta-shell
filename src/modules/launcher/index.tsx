@@ -1,17 +1,21 @@
 import AstalApps from "gi://AstalApps";
 import { createState, For } from "ags";
-import type { Gtk } from "ags/gtk4";
+import type { Gdk, Gtk } from "ags/gtk4";
 import { Align, Orientation } from "@/enums";
-import { configs } from "@/lib/config";
+import { getConfig } from "@/lib/config";
 import LauncherItem from "@/modules/launcher/LauncherItem";
 
 const {
-  spacing,
-  search: { width },
-  list: { delay, height, spacing: listSpacing },
-} = configs.launcher.content;
+  modules: { items },
+} = getConfig("launcher");
+const { spacings } = getConfig("global");
 
-export default function LauncherModule() {
+interface LauncherModuleProps {
+  gdkmonitor: Gdk.Monitor;
+}
+
+export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
+  const { width, height } = gdkmonitor.get_geometry();
   const apps = new AstalApps.Apps();
   const [list, setList] = createState<AstalApps.Application[]>([]);
 
@@ -33,38 +37,33 @@ export default function LauncherModule() {
 
   return (
     <box
-      class="launcher-content"
+      class="bg-background-light/80 border-2 border-background-lighter rounded-2xl rounded-b-none border-b-0 p-3 font-medium"
       valign={Align.CENTER}
       halign={Align.CENTER}
+      spacing={spacings.large}
       orientation={Orientation.VERTICAL}
-      spacing={spacing}
       onNotifyVisible={handleNotifyVisible}
     >
-      <scrolledwindow
-        hexpand
-        vexpand
-        class="launcher-scrollwindow"
-        heightRequest={height}
-      >
-        <box
-          class="launcher-list"
-          spacing={listSpacing}
-          orientation={Orientation.VERTICAL}
-        >
-          <For each={list}>
-            {(app, index) => (
-              <LauncherItem app={app} delay={index.get() * delay} />
-            )}
-          </For>
-        </box>
-      </scrolledwindow>
+      <box class="bg-background rounded-xl p-2">
+        <scrolledwindow hexpand vexpand heightRequest={height / 2.12}>
+          <box spacing={spacings.medium} orientation={Orientation.VERTICAL}>
+            <For each={list}>
+              {(app, index) => (
+                <LauncherItem app={app} delay={index() * items.delay} />
+              )}
+            </For>
+          </box>
+        </scrolledwindow>
+      </box>
       <entry
         $={(self) => {
           entry = self;
+          self
+            .get_first_child()
+            ?.set_css_classes(["focus:text-foreground-lighter"]);
         }}
-        class="launcher-entry"
-        halign={Align.CENTER}
-        widthRequest={width}
+        class="bg-background p-4 rounded-xl"
+        widthRequest={width / 3.8}
         onNotifyText={({ text }) => handleSearch(text)}
         placeholderText="Start typing to search"
       />

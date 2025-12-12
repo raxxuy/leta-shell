@@ -1,0 +1,26 @@
+@use "mixins" as *;
+@use "colors" as *;
+@use "colors-variations" as *;
+
+.button {
+    @include transition;
+    color: $foreground;
+    border-radius: 0.5rem;
+
+    &:hover {
+        background-color: $background_light;
+        color: $foreground_light;
+    }
+
+    &.active,
+    &:active {
+        background-color: $background_lighter;
+        color: $foreground_lighter;
+    }
+}
+
+.container {
+    @include border($background_lighter, 2px, 0.5rem);
+    background-color: rgba($background, 0.8);
+    padding: 1rem;
+}
