@@ -1,25 +1,27 @@
 import type { Gtk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 
-export const getUsedClasses = (): string[] => {
+export const getUsedClasses = (widget?: Gtk.Widget): string[] => {
   const classes = new Set<string>();
-  const windows = app.windows;
 
-  windows.forEach((window) => {
-    const traverse = (widget: Gtk.Widget) => {
-      widget.get_css_classes().forEach((cls) => {
-        classes.add(cls);
-      });
+  const traverse = (widget: Gtk.Widget) => {
+    widget.get_css_classes().forEach((cls) => {
+      classes.add(cls);
+    });
 
-      const children = widget.observe_children();
-      for (let i = 0; i < children.get_n_items(); i++) {
-        const child = children.get_item(i);
-        if (child) traverse(child as Gtk.Widget);
-      }
-    };
+    const children = widget.observe_children();
+    for (let i = 0; i < children.get_n_items(); i++) {
+      traverse(children.get_item(i) as Gtk.Widget);
+    }
+  };
 
-    traverse(window);
-  });
+  if (!widget) {
+    const windows = app.windows;
+
+    windows.forEach((window) => {
+      traverse(window);
+    });
+  } else traverse(widget);
 
   return Array.from(classes);
 };
@@ -30,10 +32,10 @@ export const generateUtilityClasses = (): Record<string, string[]> => {
   const states = ["", "hover", "active", "focus", "disabled"];
 
   const spacings = Object.fromEntries(
-    Array.from({ length: 193 }, (_, i) => {
-      const val = i * 0.125;
-      return [String(i * 0.5), `${val.toFixed(3).replace(/\.?0+$/, "")}rem`];
-    }),
+    Array.from({ length: 193 }, (_, i) => [
+      String(i * 0.5),
+      `${(i * 0.125).toFixed(3).replace(/\.?0+$/, "")}rem`,
+    ]),
   );
 
   const opacities = Array.from({ length: 21 }, (_, i) => i * 5);
@@ -55,13 +57,16 @@ export const generateUtilityClasses = (): Record<string, string[]> => {
     r: ["right"],
   };
 
-  const colors = Object.fromEntries(
-    [
-      "background",
-      "foreground",
-      ...Array.from({ length: 16 }, (_, i) => `color-${i}`),
-    ].map((c) => [c, `$${c.replace("-", "")}`]),
-  );
+  const colors: Record<string, string> = {
+    transparent: "transparent",
+    ...Object.fromEntries(
+      [
+        "background",
+        "foreground",
+        ...Array.from({ length: 16 }, (_, i) => `color-${i}`),
+      ].map((c) => [c, `$${c.replace(/-/g, "")}`]),
+    ),
+  };
 
   const colorNamings = {
     bg: "background-color",
@@ -133,6 +138,14 @@ export const generateUtilityClasses = (): Record<string, string[]> => {
     utilities[key] = val;
   };
 
+  const addWithOpacity = (base: string, prop: string, color: string) => {
+    add(base, [`${prop}: ${color}`]);
+    opacities.forEach((opacity) => {
+      add(`${base}/${opacity}`, [`${prop}: rgba(${color}, ${opacity}%)`]);
+      add(`opacity-${opacity}`, [`opacity: ${opacity}%`]);
+    });
+  };
+
   states.forEach((s) => {
     const prefix = s ? `${s}:` : "";
 
@@ -140,15 +153,9 @@ export const generateUtilityClasses = (): Record<string, string[]> => {
     Object.keys(colors).forEach((c) => {
       Object.entries(colorNamings).forEach(([n, prop]) => {
         Object.entries(colorVariants).forEach(([v, suffix]) => {
-          add(`${prefix}${n}-${c}${v ? `-${v}` : ""}`, [
-            `${prop}: ${colors[c]}${suffix ? `_${suffix}` : ""}`,
-          ]);
-
-          opacities.forEach((opacity) => {
-            add(`${prefix}${n}-${c}${v ? `-${v}` : ""}/${opacity}`, [
-              `${prop}: rgba(${colors[c]}${suffix ? `_${suffix}` : ""}, ${opacity}%)`,
-            ]);
-          });
+          const className = `${prefix}${n}-${c}${v ? `-${v}` : ""}`;
+          const colorValue = `${colors[c]}${suffix ? `_${suffix}` : ""}`;
+          addWithOpacity(className, prop, colorValue);
         });
       });
     });
@@ -192,12 +199,10 @@ export const generateUtilityClasses = (): Record<string, string[]> => {
     // Borders
     Array.from({ length: 8 }, (_, i) =>
       Object.entries(directions).forEach(([d, parts]) => {
-        add(
-          `${prefix}border${d ? `-${d}` : ""}-${i}`,
-          parts
-            .map((p) => `border${p ? `-${p}` : ""}-width: ${i}px`)
-            .concat(["border-style: solid"]),
-        );
+        add(`${prefix}border${d ? `-${d}` : ""}-${i}`, [
+          ...parts.map((p) => `border${p ? `-${p}` : ""}-width: ${i}px`),
+          "border-style: solid",
+        ]);
       }),
     );
 

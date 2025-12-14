@@ -1,11 +1,11 @@
 import app from "ags/gtk4/app";
-import { toggleWindow } from "@/lib/utils";
+import { exec, toggleWindow } from "@/lib/utils";
 
 type RequestHandler = (args: string[], response: (msg: string) => void) => void;
 
 const handlers: Record<string, RequestHandler> = {
   quit: (_, response) => {
-    response("Quitting AGS");
+    response("Quitting shell");
     app.quit();
   },
 
@@ -23,6 +23,15 @@ const handlers: Record<string, RequestHandler> = {
 
     toggleWindow(target);
     response(`${target} toggled`);
+  },
+
+  restart: (_, response) => {
+    exec(
+      DEBUG
+        ? "ags quit; ags run . --define DEBUG=true"
+        : "leta-shell quit; leta-shell",
+    );
+    response("Restarting shell");
   },
 };
 

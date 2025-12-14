@@ -8,6 +8,7 @@ import {
   RevealerTransitionType,
 } from "@/enums";
 import { getConfig } from "@/lib/config";
+import { loadWidgetClasses } from "@/lib/styles";
 import { toggleWindow } from "@/lib/utils";
 
 const { spacings, icons } = getConfig("global");
@@ -29,6 +30,7 @@ export default function LauncherItem({ app, delay = 0 }: LauncherItemProps) {
 
   return (
     <revealer
+      $={(self) => loadWidgetClasses(self, "launcher-item")}
       revealChild={revealed}
       transitionDuration={delay}
       transitionType={RevealerTransitionType.SLIDE_UP}

@@ -1,3 +1,4 @@
+import type { Gtk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import {
   CACHE_STYLES_DIR,
@@ -18,6 +19,7 @@ import {
 } from "@/lib/utils";
 
 const utilities: Record<string, string[]> = generateUtilityClasses();
+const mappedWidgets = new Set<string>();
 const usedSet = new Set<string>();
 const sections: string[] = [
   "/* Auto-generated utility classes */\n",
@@ -66,14 +68,26 @@ export const setClasses = (classes: string[]): void => {
   }
 };
 
-export const applyTheme = async (): Promise<void> => {
+/* Primarily used for loading dynamic widgets who weren't rendered from the start */
+export const loadWidgetClasses = async (widget: Gtk.Widget, name: string) => {
+  if (mappedWidgets.has(name)) return; // widget.name can cause rendering warnings
+  mappedWidgets.add(name);
+
+  const usedClasses = getUsedClasses(widget);
+  setClasses(usedClasses);
+  await applyTheme(true);
+};
+
+export const applyTheme = async (skip?: boolean): Promise<void> => {
   try {
     if (isFirstRun()) {
       await initStyles();
     }
 
-    const usedClasses = getUsedClasses();
-    setClasses(usedClasses);
+    if (!skip) {
+      const usedClasses = getUsedClasses();
+      setClasses(usedClasses);
+    }
 
     await exec(
       [

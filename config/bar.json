@@ -13,8 +13,7 @@
   },
   "extras": {
     "container": {
-      "enabled": false,
-      "gradient": false
+      "enabled": false
     }
   }
 }
