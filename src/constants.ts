@@ -19,6 +19,10 @@ export const CONFIG_DIR = buildPath(SRC, "config");
 // Files
 export const WAL_FILE = buildPath(CACHE_WAL_DIR, "wal");
 export const CSS_FILE = buildPath(CACHE_STYLES_DIR, "index.css");
+export const UTILITIES_JSON_FILE = buildPath(
+  CACHE_STYLES_DIR,
+  "utilities.json",
+);
 export const COLORS_SOURCE = buildPath(CACHE_WAL_DIR, "colors.scss");
 export const COLORS_DEST = buildPath(CACHE_STYLES_DIR, "colors.scss");
 

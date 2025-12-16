@@ -20,7 +20,7 @@
 }
 
 .container {
-    @include border($background_lighter, 2px, 0.5rem);
-    background-color: rgba($background, 0.8);
+    @include border($background_lighter, 2px, 1rem);
+    background-color: rgba($background, 0.9);
     padding: 1rem;
 }

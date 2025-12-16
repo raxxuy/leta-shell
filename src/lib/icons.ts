@@ -1,5 +1,5 @@
 import type AstalBluetooth from "gi://AstalBluetooth";
-import type AstalNetwork from "gi://AstalNetwork";
+import AstalMpris from "gi://AstalMpris";
 
 const getVolumeIcon = (
   type: "speaker" | "microphone",
@@ -51,6 +51,19 @@ const getBluetoothDeviceIcon = (
   return device.connected ? "check" : "";
 };
 
+const getMediaIcon = (status: AstalMpris.PlaybackStatus) => {
+  switch (status) {
+    case AstalMpris.PlaybackStatus.PLAYING:
+      return "pause-circle";
+    case AstalMpris.PlaybackStatus.PAUSED:
+      return "play-circle";
+    case AstalMpris.PlaybackStatus.STOPPED:
+      return "stop";
+    default:
+      return "";
+  }
+};
+
 export function getIcon(
   type: "volume",
   subtype: "speaker" | "microphone",
@@ -68,7 +81,10 @@ export function getIcon(
   subtype: "connectivity" | "device",
   device: AstalBluetooth.Device,
 ): string;
-export function getIcon(type: "network", network: AstalNetwork.Network): string;
+export function getIcon(
+  type: "media",
+  status: AstalMpris.PlaybackStatus,
+): string;
 export function getIcon(type: string, ...args: unknown[]): string {
   switch (type) {
     case "volume":
@@ -86,6 +102,8 @@ export function getIcon(type: string, ...args: unknown[]): string {
         args[0] as "connectivity" | "device",
         args[1] as AstalBluetooth.Device,
       );
+    case "media":
+      return getMediaIcon(args[0] as AstalMpris.PlaybackStatus);
     default:
       return "";
   }

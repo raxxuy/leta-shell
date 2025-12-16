@@ -11,7 +11,8 @@ export const getUsedClasses = (widget?: Gtk.Widget): string[] => {
 
     const children = widget.observe_children();
     for (let i = 0; i < children.get_n_items(); i++) {
-      traverse(children.get_item(i) as Gtk.Widget);
+      const child = children.get_item(i);
+      if (child) traverse(child as Gtk.Widget);
     }
   };
 

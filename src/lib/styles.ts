@@ -6,15 +6,18 @@ import {
   COLORS_SOURCE,
   CSS_FILE,
   SRC_STYLES_DIR,
+  UTILITIES_JSON_FILE,
 } from "@/constants";
 import {
   buildPath,
   dirExists,
   ensureDir,
   exec,
+  fileExists,
   generateColors,
   generateUtilityClasses,
   getUsedClasses,
+  readFile,
   writeFile,
 } from "@/lib/utils";
 
@@ -29,6 +32,8 @@ const sections: string[] = [
   "/* Utility classes */\n",
   ".transition { @include transition; }",
 ];
+
+let isApplying = false;
 
 const isFirstRun = (): boolean => !dirExists(CACHE_STYLES_DIR);
 
@@ -45,7 +50,8 @@ const initStyles = async (): Promise<void> => {
   );
 };
 
-export const setClasses = (classes: string[]): void => {
+/* The restart parameter is used to have a workaround with dynamic css */
+export const setClasses = (classes: string[], restart?: boolean): void => {
   const previous = usedSet.size;
 
   classes.forEach((cls) => {
@@ -62,31 +68,48 @@ export const setClasses = (classes: string[]): void => {
   if (usedSet.size > previous) {
     const scss = sections.join("\n");
     const outputPath = buildPath(CACHE_STYLES_DIR, "_utilities.scss");
+    const jsonPath = buildPath(CACHE_STYLES_DIR, "utilities.json");
     writeFile(outputPath, scss);
+    writeFile(jsonPath, JSON.stringify(Array.from(usedSet)));
 
     console.log(`✅ Generated utilities for ${usedSet.size} classes`);
+  }
+
+  if (restart) {
+    applyTheme();
   }
 };
 
 /* Primarily used for loading dynamic widgets who weren't rendered from the start */
 export const loadWidgetClasses = async (widget: Gtk.Widget, name: string) => {
-  if (mappedWidgets.has(name)) return; // widget.name can cause rendering warnings
+  if (mappedWidgets.has(name)) return;
   mappedWidgets.add(name);
 
-  const usedClasses = getUsedClasses(widget);
-  setClasses(usedClasses);
-  await applyTheme(true);
+  if (widget) {
+    const usedClasses = getUsedClasses(widget);
+    setClasses(usedClasses, true);
+  }
 };
 
-export const applyTheme = async (skip?: boolean): Promise<void> => {
+export const applyTheme = async (): Promise<void> => {
+  if (isApplying) return;
+  isApplying = true;
+
   try {
     if (isFirstRun()) {
       await initStyles();
-    }
-
-    if (!skip) {
       const usedClasses = getUsedClasses();
       setClasses(usedClasses);
+    }
+
+    if (fileExists(UTILITIES_JSON_FILE)) {
+      try {
+        const content = readFile(UTILITIES_JSON_FILE);
+        const json = JSON.parse(content);
+        setClasses(json);
+      } catch (error) {
+        console.error("Failed to parse utilities.json:", error);
+      }
     }
 
     await exec(
@@ -100,5 +123,7 @@ export const applyTheme = async (skip?: boolean): Promise<void> => {
     app.apply_css(CSS_FILE, true);
   } catch (error) {
     console.error("Failed to apply theme:", error);
+  } finally {
+    isApplying = false;
   }
 };

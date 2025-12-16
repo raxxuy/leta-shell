@@ -43,3 +43,17 @@ modelbutton {
         color: $foreground_darker;
     }
 }
+
+levelbar {
+    trough {
+        .filled {
+            border-radius: 2rem;
+            background-color: $color8_lighter;
+        }
+
+        .empty {
+            border-radius: 2rem;
+            background-color: $background_darker;
+        }
+    }
+}
