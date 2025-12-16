@@ -1,6 +1,7 @@
 import AstalHyprland from "gi://AstalHyprland";
 import { createBinding, createComputed } from "ags";
 import { CURSORS } from "@/constants";
+import { loadWidgetClasses } from "@/lib/styles";
 import { cls, isWorkspaceOccupied } from "@/lib/utils";
 
 interface WorkspaceButtonProps {
@@ -28,6 +29,7 @@ export default function WorkspaceButton({ workspace }: WorkspaceButtonProps) {
 
   return (
     <button
+      $={(self) => loadWidgetClasses(self, "workspace-button")}
       class={classNames}
       cursor={CURSORS.pointer}
       onClicked={() => workspace.focus()}
