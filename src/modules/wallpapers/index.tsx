@@ -1,10 +1,10 @@
-import { createBinding, createState, For } from "ags";
+import { createBinding, For } from "ags";
 import type { Gdk } from "ags/gtk4";
 import { CURSORS } from "@/constants";
 import { Align, Orientation, PolicyType } from "@/enums";
 import { getConfig } from "@/lib/config";
+import WallpaperItem from "@/modules/wallpapers/WallpaperItem";
 import Wallpaper from "@/services/wallpaper";
-import WallpaperItem from "./WallpaperItem";
 
 const { spacings } = getConfig("global");
 
@@ -16,8 +16,6 @@ export default function WallpaperManagerModule({
   gdkmonitor,
 }: WallpaperManagerProps) {
   const { width, height } = gdkmonitor.get_geometry();
-  const [wallpaperWidth, setWidth] = createState<number>(width);
-  const [wallpaperHeight, setHeight] = createState<number>(height);
   const wallpaper = Wallpaper.get_default();
   const cachedPictures = createBinding(wallpaper, "cachedPictures");
 
@@ -25,10 +23,6 @@ export default function WallpaperManagerModule({
 
   const setWallpaper = (picture?: string) => {
     wallpaper.source = picture ?? "";
-  };
-
-  const saveSettings = () => {
-    wallpaper.setMonitorDimensions(wallpaperWidth(), wallpaperHeight());
   };
 
   return (
@@ -57,32 +51,10 @@ export default function WallpaperManagerModule({
         </box>
       </scrolledwindow>
 
-      <box class="p-10" halign={Align.CENTER} spacing={spacings.large}>
-        {/*<box spacing={spacings.medium}>
-          <label class="text-base font-bold" label="Width" />
-          <entry
-            class="border-1 px-2 rounded-md"
-            placeholderText={wallpaperWidth(String)}
-            onNotifyText={({ text }) => setWidth(Number(text))}
-          />
-        </box>
-        <box spacing={spacings.medium}>
-          <label class="text-base font-bold" label="Height" />
-          <entry
-            class="border-1 px-2 rounded-md"
-            placeholderText={wallpaperHeight(String)}
-            onNotifyText={({ text }) => setHeight(Number(text))}
-          />
-        </box>*/}
-        {/*<button
-          label="Save settings"
-          class="button text-base bg-background border-2 font-bold px-4 py-2"
-          cursor={CURSORS.pointer}
-          onClicked={saveSettings}
-        />*/}
+      <box class="p-10 pt-5" halign={Align.CENTER} spacing={spacings.large}>
         <button
           label="Clear wallpaper"
-          class="button text-base bg-background border-2 font-bold px-4 py-2"
+          class="button border-2 bg-background px-4 py-2 font-bold text-base"
           cursor={CURSORS.pointer}
           onClicked={() => setWallpaper()}
         />

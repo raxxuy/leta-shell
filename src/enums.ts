@@ -9,5 +9,6 @@ export const {
   EventControllerScrollFlags,
   PolicyType,
   Overflow,
+  ContentFit,
 } = Gtk;
 export const { EllipsizeMode } = Pango;

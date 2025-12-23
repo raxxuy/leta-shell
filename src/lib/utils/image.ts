@@ -1,3 +1,4 @@
+import { last } from "es-toolkit";
 import { CACHE_PICTURES_DIR } from "@/constants";
 import { buildPath, fileExists } from "@/lib/utils/fs";
 import { exec } from "@/lib/utils/shell";
@@ -20,7 +21,7 @@ export const isImageFile = (path: string): boolean => {
 export const extractImagePath = (
   path: string,
 ): { baseName: string; extension: string } => {
-  const fileName = path.split("/").pop() || "";
+  const fileName = last(path.split("/")) || "";
   const lastDotIndex = fileName.lastIndexOf(".");
   const baseName = fileName.substring(0, lastDotIndex);
   const extension = fileName.substring(lastDotIndex);

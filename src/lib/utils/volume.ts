@@ -1,11 +1,9 @@
 import type AstalWp from "gi://AstalWp";
+import { clamp } from "es-toolkit/math";
 
 const VOLUME_STEP = 0.05;
 const MIN_VOLUME = 0;
 const MAX_VOLUME = 1;
-
-const clamp = (value: number, min: number, max: number): number =>
-  Math.max(min, Math.min(max, value));
 
 export const formatVolume = (volume: number): string =>
   `${Math.round(volume * 100)}%`;

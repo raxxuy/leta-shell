@@ -1,4 +1,5 @@
 import { Overflow } from "@/enums";
+import { loadWidgetClasses } from "@/lib/styles";
 import ImageWrapper from "@/widgets/ImageWrapper";
 
 interface WallpaperItemProps {
@@ -16,13 +17,14 @@ export default function WallpaperItem({
 }: WallpaperItemProps) {
   return (
     <ImageWrapper
-      file
-      src={src}
-      type="button"
-      class="transition rounded-4xl"
+      $={(self) => loadWidgetClasses(self, "wallpaper-item")}
+      class="rounded-4xl transition"
       widthRequest={width}
       heightRequest={height}
       overflow={Overflow.HIDDEN}
+      file
+      button
+      src={src}
       onClicked={() => onClicked(src)}
     />
   );

@@ -26,7 +26,7 @@ const Section = ({
     $type={type}
     class={cls(
       className,
-      extras.container.enabled && "bg-background/80 px-2 rounded-b-lg",
+      extras.container.enabled && "rounded-b-lg bg-background/80 px-2",
     )}
     spacing={spacings.medium}
   >

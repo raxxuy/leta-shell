@@ -46,6 +46,7 @@
         ])
         ++ [ apple-fonts.packages.${system}.apple-fonts ];
       shellPackages = with pkgs; [
+        bun
         pnpm
         nodejs
         pywal16

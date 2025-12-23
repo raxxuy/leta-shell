@@ -1,5 +1,6 @@
 import Adw from "gi://Adw";
 import AstalHyprland from "gi://AstalHyprland";
+import { range } from "es-toolkit/math";
 import { Orientation } from "@/enums";
 import { getConfig } from "@/lib/config";
 import WorkspaceButton from "@/modules/bar/Workspaces/WorkspaceButton";
@@ -10,7 +11,7 @@ const {
 const { spacings } = getConfig("global");
 
 export default function Workspaces() {
-  const ws = Array.from({ length: workspaces.count }, (_, i) =>
+  const ws = range(workspaces.count).map((_, i) =>
     AstalHyprland.Workspace.dummy(i + 1, null),
   );
 

@@ -112,6 +112,8 @@ export const applyTheme = async (): Promise<void> => {
       }
     }
 
+    setClasses(getUsedClasses());
+
     await exec(
       [
         `cp ${COLORS_SOURCE} ${COLORS_DEST}`,

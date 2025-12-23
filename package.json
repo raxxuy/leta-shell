@@ -7,8 +7,9 @@
     "dev": "./scripts/watch.sh"
   },
   "dependencies": {
-    "@biomejs/biome": "^2.3.8",
-    "ags": "github:Aylur/ags"
+    "@biomejs/biome": "^2.3.10",
+    "ags": "github:Aylur/ags",
+    "es-toolkit": "^1.43.0"
   },
   "prettier": {
     "semi": true

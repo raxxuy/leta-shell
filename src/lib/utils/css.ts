@@ -1,54 +1,56 @@
 import type { Gtk } from "ags/gtk4";
 import app from "ags/gtk4/app";
+import { compact, isString, range } from "es-toolkit";
 
 export const getUsedClasses = (widget?: Gtk.Widget): string[] => {
   const classes = new Set<string>();
 
-  const traverse = (widget: Gtk.Widget) => {
-    widget.get_css_classes().forEach((cls) => {
+  const traverse = (w: Gtk.Widget) => {
+    w.get_css_classes().forEach((cls) => {
       classes.add(cls);
     });
 
-    const children = widget.observe_children();
-    for (let i = 0; i < children.get_n_items(); i++) {
+    const children = w.observe_children();
+
+    range(children.get_n_items()).forEach((i) => {
       const child = children.get_item(i);
       if (child) traverse(child as Gtk.Widget);
-    }
+    });
   };
 
-  if (!widget) {
-    const windows = app.windows;
-
-    windows.forEach((window) => {
-      traverse(window);
-    });
-  } else traverse(widget);
-
+  (widget ? [widget] : app.windows).forEach(traverse);
   return Array.from(classes);
 };
 
 export const generateUtilityClasses = (): Record<string, string[]> => {
   const utilities: Record<string, string[]> = {};
 
-  const states = ["", "hover", "active", "focus", "disabled"];
+  const add = (key: string, val: string[]) => {
+    utilities[key] = val;
+  };
+
+  const states = [
+    "",
+    "hover",
+    "active",
+    "focus",
+    "disabled",
+    "first-child",
+    "last-child",
+  ];
 
   const spacings = Object.fromEntries(
-    Array.from({ length: 193 }, (_, i) => [
+    range(193).map((i) => [
       String(i * 0.5),
       `${(i * 0.125).toFixed(3).replace(/\.?0+$/, "")}rem`,
     ]),
   );
 
-  const opacities = Array.from({ length: 21 }, (_, i) => i * 5);
+  const opacities = range(21).map((i) => i * 5);
 
-  const namings = {
-    p: "padding",
-    m: "margin",
-    w: "min-width",
-    h: "min-height",
-  };
+  const props = { p: "padding", m: "margin", w: "min-width", h: "min-height" };
 
-  const directions = {
+  const dirs = {
     "": [""],
     x: ["left", "right"],
     y: ["top", "bottom"],
@@ -58,18 +60,16 @@ export const generateUtilityClasses = (): Record<string, string[]> => {
     r: ["right"],
   };
 
-  const colors: Record<string, string> = {
+  const colors = {
     transparent: "transparent",
     ...Object.fromEntries(
-      [
-        "background",
-        "foreground",
-        ...Array.from({ length: 16 }, (_, i) => `color-${i}`),
-      ].map((c) => [c, `$${c.replace(/-/g, "")}`]),
+      ["background", "foreground", ...range(16).map((i) => `color-${i}`)].map(
+        (c) => [c, `$${c.replace(/-/g, "")}`],
+      ),
     ),
   };
 
-  const colorNamings = {
+  const colorProps = {
     bg: "background-color",
     text: "color",
     border: "border-color",
@@ -83,7 +83,7 @@ export const generateUtilityClasses = (): Record<string, string[]> => {
     lighter: "lighter",
   };
 
-  const roundedNamings = {
+  const rounded = {
     "": 0.5,
     none: 0,
     xs: 0.125,
@@ -97,7 +97,7 @@ export const generateUtilityClasses = (): Record<string, string[]> => {
     full: 9999,
   };
 
-  const roundedDirections = {
+  const roundedDirs = {
     "": [""],
     s: ["start-start", "end-start"],
     e: ["start-end", "end-end"],
@@ -107,7 +107,7 @@ export const generateUtilityClasses = (): Record<string, string[]> => {
     l: ["top-left", "bottom-left"],
   };
 
-  const weightNamings = {
+  const weights = {
     thin: 100,
     extralight: 200,
     light: 300,
@@ -119,7 +119,7 @@ export const generateUtilityClasses = (): Record<string, string[]> => {
     black: 900,
   };
 
-  const sizeNamings: Record<string, number> = {
+  const sizes = {
     xs: 0.75,
     sm: 0.875,
     base: 1,
@@ -135,41 +135,58 @@ export const generateUtilityClasses = (): Record<string, string[]> => {
     "9xl": 8,
   };
 
-  const add = (key: string, val: string[]) => {
-    utilities[key] = val;
+  const filters = [
+    "blur",
+    "brightness",
+    "contrast",
+    "grayscale",
+    "invert",
+    "saturate",
+    "sepia",
+  ];
+
+  const blurSizes = {
+    "2xs": 2,
+    xs: 4,
+    sm: 8,
+    md: 12,
+    lg: 16,
+    xl: 24,
+    "2xl": 40,
+    "3xl": 64,
   };
 
   const addWithOpacity = (base: string, prop: string, color: string) => {
     add(base, [`${prop}: ${color}`]);
-    opacities.forEach((opacity) => {
-      add(`${base}/${opacity}`, [`${prop}: rgba(${color}, ${opacity}%)`]);
-      add(`opacity-${opacity}`, [`opacity: ${opacity}%`]);
+    opacities.forEach((o) => {
+      add(`${base}/${o}`, [`${prop}: rgba(${color}, ${o}%)`]);
+      add(`opacity-${o}`, [`opacity: ${o}%`]);
     });
   };
 
   states.forEach((s) => {
-    const prefix = s ? `${s}:` : "";
+    const px = s ? `${s}:` : "";
 
     // Colors
-    Object.keys(colors).forEach((c) => {
-      Object.entries(colorNamings).forEach(([n, prop]) => {
+    Object.entries(colors).forEach(([c, cv]) => {
+      Object.entries(colorProps).forEach(([n, prop]) => {
         Object.entries(colorVariants).forEach(([v, suffix]) => {
-          const className = `${prefix}${n}-${c}${v ? `-${v}` : ""}`;
-          const colorValue = `${colors[c]}${suffix ? `_${suffix}` : ""}`;
-          addWithOpacity(className, prop, colorValue);
+          const cls = `${px}${n}-${c}${v ? `-${v}` : ""}`;
+          const val = `${cv}${suffix ? `_${suffix}` : ""}`;
+          addWithOpacity(cls, prop, val);
         });
       });
     });
 
     // Spacing & dimensions
-    Object.entries(namings).forEach(([n, prop]) => {
+    Object.entries(props).forEach(([n, prop]) => {
       Object.entries(spacings).forEach(([k, v]) => {
         if (["w", "h"].includes(n)) {
-          add(`${prefix}${n}-${k}`, [`${prop}: ${v}`]);
+          add(`${px}${n}-${k}`, [`${prop}: ${v}`]);
         } else {
-          Object.entries(directions).forEach(([d, parts]) => {
+          Object.entries(dirs).forEach(([d, parts]) => {
             add(
-              `${prefix}${n}${d}-${k}`,
+              `${px}${n}${d}-${k}`,
               parts.map((p) => `${prop}${p ? `-${p}` : ""}: ${v}`),
             );
           });
@@ -178,37 +195,53 @@ export const generateUtilityClasses = (): Record<string, string[]> => {
     });
 
     // Rounded
-    Object.entries(roundedNamings).forEach(([n, v]) => {
-      Object.entries(roundedDirections).forEach(([d, dv]) => {
+    Object.entries(rounded).forEach(([n, v]) => {
+      Object.entries(roundedDirs).forEach(([d, dv]) => {
         add(
-          `${prefix}rounded${d ? `-${d}` : ""}-${n}`,
+          `${px}rounded${d ? `-${d}` : ""}-${n}`,
           dv.map((dr) => `border${dr ? `-${dr}` : ""}-radius: ${v}rem`),
         );
       });
     });
 
     // Font weight
-    Object.entries(weightNamings).forEach(([n, v]) => {
-      add(`${prefix}font-${n}`, [`font-weight: ${v}`]);
+    Object.entries(weights).forEach(([n, v]) => {
+      add(`${px}font-${n}`, [`font-weight: ${v}`]);
     });
 
-    // Text size
-    Object.entries(sizeNamings).forEach(([n, size]) => {
-      add(`${prefix}text-${n}`, [`font-size: ${size}rem`]);
+    // Font size
+    Object.entries(sizes).forEach(([n, sz]) => {
+      add(`${px}text-${n}`, [`font-size: ${sz}rem`]);
     });
 
     // Borders
-    Array.from({ length: 8 }, (_, i) =>
-      Object.entries(directions).forEach(([d, parts]) => {
-        add(`${prefix}border${d ? `-${d}` : ""}-${i}`, [
+    range(8).forEach((i) => {
+      Object.entries(dirs).forEach(([d, parts]) => {
+        add(`${px}border${d ? `-${d}` : ""}-${i}`, [
           ...parts.map((p) => `border${p ? `-${p}` : ""}-width: ${i}px`),
           "border-style: solid",
         ]);
-      }),
-    );
+      });
+    });
 
     ["solid", "dashed", "dotted", "none"].forEach((style) => {
-      add(`${prefix}border-${style}`, [`border-style: ${style}`]);
+      add(`${px}border-${style}`, [`border-style: ${style}`]);
+    });
+
+    // Filters
+    filters.forEach((f) => {
+      if (["grayscale", "invert", "sepia"].includes(f))
+        add(`${px}${f}`, [`filter: ${f}(100%)`]);
+
+      if (f === "blur") {
+        Object.entries(blurSizes).forEach(([n, v]) => {
+          add(`${px}blur-${n}`, [`filter: blur(${v}px)`]);
+        });
+      }
+
+      range(100).forEach((i) => {
+        add(`${px}${f}-${i}`, [`filter: ${f}(${i}%)`]);
+      });
     });
   });
 
@@ -216,4 +249,13 @@ export const generateUtilityClasses = (): Record<string, string[]> => {
 };
 
 export const cls = (...items: Array<string | boolean>): string =>
-  items.filter(Boolean).join(" ");
+  compact(items).join(" ");
+
+export const extractAllClasses = (
+  ...items: Array<string | boolean>
+): string[] => {
+  return items
+    .filter(isString)
+    .flatMap((str) => str.split(" "))
+    .filter(Boolean);
+};

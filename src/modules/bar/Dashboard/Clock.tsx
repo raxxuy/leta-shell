@@ -17,7 +17,7 @@ export default function Clock() {
 
   return (
     <label
-      class="clock font-bold"
+      class="clock w-10 font-bold"
       label={time((t) => t.format(clock.format))}
       tooltipText={time((t) => t.format(clock.tooltipFormat))}
     />

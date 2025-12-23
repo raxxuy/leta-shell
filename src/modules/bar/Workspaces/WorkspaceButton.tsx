@@ -20,16 +20,17 @@ export default function WorkspaceButton({ workspace }: WorkspaceButtonProps) {
     const isFocused = focusedWorkspace().id === workspace.id;
 
     return cls(
-      "transition bg-color-10 border-1 border-color-10-light px-1.5 my-0.5 w-2.5 h-4 rounded-md",
-      "hover:bg-color-13-light hover:border-color-13-lighter",
-      isOccupied && "bg-color-13 border-color-13-light",
-      isFocused && "bg-color-13-light border-color-13-lighter mb-0",
+      "my-0.5 h-4 w-2.5 rounded-md border-1 border-color-10-light bg-color-10 px-1.5 transition",
+      "hover:border-color-13-lighter hover:bg-color-13-light",
+      isOccupied && "border-color-13-light bg-color-13",
+      isFocused && "mb-0 border-color-13-lighter bg-color-13-light",
     );
   });
 
   return (
     <button
       $={(self) => loadWidgetClasses(self, "workspace-button")}
+      focusable={false}
       class={classNames}
       cursor={CURSORS.pointer}
       onClicked={() => workspace.focus()}

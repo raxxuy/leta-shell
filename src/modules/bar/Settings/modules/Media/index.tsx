@@ -1,6 +1,6 @@
 import AstalMpris from "gi://AstalMpris";
 import { createBinding, createState, With } from "ags";
-import Player from "@/modules/bar/Dashboard/Media/Player";
+import Player from "@/modules/bar/Settings/modules/Media/Player";
 
 export default function Media() {
   const [current, setCurrent] = createState<number>(0);
@@ -13,7 +13,7 @@ export default function Media() {
         {(current) => {
           const player = players()[current];
 
-          if (!player) return <label label="No player currently" />;
+          if (!player) return null;
 
           return <Player player={player} />;
         }}

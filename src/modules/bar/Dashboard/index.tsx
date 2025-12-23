@@ -1,5 +1,4 @@
 import Clock from "@/modules/bar/Dashboard/Clock";
-import Media from "@/modules/bar/Dashboard/Media";
 import Container from "@/widgets/Container";
 import MenuButton from "@/widgets/MenuButton";
 
@@ -9,7 +8,6 @@ export default function Dashboard() {
       <Clock />
       <popover>
         <Container>
-          <Media />
         </Container>
       </popover>
     </MenuButton>

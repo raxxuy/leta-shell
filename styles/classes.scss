@@ -4,12 +4,17 @@
 
 .button {
     @include transition;
+    @include border(transparent);
     color: $foreground;
     border-radius: 0.5rem;
 
     &:hover {
         background-color: $background_light;
         color: $foreground_light;
+    }
+
+    &:focus-visible {
+        border-color: $background_lighter;
     }
 
     &.active,

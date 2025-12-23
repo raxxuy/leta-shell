@@ -1,3 +1,4 @@
+import { inRange } from "es-toolkit";
 import type AstalBluetooth from "gi://AstalBluetooth";
 import AstalMpris from "gi://AstalMpris";
 
@@ -24,9 +25,11 @@ const getBatteryIcon = (percentage: number, charging: boolean) => {
   };
 
   if (charging) return "battery-charging";
-  if (percentage <= THRESHOLDS.LOW) return "battery-empty-1";
-  if (percentage <= THRESHOLDS.MID) return "battery-low-1";
-  if (percentage <= THRESHOLDS.FULL) return "battery-mid";
+  if (inRange(percentage, 0, THRESHOLDS.LOW)) return "battery-empty-1";
+  if (inRange(percentage, THRESHOLDS.LOW, THRESHOLDS.MID))
+    return "battery-low-1";
+  if (inRange(percentage, THRESHOLDS.MID, THRESHOLDS.FULL))
+    return "battery-mid";
   return "battery-full";
 };
 

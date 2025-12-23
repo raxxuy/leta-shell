@@ -24,6 +24,7 @@ image {
 
 modelbutton {
     @include transition;
+    @include border(transparent);
     border-radius: 0.5rem;
     padding: 0.5rem;
     margin: 0.2rem 0;
@@ -39,6 +40,10 @@ modelbutton {
         color: $foreground_lighter;
     }
 
+    &:focus-visible {
+        border-color: $background_lighter;
+    }
+
     label:disabled {
         color: $foreground_darker;
     }
@@ -48,12 +53,35 @@ levelbar {
     trough {
         .filled {
             border-radius: 2rem;
-            background-color: $color8_lighter;
+            background-color: $color10_lighter;
         }
 
         .empty {
             border-radius: 2rem;
             background-color: $background_darker;
+        }
+    }
+}
+
+scale {
+    trough {
+        border-radius: 2rem;
+        background-color: $background_darker;
+
+        highlight {
+            filter: brightness(150%);
+            background-color: $background_lighter;
+        }
+
+        slider {
+            filter: brightness(200%);
+            min-width: 2px;
+            min-height: 2px;
+            padding: 2px;
+            border-radius: 9999px;
+            background-color: $background_lighter;
+            outline: 3px solid $background_lighter;
+            outline-offset: -1px;
         }
     }
 }
