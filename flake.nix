@@ -3,10 +3,12 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+
     ags = {
       url = "github:aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     apple-fonts = {
       url = "github:raxxuy/apple-fonts.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -21,118 +23,134 @@
       apple-fonts,
     }:
     let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-      pname = "leta-shell";
-      entry = "app.ts";
-      astalPackages = with ags.packages.${system}; [
-        io
-        astal4
-        tray
-        apps
-        mpris
-        notifd
-        battery
-        network
-        hyprland
-        bluetooth
-        wireplumber
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
       ];
-      extraPackages =
-        astalPackages
-        ++ (with pkgs; [
-          libadwaita
-          libsoup_3
-        ])
-        ++ [ apple-fonts.packages.${system}.apple-fonts ];
-      shellPackages = with pkgs; [
-        bun
-        pnpm
-        nodejs
-        pywal16
-        dart-sass
-        imagemagick
-        inotify-tools
-      ];
+      forAllSystems = nixpkgs.lib.genAttrs systems;
     in
     {
-      packages.${system} = {
-        default = pkgs.stdenv.mkDerivation {
-          inherit pname;
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+          pname = "leta-shell";
           version = "0.1.0";
           src = ./.;
 
-          nativeBuildInputs = with pkgs; [
-            wrapGAppsHook3
-            gobject-introspection
-            ags.packages.${system}.default
+          astalPackages = with ags.packages.${system}; [
+            io
+            astal4
+            tray
+            apps
+            mpris
+            notifd
+            battery
+            network
+            hyprland
+            bluetooth
+            wireplumber
           ];
 
-          buildInputs = extraPackages ++ [ pkgs.gjs ];
+          extraPackages =
+            astalPackages
+            ++ (with pkgs; [
+              libadwaita
+              libsoup_3
+              gjs
+            ])
+            ++ [ apple-fonts.packages.${system}.apple-fonts ];
+        in
+        {
+          default = pkgs.stdenv.mkDerivation {
+            inherit pname version src;
 
-          dontStrip = true;
+            pnpmDeps = pkgs.fetchPnpmDeps {
+              inherit pname version src;
+              fetcherVersion = 3;
+              hash = "sha256-gJikm1qLjckkLxDb01VA5d9qvEj8u3jZgSllRHxeyf0=";
+            };
 
-          installPhase = ''
-            runHook preInstall
+            nativeBuildInputs = [
+              pkgs.wrapGAppsHook4
+              pkgs.gobject-introspection
+              pkgs.pnpm.configHook
+              ags.packages.${system}.default
+            ];
 
-            mkdir -p $out/bin
-            mkdir -p $out/share/${pname}
-            mkdir -p $out/libexec
+            buildInputs = extraPackages;
 
-            cp -r $src/* $out/share/${pname}/
+            installPhase = ''
+              runHook preInstall
 
-            cd $out/share/${pname}
-            ags bundle ${entry} $out/libexec/${pname}
+              mkdir -p $out/bin
+              mkdir -p $out/share/leta-shell
 
-            cat > $out/bin/${pname} << 'EOF'
-            #!/usr/bin/env bash
-            export SRC="$out/share/${pname}"
-            exec "$out/libexec/${pname}" "$@"
-            EOF
+              cp -r . $out/share/leta-shell
+              cd $out/share/leta-shell
 
-            substituteInPlace $out/bin/${pname} \
-              --replace '$out' "$out"
+              ags bundle app.ts $out/bin/leta-shell
 
-            chmod +x $out/bin/${pname}
+              runHook postInstall
+            '';
 
-            runHook postInstall
-          '';
-
-          meta = with pkgs.lib; {
-            description = "Leta Shell - A custom AGS-based desktop shell";
-            homepage = "https://github.com/raxxuy/leta-shell";
-            license = licenses.mit;
-            platforms = platforms.linux;
-            mainProgram = pname;
+            meta = with pkgs.lib; {
+              description = "Leta Shell - AGS desktop shell";
+              homepage = "https://github.com/raxxuy/leta-shell";
+              license = licenses.mit;
+              platforms = platforms.linux;
+              mainProgram = "leta-shell";
+            };
           };
-        };
-      };
+        }
+      );
 
-      devShells.${system} = {
-        default = pkgs.mkShell {
-          buildInputs = shellPackages ++ [
-            (ags.packages.${system}.default.override {
-              inherit extraPackages;
-            })
-          ];
-        };
-      };
+      devShells = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+          default = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              pnpm
+              nodejs
+              bun
+              pywal16
+              dart-sass
+              imagemagick
+              inotify-tools
+              ags.packages.${system}.default
+            ];
+          };
+        }
+      );
 
       nixosModules.default =
-        { config, lib, ... }:
+        {
+          config,
+          pkgs,
+          lib,
+          ...
+        }:
         {
           options.programs.leta-shell = {
             enable = lib.mkEnableOption "Leta Shell";
           };
 
           config = lib.mkIf config.programs.leta-shell.enable {
-            environment.systemPackages = [ self.packages.${system}.default ];
-            fonts.packages = [ apple-fonts.packages.${system}.apple-fonts ];
+            environment.systemPackages = [ self.packages.${pkgs.system}.default ];
+            fonts.packages = [ apple-fonts.packages.${pkgs.system}.apple-fonts ];
           };
         };
 
       homeManagerModules.default =
-        { config, lib, ... }:
+        {
+          config,
+          pkgs,
+          lib,
+          ...
+        }:
         {
           options.programs.leta-shell = {
             enable = lib.mkEnableOption "Leta Shell";
@@ -140,8 +158,8 @@
 
           config = lib.mkIf config.programs.leta-shell.enable {
             home.packages = [
-              self.packages.${system}.default
-              apple-fonts.packages.${system}.apple-fonts
+              self.packages.${pkgs.system}.default
+              apple-fonts.packages.${pkgs.system}.apple-fonts
             ];
           };
         };
