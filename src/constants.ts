@@ -14,7 +14,7 @@ export const CACHE_WAL_DIR = buildPath(CACHE_DIR, "wal");
 export const CACHE_STYLES_DIR = buildPath(CACHE_DIR, "styles");
 export const CACHE_PICTURES_DIR = buildPath(CACHE_DIR, "pictures");
 export const SRC_STYLES_DIR = buildPath(SRC, "styles");
-export const CONFIG_DIR = buildPath(SRC, "config");
+export const CONFIGS_DIR = buildPath(SRC, "configs");
 
 // Files
 export const WAL_FILE = buildPath(CACHE_WAL_DIR, "wal");
@@ -25,6 +25,10 @@ export const UTILITIES_JSON_FILE = buildPath(
 );
 export const COLORS_SOURCE = buildPath(CACHE_WAL_DIR, "colors.scss");
 export const COLORS_DEST = buildPath(CACHE_STYLES_DIR, "colors.scss");
+
+// System
+export const USER_NAME = GLib.get_user_name();
+export const HOST_NAME = GLib.get_host_name();
 
 // Cursors
 const createCursor = (name: string): Gdk.Cursor =>

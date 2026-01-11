@@ -15,8 +15,8 @@
       "@/app": [
         "./app"
       ],
-      "@/config/*": [
-        "./config/*"
+      "@/configs/*": [
+        "./configs/*"
       ]
     },
     "strict": true,

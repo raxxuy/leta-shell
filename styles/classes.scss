@@ -3,29 +3,35 @@
 @use "colors-variations" as *;
 
 .button {
-    @include transition;
-    @include border(transparent);
-    color: $foreground;
-    border-radius: 0.5rem;
+  @include transition;
+  border-radius: 0.5rem;
+  color: $foreground;
+  margin: 1px;
 
-    &:hover {
-        background-color: $background_light;
-        color: $foreground_light;
-    }
+  &:hover {
+    background-color: $background_light;
+    color: $foreground_light;
+  }
 
-    &:focus-visible {
-        border-color: $background_lighter;
-    }
+  &:focus-visible {
+    border-color: $background_lighter;
+  }
 
-    &.active,
-    &:active {
-        background-color: $background_lighter;
-        color: $foreground_lighter;
-    }
+  &.active,
+  &:active {
+    background-color: $background_lighter;
+    color: $foreground_lighter;
+  }
 }
 
 .container {
-    @include border($background_lighter, 2px, 1rem);
-    background-color: rgba($background, 0.9);
-    padding: 1rem;
+  @include shadow;
+  @include border($background_lighter, 2px, 1rem);
+  background-color: rgba($background_dark, 0.8);
+  margin: 5px 10px 15px;
+  padding: 1rem;
+}
+
+.shadow {
+  @include shadow;
 }

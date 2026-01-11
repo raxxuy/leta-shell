@@ -8,12 +8,13 @@
   },
   "dependencies": {
     "ags": "github:Aylur/ags",
-    "es-toolkit": "^1.43.0"
+    "es-toolkit": "^1.43.0",
+    "zod": "^4.3.5"
   },
   "prettier": {
     "semi": true
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.10"
+    "@biomejs/biome": "^2.3.11"
   }
 }

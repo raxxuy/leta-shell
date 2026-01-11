@@ -7,14 +7,14 @@ import RevealerWindow from "@/widgets/RevealerWindow";
 export default function Launcher(gdkmonitor: Gdk.Monitor) {
   return (
     <RevealerWindow
-      name="launcher"
-      class="launcher"
-      application={app}
       anchor="bottom-full"
-      namespace="leta-shell"
-      layer={Layer.OVERLAY}
-      keymode={Keymode.EXCLUSIVE}
+      application={app}
+      class="launcher"
       exclusivity={Exclusivity.IGNORE}
+      keymode={Keymode.EXCLUSIVE}
+      layer={Layer.OVERLAY}
+      name="launcher"
+      namespace="leta-shell"
       transitionType={RevealerTransitionType.SLIDE_UP}
     >
       <LauncherModule gdkmonitor={gdkmonitor} />

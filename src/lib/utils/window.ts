@@ -1,7 +1,7 @@
 import type { Astal } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import { WindowAnchor } from "@/enums";
-import type { Anchor } from "@/types";
+import type { Anchor } from "@/types/widget";
 
 const { TOP, RIGHT, LEFT, BOTTOM, NONE } = WindowAnchor;
 
@@ -24,12 +24,8 @@ const ANCHORS_MAP: Record<Anchor, Astal.WindowAnchor> = {
 export const getAnchor = (anchor: Anchor): Astal.WindowAnchor =>
   ANCHORS_MAP[anchor] ?? NONE;
 
-export const getWindow = (windowName: string): Astal.Window | null => {
-  return app.get_window(windowName) as Astal.Window | null;
-};
-
 export const toggleWindow = (windowName: string): void => {
-  const window = getWindow(windowName);
+  const window = app.get_window(windowName) as Astal.Window | null;
 
   if (!window) {
     console.warn(`Window "${windowName}" not found`);

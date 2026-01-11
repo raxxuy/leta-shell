@@ -1,6 +1,6 @@
 import AstalApps from "gi://AstalApps";
 import { createState, For } from "ags";
-import type { Gdk, Gtk } from "ags/gtk4";
+import { type Gdk, Gtk } from "ags/gtk4";
 import { Align, Orientation } from "@/enums";
 import { getConfig } from "@/lib/config";
 import LauncherItem from "@/modules/launcher/LauncherItem";
@@ -34,19 +34,24 @@ export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
 
   return (
     <box
-      class="rounded-2xl rounded-b-none border-2 border-background-lighter border-b-0 bg-background-light/80 p-3 font-medium"
-      valign={Align.CENTER}
+      class="rounded-2xl rounded-b-none border-2 border-background border-b-0 bg-background-dark/80 p-3 font-medium shadow"
       halign={Align.CENTER}
-      spacing={spacings.large}
-      orientation={Orientation.VERTICAL}
       onNotifyVisible={handleNotifyVisible}
+      orientation={Orientation.VERTICAL}
+      spacing={spacings.large}
+      valign={Align.CENTER}
     >
-      <box class="rounded-xl bg-background">
-        <scrolledwindow hexpand vexpand heightRequest={height / 2.12}>
+      <box class="rounded-xl bg-background-dark/80">
+        <scrolledwindow
+          heightRequest={height / 2.12}
+          hexpand
+          vadjustment={Gtk.Adjustment.new(0, 0, 100, 1, 10, 0)}
+          vexpand
+        >
           <box
             class="first-child:mt-4 last-child:mb-4"
-            spacing={spacings.medium}
             orientation={Orientation.VERTICAL}
+            spacing={spacings.medium}
           >
             <For each={list}>
               {(app, index) => <LauncherItem app={app} index={index} />}
@@ -61,10 +66,10 @@ export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
             .get_first_child()
             ?.set_css_classes(["focus:text-foreground-lighter"]);
         }}
-        class="rounded-xl bg-background p-4"
-        widthRequest={width / 3.8}
+        class="rounded-xl bg-background-dark p-4"
         onNotifyText={({ text }) => handleSearch(text)}
         placeholderText="Start typing to search"
+        widthRequest={width / 3.8}
       />
     </box>
   );

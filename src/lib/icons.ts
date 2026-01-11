@@ -1,4 +1,3 @@
-import { inRange } from "es-toolkit";
 import type AstalBluetooth from "gi://AstalBluetooth";
 import AstalMpris from "gi://AstalMpris";
 
@@ -9,32 +8,36 @@ const getVolumeIcon = (
 ) => {
   const isSilent = volume === 0 || mute;
 
-  if (type === "speaker") {
-    if (isSilent) return "volume-off";
-    return volume < 0.5 ? "volume-min" : "volume-max";
+  if (type === "microphone") {
+    return isSilent ? "microphone-off" : "microphone-on";
   }
 
-  return isSilent ? "microphone-off" : "microphone-on";
+  if (isSilent) return "volume-off";
+  return volume < 0.5 ? "volume-min" : "volume-max";
 };
 
-const getBatteryIcon = (percentage: number, charging: boolean) => {
-  const THRESHOLDS = {
-    LOW: 0.1,
-    MID: 0.4,
-    FULL: 0.8,
-  };
+const BATTERY_ICONS = [
+  { max: 0.1, icon: "battery-empty-1" },
+  { max: 0.4, icon: "battery-low-1" },
+  { max: 0.8, icon: "battery-mid" },
+  { max: 1.0, icon: "battery-full" },
+] as const;
 
+const getBatteryIcon = (percentage: number, charging: boolean) => {
   if (charging) return "battery-charging";
-  if (inRange(percentage, 0, THRESHOLDS.LOW)) return "battery-empty-1";
-  if (inRange(percentage, THRESHOLDS.LOW, THRESHOLDS.MID))
-    return "battery-low-1";
-  if (inRange(percentage, THRESHOLDS.MID, THRESHOLDS.FULL))
-    return "battery-mid";
-  return "battery-full";
+  
+  return (
+    BATTERY_ICONS.find(({ max }) => percentage < max)?.icon || "battery-full"
+  );
 };
 
 const getBluetoothIcon = (powered: boolean) => {
   return powered ? "bluetooth-on" : "bluetooth-off";
+};
+
+const DEVICE_ICON_MAP: Record<string, string> = {
+  phone: "phone-01",
+  "audio-headset": "headphones",
 };
 
 const getBluetoothDeviceIcon = (
@@ -42,12 +45,7 @@ const getBluetoothDeviceIcon = (
   device: AstalBluetooth.Device,
 ) => {
   if (type === "device") {
-    switch (device.icon) {
-      case "phone":
-        return "phone-01";
-      case "audio-headset":
-        return "headphones";
-    }
+    return DEVICE_ICON_MAP[device.icon] || device.icon;
   }
 
   if (device.connecting) return "bluetooth-connect";
@@ -55,16 +53,13 @@ const getBluetoothDeviceIcon = (
 };
 
 const getMediaIcon = (status: AstalMpris.PlaybackStatus) => {
-  switch (status) {
-    case AstalMpris.PlaybackStatus.PLAYING:
-      return "pause-circle";
-    case AstalMpris.PlaybackStatus.PAUSED:
-      return "play-circle";
-    case AstalMpris.PlaybackStatus.STOPPED:
-      return "stop";
-    default:
-      return "";
-  }
+  const MEDIA_ICONS = {
+    [AstalMpris.PlaybackStatus.PLAYING]: "pause-circle",
+    [AstalMpris.PlaybackStatus.PAUSED]: "play-circle",
+    [AstalMpris.PlaybackStatus.STOPPED]: "stop",
+  };
+
+  return MEDIA_ICONS[status] || "";
 };
 
 export function getIcon(

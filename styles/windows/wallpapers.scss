@@ -2,29 +2,29 @@
 @use "mixins" as *;
 
 .wallpapers {
-    viewport {
-        padding: 0 2.5rem;
+  viewport {
+    padding: 0 2.5rem;
+  }
+
+  scrollbar.horizontal {
+    &:hover {
+      slider {
+        min-height: 5px;
+      }
     }
 
-    scrollbar.horizontal {
-        &:hover {
-            slider {
-                min-height: 5px;
-            }
-        }
+    range {
+      trough {
+        margin: 10px 9px;
+        outline: 1px solid black;
 
-        range {
-            trough {
-                margin: 10px 9px;
-                outline: 1px solid black;
-
-                slider {
-                    min-height: 3px;
-                    min-width: 40px;
-                    background-color: white;
-                    outline: 1px solid #ccc;
-                }
-            }
+        slider {
+          min-height: 3px;
+          min-width: 40px;
+          background-color: white;
+          outline: 1px solid #ccc;
         }
+      }
     }
+  }
 }

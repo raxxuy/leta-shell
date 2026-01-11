@@ -3,10 +3,10 @@ import { createBinding, createComputed, createState } from "ags";
 import { Align, EllipsizeMode, Orientation, Overflow } from "@/enums";
 import { getConfig } from "@/lib/config";
 import { getIcon } from "@/lib/icons";
-import { loadWidgetClasses } from "@/lib/styles";
 import { formatSeconds } from "@/lib/utils";
 import ImageWrapper from "@/widgets/ImageWrapper";
 import PlayerButton from "./PlayerButton";
+import { loadClasses } from "@/lib/styles";
 
 const { spacings } = getConfig("global");
 
@@ -33,7 +33,7 @@ export default function Player({ player }: PlayerProps) {
 
   return (
     <box
-      $={(self) => loadWidgetClasses(self, "player")}
+      $={loadClasses(Player)}
       class="rounded-xl font-semibold"
       orientation={Orientation.VERTICAL}
       overflow={Overflow.HIDDEN}
@@ -41,38 +41,36 @@ export default function Player({ player }: PlayerProps) {
       <overlay>
         <ImageWrapper
           class="brightness-70"
+          heightRequest={140}
           src={artUrl}
           widthRequest={300}
-          heightRequest={140}
         />
         <box
           $type="overlay"
           class="bg-background-dark/50 p-4"
-          valign={Align.END}
           orientation={Orientation.VERTICAL}
           spacing={spacings.medium}
+          valign={Align.END}
         >
           <box orientation={Orientation.VERTICAL}>
             <label
-              halign={Align.START}
               class="font-bold text-md"
+              ellipsize={EllipsizeMode.END}
+              halign={Align.START}
               label={title}
               maxWidthChars={24}
-              ellipsize={EllipsizeMode.END}
             />
             <label
-              halign={Align.START}
               class="text-foreground-dark text-sm"
+              halign={Align.START}
               label={artist}
             />
           </box>
 
           <slider
-            orientation={Orientation.HORIZONTAL}
             heightRequest={5}
-            min={0}
             max={length}
-            value={position}
+            min={0}
             onChangeValue={handleChangeValue}
             onNotify={(_, event) => {
               // black magic
@@ -84,18 +82,20 @@ export default function Player({ player }: PlayerProps) {
                 }
               }
             }}
+            orientation={Orientation.HORIZONTAL}
+            value={position}
           />
 
           <box hexpand>
             <label
               class="w-12 text-sm"
-              valign={Align.START}
               label={position((p) => formatSeconds(p, "%M:%S"))}
+              valign={Align.START}
             />
             <box
-              hexpand
               class="pt-1"
               halign={Align.CENTER}
+              hexpand
               spacing={spacings.medium}
             >
               <PlayerButton
@@ -113,8 +113,8 @@ export default function Player({ player }: PlayerProps) {
             </box>
             <label
               class="w-12 text-sm"
-              valign={Align.START}
               label={length((l) => formatSeconds(l, "%M:%S"))}
+              valign={Align.START}
             />
           </box>
         </box>

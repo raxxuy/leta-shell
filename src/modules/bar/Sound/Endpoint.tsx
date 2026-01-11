@@ -1,12 +1,19 @@
-import type AstalWp from "gi://AstalWp";
-import { createBinding, createComputed, createState } from "ags";
+import AstalWp from "gi://AstalWp";
+import { createBinding, createComputed, createState, For } from "ags";
 import { Gtk } from "ags/gtk4";
-import { EventControllerScrollFlags, RevealerTransitionType } from "@/enums";
+import {
+  EventControllerScrollFlags,
+  Orientation,
+  RevealerTransitionType,
+} from "@/enums";
 import { getConfig } from "@/lib/config";
 import { getIcon } from "@/lib/icons";
-import { adjustVolume, formatVolume, toggleMute } from "@/lib/utils";
+import { adjustVolume, cls, formatVolume, toggleMute } from "@/lib/utils";
+import EndpointListItem from "@/modules/bar/Sound/EndpointListItem";
+import Container from "@/widgets/Container";
+import PopoverButton from "@/widgets/PopoverButton";
 
-const { icons } = getConfig("global");
+const { spacings, icons } = getConfig("global");
 
 interface EndpointProps {
   endpoint: AstalWp.Endpoint;
@@ -15,6 +22,8 @@ interface EndpointProps {
 
 export default function Endpoint({ endpoint, type }: EndpointProps) {
   const [revealed, setRevealed] = createState<boolean>(false);
+  const [opened, setOpened] = createState<boolean>(false);
+  const audio = AstalWp.get_default().audio;
   const mute = createBinding(endpoint, "mute");
   const volume = createBinding(endpoint, "volume");
   const description = createBinding(endpoint, "description");
@@ -22,6 +31,8 @@ export default function Endpoint({ endpoint, type }: EndpointProps) {
   const iconName = createComputed(() => {
     return getIcon("volume", type, volume(), mute());
   });
+
+  const devices = createBinding(audio, `${type}s`);
 
   return (
     <box>
@@ -38,15 +49,28 @@ export default function Endpoint({ endpoint, type }: EndpointProps) {
         revealChild={revealed}
         transitionType={RevealerTransitionType.SWING_LEFT}
       >
-        <label class="font-bold" label={volume(formatVolume)} />
+        <label class="w-12 font-bold" label={volume(formatVolume)} />
       </revealer>
-      <button onClicked={() => toggleMute(endpoint)}>
+      <PopoverButton
+        class={opened((o) => cls(o && "button active", "m-0"))}
+        onClicked={() => toggleMute(endpoint)}
+      >
         <image
           iconName={iconName}
           pixelSize={icons.pixelSize.small}
           tooltipText={description}
         />
-      </button>
+        <popover onNotifyVisible={({ visible }) => setOpened(visible)}>
+          <Container
+            orientation={Orientation.VERTICAL}
+            spacing={spacings.small}
+          >
+            <For each={devices}>
+              {(device) => <EndpointListItem endpoint={device} />}
+            </For>
+          </Container>
+        </popover>
+      </PopoverButton>
     </box>
   );
 }

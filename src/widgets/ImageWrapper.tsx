@@ -4,8 +4,8 @@ import { Gtk } from "ags/gtk4";
 
 type ImageWrapperBase = {
   src: string | Accessor<string>;
-  file?: boolean;
-  contentFit?: Gtk.ContentFit;
+  file?: boolean | Accessor<boolean>;
+  contentFit?: Gtk.ContentFit | Accessor<Gtk.ContentFit>;
 };
 
 type ImageWrapperButton = ImageWrapperBase &
@@ -21,25 +21,28 @@ type ImageWrapperOverlay = ImageWrapperBase &
 type ImageWrapperProps = ImageWrapperButton | ImageWrapperOverlay;
 
 export default function ImageWrapper({
-  src,
-  file = false,
+  src: srcProp,
+  file: fileProp = false,
   button = false,
   contentFit = Gtk.ContentFit.COVER,
   ...props
 }: ImageWrapperProps) {
   const source = createComputed(() => {
-    const url = src instanceof Accessor ? src() : src;
-    return file ? Gio.File.new_for_path(url) : Gio.File.new_for_uri(url);
+    const src = srcProp instanceof Accessor ? srcProp() : srcProp;
+    const file = fileProp instanceof Accessor ? fileProp() : fileProp;
+    return file ? Gio.File.new_for_path(src) : Gio.File.new_for_uri(src);
   });
 
   const image = (
-    <Gtk.Picture $type="overlay" file={source} contentFit={contentFit} />
+    <Gtk.Picture $type="overlay" contentFit={contentFit} file={source} />
   );
 
   if (button) {
     return (
       <button {...(props as JSX.IntrinsicElements["button"])}>
-        <overlay>{image}</overlay>
+        <overlay hexpand vexpand>
+          {image}
+        </overlay>
       </button>
     );
   }

@@ -1,24 +1,24 @@
 @use "sass:list";
 @use "sass:meta";
 
-@mixin shadow {
-    box-shadow: 0 0 4px 2px black;
+@mixin shadow($opacity: 0.3) {
+  box-shadow: 0 0 0.5rem 0.3rem rgba(black, $opacity);
 }
 
 @mixin border($color: white, $width: 1px, $radius: 0) {
-    border: $width solid $color;
-    border-radius: $radius;
+  border: $width solid $color;
+  border-radius: $radius;
 }
 
 @mixin min-width-height($width, $height) {
-    min-width: $width;
-    min-height: $height;
+  min-width: $width;
+  min-height: $height;
 }
 
 @mixin transition(
-    $type: all,
-    $duration: 0.1s,
-    $timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95)
+  $type: all,
+  $duration: 0.1s,
+  $timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95)
 ) {
-    transition: $type $duration $timing-function;
+  transition: $type $duration $timing-function;
 }

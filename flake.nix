@@ -27,7 +27,37 @@
         "x86_64-linux"
         "aarch64-linux"
       ];
+
       forAllSystems = nixpkgs.lib.genAttrs systems;
+
+      astalPackagesFor =
+        system: with ags.packages.${system}; [
+          io
+          astal4
+          tray
+          apps
+          mpris
+          notifd
+          battery
+          network
+          hyprland
+          bluetooth
+          wireplumber
+          powerprofiles
+        ];
+
+      extraPackagesFor =
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        (astalPackagesFor system)
+        ++ (with pkgs; [
+          libadwaita
+          libsoup_3
+          gjs
+        ])
+        ++ [ apple-fonts.packages.${system}.apple-fonts ];
     in
     {
       packages = forAllSystems (
@@ -37,29 +67,7 @@
           pname = "leta-shell";
           version = "0.1.0";
           src = ./.;
-
-          astalPackages = with ags.packages.${system}; [
-            io
-            astal4
-            tray
-            apps
-            mpris
-            notifd
-            battery
-            network
-            hyprland
-            bluetooth
-            wireplumber
-          ];
-
-          extraPackages =
-            astalPackages
-            ++ (with pkgs; [
-              libadwaita
-              libsoup_3
-              gjs
-            ])
-            ++ [ apple-fonts.packages.${system}.apple-fonts ];
+          extraPackages = extraPackagesFor system;
         in
         {
           default = pkgs.stdenv.mkDerivation {
@@ -68,7 +76,7 @@
             pnpmDeps = pkgs.fetchPnpmDeps {
               inherit pname version src;
               fetcherVersion = 3;
-              hash = "sha256-gJikm1qLjckkLxDb01VA5d9qvEj8u3jZgSllRHxeyf0=";
+              hash = "sha256-geDeV2mE97rNDb7MSI+ejTnOvyMktvRnxUUOt1KS5sw=";
             };
 
             nativeBuildInputs = [
@@ -109,6 +117,7 @@
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
+          extraPackages = extraPackagesFor system;
         in
         {
           default = pkgs.mkShell {
@@ -120,7 +129,9 @@
               dart-sass
               imagemagick
               inotify-tools
-              ags.packages.${system}.default
+              (ags.packages.${system}.default.override {
+                inherit extraPackages;
+              })
             ];
           };
         }

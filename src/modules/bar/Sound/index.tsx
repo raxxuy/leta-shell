@@ -9,7 +9,7 @@ export default function Sound() {
   const { defaultSpeaker: speaker, defaultMicrophone: microphone } = wp;
 
   return (
-    <box class="sound" spacing={spacings.medium}>
+    <box spacing={spacings.medium}>
       <Endpoint endpoint={speaker} type="speaker" />
       <Endpoint endpoint={microphone} type="microphone" />
     </box>

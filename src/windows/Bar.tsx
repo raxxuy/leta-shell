@@ -10,15 +10,15 @@ const { window } = getConfig("bar");
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   return (
     <Window
-      visible
-      name="bar"
-      class="bar"
-      application={app}
       anchor="top-full"
-      namespace="leta-shell"
-      gdkmonitor={gdkmonitor}
+      application={app}
+      class="bar"
+      defaultHeight={window.defaultHeight + (window.floating ? 16 : 0)}
       exclusivity={Exclusivity.EXCLUSIVE}
-      defaultHeight={window.defaultHeight}
+      gdkmonitor={gdkmonitor}
+      name="bar"
+      namespace="leta-shell"
+      visible
     >
       <BarModule />
     </Window>

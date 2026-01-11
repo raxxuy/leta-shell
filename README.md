@@ -1,6 +1,6 @@
 # leta-shell
 
-Hyprland shell created using AGS. This project is still in development.
+Hyprland shell created using [AGS](https://aylur.github.io/ags/). This project is still in development.
 
 As of now, the shell is designed to be used in a NixOS environment. Once it is fully developed, other distributions will later be supported.
 
@@ -108,20 +108,20 @@ bind = $mod, W, exec, leta-shell toggle wallpapers
 Add these layer rules so the shell looks as intended:
 
 ```
-layerrule = noanim, leta-shell
-layerrule = blur, leta-shell
-layerrule = blurpopups, leta-shell
-layerrule = ignorezero, leta-shell
-layerrule = xray 1, leta-shell
+layerrule = no_anim on, match:namespace leta-shell
+layerrule = blur on, match:namespace leta-shell
+layerrule = blur_popups on, match:namespace leta-shell
+layerrule = ignore_alpha 0.3, match:namespace leta-shell
+layerrule = xray on, match:namespace leta-shell
 ```
 
 # Todo
 
 - [X] Improve the background/wallpapers system so it doesn't eat up a lot of memory
-- [ ] Notification daemon/menu
+- [x] Notification daemon/menu
 - [ ] Power menu
 - [ ] Settings menu
 - [ ] Update notifier
 - [ ] Theme manager
-- [ ] Media player
+- [x] Media player
 - [ ] Lock screen

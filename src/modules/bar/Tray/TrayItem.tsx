@@ -43,7 +43,7 @@ export default function TrayItem({ item }: TrayItemProps) {
   };
 
   return (
-    <MenuButton class="tray-item button" $={buttonInit}>
+    <MenuButton $={buttonInit} class="button">
       <image
         gicon={gicon}
         pixelSize={icons.pixelSize.small}

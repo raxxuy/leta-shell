@@ -7,7 +7,7 @@ export default function Launcher() {
   const handleClick = () => toggleWindow("launcher");
 
   return (
-    <button class="launcher button" onClicked={handleClick}>
+    <button class="button" onClicked={handleClick}>
       <image iconName="search" pixelSize={icons.pixelSize.small} />
     </button>
   );

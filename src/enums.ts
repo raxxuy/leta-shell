@@ -10,5 +10,6 @@ export const {
   PolicyType,
   Overflow,
   ContentFit,
+  Justification,
 } = Gtk;
 export const { EllipsizeMode } = Pango;

@@ -7,15 +7,15 @@ import RevealerWindow from "@/widgets/RevealerWindow";
 export default function WallpaperManager(gdkmonitor: Gdk.Monitor) {
   return (
     <RevealerWindow
-      application={app}
-      name="wallpapers"
-      class="wallpapers"
       anchor="center-inline"
-      namespace="leta-shell"
-      layer={Layer.OVERLAY}
+      application={app}
+      class="wallpapers"
+      exclusivity={Exclusivity.IGNORE}
       gdkmonitor={gdkmonitor}
       keymode={Keymode.EXCLUSIVE}
-      exclusivity={Exclusivity.IGNORE}
+      layer={Layer.OVERLAY}
+      name="wallpapers"
+      namespace="leta-shell"
       transitionType={RevealerTransitionType.SWING_UP}
     >
       <WallpaperManagerModule gdkmonitor={gdkmonitor} />

@@ -5,16 +5,15 @@ const VOLUME_STEP = 0.05;
 const MIN_VOLUME = 0;
 const MAX_VOLUME = 1;
 
-export const formatVolume = (volume: number): string =>
-  `${Math.round(volume * 100)}%`;
-
 export const adjustVolume = (
   endpoint: AstalWp.Endpoint,
   direction: number,
 ): void => {
-  const delta = -Math.sign(direction) * VOLUME_STEP;
-  const newVolume = clamp(endpoint.volume + delta, MIN_VOLUME, MAX_VOLUME);
-  endpoint.volume = newVolume;
+  endpoint.volume = clamp(
+    endpoint.volume - Math.sign(direction) * VOLUME_STEP,
+    MIN_VOLUME,
+    MAX_VOLUME,
+  );
 };
 
 export const toggleMute = (endpoint: AstalWp.Endpoint): void => {

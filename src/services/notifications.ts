@@ -1,7 +1,7 @@
 import AstalNotifd from "gi://AstalNotifd";
 import { onCleanup } from "ags";
 import type GObject from "ags/gobject";
-import { getter, register, signal } from "ags/gobject";
+import { getter, register, setter, signal } from "ags/gobject";
 import Service from "@/services/base";
 
 interface NotificationsSignals extends GObject.Object.SignalSignatures {
@@ -22,15 +22,33 @@ export default class Notifications extends Service<NotificationsSignals> {
     return Notifications.instance;
   }
 
-  @signal()
-  notified() {}
+  @signal(Number, Boolean)
+  notified(id: number, replaced: boolean) {}
 
-  @signal()
-  resolved() {}
+  @signal(Number)
+  resolved(id: number) {}
 
   @getter(Array)
   get notifications() {
     return this.#notifications;
+  }
+  
+  @getter(Boolean)
+  get dontDisturb() {
+    return this.#notifd.dontDisturb;
+  }
+  
+  @setter(Boolean)
+  set dontDisturb(value: boolean) {
+    this.#notifd.dontDisturb = value;
+  }
+
+  getNotification(id: number): AstalNotifd.Notification {
+    const notification = this.#notifd.get_notification(id);
+
+    if (!notification) throw new Error(`Notification with id ${id} not found`);
+
+    return notification;
   }
 
   constructor() {
@@ -52,14 +70,14 @@ export default class Notifications extends Service<NotificationsSignals> {
         }
 
         this.notify("notifications");
-        this.emit("notified");
+        this.emit("notified", id, replaced);
       },
     );
 
     const resolvedHandler = this.#notifd.connect("resolved", (_, id) => {
       this.#notifications = this.#notifications.filter((n) => n.id !== id);
       this.notify("notifications");
-      this.emit("resolved");
+      this.emit("resolved", id);
     });
 
     onCleanup(() => {

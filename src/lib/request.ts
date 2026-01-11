@@ -13,8 +13,7 @@ const handlers: Record<string, RequestHandler> = {
     const [, target] = args;
 
     if (!target) {
-      response("ERROR: Must specify a window name");
-      return;
+      return response("ERROR: Must specify a window name");
     }
 
     if (!app.windows.some((w) => w.name === target)) {
@@ -26,11 +25,10 @@ const handlers: Record<string, RequestHandler> = {
   },
 
   restart: (_, response) => {
-    exec(
-      DEBUG
-        ? "ags quit; ags run . --define DEBUG=true"
-        : "leta-shell quit; leta-shell",
-    );
+    const cmd = DEBUG
+      ? "ags quit; ags run . --define DEBUG=true"
+      : "leta-shell quit; leta-shell";
+    exec(cmd);
     response("Restarting shell");
   },
 };

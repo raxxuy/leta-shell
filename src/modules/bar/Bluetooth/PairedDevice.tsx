@@ -4,7 +4,7 @@ import { CURSORS } from "@/constants";
 import { Align } from "@/enums";
 import { getConfig } from "@/lib/config";
 import { getIcon } from "@/lib/icons";
-import { loadWidgetClasses } from "@/lib/styles";
+import { loadClasses } from "@/lib/styles";
 
 const { icons, spacings } = getConfig("global");
 
@@ -30,17 +30,13 @@ export default function PairedDevice({ device }: PairedDeviceProps) {
   };
 
   return (
-    <box
-      $={(self) => loadWidgetClasses(self, "paired-device")}
-      class="paired-device"
-      spacing={spacings.small}
-    >
+    <box $={loadClasses(PairedDevice)} spacing={spacings.small}>
       <button
         class="button px-2 py-1"
-        onClicked={handleClick}
         cursor={CURSORS.pointer}
+        onClicked={handleClick}
       >
-        <label label={device.name} halign={Align.START} />
+        <label halign={Align.START} label={device.name} />
       </button>
       <box>
         <image iconName={deviceIcon} pixelSize={icons.pixelSize.small} />

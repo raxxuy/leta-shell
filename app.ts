@@ -6,7 +6,7 @@ import { applyTheme } from "@/lib/styles";
 import Background from "@/windows/Background";
 import Bar from "@/windows/Bar";
 import Launcher from "@/windows/Launcher";
-import Settings from "@/windows/Settings";
+import NotificationPopups from "@/windows/NotificationPopups";
 import WallpaperManager from "@/windows/WallpaperManager";
 
 app.start({
@@ -15,11 +15,11 @@ app.start({
   main() {
     initCache();
     applyTheme();
-    Settings();
     app.monitors.forEach((monitor) => {
       Bar(monitor);
       Launcher(monitor);
       Background(monitor);
+      NotificationPopups(monitor);
       WallpaperManager(monitor);
     });
   },

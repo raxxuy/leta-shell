@@ -8,13 +8,11 @@ import {
   RevealerTransitionType,
 } from "@/enums";
 import { getConfig } from "@/lib/config";
-import { loadWidgetClasses } from "@/lib/styles";
-import { toggleWindow } from "@/lib/utils";
+import { loadClasses } from "@/lib/styles";
+import { getNestedValue, toggleWindow } from "@/lib/utils";
 
 const { spacings, icons } = getConfig("global");
-const {
-  modules: { items },
-} = getConfig("launcher");
+const items = getNestedValue("launcher", "modules.items");
 
 interface LauncherItemProps {
   app: AstalApps.Application;
@@ -33,13 +31,13 @@ export default function LauncherItem({ app, index }: LauncherItemProps) {
 
   return (
     <revealer
-      $={(self) => loadWidgetClasses(self, "launcher-item")}
+      $={loadClasses(LauncherItem)}
       revealChild={revealed}
       transitionDuration={index ? index((i) => i * items.delay) : items.delay}
       transitionType={RevealerTransitionType.SLIDE_UP}
     >
       <button
-        class="mx-4 h-11 rounded-xl px-4 py-1 transition hover:bg-background-light focus:bg-background-lighter active:bg-background-lighter"
+        class="mx-4 h-11 rounded-xl px-4 py-1 transition hover:bg-background-light/80 focus:bg-background-lighter/80 active:bg-background-lighter/80"
         focusOnClick={false}
         onClicked={handleClick}
       >
@@ -48,18 +46,18 @@ export default function LauncherItem({ app, index }: LauncherItemProps) {
             iconName={app.iconName}
             pixelSize={icons.pixelSize.small * 1.5}
           />
-          <box valign={Align.CENTER} orientation={Orientation.VERTICAL}>
+          <box orientation={Orientation.VERTICAL} valign={Align.CENTER}>
             <label
               class="font-semibold text-foreground-lighter"
-              label={app.name}
-              halign={Align.START}
               ellipsize={EllipsizeMode.END}
+              halign={Align.START}
+              label={app.name}
             />
             {app.description && (
               <label
                 class="text-foreground-light text-sm"
-                label={app.description}
                 ellipsize={EllipsizeMode.END}
+                label={app.description}
               />
             )}
           </box>

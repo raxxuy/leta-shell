@@ -4,8 +4,7 @@ import { getConfig } from "@/lib/config";
 import NotificationsService from "@/services/notifications";
 import Container from "@/widgets/Container";
 import MenuButton from "@/widgets/MenuButton";
-
-// import Notification from "@/widgets/Notification";
+import Notification from "@/widgets/Notification";
 
 const { icons, spacings } = getConfig("global");
 
@@ -23,21 +22,21 @@ export default function Notifications() {
   });
 
   return (
-    <MenuButton class="notifications button">
+    <MenuButton class="button">
       <image iconName={iconName} pixelSize={icons.pixelSize.small} />
       <popover onNotifyVisible={handleVisible}>
         <Container>
           <box
-            widthRequest={400}
-            spacing={spacings.small}
             orientation={Orientation.VERTICAL}
+            spacing={spacings.large}
+            widthRequest={400}
           >
-            {/*<For each={notifications}>
+            <For each={notifications}>
               {(notification) => <Notification notification={notification} />}
-            </For>*/}
+            </For>
             <label
-              visible={notifications((n) => n.length === 0)}
               label="No notifications"
+              visible={notifications((n) => n.length === 0)}
             />
           </box>
         </Container>

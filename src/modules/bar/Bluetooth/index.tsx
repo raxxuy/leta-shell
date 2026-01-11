@@ -4,6 +4,7 @@ import { CURSORS } from "@/constants";
 import { Orientation } from "@/enums";
 import { getConfig } from "@/lib/config";
 import { getIcon } from "@/lib/icons";
+import { exec } from "@/lib/utils";
 import PairedDevice from "@/modules/bar/Bluetooth/PairedDevice";
 import Container from "@/widgets/Container";
 import MenuButton from "@/widgets/MenuButton";
@@ -21,7 +22,7 @@ export default function Bluetooth() {
   const iconName = createComputed(() => getIcon("bluetooth", isPowered()));
 
   return (
-    <MenuButton class="bluetooth button">
+    <MenuButton class="button">
       <image
         iconName={iconName}
         pixelSize={icons.pixelSize.small}
@@ -49,9 +50,11 @@ export default function Bluetooth() {
                 >
                   <label class="font-bold" label="Bluetooth is disabled" />
                   <button
-                    label="Enable Bluetooth"
+                    class="button"
                     cursor={CURSORS.pointer}
+                    label="Enable Bluetooth"
                     onClicked={() => {
+                      exec(["rfkill", "unblock", "bluetooth"]);
                       bluetooth.adapter.powered = true;
                     }}
                   />

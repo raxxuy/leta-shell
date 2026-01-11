@@ -27,24 +27,24 @@ export default function WallpaperManagerModule({
 
   return (
     <box
-      spacing={spacings.large}
-      class="bg-background-dark/80"
+      class="bg-background-dark/80 shadow"
       orientation={Orientation.VERTICAL}
+      spacing={spacings.large}
     >
       <scrolledwindow
-        minContentWidth={width}
-        minContentHeight={height / 3.6}
-        vscrollbarPolicy={PolicyType.NEVER}
         hscrollbarPolicy={PolicyType.ALWAYS}
+        minContentHeight={height / 3.6}
+        minContentWidth={width}
+        vscrollbarPolicy={PolicyType.NEVER}
       >
-        <box spacing={spacings.larger} class="py-10">
+        <box class="py-10" spacing={spacings.larger}>
           <For each={cachedPictures}>
             {(picture) => (
               <WallpaperItem
-                src={picture.cached}
-                width={width / 4}
                 height={height / 4}
                 onClicked={() => setWallpaper(picture.cached)}
+                src={picture.cached}
+                width={width / 4}
               />
             )}
           </For>
@@ -53,9 +53,10 @@ export default function WallpaperManagerModule({
 
       <box class="p-10 pt-5" halign={Align.CENTER} spacing={spacings.large}>
         <button
-          label="Clear wallpaper"
-          class="button border-2 bg-background px-4 py-2 font-bold text-base"
+          canFocus={false}
+          class="button border-2 border-background-lighter bg-background-light/60 px-4 py-2 font-bold text-base shadow"
           cursor={CURSORS.pointer}
+          label="Clear wallpaper"
           onClicked={() => setWallpaper()}
         />
       </box>

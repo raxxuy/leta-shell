@@ -25,15 +25,15 @@ export default function Battery() {
   });
 
   return (
-    <box visible={isPresent} class="battery" spacing={spacings.small}>
+    <box spacing={spacings.small} visible={isPresent}>
       <Gtk.EventControllerMotion
         onEnter={() => setRevealed(true)}
         onLeave={() => setRevealed(false)}
       />
       <revealer
-        visible={revealed}
         revealChild={revealed}
         transitionType={RevealerTransitionType.SWING_LEFT}
+        visible={revealed}
       >
         <label class="font-bold" label={percentage(formatPercentage)} />
       </revealer>

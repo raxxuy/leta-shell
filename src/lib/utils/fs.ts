@@ -3,7 +3,7 @@ import GLib from "gi://GLib";
 export const pathExists = (path: string, isDir = false): boolean =>
   GLib.file_test(path, isDir ? GLib.FileTest.IS_DIR : GLib.FileTest.EXISTS);
 
-export const fileExists = (path: string): boolean => pathExists(path, false);
+export const fileExists = (path: string): boolean => pathExists(path);
 export const dirExists = (path: string): boolean => pathExists(path, true);
 
 export const ensureDir = (path: string): void => {

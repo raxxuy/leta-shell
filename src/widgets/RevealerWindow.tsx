@@ -50,8 +50,8 @@ export default function RevealerWindow({
       $={(self) => {
         window = self;
       }}
-      visible={false}
       onNotifyVisible={handleVisible}
+      visible={false}
       {...props}
     >
       <Gtk.EventControllerKey onKeyPressed={handleKeyPress} />

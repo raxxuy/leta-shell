@@ -13,11 +13,7 @@ export default function Tray() {
   )((items) => items.filter((item) => item?.gicon));
 
   return (
-    <box
-      class="tray"
-      spacing={spacings.medium}
-      visible={items((items) => items.length > 0)}
-    >
+    <box spacing={spacings.small} visible={items((items) => items.length > 0)}>
       <For each={items} id={(item) => item.id}>
         {(item) => <TrayItem item={item} />}
       </For>
