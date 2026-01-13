@@ -1,12 +1,13 @@
 import type AstalMpris from "gi://AstalMpris";
 import { createBinding, createComputed, createState } from "ags";
+import { timeout } from "ags/time";
 import { Align, EllipsizeMode, Orientation, Overflow } from "@/enums";
 import { getConfig } from "@/lib/config";
 import { getIcon } from "@/lib/icons";
-import { formatSeconds } from "@/lib/utils";
-import ImageWrapper from "@/widgets/ImageWrapper";
-import PlayerButton from "./PlayerButton";
 import { loadClasses } from "@/lib/styles";
+import { formatSeconds } from "@/lib/utils";
+import PlayerButton from "@/modules/bar/QuickSettings/Media/PlayerButton";
+import ImageWrapper from "@/widgets/ImageWrapper";
 
 const { spacings } = getConfig("global");
 
@@ -15,7 +16,9 @@ interface PlayerProps {
 }
 
 export default function Player({ player }: PlayerProps) {
-  const [pendingValue, setPendingValue] = createState<number | null>(null);
+  const [isDragging, setIsDragging] = createState<boolean>(false);
+  const [dragPosition, setDragPosition] = createState<number>(0);
+
   const title = createBinding(player, "title");
   const artist = createBinding(player, "artist");
   const artUrl = createBinding(player, "artUrl");
@@ -23,12 +26,23 @@ export default function Player({ player }: PlayerProps) {
   const position = createBinding(player, "position")(Math.floor);
   const playbackStatus = createBinding(player, "playbackStatus");
 
-  const playbackIcon = createComputed(() => {
-    return getIcon("media", playbackStatus());
-  });
+  const playbackIcon = createComputed(() => getIcon("media", playbackStatus()));
 
-  const handleChangeValue = ({ value }: { value: number }) => {
-    setPendingValue(value);
+  const displayPosition = createComputed(() =>
+    isDragging() ? dragPosition() : position(),
+  );
+
+  const handleSliderChange = ({ value }: { value: number }) => {
+    setDragPosition(Math.floor(value));
+  };
+
+  const handleSliderInteraction = () => {
+    if (isDragging()) {
+      player.position = dragPosition();
+      timeout(100, () => setIsDragging(false));
+    } else {
+      setIsDragging(true);
+    }
   };
 
   return (
@@ -71,19 +85,14 @@ export default function Player({ player }: PlayerProps) {
             heightRequest={5}
             max={length}
             min={0}
-            onChangeValue={handleChangeValue}
+            onChangeValue={handleSliderChange}
             onNotify={(_, event) => {
-              // black magic
               if (event.name === "css-classes") {
-                const pv = pendingValue();
-                if (pv !== null) {
-                  player.position = Math.floor(pv);
-                  setPendingValue(null);
-                }
+                handleSliderInteraction();
               }
             }}
             orientation={Orientation.HORIZONTAL}
-            value={position}
+            value={displayPosition}
           />
 
           <box hexpand>
@@ -91,6 +100,7 @@ export default function Player({ player }: PlayerProps) {
               class="w-12 text-sm"
               label={position((p) => formatSeconds(p, "%M:%S"))}
               valign={Align.START}
+              xalign={0}
             />
             <box
               class="pt-1"
@@ -113,8 +123,8 @@ export default function Player({ player }: PlayerProps) {
             </box>
             <label
               class="w-12 text-sm"
+              halign={Align.END}
               label={length((l) => formatSeconds(l, "%M:%S"))}
-              valign={Align.START}
             />
           </box>
         </box>

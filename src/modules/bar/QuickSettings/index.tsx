@@ -1,7 +1,7 @@
 import { Align, Orientation } from "@/enums";
 import { getConfig } from "@/lib/config";
 import { toggleWindow } from "@/lib/utils";
-import Media from "@/modules/bar/QuickSettings/modules/Media";
+import Media from "@/modules/bar/QuickSettings/Media";
 import Container from "@/widgets/Container";
 import MenuButton from "@/widgets/MenuButton";
 

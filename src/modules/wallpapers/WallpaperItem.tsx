@@ -22,9 +22,11 @@ export default function WallpaperItem({
       class="m-4 rounded-3xl shadow transition focus:m-0"
       file
       heightRequest={height}
+      hexpand={false}
       onClicked={() => onClicked(src)}
       overflow={Overflow.HIDDEN}
       src={src}
+      vexpand={false}
       widthRequest={width}
     />
   );

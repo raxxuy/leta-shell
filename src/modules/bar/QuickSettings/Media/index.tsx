@@ -1,6 +1,6 @@
 import AstalMpris from "gi://AstalMpris";
 import { createBinding, createState, With } from "ags";
-import Player from "@/modules/bar/QuickSettings/modules/Media/Player";
+import Player from "@/modules/bar/QuickSettings/Media/Player";
 
 export default function Media() {
   const [current, _setCurrent] = createState<number>(0);
