@@ -1,6 +1,7 @@
 import app from "ags/gtk4/app";
 import style from "styles/index.scss";
 import { initCache } from "@/lib/cache";
+import { initConfigs } from "@/lib/config";
 import request from "@/lib/request";
 import { applyTheme } from "@/lib/styles";
 import Background from "@/windows/Background";
@@ -13,6 +14,7 @@ app.start({
   icons: `${SRC}/assets/icons`,
   css: style,
   main() {
+    initConfigs();
     initCache();
     applyTheme();
     app.monitors.forEach((monitor) => {

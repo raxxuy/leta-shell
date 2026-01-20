@@ -2,11 +2,9 @@ import { createBinding, For } from "ags";
 import type { Gdk } from "ags/gtk4";
 import { CURSORS } from "@/constants";
 import { Align, Orientation, PolicyType } from "@/enums";
-import { getConfig } from "@/lib/config";
 import WallpaperItem from "@/modules/wallpapers/WallpaperItem";
+import ConfigManager from "@/services/configs";
 import Wallpaper from "@/services/wallpaper";
-
-const { spacings } = getConfig("global");
 
 interface WallpaperManagerProps {
   gdkmonitor: Gdk.Monitor;
@@ -17,6 +15,8 @@ export default function WallpaperManagerModule({
 }: WallpaperManagerProps) {
   const { width, height } = gdkmonitor.get_geometry();
   const wallpaper = Wallpaper.get_default();
+  const configManager = ConfigManager.get_default();
+  const spacings = configManager.bind("global", "spacings");
   const cachedPictures = createBinding(wallpaper, "cachedPictures");
 
   wallpaper.setMonitorDimensions(width, height);
@@ -29,7 +29,7 @@ export default function WallpaperManagerModule({
     <box
       class="bg-background-dark/80 shadow"
       orientation={Orientation.VERTICAL}
-      spacing={spacings.large}
+      spacing={spacings((s) => s.large)}
     >
       <scrolledwindow
         hscrollbarPolicy={PolicyType.ALWAYS}
@@ -37,7 +37,7 @@ export default function WallpaperManagerModule({
         minContentWidth={width}
         vscrollbarPolicy={PolicyType.NEVER}
       >
-        <box class="py-10" spacing={spacings.larger}>
+        <box class="py-10" spacing={spacings((s) => s.larger)}>
           <For each={cachedPictures}>
             {(picture) => (
               <WallpaperItem
@@ -51,7 +51,11 @@ export default function WallpaperManagerModule({
         </box>
       </scrolledwindow>
 
-      <box class="p-10 pt-5" halign={Align.CENTER} spacing={spacings.large}>
+      <box
+        class="p-10 pt-5"
+        halign={Align.CENTER}
+        spacing={spacings((s) => s.large)}
+      >
         <button
           canFocus={false}
           class="button border-2 border-background-lighter bg-background-light/60 px-4 py-2 font-bold text-base shadow"

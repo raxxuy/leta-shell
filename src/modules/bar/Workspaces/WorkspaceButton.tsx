@@ -11,8 +11,8 @@ interface WorkspaceButtonProps {
 
 export default function WorkspaceButton({ workspace }: WorkspaceButtonProps) {
   const hyprland = Hyprland.get_default().astalHyprland;
-  const focusedWorkspace = createBinding(hyprland, "focusedWorkspace");
   const clients = createBinding(hyprland, "clients");
+  const focusedWorkspace = createBinding(hyprland, "focusedWorkspace");
 
   const classNames = createComputed(() => {
     clients();
@@ -21,10 +21,10 @@ export default function WorkspaceButton({ workspace }: WorkspaceButtonProps) {
     const isFocused = focusedWorkspace().id === workspace.id;
 
     return cls(
-      "my-0.5 h-4 w-2.5 rounded-md border-1 border-color-10-light bg-color-10 px-1.5 transition",
+      "my-0.5 h-4 w-2.5 rounded-md border-1 border-color-10-light bg-color-10 px-1.5 transition ease-in-out",
       "hover:border-color-13-lighter hover:bg-color-13-light",
       isOccupied && "border-color-13-light bg-color-13",
-      isFocused && "mb-0 border-color-13-lighter bg-color-13-light",
+      isFocused && "mb-0 border-color-13-lighter bg-color-13-light w-4",
     );
   });
 

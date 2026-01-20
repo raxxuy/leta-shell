@@ -11,5 +11,6 @@ export const {
   Overflow,
   ContentFit,
   Justification,
+  StateFlags,
 } = Gtk;
 export const { EllipsizeMode } = Pango;

@@ -6,115 +6,115 @@
 @use "colors-variations" as *;
 
 * {
-  all: unset;
-  color: $foreground;
-  font-size: 1rem;
-  font-family: "SF Pro Text";
+    all: unset;
+    color: $foreground;
+    font-size: 1rem;
+    font-family: "SF Pro Text";
 }
 
 tooltip {
-  background: rgba(black, 0.5);
-  padding: 1rem;
-  font-size: 1rem;
+    background: rgba(black, 0.5);
+    padding: 1rem;
+    font-size: 1rem;
 }
 
 image {
-  min-width: 24px;
+    min-width: 24px;
 }
 
 modelbutton {
-  @include transition;
-  @include border(transparent);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  margin: 0.2rem 0;
+    @include transition;
+    @include border(transparent);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin: 0.2rem 0;
 
-  &:hover {
-    background-color: $background_light;
-    color: $foreground_lighter;
-  }
+    &:hover {
+        background-color: $background_light;
+        color: $foreground_lighter;
+    }
 
-  &.active,
-  &:active {
-    background-color: $background_lighter;
-    color: $foreground_lighter;
-  }
+    &.active,
+    &:active {
+        background-color: $background_lighter;
+        color: $foreground_lighter;
+    }
 
-  &:focus-visible {
-    border-color: $background_lighter;
-  }
+    &:focus-visible {
+        border-color: $background_lighter;
+    }
 
-  label:disabled {
-    color: $foreground_darker;
-  }
+    label:disabled {
+        color: $foreground_darker;
+    }
 }
 
 levelbar {
-  trough {
-    .filled {
-      border-radius: 2rem;
-      background-color: $color10_lighter;
-    }
+    trough {
+        .filled {
+            border-radius: 2rem;
+            background-color: $color10_lighter;
+        }
 
-    .empty {
-      border-radius: 2rem;
-      background-color: $background_darker;
+        .empty {
+            border-radius: 2rem;
+            background-color: $background_darker;
+        }
     }
-  }
 }
 
 scale {
-  trough {
-    border-radius: 2rem;
-    background-color: $background_darker;
+    trough {
+        border-radius: 2rem;
+        background-color: $background_darker;
 
-    highlight {
-      filter: brightness(150%);
-      background-color: $background_lighter;
-    }
+        highlight {
+            filter: brightness(150%);
+            background-color: $background_lighter;
+        }
 
-    slider {
-      filter: brightness(200%);
-      min-width: 2px;
-      min-height: 2px;
-      padding: 2px;
-      border-radius: 9999px;
-      background-color: $background_lighter;
-      outline: 3px solid $background_lighter;
-      outline-offset: -1px;
+        slider {
+            filter: brightness(200%);
+            min-width: 2px;
+            min-height: 2px;
+            padding: 2px;
+            border-radius: 9999px;
+            background-color: $background_lighter;
+            outline: 3px solid $background_lighter;
+            outline-offset: -1px;
+        }
     }
-  }
 }
 
 calendar {
-  * {
-    font-size: small;
-  }
-
-  header {
-    margin-bottom: 1rem;
-    font-weight: bold;
-  }
-
-  grid {
-    .day-name {
-      font-weight: bold;
+    * {
+        font-size: small;
     }
 
-    .day-number {
-      margin-bottom: 0.5rem;
-      padding: 0.3rem 0;
-      border-radius: 1rem;
-      font-weight: 500;
-
-      &.today {
-        background-color: $background_lighter;
-        color: $foreground_lighter;
-      }
-
-      &.other-month {
-        color: $foreground_darker;
-      }
+    header {
+        margin-bottom: 1rem;
+        font-weight: bold;
     }
-  }
+
+    grid {
+        .day-name {
+            font-weight: bold;
+        }
+
+        .day-number {
+            margin-bottom: 0.5rem;
+            padding: 0.3rem 0;
+            border-radius: 1rem;
+            font-weight: 500;
+
+            &.today {
+                background-color: $background_lighter;
+                color: $foreground_lighter;
+            }
+
+            &.other-month {
+                color: $foreground_darker;
+            }
+        }
+    }
 }

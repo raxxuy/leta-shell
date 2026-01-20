@@ -2,10 +2,8 @@ import AstalApps from "gi://AstalApps";
 import { createState, For } from "ags";
 import { type Gdk, Gtk } from "ags/gtk4";
 import { Align, Orientation } from "@/enums";
-import { getConfig } from "@/lib/config";
 import LauncherItem from "@/modules/launcher/LauncherItem";
-
-const { spacings } = getConfig("global");
+import ConfigManager from "@/services/configs";
 
 interface LauncherModuleProps {
   gdkmonitor: Gdk.Monitor;
@@ -13,13 +11,20 @@ interface LauncherModuleProps {
 
 export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
   const { width, height } = gdkmonitor.get_geometry();
-  const apps = new AstalApps.Apps();
-  const [list, setList] = createState<AstalApps.Application[]>([]);
+  const configManager = ConfigManager.get_default();
+  const spacings = configManager.bind("global", "spacings");
 
+  const [list, setList] = createState<AstalApps.Application[]>([]);
+  const apps = new AstalApps.Apps();
   let entry: Gtk.Entry;
 
   const handleSearch = (text: string) => {
     setList(text ? apps.fuzzy_query(text) : []);
+  };
+
+  const init = (self: Gtk.Entry) => {
+    entry = self;
+    self.get_first_child()?.set_css_classes(["focus:text-foreground-lighter"]);
   };
 
   const handleNotifyVisible = ({ visible }: { visible: boolean }) => {
@@ -38,7 +43,7 @@ export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
       halign={Align.CENTER}
       onNotifyVisible={handleNotifyVisible}
       orientation={Orientation.VERTICAL}
-      spacing={spacings.large}
+      spacing={spacings((s) => s.large)}
       valign={Align.CENTER}
     >
       <box class="rounded-xl bg-background-dark/80">
@@ -51,7 +56,7 @@ export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
           <box
             class="first-child:mt-4 last-child:mb-4"
             orientation={Orientation.VERTICAL}
-            spacing={spacings.medium}
+            spacing={spacings((s) => s.medium)}
           >
             <For each={list}>
               {(app, index) => <LauncherItem app={app} index={index} />}
@@ -60,12 +65,7 @@ export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
         </scrolledwindow>
       </box>
       <entry
-        $={(self) => {
-          entry = self;
-          self
-            .get_first_child()
-            ?.set_css_classes(["focus:text-foreground-lighter"]);
-        }}
+        $={init}
         class="rounded-xl bg-background-dark p-4"
         onNotifyText={({ text }) => handleSearch(text)}
         placeholderText="Start typing to search"

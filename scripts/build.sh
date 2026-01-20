@@ -8,7 +8,6 @@ run_build_process() {
     fi
 }
 
-SHOULD_CLEAN=false
 CLEAN_CACHE=false
 
 while getopts "c" opt; do

@@ -1,6 +1,7 @@
 import Gio from "gi://Gio";
-import { Accessor, createComputed } from "ags";
+import { type Accessor, createComputed } from "ags";
 import { Gtk } from "ags/gtk4";
+import { access } from "@/lib/utils";
 
 type ImageWrapperBase = {
   src: string | Accessor<string>;
@@ -28,8 +29,8 @@ export default function ImageWrapper({
   ...props
 }: ImageWrapperProps) {
   const source = createComputed(() => {
-    const src = srcProp instanceof Accessor ? srcProp() : srcProp;
-    const file = fileProp instanceof Accessor ? fileProp() : fileProp;
+    const src = access(srcProp);
+    const file = access(fileProp);
     return file ? Gio.File.new_for_path(src) : Gio.File.new_for_uri(src);
   });
 

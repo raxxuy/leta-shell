@@ -9,7 +9,7 @@ import {
   SRC_STYLES_DIR,
   UTILITIES_JSON_FILE,
 } from "@/constants";
-import { generateUtilityClasses, getUsedClasses } from "@/lib/styles/css";
+import { getUsedClasses, getUtility } from "@/lib/styles/css";
 import {
   buildPath,
   dirExists,
@@ -21,16 +21,15 @@ import {
   writeFile,
 } from "@/lib/utils";
 
-const utilities: Record<string, string[]> = generateUtilityClasses();
 const mappedWidgets = new Set<string>();
 const usedSet = new Set<string>();
 const sections: string[] = [
   "/* Auto-generated utility classes */\n",
   '@use "mixins" as *;',
   '@use "colors" as *;',
+  '@use "keyframes" as *;',
   '@use "colors-variations" as *;\n',
   "/* Utility classes */\n",
-  ".transition { @include transition; }",
 ];
 
 let isApplying = false;
@@ -49,7 +48,7 @@ const initStyles = async (): Promise<void> => {
 };
 
 const escapeClassName = (cls: string): string => {
-  const escaped = cls.replace(/[:./]/g, "\\$&");
+  const escaped = cls.replace(/[:./[\]]/g, "\\$&");
   const pseudoClass = cls.includes(":") ? `:${cls.split(":")[0]}` : "";
   return escaped + pseudoClass;
 };
@@ -68,10 +67,14 @@ export const setClasses = (classes: string[], restart = false): void => {
   const previous = usedSet.size;
 
   for (const cls of classes) {
-    if (!usedSet.has(cls) && utilities[cls]) {
-      usedSet.add(cls);
-      const className = escapeClassName(cls);
-      sections.push(`.${className} { ${utilities[cls].join("; ")}; }`);
+    if (!usedSet.has(cls)) {
+      const utility = getUtility(cls);
+
+      if (utility) {
+        usedSet.add(cls);
+        const className = escapeClassName(cls);
+        sections.push(`.${className} { ${utility.join("; ")}; }`);
+      }
     }
   }
 
@@ -85,15 +88,13 @@ export const setClasses = (classes: string[], restart = false): void => {
 };
 
 /* Primarily used for loading dynamic widgets who weren't rendered from the start */
-export const loadClasses = <T extends Function>(
-  component: T,
-  name?: string,
-) => {
+export const loadClasses = (component: { name: string }, name?: string) => {
   const kebabName = name || kebabCase(component.name);
   let isFirstRun = true;
 
   return (self: Gtk.Widget) => {
     const shouldRestart = isFirstRun && !mappedWidgets.has(kebabName);
+
     if (isFirstRun) {
       mappedWidgets.add(kebabName);
       isFirstRun = false;

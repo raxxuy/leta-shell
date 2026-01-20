@@ -5,6 +5,7 @@ import { buildPath } from "@/lib/utils";
 // System directories
 export const HOME_DIR = GLib.get_home_dir();
 export const CACHE_DIR = buildPath(GLib.get_user_cache_dir(), "leta-shell");
+export const CONFIG_DIR = buildPath(GLib.get_user_config_dir(), "leta-shell");
 export const PICTURES_DIR =
   GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES) ??
   buildPath(HOME_DIR, "Pictures");
@@ -14,7 +15,6 @@ export const CACHE_WAL_DIR = buildPath(CACHE_DIR, "wal");
 export const CACHE_STYLES_DIR = buildPath(CACHE_DIR, "styles");
 export const CACHE_PICTURES_DIR = buildPath(CACHE_DIR, "pictures");
 export const SRC_STYLES_DIR = buildPath(SRC, "styles");
-export const CONFIGS_DIR = buildPath(SRC, "configs");
 
 // Files
 export const WAL_FILE = buildPath(CACHE_WAL_DIR, "wal");

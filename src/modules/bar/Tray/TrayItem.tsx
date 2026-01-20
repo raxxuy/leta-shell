@@ -1,16 +1,16 @@
 import type AstalTray from "gi://AstalTray";
 import { createBinding, onCleanup } from "ags";
 import { Gdk, Gtk } from "ags/gtk4";
-import { getConfig } from "@/lib/config";
+import ConfigManager from "@/services/configs";
 import MenuButton from "@/widgets/MenuButton";
-
-const { icons } = getConfig("global");
 
 interface TrayItemProps {
   item: AstalTray.TrayItem;
 }
 
 export default function TrayItem({ item }: TrayItemProps) {
+  const configManager = ConfigManager.get_default();
+  const icons = configManager.bind("global", "icons");
   const gicon = createBinding(item, "gicon");
 
   const buttonInit = (self: Gtk.MenuButton) => {
@@ -46,7 +46,7 @@ export default function TrayItem({ item }: TrayItemProps) {
     <MenuButton $={buttonInit} class="button">
       <image
         gicon={gicon}
-        pixelSize={icons.pixelSize.small}
+        pixelSize={icons((i) => i.pixelSize.small)}
         tooltipText={item.tooltip?.title ?? item.title}
       />
       <Gtk.PopoverMenu $={popoverInit} menuModel={item.menuModel} />

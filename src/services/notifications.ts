@@ -23,21 +23,21 @@ export default class Notifications extends Service<NotificationsSignals> {
   }
 
   @signal(Number, Boolean)
-  notified(id: number, replaced: boolean) {}
+  notified(_id: number, _replaced: boolean) {}
 
   @signal(Number)
-  resolved(id: number) {}
+  resolved(_id: number) {}
 
   @getter(Array)
   get notifications() {
     return this.#notifications;
   }
-  
+
   @getter(Boolean)
   get dontDisturb() {
     return this.#notifd.dontDisturb;
   }
-  
+
   @setter(Boolean)
   set dontDisturb(value: boolean) {
     this.#notifd.dontDisturb = value;

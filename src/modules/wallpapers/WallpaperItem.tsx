@@ -15,6 +15,8 @@ export default function WallpaperItem({
   height,
   onClicked,
 }: WallpaperItemProps) {
+  const handleClick = () => onClicked(src);
+
   return (
     <ImageWrapper
       $={loadClasses(WallpaperItem)}
@@ -23,7 +25,7 @@ export default function WallpaperItem({
       file
       heightRequest={height}
       hexpand={false}
-      onClicked={() => onClicked(src)}
+      onClicked={handleClick}
       overflow={Overflow.HIDDEN}
       src={src}
       vexpand={false}

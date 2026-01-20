@@ -3,11 +3,11 @@ import { z } from "zod";
 export const barConfigSchema = z.object({
   window: z.object({
     defaultHeight: z.number().min(16).max(64).default(24),
-    floating: z.boolean().default(false),
+    floating: z.boolean().default(true),
   }),
   layout: z.object({
     start: z.array(z.string()).default(["launcher", "workspaces", "tray"]),
-    center: z.array(z.string()).default(["clock"]),
+    center: z.array(z.string()).default(["client"]),
     end: z
       .array(z.string())
       .default([
@@ -15,6 +15,7 @@ export const barConfigSchema = z.object({
         "sound",
         "bluetooth",
         "notifications",
+        "clock",
         "quick-settings",
       ]),
   }),
@@ -23,8 +24,11 @@ export const barConfigSchema = z.object({
       count: z.number().min(1).max(10).default(10),
     }),
     clock: z.object({
-      format: z.string().default("%H:%M"),
-      fontSize: z.enum(["sm", "md", "lg"]).default("md"),
+      currentFormat: z.number().min(0).max(2).default(0),
+      formats: z
+        .array(z.string())
+        .default(["%a %b %d  %I:%M %p", "%a %H:%M", "%H:%M"]),
+      fontSize: z.enum(["sm", "md", "lg"]).default("sm"),
     }),
   }),
 });
@@ -58,12 +62,15 @@ export const launcherConfigSchema = z.object({
   }),
 });
 
-export const colorsConfigSchema = z.object({
-  theme: z.enum(["dark", "light"]).default("dark"),
-});
+export const schemas = {
+  bar: barConfigSchema,
+  global: globalConfigSchema,
+  launcher: launcherConfigSchema,
+  background: backgroundConfigSchema,
+};
 
 // Export types
 export type BarConfig = z.infer<typeof barConfigSchema>;
-export type ColorsConfig = z.infer<typeof colorsConfigSchema>;
 export type GlobalConfig = z.infer<typeof globalConfigSchema>;
 export type LauncherConfig = z.infer<typeof launcherConfigSchema>;
+export type BackgroundConfig = z.infer<typeof backgroundConfigSchema>;

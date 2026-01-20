@@ -1,22 +1,24 @@
 import Adw from "gi://Adw";
+import { createComputed, For } from "ags";
 import { Gtk } from "ags/gtk4";
 import { timeout } from "ags/time";
 import { range } from "es-toolkit/math";
 import { Orientation } from "@/enums";
-import { getConfig } from "@/lib/config";
-import { getNestedValue } from "@/lib/utils";
 import WorkspaceButton from "@/modules/bar/Workspaces/WorkspaceButton";
+import ConfigManager from "@/services/configs";
 import Hyprland from "@/services/hyprland";
-
-const { spacings } = getConfig("global");
-const workspaces = getNestedValue("bar", "modules.workspaces");
 
 export default function Workspaces() {
   const hyprland = Hyprland.get_default();
+  const configManager = ConfigManager.get_default();
+  const spacings = configManager.bind("global", "spacings");
+  const workspaces = configManager.bind("bar", "modules.workspaces");
 
-  const ws = range(workspaces.count).map((_, i) =>
-    hyprland.workspaceDummy(i + 1, null),
-  );
+  const ws = createComputed(() => {
+    return range(workspaces().count).map((_, i) =>
+      hyprland.workspaceDummy(i + 1, null),
+    );
+  });
 
   let scrollLocked = false;
 
@@ -26,6 +28,7 @@ export default function Workspaces() {
 
     scrollLocked = true;
     hyprland.changeWorkspace(delta);
+
     timeout(200, () => {
       scrollLocked = false;
     });
@@ -37,10 +40,10 @@ export default function Workspaces() {
         flags={Gtk.EventControllerScrollFlags.VERTICAL}
         onScroll={(_, __, direction) => handleScroll(direction)}
       />
-      <box spacing={spacings.small}>
-        {ws.map((workspace) => (
-          <WorkspaceButton workspace={workspace} />
-        ))}
+      <box spacing={spacings((s) => s.small)}>
+        <For each={ws}>
+          {(workspace) => <WorkspaceButton workspace={workspace} />}
+        </For>
       </box>
     </Adw.Clamp>
   );

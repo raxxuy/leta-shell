@@ -2,17 +2,18 @@ import AstalBluetooth from "gi://AstalBluetooth";
 import { createBinding, createComputed, For, With } from "ags";
 import { CURSORS } from "@/constants";
 import { Orientation } from "@/enums";
-import { getConfig } from "@/lib/config";
 import { getIcon } from "@/lib/icons";
 import { exec } from "@/lib/utils";
 import PairedDevice from "@/modules/bar/Bluetooth/PairedDevice";
+import ConfigManager from "@/services/configs";
 import Container from "@/widgets/Container";
 import MenuButton from "@/widgets/MenuButton";
 
-const { icons, spacings } = getConfig("global");
-
 export default function Bluetooth() {
   const bluetooth = AstalBluetooth.get_default();
+  const configManager = ConfigManager.get_default();
+  const icons = configManager.bind("global", "icons");
+  const spacings = configManager.bind("global", "spacings");
   const isPowered = createBinding(bluetooth, "isPowered");
   const pairedDevices = createBinding(
     bluetooth,
@@ -25,7 +26,7 @@ export default function Bluetooth() {
     <MenuButton class="button">
       <image
         iconName={iconName}
-        pixelSize={icons.pixelSize.small}
+        pixelSize={icons((i) => i.pixelSize.small)}
         tooltipText={isPowered((p) => (p ? "Connected" : "Disconnected"))}
       />
       <popover>
@@ -35,7 +36,7 @@ export default function Bluetooth() {
               isPowered ? (
                 <box
                   orientation={Orientation.VERTICAL}
-                  spacing={spacings.medium}
+                  spacing={spacings((s) => s.medium)}
                 >
                   <label class="font-bold" label="Paired devices" />
                   <For each={pairedDevices}>
@@ -46,7 +47,7 @@ export default function Bluetooth() {
                 <box
                   class="bluetooth-disabled"
                   orientation={Orientation.VERTICAL}
-                  spacing={spacings.medium}
+                  spacing={spacings((s) => s.medium)}
                 >
                   <label class="font-bold" label="Bluetooth is disabled" />
                   <button

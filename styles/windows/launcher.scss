@@ -3,25 +3,25 @@
 @use "mixins" as *;
 
 .launcher {
-  scrollbar.vertical {
-    &:hover {
-      slider {
-        min-height: 5px;
-      }
-    }
-
-    range {
-      trough {
-        border-radius: 1rem;
-        outline: 1px solid rgba(black, 0.5);
-
-        slider {
-          border-radius: 1rem;
-          min-width: 3px;
-          background-color: white;
-          outline: 1px solid #ccc;
+    scrollbar.vertical {
+        &:hover {
+            slider {
+                min-height: 5px;
+            }
         }
-      }
+
+        range {
+            trough {
+                border-radius: 1rem;
+                outline: 1px solid rgba(black, 0.5);
+
+                slider {
+                    border-radius: 1rem;
+                    min-width: 3px;
+                    background-color: white;
+                    outline: 1px solid #ccc;
+                }
+            }
+        }
     }
-  }
 }

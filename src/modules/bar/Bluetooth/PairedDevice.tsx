@@ -2,17 +2,18 @@ import type AstalBluetooth from "gi://AstalBluetooth";
 import { createBinding, createComputed } from "ags";
 import { CURSORS } from "@/constants";
 import { Align } from "@/enums";
-import { getConfig } from "@/lib/config";
 import { getIcon } from "@/lib/icons";
 import { loadClasses } from "@/lib/styles";
-
-const { icons, spacings } = getConfig("global");
+import ConfigManager from "@/services/configs";
 
 interface PairedDeviceProps {
   device: AstalBluetooth.Device;
 }
 
 export default function PairedDevice({ device }: PairedDeviceProps) {
+  const configManager = ConfigManager.get_default();
+  const icons = configManager.bind("global", "icons");
+  const spacings = configManager.bind("global", "spacings");
   const connected = createBinding(device, "connected");
   const connecting = createBinding(device, "connecting");
 
@@ -30,7 +31,7 @@ export default function PairedDevice({ device }: PairedDeviceProps) {
   };
 
   return (
-    <box $={loadClasses(PairedDevice)} spacing={spacings.small}>
+    <box $={loadClasses(PairedDevice)} spacing={spacings((s) => s.small)}>
       <button
         class="button px-2 py-1"
         cursor={CURSORS.pointer}
@@ -39,8 +40,14 @@ export default function PairedDevice({ device }: PairedDeviceProps) {
         <label halign={Align.START} label={device.name} />
       </button>
       <box>
-        <image iconName={deviceIcon} pixelSize={icons.pixelSize.small} />
-        <image iconName={connectedIcon} pixelSize={icons.pixelSize.small} />
+        <image
+          iconName={deviceIcon}
+          pixelSize={icons((i) => i.pixelSize.small)}
+        />
+        <image
+          iconName={connectedIcon}
+          pixelSize={icons((i) => i.pixelSize.small)}
+        />
       </box>
     </box>
   );

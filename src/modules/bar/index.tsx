@@ -1,5 +1,5 @@
+import { For, With } from "ags";
 import type GObject from "ags/gobject";
-import { getConfig } from "@/lib/config";
 import { cls } from "@/lib/utils";
 import Battery from "@/modules/bar/Battery";
 import Bluetooth from "@/modules/bar/Bluetooth";
@@ -12,9 +12,7 @@ import QuickSettings from "@/modules/bar/QuickSettings";
 import Sound from "@/modules/bar/Sound";
 import Tray from "@/modules/bar/Tray";
 import Workspaces from "@/modules/bar/Workspaces";
-
-const { window, layout } = getConfig("bar");
-const { spacings } = getConfig("global");
+import ConfigManager from "@/services/configs";
 
 const MODULES: Record<string, () => GObject.Object> = {
   launcher: Launcher,
@@ -30,26 +28,35 @@ const MODULES: Record<string, () => GObject.Object> = {
   "quick-settings": QuickSettings,
 };
 
-const Section = ({ type }: { type: "start" | "center" | "end" }) => (
-  <box $type={type} spacing={spacings.medium}>
-    {layout[type].map((moduleName: string) => {
-      const Module = MODULES[moduleName];
-      return Module ? <Module /> : null;
-    })}
-  </box>
-);
-
 export default function BarModule() {
+  const configManager = ConfigManager.get_default();
+  const window = configManager.bind("bar", "window");
+  const spacings = configManager.bind("global", "spacings");
+
+  const Section = ({ type }: { type: "start" | "center" | "end" }) => {
+    const layout = configManager.bind("bar", `layout.${type}`);
+
+    return (
+      <box $type={type} spacing={spacings((s) => s.medium)}>
+        <For each={layout}>{(module) => MODULES[module]()}</For>
+      </box>
+    );
+  };
+
   return (
-    <centerbox
-      class={cls(
-        "bg-background-dark/80 shadow",
-        window.floating ? "mx-2 my-1 rounded-lg px-2 py-1.5" : "px-4",
+    <With value={window}>
+      {(w) => (
+        <centerbox
+          class={cls(
+            "bg-background-dark/80 shadow",
+            w.floating ? "mx-2 my-1 rounded-lg px-2 py-1.5" : "px-4",
+          )}
+        >
+          <Section type="start" />
+          <Section type="center" />
+          <Section type="end" />
+        </centerbox>
       )}
-    >
-      <Section type="start" />
-      <Section type="center" />
-      <Section type="end" />
-    </centerbox>
+    </With>
   );
 }

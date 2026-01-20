@@ -1,5 +1,4 @@
 export * from "./classes";
-export * from "./config";
 export * from "./formatters";
 export * from "./fs";
 export * from "./media";

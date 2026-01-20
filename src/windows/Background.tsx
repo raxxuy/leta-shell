@@ -2,16 +2,16 @@ import { createBinding, With } from "ags";
 import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import { Exclusivity, Layer } from "@/enums";
-import { getConfig } from "@/lib/config";
+import ConfigManager from "@/services/configs";
 import Wallpaper from "@/services/wallpaper";
 import ImageWrapper from "@/widgets/ImageWrapper";
-
-const { enabled } = getConfig("background");
 
 export default function Background(gdkmonitor: Gdk.Monitor) {
   const { width, height } = gdkmonitor.get_geometry();
   const wallpaper = Wallpaper.get_default();
+  const configManager = ConfigManager.get_default();
   const source = createBinding(wallpaper, "source");
+  const enabled = configManager.bind("background", "enabled");
 
   return (
     <window

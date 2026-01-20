@@ -3,9 +3,10 @@ import { createBinding, createState, With } from "ags";
 import Player from "@/modules/bar/QuickSettings/Media/Player";
 
 export default function Media() {
-  const [current, _setCurrent] = createState<number>(0);
   const mpris = AstalMpris.get_default();
   const players = createBinding(mpris, "players");
+
+  const [current, _setCurrent] = createState<number>(0);
 
   return (
     <box>

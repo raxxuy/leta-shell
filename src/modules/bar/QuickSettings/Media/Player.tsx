@@ -2,29 +2,29 @@ import type AstalMpris from "gi://AstalMpris";
 import { createBinding, createComputed, createState } from "ags";
 import { timeout } from "ags/time";
 import { Align, EllipsizeMode, Orientation, Overflow } from "@/enums";
-import { getConfig } from "@/lib/config";
 import { getIcon } from "@/lib/icons";
 import { loadClasses } from "@/lib/styles";
 import { formatSeconds } from "@/lib/utils";
 import PlayerButton from "@/modules/bar/QuickSettings/Media/PlayerButton";
+import ConfigManager from "@/services/configs";
 import ImageWrapper from "@/widgets/ImageWrapper";
-
-const { spacings } = getConfig("global");
 
 interface PlayerProps {
   player: AstalMpris.Player;
 }
 
 export default function Player({ player }: PlayerProps) {
-  const [isDragging, setIsDragging] = createState<boolean>(false);
-  const [dragPosition, setDragPosition] = createState<number>(0);
-
+  const configManager = ConfigManager.get_default();
+  const spacings = configManager.bind("global", "spacings");
   const title = createBinding(player, "title");
   const artist = createBinding(player, "artist");
   const artUrl = createBinding(player, "artUrl");
   const length = createBinding(player, "length")(Math.floor);
   const position = createBinding(player, "position")(Math.floor);
   const playbackStatus = createBinding(player, "playbackStatus");
+
+  const [isDragging, setIsDragging] = createState<boolean>(false);
+  const [dragPosition, setDragPosition] = createState<number>(0);
 
   const playbackIcon = createComputed(() => getIcon("media", playbackStatus()));
 
@@ -63,7 +63,7 @@ export default function Player({ player }: PlayerProps) {
           $type="overlay"
           class="bg-background-dark/50 p-4"
           orientation={Orientation.VERTICAL}
-          spacing={spacings.medium}
+          spacing={spacings((s) => s.medium)}
           valign={Align.END}
         >
           <box orientation={Orientation.VERTICAL}>
@@ -106,7 +106,7 @@ export default function Player({ player }: PlayerProps) {
               class="pt-1"
               halign={Align.CENTER}
               hexpand
-              spacing={spacings.medium}
+              spacing={spacings((s) => s.medium)}
             >
               <PlayerButton
                 iconName="skip-back"
@@ -125,6 +125,7 @@ export default function Player({ player }: PlayerProps) {
               class="w-12 text-sm"
               halign={Align.END}
               label={length((l) => formatSeconds(l, "%M:%S"))}
+              valign={Align.START}
             />
           </box>
         </box>

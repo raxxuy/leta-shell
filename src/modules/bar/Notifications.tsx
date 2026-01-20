@@ -1,17 +1,19 @@
 import { createBinding, createState, For } from "ags";
 import { Orientation } from "@/enums";
-import { getConfig } from "@/lib/config";
+import ConfigManager from "@/services/configs";
 import NotificationsService from "@/services/notifications";
 import Container from "@/widgets/Container";
 import MenuButton from "@/widgets/MenuButton";
 import Notification from "@/widgets/Notification";
 
-const { icons, spacings } = getConfig("global");
-
 export default function Notifications() {
-  const [iconName, setIconName] = createState<string>("notifications");
   const notifd = NotificationsService.get_default();
+  const configManager = ConfigManager.get_default();
+  const icons = configManager.bind("global", "icons");
+  const spacings = configManager.bind("global", "spacings");
   const notifications = createBinding(notifd, "notifications");
+
+  const [iconName, setIconName] = createState<string>("notifications");
 
   const handleVisible = ({ visible }: { visible: boolean }) => {
     if (visible) setIconName("notifications");
@@ -23,12 +25,12 @@ export default function Notifications() {
 
   return (
     <MenuButton class="button">
-      <image iconName={iconName} pixelSize={icons.pixelSize.small} />
+      <image iconName={iconName} pixelSize={icons((i) => i.pixelSize.small)} />
       <popover onNotifyVisible={handleVisible}>
         <Container>
           <box
             orientation={Orientation.VERTICAL}
-            spacing={spacings.large}
+            spacing={spacings((s) => s.large)}
             widthRequest={400}
           >
             <For each={notifications}>

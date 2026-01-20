@@ -76,7 +76,7 @@
             pnpmDeps = pkgs.fetchPnpmDeps {
               inherit pname version src;
               fetcherVersion = 3;
-              hash = "sha256-geDeV2mE97rNDb7MSI+ejTnOvyMktvRnxUUOt1KS5sw=";
+              hash = "sha256-Z4tgm/zarvJmoVx2URquwQLSX0GO8KZVm12nv+vmH6U=";
             };
 
             nativeBuildInputs = [

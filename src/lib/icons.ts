@@ -25,7 +25,7 @@ const BATTERY_ICONS = [
 
 const getBatteryIcon = (percentage: number, charging: boolean) => {
   if (charging) return "battery-charging";
-  
+
   return (
     BATTERY_ICONS.find(({ max }) => percentage < max)?.icon || "battery-full"
   );

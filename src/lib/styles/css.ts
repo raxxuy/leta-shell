@@ -27,21 +27,15 @@ export const getUsedClasses = (widget?: Gtk.Widget): string[] => {
 const STATES = [
   "",
   "hover",
-  "active",
   "focus",
+  "active",
+  "checked",
   "disabled",
+  "selected",
   "first-child",
   "last-child",
-];
-
-const SPACINGS = Object.fromEntries(
-  range(193).map((i) => [
-    String(i * 0.5),
-    `${(i * 0.125).toFixed(3).replace(/\.?0+$/, "")}rem`,
-  ]),
-);
-
-const OPACITIES = range(21).map((i) => i * 5);
+  "focus-within",
+] as const;
 
 const SPACING_PROPS = {
   p: "padding",
@@ -67,7 +61,7 @@ const COLORS = {
       (c) => [c, `$${c.replace(/-/g, "")}`],
     ),
   ),
-};
+} as const;
 
 const COLOR_PROPS = {
   bg: "background-color",
@@ -84,7 +78,6 @@ const COLOR_VARIANTS = {
 } as const;
 
 const ROUNDED_SIZES = {
-  "": 0.5,
   none: 0,
   xs: 0.125,
   sm: 0.25,
@@ -135,15 +128,15 @@ const FONT_SIZES = {
   "9xl": 8,
 } as const;
 
-const FILTERS = [
-  "blur",
-  "brightness",
-  "contrast",
-  "grayscale",
-  "invert",
-  "saturate",
-  "sepia",
-];
+// const FILTERS = [
+//   "blur",
+//   "brightness",
+//   "contrast",
+//   "grayscale",
+//   "invert",
+//   "saturate",
+//   "sepia",
+// ];
 
 const BLUR_SIZES = {
   "2xs": 2,
@@ -158,132 +151,362 @@ const BLUR_SIZES = {
 
 const BORDER_STYLES = ["solid", "dashed", "dotted", "none"];
 
+const ANIMATIONS = {
+  spin: "spin 1s linear infinite",
+  ping: "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",
+  pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+  bounce: "bounce 1s infinite",
+} as const;
+
+const TRANSITION_PROPERTIES = {
+  none: "none",
+  all: "all",
+  colors: "color, background-color, border-color",
+  opacity: "opacity",
+  shadow: "box-shadow",
+} as const;
+
+const TRANSITION_TIMINGS = {
+  linear: "linear",
+  in: "ease-in",
+  out: "ease-out",
+  "in-out": "ease-in-out",
+} as const;
+
 /* Utility generators */
 
 type UtilityMap = Record<string, string[]>;
 
-class UtilityBuilder {
-  private utilities: UtilityMap = {};
+const utilities: UtilityMap = {};
 
-  add(key: string, val: string[]): void {
-    this.utilities[key] = val;
-  }
-
-  addWithOpacity(base: string, prop: string, color: string): void {
-    this.add(base, [`${prop}: ${color}`]);
-    OPACITIES.forEach((o) => {
-      this.add(`${base}/${o}`, [`${prop}: rgba(${color}, ${o}%)`]);
-    });
-  }
-
-  getUtilities(): UtilityMap {
-    return this.utilities;
-  }
-}
-
-const generateColors = (builder: UtilityBuilder, prefix: string): void => {
-  Object.entries(COLORS).forEach(([c, cv]) => {
-    Object.entries(COLOR_PROPS).forEach(([n, prop]) => {
-      Object.entries(COLOR_VARIANTS).forEach(([v, suffix]) => {
-        const cls = `${prefix}${n}-${c}${v ? `-${v}` : ""}`;
-        const val = `${cv}${suffix ? `_${suffix}` : ""}`;
-        builder.addWithOpacity(cls, prop, val);
-      });
-    });
-  });
-};
-
-const generateSpacing = (builder: UtilityBuilder, prefix: string): void => {
-  Object.entries(SPACING_PROPS).forEach(([n, prop]) => {
-    Object.entries(SPACINGS).forEach(([k, v]) => {
-      if (["w", "h"].includes(n)) {
-        builder.add(`${prefix}${n}-${k}`, [`${prop}: ${v}`]);
-      } else {
-        Object.entries(DIRECTIONS).forEach(([d, parts]) => {
-          builder.add(
-            `${prefix}${n}${d}-${k}`,
-            parts.map((p) => `${prop}${p ? `-${p}` : ""}: ${v}`),
-          );
-        });
-      }
-    });
-  });
-};
-
-const generateRounded = (builder: UtilityBuilder, prefix: string): void => {
-  Object.entries(ROUNDED_SIZES).forEach(([n, v]) => {
-    Object.entries(ROUNDED_DIRS).forEach(([d, dv]) => {
-      builder.add(
-        `${prefix}rounded${d ? `-${d}` : ""}-${n}`,
-        dv.map((dr) => `border${dr ? `-${dr}` : ""}-radius: ${v}rem`),
-      );
-    });
-  });
-};
-
-const generateTypography = (builder: UtilityBuilder, prefix: string): void => {
-  Object.entries(FONT_WEIGHTS).forEach(([n, v]) => {
-    builder.add(`${prefix}font-${n}`, [`font-weight: ${v}`]);
-  });
-
-  Object.entries(FONT_SIZES).forEach(([n, sz]) => {
-    builder.add(`${prefix}text-${n}`, [`font-size: ${sz}rem`]);
-  });
-};
-
-const generateBorders = (builder: UtilityBuilder, prefix: string): void => {
-  range(16).forEach((i) => {
-    Object.entries(DIRECTIONS).forEach(([d, parts]) => {
-      builder.add(`${prefix}border${d ? `-${d}` : ""}-${i}`, [
-        ...parts.map((p) => `border${p ? `-${p}` : ""}-width: ${i}px`),
-        "border-style: solid",
-      ]);
-    });
-  });
-
-  BORDER_STYLES.forEach((style) => {
-    builder.add(`${prefix}border-${style}`, [`border-style: ${style}`]);
-  });
-};
-
-const generateFilters = (builder: UtilityBuilder, prefix: string): void => {
-  FILTERS.forEach((f) => {
-    if (["grayscale", "invert", "sepia"].includes(f)) {
-      builder.add(`${prefix}${f}`, [`filter: ${f}(1)`]);
+const parseState = (className: string): [string, string] => {
+  for (const state of STATES.slice(1)) {
+    if (className.startsWith(`${state}:`)) {
+      return [state, className.slice(state.length + 1)];
     }
+  }
+  return ["", className];
+};
 
-    if (f === "blur") {
-      Object.entries(BLUR_SIZES).forEach(([n, v]) => {
-        builder.add(`${prefix}blur-${n}`, [`filter: blur(${v}px)`]);
-      });
+const generateSpacing = (cls: string): string[] | null => {
+  // Match arbitrary values: w-[64px], p-[2.5rem], m-[10%]
+  const arbitraryMatch = cls.match(/^([pmwh])([xytrbl])?-\[(.+)\]$/);
+
+  if (arbitraryMatch) {
+    const [, prop, dir = "", value] = arbitraryMatch;
+    const cssProp = SPACING_PROPS[prop as keyof typeof SPACING_PROPS];
+
+    if (["w", "h"].includes(prop)) {
+      return [`${cssProp}: ${value}`];
     } else {
-      range(100).forEach((i) => {
-        builder.add(`${prefix}${f}-${i}`, [`filter: ${f}(${i}%)`]);
-      });
+      const parts = DIRECTIONS[dir as keyof typeof DIRECTIONS] || [""];
+      return parts.map((p) => `${cssProp}${p ? `-${p}` : ""}: ${value}`);
     }
-  });
+  }
+
+  // Match regular values: p-4, m-2.5, w-64
+  const match = cls.match(/^([pmwh])([xytrbl])?-([\d.]+)$/);
+
+  if (!match) return null;
+
+  const [, prop, dir = "", value] = match;
+  const numValue = parseFloat(value);
+
+  if (Number.isNaN(numValue) || numValue < 0) return null;
+
+  const remValue = (numValue * 0.25).toFixed(3).replace(/\.?0+$/, "");
+  const cssProp = SPACING_PROPS[prop as keyof typeof SPACING_PROPS];
+
+  if (["w", "h"].includes(prop)) {
+    return [`${cssProp}: ${remValue}rem`];
+  } else {
+    const parts = DIRECTIONS[dir as keyof typeof DIRECTIONS] || [""];
+    return parts.map((p) => `${cssProp}${p ? `-${p}` : ""}: ${remValue}rem`);
+  }
 };
 
-const generateOpacities = (builder: UtilityBuilder, prefix: string): void => {
-  OPACITIES.forEach((o) => {
-    builder.add(`${prefix}opacity-${o}`, [`opacity: ${o}%`]);
-  });
+const generateColor = (cls: string): string[] | null => {
+  const match = cls.match(
+    /^(bg|text|border)-([a-z0-9-]+?)(-(?:dark|darker|light|lighter))?(\/(\d+))?$/,
+  );
+
+  if (!match) return null;
+
+  const [, propKey, colorName, variant = "", , opacity] = match;
+  const color = COLORS[colorName as keyof typeof COLORS];
+  const prop = COLOR_PROPS[propKey as keyof typeof COLOR_PROPS];
+
+  if (!color || !prop) return null;
+
+  const variantKey = variant.slice(1) as keyof typeof COLOR_VARIANTS;
+  const variantSuffix = COLOR_VARIANTS[variantKey] || COLOR_VARIANTS[""];
+  const colorValue = `${color}${variantSuffix ? `_${variantSuffix}` : ""}`;
+
+  if (opacity) {
+    const opacityVal = parseInt(opacity, 10);
+
+    if (opacityVal >= 0 && opacityVal <= 100) {
+      return [`${prop}: rgba(${colorValue}, ${opacityVal}%)`];
+    }
+
+    return null;
+  }
+
+  return [`${prop}: ${colorValue}`];
+};
+
+const generateRounded = (cls: string): string[] | null => {
+  // Match arbitrary values: rounded-[12px], rounded-t-[0.5rem]
+  const arbitraryMatch = cls.match(/^rounded(?:-([setrbl]))?-\[(.+)\]$/);
+
+  if (arbitraryMatch) {
+    const [, dir = "", value] = arbitraryMatch;
+    const parts = ROUNDED_DIRS[dir as keyof typeof ROUNDED_DIRS] || [""];
+    return parts.map((dr) => `border${dr ? `-${dr}` : ""}-radius: ${value}`);
+  }
+
+  // Match regular values: rounded, rounded-lg, rounded-t-xl
+  const match = cls.match(/^rounded(?:-([setrbl]))?(?:-(.+))?$/);
+
+  if (!match) return null;
+
+  const [, dir = "", size = ""] = match;
+  const sizeValue = size
+    ? ROUNDED_SIZES[size as keyof typeof ROUNDED_SIZES]
+    : 0.5;
+
+  if (sizeValue === undefined) return null;
+
+  const parts = ROUNDED_DIRS[dir as keyof typeof ROUNDED_DIRS] || [""];
+  return parts.map(
+    (dr) => `border${dr ? `-${dr}` : ""}-radius: ${sizeValue}rem`,
+  );
+};
+
+const generateTypography = (cls: string): string[] | null => {
+  const weightMatch = cls.match(/^font-(.+)$/);
+
+  if (weightMatch) {
+    const weight = FONT_WEIGHTS[weightMatch[1] as keyof typeof FONT_WEIGHTS];
+    if (weight !== undefined) return [`font-weight: ${weight}`];
+  }
+
+  const sizeMatch = cls.match(/^text-(.+)$/);
+
+  if (sizeMatch) {
+    const size = FONT_SIZES[sizeMatch[1] as keyof typeof FONT_SIZES];
+    if (size !== undefined) return [`font-size: ${size}rem`];
+  }
+
+  return null;
+};
+
+const generateOpacity = (cls: string): string[] | null => {
+  // Match arbitrary values: opacity-[0.73]
+  const arbitraryMatch = cls.match(/^opacity-\[(.+)\]$/);
+
+  if (arbitraryMatch) {
+    return [`opacity: ${arbitraryMatch[1]}`];
+  }
+
+  // Match regular values: opacity-50
+  const match = cls.match(/^opacity-(\d+)$/);
+
+  if (!match) return null;
+
+  const opacity = parseInt(match[1], 10);
+
+  if (opacity >= 0 && opacity <= 100) {
+    return [`opacity: ${opacity}%`];
+  }
+
+  return null;
+};
+
+const generateBorder = (cls: string): string[] | null => {
+  // Match border styles
+  const styleMatch = cls.match(/^border-(.+)$/);
+
+  if (styleMatch && BORDER_STYLES.includes(styleMatch[1])) {
+    return [`border-style: ${styleMatch[1]}`];
+  }
+
+  // Match arbitrary values: border-[3px], border-x-[2px]
+  const arbitraryMatch = cls.match(/^border(?:-([xytrbl]))?-\[(.+)\]$/);
+
+  if (arbitraryMatch) {
+    const [, dir = "", value] = arbitraryMatch;
+    const parts = DIRECTIONS[dir as keyof typeof DIRECTIONS] || [""];
+    return [
+      ...parts.map((p) => `border${p ? `-${p}` : ""}-width: ${value}`),
+      "border-style: solid",
+    ];
+  }
+
+  // Match regular values: border-2, border-x-4
+  const widthMatch = cls.match(/^border(?:-([xytrbl]))?-(\d+)$/);
+
+  if (widthMatch) {
+    const [, dir = "", width] = widthMatch;
+    const parts = DIRECTIONS[dir as keyof typeof DIRECTIONS] || [""];
+    const numWidth = parseInt(width, 10);
+
+    if (numWidth >= 0) {
+      return [
+        ...parts.map((p) => `border${p ? `-${p}` : ""}-width: ${numWidth}px`),
+        "border-style: solid",
+      ];
+    }
+  }
+
+  return null;
+};
+
+const generateFilter = (cls: string): string[] | null => {
+  if (["grayscale", "invert", "sepia"].includes(cls)) {
+    return [`filter: ${cls}(1)`];
+  }
+
+  const blurMatch = cls.match(/^blur-(.+)$/);
+
+  if (blurMatch) {
+    const size = BLUR_SIZES[blurMatch[1] as keyof typeof BLUR_SIZES];
+    if (size !== undefined) return [`filter: blur(${size}px)`];
+  }
+
+  const filterMatch = cls.match(/^(brightness|contrast|saturate)-(\d+)$/);
+
+  if (filterMatch) {
+    const [, filter, value] = filterMatch;
+    const numValue = parseInt(value, 10);
+
+    if (numValue >= 0 && numValue <= 300) {
+      return [`filter: ${filter}(${numValue}%)`];
+    }
+  }
+
+  return null;
+};
+
+const generateAnimation = (cls: string): string[] | null => {
+  // Match: animate-spin, animate-pulse, animate-none
+  if (cls === "animate-none") {
+    return ["animation: none"];
+  }
+
+  const match = cls.match(/^animate-(.+)$/);
+
+  if (!match) return null;
+
+  const animation = ANIMATIONS[match[1] as keyof typeof ANIMATIONS];
+
+  if (animation) {
+    return [`animation: ${animation}`];
+  }
+
+  return null;
+};
+
+const generateTransition = (cls: string): string[] | null => {
+  // Match: transition, transition-none, transition-all, transition-colors
+  if (cls === "transition") {
+    return ["transition: all 150ms ease-in-out"];
+  }
+
+  const propertyMatch = cls.match(/^transition-(.+)$/);
+
+  if (propertyMatch) {
+    const prop =
+      TRANSITION_PROPERTIES[
+        propertyMatch[1] as keyof typeof TRANSITION_PROPERTIES
+      ];
+    if (prop) {
+      return prop === "none"
+        ? ["transition: none"]
+        : [`transition: ${prop} 150ms ease-in-out`];
+    }
+  }
+
+  // Match arbitrary: duration-[300ms], duration-[0.5s]
+  const durationArbitraryMatch = cls.match(/^duration-\[(.+)\]$/);
+
+  if (durationArbitraryMatch) {
+    return [`transition-duration: ${durationArbitraryMatch[1]}`];
+  }
+
+  // Match numeric: duration-300, duration-500
+  const durationMatch = cls.match(/^duration-(\d+)$/);
+
+  if (durationMatch) {
+    return [`transition-duration: ${durationMatch[1]}ms`];
+  }
+
+  // Match: ease-in, ease-out, ease-in-out, ease-linear
+  const timingMatch = cls.match(/^ease-(.+)$/);
+
+  if (timingMatch) {
+    const timing =
+      TRANSITION_TIMINGS[timingMatch[1] as keyof typeof TRANSITION_TIMINGS];
+    if (timing) {
+      return [`transition-timing-function: ${timing}`];
+    }
+  }
+
+  // Match arbitrary: delay-[150ms], delay-[0.2s]
+  const delayArbitraryMatch = cls.match(/^delay-\[(.+)\]$/);
+
+  if (delayArbitraryMatch) {
+    return [`transition-delay: ${delayArbitraryMatch[1]}`];
+  }
+
+  // Match numeric: delay-300, delay-500
+  const delayMatch = cls.match(/^delay-(\d+)$/);
+
+  if (delayMatch) {
+    return [`transition-delay: ${delayMatch[1]}ms`];
+  }
+
+  return null;
+};
+
+const generateUtility = (className: string): string[] | null => {
+  const [_, cls] = parseState(className);
+
+  const generators = [
+    generateSpacing,
+    generateColor,
+    generateRounded,
+    generateTypography,
+    generateOpacity,
+    generateBorder,
+    generateFilter,
+    generateAnimation,
+    generateTransition,
+  ];
+
+  for (const generator of generators) {
+    const result = generator(cls);
+    if (result) return result;
+  }
+
+  return null;
 };
 
 export const generateUtilityClasses = (): UtilityMap => {
-  const builder = new UtilityBuilder();
+  return utilities;
+};
 
-  STATES.forEach((state) => {
-    const prefix = state ? `${state}:` : "";
+export const getUtility = (className: string): string[] | null => {
+  if (utilities[className]) {
+    return utilities[className];
+  }
 
-    generateColors(builder, prefix);
-    generateSpacing(builder, prefix);
-    generateRounded(builder, prefix);
-    generateTypography(builder, prefix);
-    generateBorders(builder, prefix);
-    generateFilters(builder, prefix);
-    generateOpacities(builder, prefix);
-  });
+  const generated = generateUtility(className);
 
-  return builder.getUtilities();
+  if (generated) {
+    utilities[className] = generated;
+    return generated;
+  }
+
+  return null;
 };

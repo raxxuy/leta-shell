@@ -7,22 +7,24 @@ export default function Client() {
   const client = createBinding(hyprland, "focusedClient");
 
   return (
-    <With value={client}>
-      {(client) => {
-        if (!client) return null;
+    <box>
+      <With value={client}>
+        {(client) => {
+          if (!client) return null;
 
-        const title = createBinding(client, "title");
+          const title = createBinding(client, "title");
 
-        return (
-          <label
-            class="font-bold text-sm"
-            ellipsize={EllipsizeMode.END}
-            label={title(String)}
-            maxWidthChars={30}
-            tooltipText={title(String)}
-          />
-        );
-      }}
-    </With>
+          return (
+            <label
+              class="font-bold text-sm"
+              ellipsize={EllipsizeMode.END}
+              label={title(String)}
+              maxWidthChars={30}
+              tooltipText={title(String)}
+            />
+          );
+        }}
+      </With>
+    </box>
   );
 }

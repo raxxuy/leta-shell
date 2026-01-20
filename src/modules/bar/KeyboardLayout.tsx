@@ -18,10 +18,7 @@ export default function KeyboardLayout() {
   };
 
   return (
-    <button
-      class="button"
-      onClicked={() => hyprland.changeKeyboardLayout()}
-    >
+    <button class="button" onClicked={() => hyprland.changeKeyboardLayout()}>
       <label
         class={mainKeyboard((k) =>
           cls("px-2 font-bold text-sm", `w-${getLongestLayout(k) + 4}`),
