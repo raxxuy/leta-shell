@@ -9,7 +9,7 @@ import {
   SRC_STYLES_DIR,
   UTILITIES_JSON_FILE,
 } from "@/constants";
-import { getUsedClasses, getUtility } from "@/lib/styles/css";
+import { getUtility } from "@/lib/styles/generators";
 import {
   buildPath,
   dirExists,
@@ -17,6 +17,7 @@ import {
   exec,
   fileExists,
   generateColors,
+  getUsedClasses,
   readFile,
   writeFile,
 } from "@/lib/utils";

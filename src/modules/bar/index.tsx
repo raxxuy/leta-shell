@@ -1,6 +1,6 @@
-import { For, With } from "ags";
+import { For } from "ags";
 import type GObject from "ags/gobject";
-import { cls } from "@/lib/utils";
+import clsx from "clsx/lite";
 import Battery from "@/modules/bar/Battery";
 import Bluetooth from "@/modules/bar/Bluetooth";
 import Client from "@/modules/bar/Client";
@@ -29,12 +29,18 @@ const MODULES: Record<string, () => GObject.Object> = {
 };
 
 export default function BarModule() {
-  const configManager = ConfigManager.get_default();
-  const window = configManager.bind("bar", "window");
-  const spacings = configManager.bind("global", "spacings");
+  const window = ConfigManager.bind("bar", "window");
+  const spacings = ConfigManager.bind("global", "spacings");
+
+  const classNames = window((w) =>
+    clsx(
+      "bg-background-dark/80 shadow-md",
+      w.floating ? "mx-2 my-1 rounded-lg px-2 py-1.5" : "px-4",
+    ),
+  );
 
   const Section = ({ type }: { type: "start" | "center" | "end" }) => {
-    const layout = configManager.bind("bar", `layout.${type}`);
+    const layout = ConfigManager.bind("bar", `layout.${type}`);
 
     return (
       <box $type={type} spacing={spacings((s) => s.medium)}>
@@ -44,19 +50,10 @@ export default function BarModule() {
   };
 
   return (
-    <With value={window}>
-      {(w) => (
-        <centerbox
-          class={cls(
-            "bg-background-dark/80 shadow",
-            w.floating ? "mx-2 my-1 rounded-lg px-2 py-1.5" : "px-4",
-          )}
-        >
-          <Section type="start" />
-          <Section type="center" />
-          <Section type="end" />
-        </centerbox>
-      )}
-    </With>
+    <centerbox class={classNames}>
+      <Section type="start" />
+      <Section type="center" />
+      <Section type="end" />
+    </centerbox>
   );
 }

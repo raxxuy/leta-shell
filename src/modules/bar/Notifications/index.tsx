@@ -1,16 +1,15 @@
 import { createBinding, createState, For } from "ags";
+import MenuButton from "@/components/button/MenuButton";
+import Container from "@/components/Container";
 import { Orientation } from "@/enums";
+import Notification from "@/modules/bar/Notifications/Notification";
 import ConfigManager from "@/services/configs";
 import NotificationsService from "@/services/notifications";
-import Container from "@/widgets/Container";
-import MenuButton from "@/widgets/MenuButton";
-import Notification from "@/widgets/Notification";
 
 export default function Notifications() {
   const notifd = NotificationsService.get_default();
-  const configManager = ConfigManager.get_default();
-  const icons = configManager.bind("global", "icons");
-  const spacings = configManager.bind("global", "spacings");
+  const icons = ConfigManager.bind("global", "icons");
+  const spacings = ConfigManager.bind("global", "spacings");
   const notifications = createBinding(notifd, "notifications");
 
   const [iconName, setIconName] = createState<string>("notifications");
@@ -24,7 +23,7 @@ export default function Notifications() {
   });
 
   return (
-    <MenuButton class="button">
+    <MenuButton>
       <image iconName={iconName} pixelSize={icons((i) => i.pixelSize.small)} />
       <popover onNotifyVisible={handleVisible}>
         <Container>

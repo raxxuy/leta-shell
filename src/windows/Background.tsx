@@ -1,17 +1,23 @@
-import { createBinding, With } from "ags";
+import { createBinding, createState, With } from "ags";
 import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
-import { Exclusivity, Layer } from "@/enums";
+import ImageWrapper from "@/components/ImageWrapper";
+import { ContentFit, Exclusivity, Layer } from "@/enums";
 import ConfigManager from "@/services/configs";
 import Wallpaper from "@/services/wallpaper";
-import ImageWrapper from "@/widgets/ImageWrapper";
 
 export default function Background(gdkmonitor: Gdk.Monitor) {
   const { width, height } = gdkmonitor.get_geometry();
   const wallpaper = Wallpaper.get_default();
-  const configManager = ConfigManager.get_default();
   const source = createBinding(wallpaper, "source");
-  const enabled = configManager.bind("background", "enabled");
+  const enabled = ConfigManager.bind("background", "enabled");
+
+  const [contentFit, setContentFit] = createState(ContentFit.COVER);
+
+  wallpaper.connect("wallpaper-changed", (_, full) => {
+    if (full) setContentFit(ContentFit.CONTAIN);
+    else setContentFit(ContentFit.COVER);
+  });
 
   return (
     <window
@@ -28,6 +34,7 @@ export default function Background(gdkmonitor: Gdk.Monitor) {
         {(source) =>
           source ? (
             <ImageWrapper
+              contentFit={contentFit}
               file
               heightRequest={height}
               src={source}

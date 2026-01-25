@@ -1,8 +1,9 @@
 import type AstalHyprland from "gi://AstalHyprland";
 import { createBinding, createComputed } from "ags";
+import clsx from "clsx/lite";
 import { CURSORS } from "@/constants";
 import { loadClasses } from "@/lib/styles";
-import { cls } from "@/lib/utils";
+import ConfigManager from "@/services/configs";
 import Hyprland from "@/services/hyprland";
 
 interface WorkspaceButtonProps {
@@ -11,6 +12,7 @@ interface WorkspaceButtonProps {
 
 export default function WorkspaceButton({ workspace }: WorkspaceButtonProps) {
   const hyprland = Hyprland.get_default().astalHyprland;
+  const variation = ConfigManager.bind("bar", "modules.workspaces.variation");
   const clients = createBinding(hyprland, "clients");
   const focusedWorkspace = createBinding(hyprland, "focusedWorkspace");
 
@@ -20,13 +22,24 @@ export default function WorkspaceButton({ workspace }: WorkspaceButtonProps) {
     const isOccupied = hyprland.get_workspace(workspace.id)?.clients.length > 0;
     const isFocused = focusedWorkspace().id === workspace.id;
 
-    return cls(
-      "my-0.5 h-4 w-2.5 rounded-md border-1 border-color-10-light bg-color-10 px-1.5 transition ease-in-out",
-      "hover:border-color-13-lighter hover:bg-color-13-light",
-      isOccupied && "border-color-13-light bg-color-13",
-      isFocused && "mb-0 border-color-13-lighter bg-color-13-light w-4",
-    );
+    const base =
+      "my-0.5 px-1.5 border-1 transition ease-in-out hover:border-color-13-lighter hover:bg-color-13-light shadow-2xs";
+
+    const stateClasses = isFocused
+      ? "border-color-13-lighter bg-color-13-light mb-0"
+      : isOccupied
+        ? "border-color-13-light bg-color-13"
+        : "border-color-10-light bg-color-10";
+
+    const variantClasses =
+      variation() === "box"
+        ? clsx("rounded-md h-3.5", isFocused ? "w-7" : "w-2")
+        : clsx("rounded-full h-2 mx-0.5", isFocused ? "w-8.5" : "w-0.5");
+
+    return clsx(base, stateClasses, variantClasses);
   });
+
+  const handleClick = () => workspace.focus();
 
   return (
     <button
@@ -34,7 +47,7 @@ export default function WorkspaceButton({ workspace }: WorkspaceButtonProps) {
       class={classNames}
       cursor={CURSORS.pointer}
       focusable={false}
-      onClicked={() => workspace.focus()}
+      onClicked={handleClick}
     />
   );
 }

@@ -1,4 +1,3 @@
-export * from "./classes";
 export * from "./formatters";
 export * from "./fs";
 export * from "./media";

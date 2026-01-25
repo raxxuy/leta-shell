@@ -1,6 +1,8 @@
 import Adw from "gi://Adw";
 import type AstalNotifd from "gi://AstalNotifd";
 import { startCase } from "es-toolkit";
+import Button from "@/components/button/Button";
+import ImageWrapper from "@/components/ImageWrapper";
 import {
   Align,
   EllipsizeMode,
@@ -11,7 +13,6 @@ import {
 import { loadClasses } from "@/lib/styles";
 import { formatSeconds } from "@/lib/utils";
 import ConfigManager from "@/services/configs";
-import ImageWrapper from "@/widgets/ImageWrapper";
 
 type NotificationProps = {
   notification: AstalNotifd.Notification;
@@ -21,6 +22,8 @@ export default function Notification({ notification }: NotificationProps) {
   const configManager = ConfigManager.get_default();
   const icons = configManager.bind("global", "icons");
   const spacings = configManager.bind("global", "spacings");
+
+  const handleClick = () => notification.dismiss();
 
   return (
     <Adw.Clamp
@@ -32,7 +35,7 @@ export default function Notification({ notification }: NotificationProps) {
       <overlay widthRequest={400}>
         <box spacing={spacings((s) => s.medium)}>
           <ImageWrapper
-            class="rounded-lg shadow"
+            class="rounded-lg shadow-md"
             file
             heightRequest={icons((i) => i.pixelSize.larger)}
             overflow={Overflow.HIDDEN}
@@ -81,11 +84,10 @@ export default function Notification({ notification }: NotificationProps) {
         </box>
 
         <box $type="overlay">
-          <button
-            class="button"
+          <Button
             halign={Align.END}
             hexpand
-            onClicked={() => notification.dismiss()}
+            onClicked={handleClick}
             valign={Align.START}
             vexpand
           >
@@ -94,7 +96,7 @@ export default function Notification({ notification }: NotificationProps) {
               iconName="x"
               pixelSize={icons((i) => i.pixelSize.small)}
             />
-          </button>
+          </Button>
         </box>
       </overlay>
     </Adw.Clamp>

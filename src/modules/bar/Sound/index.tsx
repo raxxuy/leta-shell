@@ -4,8 +4,7 @@ import ConfigManager from "@/services/configs";
 
 export default function Sound() {
   const wp = AstalWp.get_default();
-  const configManager = ConfigManager.get_default();
-  const spacings = configManager.bind("global", "spacings");
+  const spacings = ConfigManager.bind("global", "spacings");
   const { defaultSpeaker: speaker, defaultMicrophone: microphone } = wp;
 
   return (

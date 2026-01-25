@@ -9,6 +9,7 @@ import {
   isImageFile,
   readFile,
   scaleAndCenterImage,
+  writeFile,
 } from "@/lib/utils";
 import Service from "@/services/base";
 
@@ -37,8 +38,8 @@ export default class Wallpaper extends Service<WallpaperSignals> {
     return Wallpaper.instance;
   }
 
-  @signal()
-  wallpaperChanged() {}
+  @signal(Boolean)
+  wallpaperChanged(_full?: boolean) {}
 
   @signal()
   picturesChanged() {}
@@ -69,7 +70,6 @@ export default class Wallpaper extends Service<WallpaperSignals> {
     this.setWallpaper(path);
 
     this.notify("source");
-    this.wallpaperChanged();
   }
 
   setMonitorDimensions(width: number, height: number): void {
@@ -78,7 +78,18 @@ export default class Wallpaper extends Service<WallpaperSignals> {
     this.fetchPictures();
   }
 
+  setSource(path: string, full?: boolean) {
+    if (full) {
+      this.source = path;
+      this.wallpaperChanged(true);
+    } else {
+      this.source = path;
+      this.wallpaperChanged(false);
+    }
+  }
+
   async setWallpaper(path?: string): Promise<void> {
+    if (!path) writeFile(WAL_FILE, "");
     await generateColors(path);
     await applyTheme();
   }

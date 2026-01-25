@@ -1,10 +1,12 @@
 import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
+import RevealerWindow from "@/components/RevealerWindow";
 import { Exclusivity, Keymode, Layer, RevealerTransitionType } from "@/enums";
 import WallpaperManagerModule from "@/modules/wallpapers";
-import RevealerWindow from "@/widgets/RevealerWindow";
 
 export default function WallpaperManager(gdkmonitor: Gdk.Monitor) {
+  const { height } = gdkmonitor.get_geometry();
+
   return (
     <RevealerWindow
       anchor="center-inline"
@@ -12,6 +14,7 @@ export default function WallpaperManager(gdkmonitor: Gdk.Monitor) {
       class="wallpapers"
       exclusivity={Exclusivity.IGNORE}
       gdkmonitor={gdkmonitor}
+      heightRequest={height}
       keymode={Keymode.EXCLUSIVE}
       layer={Layer.OVERLAY}
       name="wallpapers"

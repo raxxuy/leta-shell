@@ -1,11 +1,15 @@
 import { createBinding } from "ags";
-import { cls } from "@/lib/utils";
+import Button from "@/components/button/Button";
 import Hyprland from "@/services/hyprland";
 import type { Keyboard } from "@/types/hyprland";
 
 export default function KeyboardLayout() {
   const hyprland = Hyprland.get_default();
   const mainKeyboard = createBinding(hyprland, "mainKeyboard");
+
+  const classNames = mainKeyboard(
+    (k) => `px-2 font-bold text-sm w-${getLongestLayout(k) + 4}`,
+  );
 
   const getActiveLayout = (k: Keyboard) => {
     const layouts = k.layout?.split(",") ?? [];
@@ -17,14 +21,11 @@ export default function KeyboardLayout() {
     return Math.max(...layouts.map((l) => l.length));
   };
 
+  const handleClick = () => hyprland.changeKeyboardLayout();
+
   return (
-    <button class="button" onClicked={() => hyprland.changeKeyboardLayout()}>
-      <label
-        class={mainKeyboard((k) =>
-          cls("px-2 font-bold text-sm", `w-${getLongestLayout(k) + 4}`),
-        )}
-        label={mainKeyboard(getActiveLayout)}
-      />
-    </button>
+    <Button onClicked={handleClick}>
+      <label class={classNames} label={mainKeyboard(getActiveLayout)} />
+    </Button>
   );
 }

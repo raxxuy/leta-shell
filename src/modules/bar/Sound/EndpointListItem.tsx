@@ -1,5 +1,6 @@
 import type AstalWp from "gi://AstalWp";
 import { createBinding } from "ags";
+import Button from "@/components/button/Button";
 import { CURSORS } from "@/constants";
 import { Align, EllipsizeMode } from "@/enums";
 import ConfigManager from "@/services/configs";
@@ -9,19 +10,20 @@ interface EndpointListItemProps {
 }
 
 export default function EndpointListItem({ endpoint }: EndpointListItemProps) {
-  const configManager = ConfigManager.get_default();
-  const icons = configManager.bind("global", "icons");
-  const spacings = configManager.bind("global", "spacings");
+  const icons = ConfigManager.bind("global", "icons");
+  const spacings = ConfigManager.bind("global", "spacings");
   const isDefault = createBinding(endpoint, "isDefault");
+
+  const iconName = isDefault((d) => (d ? "check" : "circle"));
+
+  const handleClick = () => endpoint.set_is_default(true);
 
   return (
     <box spacing={spacings((s) => s.small)}>
-      <button
-        class="button px-2 py-1"
+      <Button
+        class="px-2 py-1"
         cursor={CURSORS.pointer}
-        onClicked={() => {
-          endpoint.isDefault = true;
-        }}
+        onClicked={handleClick}
       >
         <label
           ellipsize={EllipsizeMode.END}
@@ -30,11 +32,8 @@ export default function EndpointListItem({ endpoint }: EndpointListItemProps) {
           maxWidthChars={30}
           tooltipText={endpoint.description}
         />
-      </button>
-      <image
-        iconName={isDefault((d) => (d ? "check" : "circle"))}
-        pixelSize={icons((i) => i.pixelSize.small)}
-      />
+      </Button>
+      <image iconName={iconName} pixelSize={icons((i) => i.pixelSize.small)} />
     </box>
   );
 }

@@ -11,8 +11,7 @@ export default function PlayerButton({
   iconName,
   onClicked,
 }: PlayerButtonProps) {
-  const configManager = ConfigManager.get_default();
-  const icons = configManager.bind("global", "icons");
+  const icons = ConfigManager.bind("global", "icons");
 
   return (
     <button

@@ -1,7 +1,8 @@
 import AstalApps from "gi://AstalApps";
-import { createState, For } from "ags";
+import { createState, For, onCleanup } from "ags";
 import { type Gdk, Gtk } from "ags/gtk4";
-import { Align, Orientation } from "@/enums";
+import { Align, Orientation, Overflow, StateFlags } from "@/enums";
+import { findWidget } from "@/lib/utils";
 import LauncherItem from "@/modules/launcher/LauncherItem";
 import ConfigManager from "@/services/configs";
 
@@ -10,51 +11,77 @@ interface LauncherModuleProps {
 }
 
 export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
+  const apps = new AstalApps.Apps();
   const { width, height } = gdkmonitor.get_geometry();
-  const configManager = ConfigManager.get_default();
-  const spacings = configManager.bind("global", "spacings");
+  const spacings = ConfigManager.bind("global", "spacings");
 
   const [list, setList] = createState<AstalApps.Application[]>([]);
-  const apps = new AstalApps.Apps();
   let entry: Gtk.Entry;
-
-  const handleSearch = (text: string) => {
-    setList(text ? apps.fuzzy_query(text) : []);
-  };
 
   const init = (self: Gtk.Entry) => {
     entry = self;
-    self.get_first_child()?.set_css_classes(["focus:text-foreground-lighter"]);
+
+    const text = findWidget(self, (w) => w.cssName === "text");
+    const placeholder = findWidget(self, (w) => w.cssName === "placeholder");
+
+    const handler = self.connect("state-flags-changed", () => {
+      const isFocused = self.get_state_flags() & StateFlags.FOCUS_WITHIN;
+      const classes = [
+        isFocused ? "text-foreground-lighter" : "text-foreground-dark",
+      ];
+
+      text?.set_css_classes(classes);
+      placeholder?.set_css_classes(classes);
+    });
+
+    handleSearch(self);
+
+    onCleanup(() => self.disconnect(handler));
   };
 
   const handleNotifyVisible = ({ visible }: { visible: boolean }) => {
-    if (!visible) {
-      apps.reload();
-      return;
-    }
+    if (visible) {
+      entry.grab_focus();
+      entry.set_text("");
+    } else apps.reload();
+  };
 
-    entry.grab_focus();
-    entry.set_text("");
+  const handleSearch = ({ text }: { text: string }) => {
+    setList(
+      apps.exact_query(text).sort((a, b) => a.name.localeCompare(b.name)),
+    );
   };
 
   return (
     <box
-      class="rounded-2xl rounded-b-none border-2 border-background border-b-0 bg-background-dark/80 p-3 font-medium shadow"
+      class="rounded-xl border-1 border-background-light shadow-lg"
       halign={Align.CENTER}
+      marginTop={height / 4}
       onNotifyVisible={handleNotifyVisible}
       orientation={Orientation.VERTICAL}
-      spacing={spacings((s) => s.large)}
-      valign={Align.CENTER}
+      overflow={Overflow.HIDDEN}
+      valign={Align.START}
+      vexpand
     >
-      <box class="rounded-xl bg-background-dark/80">
+      <entry
+        $={init}
+        class="bg-background-dark/90 px-8 py-6"
+        onNotifyText={handleSearch}
+        placeholderText="Start typing to search"
+        widthRequest={width / 3.8}
+      />
+      <box
+        class="border-background-light border-t-1 bg-background-dark/90 p-4"
+        overflow={Overflow.HIDDEN}
+        visible={list((l) => l.length > 0)}
+      >
         <scrolledwindow
-          heightRequest={height / 2.12}
           hexpand
+          maxContentHeight={height / 2.12}
+          propagateNaturalHeight
           vadjustment={Gtk.Adjustment.new(0, 0, 100, 1, 10, 0)}
-          vexpand
         >
           <box
-            class="first-child:mt-4 last-child:mb-4"
             orientation={Orientation.VERTICAL}
             spacing={spacings((s) => s.medium)}
           >
@@ -64,13 +91,6 @@ export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
           </box>
         </scrolledwindow>
       </box>
-      <entry
-        $={init}
-        class="rounded-xl bg-background-dark p-4"
-        onNotifyText={({ text }) => handleSearch(text)}
-        placeholderText="Start typing to search"
-        widthRequest={width / 3.8}
-      />
     </box>
   );
 }

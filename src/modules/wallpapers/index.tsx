@@ -1,5 +1,6 @@
 import { createBinding, For } from "ags";
 import type { Gdk } from "ags/gtk4";
+import Button from "@/components/button/Button";
 import { CURSORS } from "@/constants";
 import { Align, Orientation, PolicyType } from "@/enums";
 import WallpaperItem from "@/modules/wallpapers/WallpaperItem";
@@ -15,21 +16,21 @@ export default function WallpaperManagerModule({
 }: WallpaperManagerProps) {
   const { width, height } = gdkmonitor.get_geometry();
   const wallpaper = Wallpaper.get_default();
-  const configManager = ConfigManager.get_default();
-  const spacings = configManager.bind("global", "spacings");
+  const spacings = ConfigManager.bind("global", "spacings");
   const cachedPictures = createBinding(wallpaper, "cachedPictures");
 
   wallpaper.setMonitorDimensions(width, height);
 
-  const setWallpaper = (picture?: string) => {
-    wallpaper.source = picture ?? "";
+  const setWallpaper = (picture: string = "", full?: boolean) => {
+    wallpaper.setSource(picture, full);
   };
 
   return (
     <box
-      class="bg-background-dark/80 shadow"
+      class="bg-background-dark/80 shadow-2xl/30"
       orientation={Orientation.VERTICAL}
       spacing={spacings((s) => s.large)}
+      valign={Align.CENTER}
     >
       <scrolledwindow
         hscrollbarPolicy={PolicyType.ALWAYS}
@@ -43,6 +44,7 @@ export default function WallpaperManagerModule({
               <WallpaperItem
                 height={height / 4}
                 onClicked={() => setWallpaper(picture.cached)}
+                onSecondaryClicked={() => setWallpaper(picture.original, true)}
                 src={picture.cached}
                 width={width / 4}
               />
@@ -56,9 +58,9 @@ export default function WallpaperManagerModule({
         halign={Align.CENTER}
         spacing={spacings((s) => s.large)}
       >
-        <button
+        <Button
           canFocus={false}
-          class="button border-2 border-background-lighter bg-background-light/60 px-4 py-2 font-bold text-base shadow"
+          class="border-2 border-background-lighter bg-background-light/60 px-4 py-2 font-bold text-base shadow-sm"
           cursor={CURSORS.pointer}
           label="Clear wallpaper"
           onClicked={() => setWallpaper()}

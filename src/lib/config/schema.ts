@@ -22,6 +22,7 @@ export const barConfigSchema = z.object({
   modules: z.object({
     workspaces: z.object({
       count: z.number().min(1).max(10).default(10),
+      variation: z.enum(["box", "dot"]).default("dot"),
     }),
     clock: z.object({
       currentFormat: z.number().min(0).max(2).default(0),

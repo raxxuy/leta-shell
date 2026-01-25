@@ -17,10 +17,9 @@ interface LauncherItemProps {
 }
 
 export default function LauncherItem({ app, index }: LauncherItemProps) {
-  const configManager = ConfigManager.get_default();
-  const icons = configManager.bind("global", "icons");
-  const spacings = configManager.bind("global", "spacings");
-  const items = configManager.bind("launcher", "modules.items");
+  const icons = ConfigManager.bind("global", "icons");
+  const spacings = ConfigManager.bind("global", "spacings");
+  const items = ConfigManager.bind("launcher", "modules.items");
 
   const [revealed, setRevealed] = createState<boolean>(false);
 
@@ -43,7 +42,7 @@ export default function LauncherItem({ app, index }: LauncherItemProps) {
       transitionType={RevealerTransitionType.SLIDE_UP}
     >
       <button
-        class="mx-4 h-11 rounded-xl px-4 py-1 transition hover:bg-background-light/80 focus:bg-background-lighter/80 active:bg-background-lighter/80"
+        class="h-11 rounded-xl px-4 py-1 transition duration-100 hover:bg-background-light/60 focus:bg-background-lighter/60 active:bg-background-lighter/60"
         focusOnClick={false}
         onClicked={handleClick}
       >

@@ -5,8 +5,7 @@ import ConfigManager from "@/services/configs";
 
 export default function Tray() {
   const tray = AstalTray.get_default();
-  const configManager = ConfigManager.get_default();
-  const spacings = configManager.bind("global", "spacings");
+  const spacings = ConfigManager.bind("global", "spacings");
   const items = createBinding(
     tray,
     "items",

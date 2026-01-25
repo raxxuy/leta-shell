@@ -89,4 +89,17 @@ export default class ConfigManager extends Service<ConfigSignals> {
   ) {
     return createBinding(this, "configs")(() => this.getValue(configKey, path));
   }
+
+  // Remove the annoying need to call get_default
+  static bind<K extends ConfigKey, P extends Path<ConfigType<K>>>(
+    configKey: K,
+    path: P,
+  ) {
+    const configManager = ConfigManager.get_default();
+
+    return createBinding(
+      configManager,
+      "configs",
+    )(() => configManager.getValue(configKey, path));
+  }
 }

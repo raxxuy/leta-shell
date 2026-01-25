@@ -1,21 +1,20 @@
 import type AstalMpris from "gi://AstalMpris";
 import { createBinding, createComputed, createState } from "ags";
 import { timeout } from "ags/time";
+import ImageWrapper from "@/components/ImageWrapper";
 import { Align, EllipsizeMode, Orientation, Overflow } from "@/enums";
 import { getIcon } from "@/lib/icons";
 import { loadClasses } from "@/lib/styles";
 import { formatSeconds } from "@/lib/utils";
 import PlayerButton from "@/modules/bar/QuickSettings/Media/PlayerButton";
 import ConfigManager from "@/services/configs";
-import ImageWrapper from "@/widgets/ImageWrapper";
 
 interface PlayerProps {
   player: AstalMpris.Player;
 }
 
 export default function Player({ player }: PlayerProps) {
-  const configManager = ConfigManager.get_default();
-  const spacings = configManager.bind("global", "spacings");
+  const spacings = ConfigManager.bind("global", "spacings");
   const title = createBinding(player, "title");
   const artist = createBinding(player, "artist");
   const artUrl = createBinding(player, "artUrl");
@@ -26,7 +25,7 @@ export default function Player({ player }: PlayerProps) {
   const [isDragging, setIsDragging] = createState<boolean>(false);
   const [dragPosition, setDragPosition] = createState<number>(0);
 
-  const playbackIcon = createComputed(() => getIcon("media", playbackStatus()));
+  const playbackIcon = playbackStatus((ps) => getIcon("media", ps));
 
   const displayPosition = createComputed(() =>
     isDragging() ? dragPosition() : position(),

@@ -3,22 +3,21 @@ import { createState, For, onCleanup } from "ags";
 import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import { timeout } from "ags/time";
+import Container from "@/components/Container";
+import Window from "@/components/Window";
 import { Layer, Orientation } from "@/enums";
 import { loadClasses } from "@/lib/styles";
+import Notification from "@/modules/bar/Notifications/Notification";
 import ConfigManager from "@/services/configs";
 import Notifications from "@/services/notifications";
-import Container from "@/widgets/Container";
-import Notification from "@/widgets/Notification";
-import Window from "@/widgets/Window";
 
 export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
+  const timers = new Map();
   const notifd = Notifications.get_default();
-  const configManager = ConfigManager.get_default();
-  const spacings = configManager.bind("global", "spacings");
+  const spacings = ConfigManager.bind("global", "spacings");
 
   const [list, setList] = createState<AstalNotifd.Notification[]>([]);
   const visible = list((l) => l.length > 0);
-  const timers = new Map();
 
   const notifiedHandler = notifd.connect("notified", (_, id, replaced) => {
     const notification = notifd.getNotification(id);

@@ -12,15 +12,15 @@ export default function Client() {
         {(client) => {
           if (!client) return null;
 
-          const title = createBinding(client, "title");
+          const title = createBinding(client, "title")(String);
 
           return (
             <label
               class="font-bold text-sm"
               ellipsize={EllipsizeMode.END}
-              label={title(String)}
+              label={title}
               maxWidthChars={30}
-              tooltipText={title(String)}
+              tooltipText={title}
             />
           );
         }}

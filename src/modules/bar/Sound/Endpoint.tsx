@@ -1,17 +1,18 @@
 import AstalWp from "gi://AstalWp";
 import { createBinding, createComputed, createState, For } from "ags";
 import { Gtk } from "ags/gtk4";
+import clsx from "clsx/lite";
+import PopoverButton from "@/components/button/PopoverButton";
+import Container from "@/components/Container";
 import {
   EventControllerScrollFlags,
   Orientation,
   RevealerTransitionType,
 } from "@/enums";
 import { getIcon } from "@/lib/icons";
-import { adjustVolume, cls, formatVolume, toggleMute } from "@/lib/utils";
+import { adjustVolume, formatVolume, toggleMute } from "@/lib/utils";
 import EndpointListItem from "@/modules/bar/Sound/EndpointListItem";
 import ConfigManager from "@/services/configs";
-import Container from "@/widgets/Container";
-import PopoverButton from "@/widgets/PopoverButton";
 
 interface EndpointProps {
   endpoint: AstalWp.Endpoint;
@@ -20,11 +21,11 @@ interface EndpointProps {
 
 export default function Endpoint({ endpoint, type }: EndpointProps) {
   const audio = AstalWp.get_default().audio;
-  const configManager = ConfigManager.get_default();
-  const icons = configManager.bind("global", "icons");
-  const spacings = configManager.bind("global", "spacings");
+  const icons = ConfigManager.bind("global", "icons");
+  const spacings = ConfigManager.bind("global", "spacings");
   const mute = createBinding(endpoint, "mute");
   const volume = createBinding(endpoint, "volume");
+  const devices = createBinding(audio, `${type}s`);
   const description = createBinding(endpoint, "description");
 
   const [revealed, setRevealed] = createState<boolean>(false);
@@ -34,7 +35,9 @@ export default function Endpoint({ endpoint, type }: EndpointProps) {
     return getIcon("volume", type, volume(), mute());
   });
 
-  const devices = createBinding(audio, `${type}s`);
+  const className = opened((o) =>
+    clsx(o && "rounded selected:bg-background-lighter"),
+  );
 
   return (
     <box>
@@ -46,6 +49,7 @@ export default function Endpoint({ endpoint, type }: EndpointProps) {
         onEnter={() => setRevealed(true)}
         onLeave={() => setRevealed(false)}
       />
+      {/** biome-ignore assist/source/useSortedAttributes: rendering issues */}
       <revealer
         visible={revealed}
         revealChild={revealed}
@@ -54,7 +58,8 @@ export default function Endpoint({ endpoint, type }: EndpointProps) {
         <label class="w-12 font-bold" label={volume(formatVolume)} />
       </revealer>
       <PopoverButton
-        class={opened((o) => cls(o && "button", "m-0"))}
+        class={className}
+        initCss={false}
         onClicked={() => toggleMute(endpoint)}
       >
         <image

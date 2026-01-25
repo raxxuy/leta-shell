@@ -1,17 +1,19 @@
+import Button from "@/components/button/Button";
+import MenuButton from "@/components/button/MenuButton";
+import Container from "@/components/Container";
 import { Align, Orientation } from "@/enums";
 import { toggleWindow } from "@/lib/utils";
 import Media from "@/modules/bar/QuickSettings/Media";
 import ConfigManager from "@/services/configs";
-import Container from "@/widgets/Container";
-import MenuButton from "@/widgets/MenuButton";
 
 export default function QuickSettings() {
-  const configManager = ConfigManager.get_default();
-  const icons = configManager.bind("global", "icons");
-  const spacings = configManager.bind("global", "spacings");
+  const icons = ConfigManager.bind("global", "icons");
+  const spacings = ConfigManager.bind("global", "spacings");
+
+  const handleClick = () => toggleWindow("settings");
 
   return (
-    <MenuButton class="button">
+    <MenuButton>
       <image iconName="settings" pixelSize={icons((i) => i.pixelSize.small)} />
       <popover>
         <Container class="p-0.5">
@@ -28,16 +30,12 @@ export default function QuickSettings() {
             spacing={spacings((s) => s.small)}
             valign={Align.CENTER}
           >
-            <button
-              class="button p-2"
-              onClicked={() => toggleWindow("settings")}
-              valign={Align.CENTER}
-            >
+            <Button class="p-2" onClicked={handleClick} valign={Align.CENTER}>
               <image
                 iconName="sliders-01"
                 pixelSize={icons((i) => i.pixelSize.small)}
               />
-            </button>
+            </Button>
           </box>
         </Container>
       </popover>

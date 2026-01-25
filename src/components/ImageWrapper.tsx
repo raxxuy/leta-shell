@@ -1,6 +1,7 @@
 import Gio from "gi://Gio";
 import { type Accessor, createComputed } from "ags";
 import { Gtk } from "ags/gtk4";
+import Button from "@/components/button/Button";
 import { access } from "@/lib/utils";
 
 type ImageWrapperBase = {
@@ -12,6 +13,7 @@ type ImageWrapperBase = {
 type ImageWrapperButton = ImageWrapperBase &
   JSX.IntrinsicElements["button"] & {
     button: true;
+    onSecondaryClicked?: (source: Gtk.Button) => void;
   };
 
 type ImageWrapperOverlay = ImageWrapperBase &
@@ -39,12 +41,13 @@ export default function ImageWrapper({
   );
 
   if (button) {
+    const { onSecondaryClicked, ...buttonProps } = props as ImageWrapperButton;
     return (
-      <button {...(props as JSX.IntrinsicElements["button"])}>
+      <Button onSecondaryClicked={onSecondaryClicked} {...buttonProps}>
         <overlay hexpand vexpand>
           {image}
         </overlay>
-      </button>
+      </Button>
     );
   }
 

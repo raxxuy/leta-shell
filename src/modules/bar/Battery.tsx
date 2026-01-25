@@ -8,9 +8,8 @@ import ConfigManager from "@/services/configs";
 
 export default function Battery() {
   const battery = AstalBattery.get_default();
-  const configManager = ConfigManager.get_default();
-  const icons = configManager.bind("global", "icons");
-  const spacings = configManager.bind("global", "spacings");
+  const icons = ConfigManager.bind("global", "icons");
+  const spacings = ConfigManager.bind("global", "spacings");
   const charging = createBinding(battery, "charging");
   const isPresent = createBinding(battery, "isPresent");
   const percentage = createBinding(battery, "percentage");
@@ -26,12 +25,13 @@ export default function Battery() {
     return timeTo(charging(), battery);
   });
 
+  const handleEnter = () => setRevealed(true);
+  const handleLeave = () => setRevealed(false);
+
   return (
     <box spacing={spacings((s) => s.small)} visible={isPresent}>
-      <Gtk.EventControllerMotion
-        onEnter={() => setRevealed(true)}
-        onLeave={() => setRevealed(false)}
-      />
+      <Gtk.EventControllerMotion onEnter={handleEnter} onLeave={handleLeave} />
+      {/** biome-ignore assist/source/useSortedAttributes: rendering issues */}
       <revealer
         visible={revealed}
         revealChild={revealed}
