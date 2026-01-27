@@ -4,19 +4,19 @@ import { Gtk } from "ags/gtk4";
 import { timeout } from "ags/time";
 import { range } from "es-toolkit/math";
 import { Align, Orientation } from "@/enums";
-import WorkspaceButton from "@/modules/bar/Workspaces/WorkspaceButton";
-import ConfigManager from "@/services/configs";
-import Hyprland from "@/services/hyprland";
+import ConfigService from "@/services/config";
+import HyprlandService from "@/services/hyprland";
+import WorkspaceButton from "./WorkspaceButton";
 
 export default function Workspaces() {
-  const hyprland = Hyprland.get_default();
-  const spacings = ConfigManager.bind("global", "spacings");
-  const workspaces = ConfigManager.bind("bar", "modules.workspaces");
+  const hyprlandService = HyprlandService.get_default();
+  const spacings = ConfigService.bind("global", "spacings");
+  const workspaces = ConfigService.bind("bar", "modules.workspaces");
 
   let scrollLocked = false;
 
   const ws = workspaces((ws) =>
-    range(ws.count).map((_, i) => hyprland.workspaceDummy(i + 1, null)),
+    range(ws.count).map((_, i) => hyprlandService.workspaceDummy(i + 1, null)),
   );
 
   const handleScroll = (direction: number) => {
@@ -24,7 +24,7 @@ export default function Workspaces() {
     if (!delta || scrollLocked) return;
 
     scrollLocked = true;
-    hyprland.changeWorkspace(delta);
+    hyprlandService.changeWorkspace(delta);
 
     timeout(200, () => {
       scrollLocked = false;

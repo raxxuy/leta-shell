@@ -1,7 +1,7 @@
 import Adw from "gi://Adw";
 import type AstalNotifd from "gi://AstalNotifd";
 import { startCase } from "es-toolkit";
-import Button from "@/components/button/Button";
+import { Button } from "@/components/button";
 import ImageWrapper from "@/components/ImageWrapper";
 import {
   Align,
@@ -12,16 +12,15 @@ import {
 } from "@/enums";
 import { loadClasses } from "@/lib/styles";
 import { formatSeconds } from "@/lib/utils";
-import ConfigManager from "@/services/configs";
+import ConfigService from "@/services/config";
 
 type NotificationProps = {
   notification: AstalNotifd.Notification;
 };
 
 export default function Notification({ notification }: NotificationProps) {
-  const configManager = ConfigManager.get_default();
-  const icons = configManager.bind("global", "icons");
-  const spacings = configManager.bind("global", "spacings");
+  const icons = ConfigService.bind("global", "icons");
+  const spacings = ConfigService.bind("global", "spacings");
 
   const handleClick = () => notification.dismiss();
 

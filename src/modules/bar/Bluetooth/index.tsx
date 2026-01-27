@@ -1,26 +1,25 @@
 import AstalBluetooth from "gi://AstalBluetooth";
 import { createBinding, For, With } from "ags";
-import Button from "@/components/button/Button";
-import MenuButton from "@/components/button/MenuButton";
+import { Button, MenuButton } from "@/components/button";
 import Container from "@/components/Container";
 import { CURSORS } from "@/constants";
 import { Orientation } from "@/enums";
 import { getIcon } from "@/lib/icons";
 import { exec } from "@/lib/utils";
-import PairedDevice from "@/modules/bar/Bluetooth/PairedDevice";
-import ConfigManager from "@/services/configs";
+import ConfigService from "@/services/config";
+import PairedDevice from "./PairedDevice";
 
 export default function Bluetooth() {
   const bluetooth = AstalBluetooth.get_default();
-  const icons = ConfigManager.bind("global", "icons");
-  const spacings = ConfigManager.bind("global", "spacings");
+  const icons = ConfigService.bind("global", "icons");
+  const spacings = ConfigService.bind("global", "spacings");
   const isPowered = createBinding(bluetooth, "isPowered");
   const pairedDevices = createBinding(
     bluetooth,
     "devices",
   )((devices) => devices.filter((device) => device.paired));
 
-  const iconName = isPowered((p) => getIcon("bluetooth", p));
+  const iconName = isPowered((p) => getIcon({ type: "bluetooth", powered: p }));
   const tooltipText = isPowered((p) => (p ? "Connected" : "Disconnected"));
 
   const handleClick = () => {

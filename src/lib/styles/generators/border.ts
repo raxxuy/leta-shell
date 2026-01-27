@@ -1,4 +1,4 @@
-import { BORDER_STYLES, DIRECTIONS } from "@/lib/styles/constants";
+import { BORDER_STYLES, DIRECTIONS } from "../constants";
 
 export const generateBorder = (cls: string): string[] | null => {
   // Match border styles: border-solid, border-dashed, border-dotted, border-none

@@ -1,0 +1,11 @@
+[Icon Theme]
+Name=theme
+Comment=Custom icons
+Inherits=
+Directories=symbolic
+
+[symbolic]
+Size=16
+MinSize=16
+MaxSize=512
+Type=Scalable

@@ -1,6 +1,6 @@
 import { last } from "es-toolkit";
 import { CACHE_PICTURES_DIR, CACHE_WAL_DIR } from "@/constants";
-import { buildPath, exec, fileExists } from "@/lib/utils";
+import { buildPath, exec, fileExists } from ".";
 
 const IMAGE_EXTENSIONS = [
   ".jpg",

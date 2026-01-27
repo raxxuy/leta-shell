@@ -1,8 +1,8 @@
 import { onCleanup } from "ags";
 import { Gdk, type Gtk } from "ags/gtk4";
-import Button from "@/components/button/Button";
 import { StateFlags } from "@/enums";
 import { addGestureClick } from "@/lib/utils";
+import Button from "./Button";
 
 type PopoverButtonProps = JSX.IntrinsicElements["button"] & {
   initCss?: boolean;

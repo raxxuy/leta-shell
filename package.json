@@ -16,6 +16,6 @@
     "semi": true
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.12"
+    "@biomejs/biome": "^2.3.13"
   }
 }

@@ -12,6 +12,7 @@ import WallpaperManager from "@/windows/WallpaperManager";
 
 app.start({
   icons: `${SRC}/assets/icons`,
+  iconTheme: "custom",
   css: style,
   main() {
     initConfigs();

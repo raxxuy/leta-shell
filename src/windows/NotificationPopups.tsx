@@ -8,42 +8,45 @@ import Window from "@/components/Window";
 import { Layer, Orientation } from "@/enums";
 import { loadClasses } from "@/lib/styles";
 import Notification from "@/modules/bar/Notifications/Notification";
-import ConfigManager from "@/services/configs";
-import Notifications from "@/services/notifications";
+import ConfigService from "@/services/config";
+import NotificationService from "@/services/notification";
 
 export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
   const timers = new Map();
-  const notifd = Notifications.get_default();
-  const spacings = ConfigManager.bind("global", "spacings");
+  const notificationService = NotificationService.get_default();
+  const spacings = ConfigService.bind("global", "spacings");
 
   const [list, setList] = createState<AstalNotifd.Notification[]>([]);
   const visible = list((l) => l.length > 0);
 
-  const notifiedHandler = notifd.connect("notified", (_, id, replaced) => {
-    const notification = notifd.getNotification(id);
+  const notifiedHandler = notificationService.connect(
+    "notified",
+    (_, id, replaced) => {
+      const notification = notificationService.getNotification(id);
 
-    if (replaced && list().some((n) => n.id === id)) {
-      setList((list) => list.map((n) => (n.id === id ? notification : n)));
-      timers.get(id)?.cancel();
-    } else {
-      setList((list) => [notification, ...list]);
-    }
+      if (replaced && list().some((n) => n.id === id)) {
+        setList((list) => list.map((n) => (n.id === id ? notification : n)));
+        timers.get(id)?.cancel();
+      } else {
+        setList((list) => [notification, ...list]);
+      }
 
-    const timer = timeout(5000, () => {
-      setList((list) => list.filter((n) => n.id !== id));
-      timers.delete(id);
-    });
+      const timer = timeout(5000, () => {
+        setList((list) => list.filter((n) => n.id !== id));
+        timers.delete(id);
+      });
 
-    timers.set(id, timer);
-  });
+      timers.set(id, timer);
+    },
+  );
 
-  const resolvedHandler = notifd.connect("resolved", (_, id) => {
+  const resolvedHandler = notificationService.connect("resolved", (_, id) => {
     setList((list) => list.filter((n) => n.id !== id));
   });
 
   onCleanup(() => {
-    notifd.disconnect(notifiedHandler);
-    notifd.disconnect(resolvedHandler);
+    notificationService.disconnect(notifiedHandler);
+    notificationService.disconnect(resolvedHandler);
 
     timers.forEach((timer) => {
       timer.cancel();

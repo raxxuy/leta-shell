@@ -1,11 +1,11 @@
 import { createBinding, For } from "ags";
 import type { Gdk } from "ags/gtk4";
-import Button from "@/components/button/Button";
+import { Button } from "@/components/button";
 import { CURSORS } from "@/constants";
 import { Align, Orientation, PolicyType } from "@/enums";
-import WallpaperItem from "@/modules/wallpapers/WallpaperItem";
-import ConfigManager from "@/services/configs";
-import Wallpaper from "@/services/wallpaper";
+import ConfigService from "@/services/config";
+import WallpaperService from "@/services/wallpaper";
+import WallpaperItem from "./WallpaperItem";
 
 interface WallpaperManagerProps {
   gdkmonitor: Gdk.Monitor;
@@ -15,14 +15,14 @@ export default function WallpaperManagerModule({
   gdkmonitor,
 }: WallpaperManagerProps) {
   const { width, height } = gdkmonitor.get_geometry();
-  const wallpaper = Wallpaper.get_default();
-  const spacings = ConfigManager.bind("global", "spacings");
-  const cachedPictures = createBinding(wallpaper, "cachedPictures");
+  const wallpaperService = WallpaperService.get_default();
+  const spacings = ConfigService.bind("global", "spacings");
+  const cachedPictures = createBinding(wallpaperService, "cachedPictures");
 
-  wallpaper.setMonitorDimensions(width, height);
+  wallpaperService.setMonitorDimensions(width, height);
 
   const setWallpaper = (picture: string = "", full?: boolean) => {
-    wallpaper.setSource(picture, full);
+    wallpaperService.setSource(picture, full);
   };
 
   return (

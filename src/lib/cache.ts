@@ -4,7 +4,7 @@ import {
   CACHE_WAL_DIR,
   WAL_FILE,
 } from "@/constants";
-import { ensureDir, fileExists, writeFile } from "@/lib/utils";
+import { ensureDir, fileExists, writeFile } from "./utils";
 
 export const initCache = (): void => {
   ensureDir(CACHE_DIR);

@@ -12,6 +12,7 @@ The following packages are required:
 - `pywal16`
 - `dart-sass`
 - `imagemagick`
+- `wl-clipboard`
 - `apple-fonts` (will be customizable in future releases)
 
 ## Installation
@@ -112,14 +113,13 @@ layerrule = no_anim on, match:namespace leta-shell
 layerrule = blur on, match:namespace leta-shell
 layerrule = blur_popups on, match:namespace leta-shell
 layerrule = ignore_alpha 0.3, match:namespace leta-shell
-layerrule = xray on, match:namespace leta-shell
 ```
 
 # Todo
 
 - [X] Improve the background/wallpapers system so it doesn't eat up a lot of memory
 - [x] Notification daemon/menu
-- [ ] Power menu
+- [?] Power menu
 - [ ] Settings menu
 - [ ] Update notifier
 - [ ] Theme manager

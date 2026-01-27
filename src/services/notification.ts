@@ -2,24 +2,24 @@ import AstalNotifd from "gi://AstalNotifd";
 import { onCleanup } from "ags";
 import type GObject from "ags/gobject";
 import { getter, register, setter, signal } from "ags/gobject";
-import Service from "@/services/base";
+import Service from "./base";
 
-interface NotificationsSignals extends GObject.Object.SignalSignatures {
-  notified: Notifications["notified"];
-  resolved: Notifications["resolved"];
+interface NotificationSignals extends GObject.Object.SignalSignatures {
+  notified: NotificationService["notified"];
+  resolved: NotificationService["resolved"];
 }
 
-@register({ GTypeName: "Notifications" })
-export default class Notifications extends Service<NotificationsSignals> {
-  private static instance: Notifications;
+@register({ GTypeName: "NotificationService" })
+export default class NotificationService extends Service<NotificationSignals> {
+  private static instance: NotificationService;
   #notifd: AstalNotifd.Notifd = AstalNotifd.get_default();
   #notifications: AstalNotifd.Notification[] = [];
 
   static get_default() {
-    if (!Notifications.instance) {
-      Notifications.instance = new Notifications();
+    if (!NotificationService.instance) {
+      NotificationService.instance = new NotificationService();
     }
-    return Notifications.instance;
+    return NotificationService.instance;
   }
 
   @signal(Number, Boolean)

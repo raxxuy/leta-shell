@@ -1,4 +1,4 @@
-import { COLOR_PROPS, COLOR_VARIANTS, COLORS } from "@/lib/styles/constants";
+import { COLOR_PROPS, COLOR_VARIANTS, COLORS } from "../constants";
 
 export const generateColor = (cls: string): string[] | null => {
   // Match values: bg-background, text-color-12, border-foreground-lighter/80

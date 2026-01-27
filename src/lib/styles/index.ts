@@ -9,7 +9,6 @@ import {
   SRC_STYLES_DIR,
   UTILITIES_JSON_FILE,
 } from "@/constants";
-import { getUtility } from "@/lib/styles/generators";
 import {
   buildPath,
   dirExists,
@@ -20,7 +19,8 @@ import {
   getUsedClasses,
   readFile,
   writeFile,
-} from "@/lib/utils";
+} from "../utils";
+import { getUtility } from "./generators";
 
 const mappedWidgets = new Set<string>();
 const usedSet = new Set<string>();

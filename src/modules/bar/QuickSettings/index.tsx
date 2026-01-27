@@ -1,14 +1,13 @@
-import Button from "@/components/button/Button";
-import MenuButton from "@/components/button/MenuButton";
+import { Button, MenuButton } from "@/components/button";
 import Container from "@/components/Container";
 import { Align, Orientation } from "@/enums";
 import { toggleWindow } from "@/lib/utils";
-import Media from "@/modules/bar/QuickSettings/Media";
-import ConfigManager from "@/services/configs";
+import ConfigService from "@/services/config";
+import Media from "./Media";
 
 export default function QuickSettings() {
-  const icons = ConfigManager.bind("global", "icons");
-  const spacings = ConfigManager.bind("global", "spacings");
+  const icons = ConfigService.bind("global", "icons");
+  const spacings = ConfigService.bind("global", "spacings");
 
   const handleClick = () => toggleWindow("settings");
 

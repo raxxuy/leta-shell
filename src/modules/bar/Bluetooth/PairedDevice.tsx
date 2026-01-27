@@ -1,28 +1,36 @@
 import type AstalBluetooth from "gi://AstalBluetooth";
 import { createBinding, createComputed } from "ags";
-import Button from "@/components/button/Button";
+import { Button } from "@/components/button";
 import { CURSORS } from "@/constants";
 import { Align } from "@/enums";
 import { getIcon } from "@/lib/icons";
 import { loadClasses } from "@/lib/styles";
-import ConfigManager from "@/services/configs";
+import ConfigService from "@/services/config";
 
 interface PairedDeviceProps {
   device: AstalBluetooth.Device;
 }
 
 export default function PairedDevice({ device }: PairedDeviceProps) {
-  const icons = ConfigManager.bind("global", "icons");
-  const spacings = ConfigManager.bind("global", "spacings");
+  const icons = ConfigService.bind("global", "icons");
+  const spacings = ConfigService.bind("global", "spacings");
   const connected = createBinding(device, "connected");
   const connecting = createBinding(device, "connecting");
 
-  const deviceIcon = getIcon("bluetooth-device", "device", device);
+  const deviceIcon = getIcon({
+    type: "bluetooth-device",
+    subtype: "device",
+    device: device,
+  });
 
   const connectedIcon = createComputed(() => {
     connected();
     connecting();
-    return getIcon("bluetooth-device", "connectivity", device);
+    return getIcon({
+      type: "bluetooth-device",
+      subtype: "connectivity",
+      device: device,
+    });
   });
 
   const handleClick = () => {

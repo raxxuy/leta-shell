@@ -1,9 +1,9 @@
 import { createBinding, With } from "ags";
 import { EllipsizeMode } from "@/enums";
-import Hyprland from "@/services/hyprland";
+import HyprlandService from "@/services/hyprland";
 
 export default function Client() {
-  const hyprland = Hyprland.get_default().astalHyprland;
+  const hyprland = HyprlandService.get_default().astalHyprland;
   const client = createBinding(hyprland, "focusedClient");
 
   return (

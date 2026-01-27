@@ -1,11 +1,11 @@
 import AstalTray from "gi://AstalTray";
 import { createBinding, For } from "ags";
-import TrayItem from "@/modules/bar/Tray/TrayItem";
-import ConfigManager from "@/services/configs";
+import ConfigService from "@/services/config";
+import TrayItem from "./TrayItem";
 
 export default function Tray() {
   const tray = AstalTray.get_default();
-  const spacings = ConfigManager.bind("global", "spacings");
+  const spacings = ConfigService.bind("global", "spacings");
   const items = createBinding(
     tray,
     "items",

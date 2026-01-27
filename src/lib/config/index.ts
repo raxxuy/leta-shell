@@ -1,18 +1,18 @@
 import { CONFIG_DIR } from "@/constants";
 import {
-  backgroundConfigSchema,
-  barConfigSchema,
-  globalConfigSchema,
-  launcherConfigSchema,
-  schemas,
-} from "@/lib/config/schema";
-import {
   buildPath,
   ensureDir,
   fileExists,
   readFile,
   writeFile,
-} from "@/lib/utils";
+} from "../utils";
+import {
+  backgroundConfigSchema,
+  barConfigSchema,
+  globalConfigSchema,
+  launcherConfigSchema,
+  schemas,
+} from "./schema";
 
 export const configs = {
   bar: barConfigSchema.parse({

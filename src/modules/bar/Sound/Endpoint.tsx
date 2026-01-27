@@ -2,7 +2,7 @@ import AstalWp from "gi://AstalWp";
 import { createBinding, createComputed, createState, For } from "ags";
 import { Gtk } from "ags/gtk4";
 import clsx from "clsx/lite";
-import PopoverButton from "@/components/button/PopoverButton";
+import { PopoverButton } from "@/components/button";
 import Container from "@/components/Container";
 import {
   EventControllerScrollFlags,
@@ -11,8 +11,8 @@ import {
 } from "@/enums";
 import { getIcon } from "@/lib/icons";
 import { adjustVolume, formatVolume, toggleMute } from "@/lib/utils";
-import EndpointListItem from "@/modules/bar/Sound/EndpointListItem";
-import ConfigManager from "@/services/configs";
+import ConfigService from "@/services/config";
+import EndpointListItem from "./EndpointListItem";
 
 interface EndpointProps {
   endpoint: AstalWp.Endpoint;
@@ -21,8 +21,8 @@ interface EndpointProps {
 
 export default function Endpoint({ endpoint, type }: EndpointProps) {
   const audio = AstalWp.get_default().audio;
-  const icons = ConfigManager.bind("global", "icons");
-  const spacings = ConfigManager.bind("global", "spacings");
+  const icons = ConfigService.bind("global", "icons");
+  const spacings = ConfigService.bind("global", "spacings");
   const mute = createBinding(endpoint, "mute");
   const volume = createBinding(endpoint, "volume");
   const devices = createBinding(audio, `${type}s`);
@@ -32,7 +32,12 @@ export default function Endpoint({ endpoint, type }: EndpointProps) {
   const [opened, setOpened] = createState<boolean>(false);
 
   const iconName = createComputed(() => {
-    return getIcon("volume", type, volume(), mute());
+    return getIcon({
+      type: "volume",
+      subtype: type,
+      volume: volume(),
+      mute: mute(),
+    });
   });
 
   const className = opened((o) =>

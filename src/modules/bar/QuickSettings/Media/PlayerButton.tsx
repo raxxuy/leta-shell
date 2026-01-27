@@ -1,6 +1,6 @@
 import type { Accessor } from "ags";
 import { CURSORS } from "@/constants";
-import ConfigManager from "@/services/configs";
+import ConfigService from "@/services/config";
 
 interface PlayerButtonProps {
   iconName: string | Accessor<string>;
@@ -11,7 +11,7 @@ export default function PlayerButton({
   iconName,
   onClicked,
 }: PlayerButtonProps) {
-  const icons = ConfigManager.bind("global", "icons");
+  const icons = ConfigService.bind("global", "icons");
 
   return (
     <button

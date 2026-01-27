@@ -4,12 +4,12 @@ import { Gtk } from "ags/gtk4";
 import { RevealerTransitionType } from "@/enums";
 import { getIcon } from "@/lib/icons";
 import { formatPercentage, timeTo } from "@/lib/utils";
-import ConfigManager from "@/services/configs";
+import ConfigService from "@/services/config";
 
 export default function Battery() {
   const battery = AstalBattery.get_default();
-  const icons = ConfigManager.bind("global", "icons");
-  const spacings = ConfigManager.bind("global", "spacings");
+  const icons = ConfigService.bind("global", "icons");
+  const spacings = ConfigService.bind("global", "spacings");
   const charging = createBinding(battery, "charging");
   const isPresent = createBinding(battery, "isPresent");
   const percentage = createBinding(battery, "percentage");
@@ -17,7 +17,11 @@ export default function Battery() {
   const [revealed, setRevealed] = createState<boolean>(false);
 
   const iconName = createComputed(() =>
-    getIcon("battery", percentage(), charging()),
+    getIcon({
+      type: "battery",
+      percentage: percentage(),
+      charging: charging(),
+    }),
   );
 
   const tooltipText = createComputed(() => {

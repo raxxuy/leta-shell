@@ -1,7 +1,4 @@
-import {
-  TRANSITION_PROPERTIES,
-  TRANSITION_TIMINGS,
-} from "@/lib/styles/constants";
+import { TRANSITION_PROPERTIES, TRANSITION_TIMINGS } from "../constants";
 
 export const generateTransition = (cls: string): string[] | null => {
   // Match: transition

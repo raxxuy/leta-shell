@@ -1,7 +1,7 @@
 import Graphene from "gi://Graphene";
 import { createEffect, createState } from "ags";
 import { type Astal, Gdk, Gtk } from "ags/gtk4";
-import Window, { type WindowProps } from "@/components/Window";
+import Window, { type WindowProps } from "./Window";
 
 type RevealerWindowProps = WindowProps & {
   transitionType: Gtk.RevealerTransitionType;

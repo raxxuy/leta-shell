@@ -1,17 +1,17 @@
 import type AstalWp from "gi://AstalWp";
 import { createBinding } from "ags";
-import Button from "@/components/button/Button";
+import { Button } from "@/components/button";
 import { CURSORS } from "@/constants";
 import { Align, EllipsizeMode } from "@/enums";
-import ConfigManager from "@/services/configs";
+import ConfigService from "@/services/config";
 
 interface EndpointListItemProps {
   endpoint: AstalWp.Endpoint;
 }
 
 export default function EndpointListItem({ endpoint }: EndpointListItemProps) {
-  const icons = ConfigManager.bind("global", "icons");
-  const spacings = ConfigManager.bind("global", "spacings");
+  const icons = ConfigService.bind("global", "icons");
+  const spacings = ConfigService.bind("global", "spacings");
   const isDefault = createBinding(endpoint, "isDefault");
 
   const iconName = isDefault((d) => (d ? "check" : "circle"));

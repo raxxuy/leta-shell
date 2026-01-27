@@ -1,9 +1,9 @@
-import Button from "@/components/button/Button";
+import { Button } from "@/components/button";
 import { toggleWindow } from "@/lib/utils";
-import ConfigManager from "@/services/configs";
+import ConfigService from "@/services/config";
 
 export default function Launcher() {
-  const icons = ConfigManager.bind("global", "icons");
+  const icons = ConfigService.bind("global", "icons");
 
   const handleClick = () => toggleWindow("launcher");
 

@@ -3,16 +3,16 @@ import { createBinding, createComputed } from "ags";
 import clsx from "clsx/lite";
 import { CURSORS } from "@/constants";
 import { loadClasses } from "@/lib/styles";
-import ConfigManager from "@/services/configs";
-import Hyprland from "@/services/hyprland";
+import ConfigService from "@/services/config";
+import HyprlandService from "@/services/hyprland";
 
 interface WorkspaceButtonProps {
   workspace: AstalHyprland.Workspace;
 }
 
 export default function WorkspaceButton({ workspace }: WorkspaceButtonProps) {
-  const hyprland = Hyprland.get_default().astalHyprland;
-  const variation = ConfigManager.bind("bar", "modules.workspaces.variation");
+  const hyprland = HyprlandService.get_default().astalHyprland;
+  const variation = ConfigService.bind("bar", "modules.workspaces.variation");
   const clients = createBinding(hyprland, "clients");
   const focusedWorkspace = createBinding(hyprland, "focusedWorkspace");
 

@@ -2,19 +2,20 @@ import Gio from "gi://Gio";
 import Pango from "gi://Pango";
 import { Astal, Gtk } from "ags/gtk4";
 
-export const { WindowAnchor, Exclusivity, Layer, Keymode } = Astal;
+export const { Exclusivity, Keymode, Layer, WindowAnchor } = Astal;
 export const {
   Align,
-  Orientation,
-  RevealerTransitionType,
-  EventControllerScrollFlags,
-  PolicyType,
-  Overflow,
   ContentFit,
+  EventControllerScrollFlags,
+  InputHints,
   Justification,
-  StateFlags,
+  Orientation,
+  Overflow,
+  PolicyType,
   PropagationLimit,
   PropagationPhase,
+  RevealerTransitionType,
+  StateFlags,
 } = Gtk;
 export const { ApplicationFlags } = Gio;
 export const { EllipsizeMode } = Pango;

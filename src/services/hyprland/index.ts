@@ -4,20 +4,22 @@ import type GObject from "ags/gobject";
 import { getter, register } from "ags/gobject";
 import { subprocess } from "ags/process";
 import { exec } from "@/lib/utils";
-import Service from "@/services/base";
-import type { Keyboard } from "@/types/hyprland";
+import Service from "../base";
+import type { Keyboard } from "./types";
 
 interface HyprlandSignals extends GObject.Object.SignalSignatures {}
 
-@register({ GTypeName: "Hyprland" })
-export default class Hyprland extends Service<HyprlandSignals> {
-  private static instance: Hyprland;
+@register({ GTypeName: "HyprlandService" })
+export default class HyprlandService extends Service<HyprlandSignals> {
+  private static instance: HyprlandService;
   #mainKeyboard: Keyboard = {} as Keyboard;
   #astalHyprland: AstalHyprland.Hyprland = AstalHyprland.get_default();
 
   static get_default() {
-    if (!Hyprland.instance) Hyprland.instance = new Hyprland();
-    return Hyprland.instance;
+    if (!HyprlandService.instance) {
+      HyprlandService.instance = new HyprlandService();
+    }
+    return HyprlandService.instance;
   }
 
   @getter(AstalHyprland.Hyprland)

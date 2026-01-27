@@ -1,10 +1,10 @@
 import AstalWp from "gi://AstalWp";
-import Endpoint from "@/modules/bar/Sound/Endpoint";
-import ConfigManager from "@/services/configs";
+import ConfigService from "@/services/config";
+import Endpoint from "./Endpoint";
 
 export default function Sound() {
   const wp = AstalWp.get_default();
-  const spacings = ConfigManager.bind("global", "spacings");
+  const spacings = ConfigService.bind("global", "spacings");
   const { defaultSpeaker: speaker, defaultMicrophone: microphone } = wp;
 
   return (

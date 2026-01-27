@@ -1,4 +1,4 @@
-import { ROUNDED_DIRS, ROUNDED_SIZES } from "@/lib/styles/constants";
+import { ROUNDED_DIRS, ROUNDED_SIZES } from "../constants";
 
 export const generateRounded = (cls: string): string[] | null => {
   // Match arbitrary values: rounded-[12px], rounded-t-[0.5rem]

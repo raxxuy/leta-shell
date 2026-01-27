@@ -1,40 +1,37 @@
-import AstalApps from "gi://AstalApps";
-import { createState, For, onCleanup } from "ags";
+import { createBinding, For, onCleanup } from "ags";
 import { type Gdk, Gtk } from "ags/gtk4";
-import { Align, Orientation, Overflow, StateFlags } from "@/enums";
+import { Align, InputHints, Orientation, Overflow, StateFlags } from "@/enums";
 import { findWidget } from "@/lib/utils";
-import LauncherItem from "@/modules/launcher/LauncherItem";
-import ConfigManager from "@/services/configs";
+import ConfigService from "@/services/config";
+import LauncherService from "@/services/launcher";
+import LauncherItem from "./LauncherItem";
 
 interface LauncherModuleProps {
   gdkmonitor: Gdk.Monitor;
 }
 
 export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
-  const apps = new AstalApps.Apps();
   const { width, height } = gdkmonitor.get_geometry();
-  const spacings = ConfigManager.bind("global", "spacings");
+  const launcherService = LauncherService.get_default();
+  const spacings = ConfigService.bind("global", "spacings");
+  const results = createBinding(launcherService, "results");
 
-  const [list, setList] = createState<AstalApps.Application[]>([]);
   let entry: Gtk.Entry;
 
   const init = (self: Gtk.Entry) => {
     entry = self;
 
-    const text = findWidget(self, (w) => w.cssName === "text");
+    const text = findWidget(self, (w) => w.cssName === "text") as Gtk.Text;
     const placeholder = findWidget(self, (w) => w.cssName === "placeholder");
+    placeholder?.set_css_classes(["text-foreground-dark"]);
 
-    const handler = self.connect("state-flags-changed", () => {
-      const isFocused = self.get_state_flags() & StateFlags.FOCUS_WITHIN;
+    const handler = text.connect("state-flags-changed", () => {
+      const isFocused = text.get_state_flags() & StateFlags.FOCUS_WITHIN;
       const classes = [
         isFocused ? "text-foreground-lighter" : "text-foreground-dark",
       ];
-
       text?.set_css_classes(classes);
-      placeholder?.set_css_classes(classes);
     });
-
-    handleSearch(self);
 
     onCleanup(() => self.disconnect(handler));
   };
@@ -42,14 +39,14 @@ export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
   const handleNotifyVisible = ({ visible }: { visible: boolean }) => {
     if (visible) {
       entry.grab_focus();
+    } else {
       entry.set_text("");
-    } else apps.reload();
+      launcherService.clear();
+    }
   };
 
   const handleSearch = ({ text }: { text: string }) => {
-    setList(
-      apps.exact_query(text).sort((a, b) => a.name.localeCompare(b.name)),
-    );
+    launcherService.search(text);
   };
 
   return (
@@ -65,17 +62,19 @@ export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
     >
       <entry
         $={init}
-        class="bg-background-dark/90 px-8 py-6"
+        class="bg-background-dark/95 px-8 py-6"
+        inputHints={InputHints.NO_EMOJI}
         onNotifyText={handleSearch}
-        placeholderText="Start typing to search"
-        widthRequest={width / 3.8}
+        placeholderText="Start typing to search..."
+        widthRequest={width / 3.6}
       />
       <box
-        class="border-background-light border-t-1 bg-background-dark/90 p-4"
-        overflow={Overflow.HIDDEN}
-        visible={list((l) => l.length > 0)}
+        class="border-background-light border-t-2 bg-background-dark/90"
+        orientation={Orientation.VERTICAL}
+        visible={results((r) => r.length > 0)}
       >
         <scrolledwindow
+          class="p-4"
           hexpand
           maxContentHeight={height / 2.12}
           propagateNaturalHeight
@@ -85,8 +84,10 @@ export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
             orientation={Orientation.VERTICAL}
             spacing={spacings((s) => s.medium)}
           >
-            <For each={list}>
-              {(app, index) => <LauncherItem app={app} index={index} />}
+            <For each={results}>
+              {(result, index) => (
+                <LauncherItem index={index} result={result} />
+              )}
             </For>
           </box>
         </scrolledwindow>

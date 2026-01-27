@@ -1,5 +1,5 @@
 import { getAnchor } from "@/lib/utils";
-import type { Anchor } from "@/types/widget";
+import type { Anchor } from "@/types";
 
 export type WindowProps = Omit<JSX.IntrinsicElements["window"], "anchor"> & {
   anchor: Anchor;

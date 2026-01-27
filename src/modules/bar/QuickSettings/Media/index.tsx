@@ -1,6 +1,6 @@
 import AstalMpris from "gi://AstalMpris";
 import { createBinding, createState, With } from "ags";
-import Player from "@/modules/bar/QuickSettings/Media/Player";
+import Player from "./Player";
 
 export default function Media() {
   const mpris = AstalMpris.get_default();

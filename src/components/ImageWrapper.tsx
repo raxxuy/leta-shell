@@ -1,8 +1,8 @@
 import Gio from "gi://Gio";
 import { type Accessor, createComputed } from "ags";
 import { Gtk } from "ags/gtk4";
-import Button from "@/components/button/Button";
 import { access } from "@/lib/utils";
+import { Button } from "./button";
 
 type ImageWrapperBase = {
   src: string | Accessor<string>;

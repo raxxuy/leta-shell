@@ -11,12 +11,12 @@ import {
   scaleAndCenterImage,
   writeFile,
 } from "@/lib/utils";
-import Service from "@/services/base";
+import Service from "./base";
 
 interface WallpaperSignals extends GObject.Object.SignalSignatures {
-  "wallpaper-changed": Wallpaper["wallpaperChanged"];
-  "pictures-changed": Wallpaper["picturesChanged"];
-  "cached-pictures-changed": Wallpaper["cachedPicturesChanged"];
+  "wallpaper-changed": WallpaperService["wallpaperChanged"];
+  "pictures-changed": WallpaperService["picturesChanged"];
+  "cached-pictures-changed": WallpaperService["cachedPicturesChanged"];
 }
 
 interface CachedPicture {
@@ -24,9 +24,9 @@ interface CachedPicture {
   cached: string;
 }
 
-@register({ GTypeName: "Wallpaper" })
-export default class Wallpaper extends Service<WallpaperSignals> {
-  private static instance: Wallpaper;
+@register({ GTypeName: "WallpaperService" })
+export default class WallpaperService extends Service<WallpaperSignals> {
+  private static instance: WallpaperService;
   #pictures: string[] = [];
   #cachedPictures: CachedPicture[] = [];
   #source = "";
@@ -34,8 +34,10 @@ export default class Wallpaper extends Service<WallpaperSignals> {
   #monitorHeight = 0;
 
   static get_default() {
-    if (!Wallpaper.instance) Wallpaper.instance = new Wallpaper();
-    return Wallpaper.instance;
+    if (!WallpaperService.instance) {
+      WallpaperService.instance = new WallpaperService();
+    }
+    return WallpaperService.instance;
   }
 
   @signal(Boolean)

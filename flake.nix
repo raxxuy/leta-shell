@@ -76,7 +76,7 @@
             pnpmDeps = pkgs.fetchPnpmDeps {
               inherit pname version src;
               fetcherVersion = 3;
-              hash = "sha256-gkJWFlaG6f6wZiojHWoH3g31AqGly/zaj3N6FdzTgHM=";
+              hash = "sha256-7iDlQ7+Zw1IoC5zT4HjoInuIy1af8+29i27NTpINqsE=";
             };
 
             nativeBuildInputs = [
@@ -128,6 +128,7 @@
               pywal16
               dart-sass
               imagemagick
+              wl-clipboard
               inotify-tools
               (ags.packages.${system}.default.override {
                 inherit extraPackages;
@@ -150,7 +151,13 @@
           };
 
           config = lib.mkIf config.programs.leta-shell.enable {
-            environment.systemPackages = [ self.packages.${pkgs.system}.default ];
+            environment.systemPackages = [
+              self.packages.${pkgs.system}.default
+              pkgs.pywal16
+              pkgs.dart-sass
+              pkgs.imagemagick
+              pkgs.wl-clipboard
+            ];
             fonts.packages = [ apple-fonts.packages.${pkgs.system}.apple-fonts ];
           };
         };
@@ -171,6 +178,10 @@
             home.packages = [
               self.packages.${pkgs.system}.default
               apple-fonts.packages.${pkgs.system}.apple-fonts
+              pkgs.pywal16
+              pkgs.dart-sass
+              pkgs.imagemagick
+              pkgs.wl-clipboard
             ];
           };
         };

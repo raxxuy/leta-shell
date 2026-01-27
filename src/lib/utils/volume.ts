@@ -1,5 +1,5 @@
 import type AstalWp from "gi://AstalWp";
-import { clamp } from "es-toolkit/math";
+import { clamp } from "es-toolkit";
 
 const VOLUME_STEP = 0.05;
 const MIN_VOLUME = 0;

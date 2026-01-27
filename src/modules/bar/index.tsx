@@ -1,18 +1,18 @@
 import { For } from "ags";
 import type GObject from "ags/gobject";
 import clsx from "clsx/lite";
-import Battery from "@/modules/bar/Battery";
-import Bluetooth from "@/modules/bar/Bluetooth";
-import Client from "@/modules/bar/Client";
-import Clock from "@/modules/bar/Clock";
-import KeyboardLayout from "@/modules/bar/KeyboardLayout";
-import Launcher from "@/modules/bar/Launcher";
-import Notifications from "@/modules/bar/Notifications";
-import QuickSettings from "@/modules/bar/QuickSettings";
-import Sound from "@/modules/bar/Sound";
-import Tray from "@/modules/bar/Tray";
-import Workspaces from "@/modules/bar/Workspaces";
-import ConfigManager from "@/services/configs";
+import ConfigService from "@/services/config";
+import Battery from "./Battery";
+import Bluetooth from "./Bluetooth";
+import Client from "./Client";
+import Clock from "./Clock";
+import KeyboardLayout from "./KeyboardLayout";
+import Launcher from "./Launcher";
+import Notifications from "./Notifications";
+import QuickSettings from "./QuickSettings";
+import Sound from "./Sound";
+import Tray from "./Tray";
+import Workspaces from "./Workspaces";
 
 const MODULES: Record<string, () => GObject.Object> = {
   launcher: Launcher,
@@ -29,8 +29,8 @@ const MODULES: Record<string, () => GObject.Object> = {
 };
 
 export default function BarModule() {
-  const window = ConfigManager.bind("bar", "window");
-  const spacings = ConfigManager.bind("global", "spacings");
+  const window = ConfigService.bind("bar", "window");
+  const spacings = ConfigService.bind("global", "spacings");
 
   const classNames = window((w) =>
     clsx(
@@ -40,7 +40,7 @@ export default function BarModule() {
   );
 
   const Section = ({ type }: { type: "start" | "center" | "end" }) => {
-    const layout = ConfigManager.bind("bar", `layout.${type}`);
+    const layout = ConfigService.bind("bar", `layout.${type}`);
 
     return (
       <box $type={type} spacing={spacings((s) => s.medium)}>

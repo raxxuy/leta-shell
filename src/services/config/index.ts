@@ -2,21 +2,21 @@ import { createBinding } from "ags";
 import type GObject from "ags/gobject";
 import { getter, register, signal } from "ags/gobject";
 import { configs, writeConfig } from "@/lib/config";
-import Service from "@/services/base";
-import type { ConfigKey, ConfigType, Path, PathValue } from "@/types/config";
+import Service from "../base";
+import type { ConfigKey, ConfigType, Path, PathValue } from "./types";
 
 interface ConfigSignals extends GObject.Object.SignalSignatures {
-  changed: ConfigManager["changed"];
+  changed: ConfigService["changed"];
 }
 
-@register({ GTypeName: "ConfigManager" })
-export default class ConfigManager extends Service<ConfigSignals> {
-  private static instance: ConfigManager;
+@register({ GTypeName: "ConfigService" })
+export default class ConfigService extends Service<ConfigSignals> {
+  private static instance: ConfigService;
   #configs = configs;
 
-  static get_default(): ConfigManager {
-    if (!ConfigManager.instance) ConfigManager.instance = new ConfigManager();
-    return ConfigManager.instance;
+  static get_default(): ConfigService {
+    if (!ConfigService.instance) ConfigService.instance = new ConfigService();
+    return ConfigService.instance;
   }
 
   @getter(Object)
@@ -95,11 +95,11 @@ export default class ConfigManager extends Service<ConfigSignals> {
     configKey: K,
     path: P,
   ) {
-    const configManager = ConfigManager.get_default();
+    const configService = ConfigService.get_default();
 
     return createBinding(
-      configManager,
+      configService,
       "configs",
-    )(() => configManager.getValue(configKey, path));
+    )(() => configService.getValue(configKey, path));
   }
 }

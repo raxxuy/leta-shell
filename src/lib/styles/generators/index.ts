@@ -1,14 +1,14 @@
-import { STATES } from "@/lib/styles/constants";
-import { generateAnimation } from "@/lib/styles/generators/animation";
-import { generateBorder } from "@/lib/styles/generators/border";
-import { generateColor } from "@/lib/styles/generators/color";
-import { generateFilter } from "@/lib/styles/generators/filter";
-import { generateOpacity } from "@/lib/styles/generators/opacity";
-import { generateRounded } from "@/lib/styles/generators/rounded";
-import { generateShadow } from "@/lib/styles/generators/shadow";
-import { generateSpacing } from "@/lib/styles/generators/spacing";
-import { generateTransition } from "@/lib/styles/generators/transition";
-import { generateTypography } from "@/lib/styles/generators/typography";
+import { STATES } from "../constants";
+import { generateAnimation } from "./animation";
+import { generateBorder } from "./border";
+import { generateColor } from "./color";
+import { generateFilter } from "./filter";
+import { generateOpacity } from "./opacity";
+import { generateRounded } from "./rounded";
+import { generateShadow } from "./shadow";
+import { generateSpacing } from "./spacing";
+import { generateTransition } from "./transition";
+import { generateTypography } from "./typography";
 
 type UtilityMap = Record<string, string[]>;
 

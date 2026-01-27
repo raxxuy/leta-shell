@@ -12,9 +12,12 @@
 }
 
 tooltip {
+    @include shadow;
+    @include border(transparent, 0px, 1rem);
     background: rgba(black, 0.5);
     padding: 1rem;
     font-size: 1rem;
+    margin: 5px 10px 15px;
 }
 
 image {
