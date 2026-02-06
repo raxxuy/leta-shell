@@ -2,10 +2,10 @@ import type AstalMpris from "gi://AstalMpris";
 import { createBinding, createComputed, createState } from "ags";
 import { timeout } from "ags/time";
 import { Align, EllipsizeMode, Orientation } from "@/enums";
+import { useGlobalConfig } from "@/hooks/useConfig";
 import { getIcon } from "@/lib/icons";
 import { loadClasses } from "@/lib/styles";
-import { formatSeconds } from "@/lib/utils";
-import ConfigService from "@/services/config";
+import { formatSeconds } from "@/utils";
 import PlayerButton from "./PlayerButton";
 
 interface PlayerControlsProps {
@@ -13,7 +13,7 @@ interface PlayerControlsProps {
 }
 
 export default function PlayerControls({ player }: PlayerControlsProps) {
-  const spacings = ConfigService.bind("global", "spacings");
+  const { spacing } = useGlobalConfig();
   const title = createBinding(player, "title");
   const artist = createBinding(player, "artist");
   const length = createBinding(player, "length")(Math.floor);
@@ -36,8 +36,8 @@ export default function PlayerControls({ player }: PlayerControlsProps) {
   };
 
   const handleSliderInteraction = () => {
-    if (isDragging()) {
-      player.position = dragPosition();
+    if (isDragging.peek()) {
+      player.position = dragPosition.peek();
       timeout(100, () => setIsDragging(false));
     } else {
       setIsDragging(true);
@@ -48,9 +48,9 @@ export default function PlayerControls({ player }: PlayerControlsProps) {
     <box
       $={loadClasses(PlayerControls)}
       $type="overlay"
-      class="bg-background-dark/50 p-4"
+      class="bg-background-dark/60 p-4"
       orientation={Orientation.VERTICAL}
-      spacing={spacings((s) => s.medium)}
+      spacing={spacing("medium")}
       valign={Align.END}
     >
       <box orientation={Orientation.VERTICAL}>
@@ -62,7 +62,7 @@ export default function PlayerControls({ player }: PlayerControlsProps) {
           maxWidthChars={24}
         />
         <label
-          class="text-foreground-dark text-sm"
+          class="text-on-surface-dark text-sm"
           halign={Align.START}
           label={artist}
         />
@@ -93,7 +93,7 @@ export default function PlayerControls({ player }: PlayerControlsProps) {
           class="pt-1"
           halign={Align.CENTER}
           hexpand
-          spacing={spacings((s) => s.medium)}
+          spacing={spacing("medium")}
         >
           <PlayerButton
             iconName="media-skip-backward"

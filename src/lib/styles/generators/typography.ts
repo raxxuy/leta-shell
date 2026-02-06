@@ -1,4 +1,4 @@
-import { FONT_SIZES, FONT_WEIGHTS } from "../constants";
+import { FONT_SIZES, FONT_WEIGHTS } from "@/constants/styles";
 
 export const generateTypography = (cls: string): string[] | null => {
   // Match arbitrary weight values: font-[500]

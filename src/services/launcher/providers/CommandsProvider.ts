@@ -1,5 +1,5 @@
-import { exec, toggleWindow } from "@/lib/utils";
-import type { LauncherProvider, LauncherResult } from "../types";
+import type { LauncherProvider, LauncherResult } from "@/types/launcher";
+import { exec, toggleWindow } from "@/utils";
 
 export class CommandsProvider implements LauncherProvider {
   name = "commands";
@@ -24,7 +24,9 @@ export class CommandsProvider implements LauncherProvider {
         score: 90,
         execute: () => {
           toggleWindow("launcher");
-          exec(command).catch(console.error);
+          exec(
+            `xdg-terminal-exec fish -c "${command}; read -P 'Press any key to continue...'"`,
+          ).catch(console.error);
         },
       },
     ];

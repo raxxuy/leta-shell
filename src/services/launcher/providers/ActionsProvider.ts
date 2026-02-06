@@ -1,5 +1,5 @@
-import { exec, toggleWindow } from "@/lib/utils";
-import type { LauncherProvider, LauncherResult } from "../types";
+import type { LauncherProvider, LauncherResult } from "@/types/launcher";
+import { exec, toggleWindow } from "@/utils";
 
 interface SystemAction {
   keywords: string[];
@@ -15,7 +15,7 @@ export class ActionsProvider implements LauncherProvider {
 
   private actions: SystemAction[] = [
     {
-      keywords: ["shutdown", "poweroff", "power off"],
+      keywords: ["shutdown", "poweroff", "power off", "shut down"],
       title: "Shutdown",
       description: "Power off the system",
       icon: "system-shutdown",

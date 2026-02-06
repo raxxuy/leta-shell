@@ -1,5 +1,3 @@
-import { range } from "es-toolkit";
-
 export const STATES = [
   "",
   "hover",
@@ -34,9 +32,58 @@ export const DIRECTIONS = {
 export const COLORS = {
   transparent: "transparent",
   ...Object.fromEntries(
-    ["background", "foreground", ...range(16).map((i) => `color-${i}`)].map(
-      (c) => [c, `$${c.replace(/-/g, "")}`],
-    ),
+    [
+      "background",
+      "error",
+      "error-container",
+      "inverse-on-surface",
+      "inverse-primary",
+      "inverse-surface",
+      "on-background",
+      "on-error",
+      "on-error-container",
+      "on-primary",
+      "on-primary-container",
+      "on-primary-fixed",
+      "on-primary-fixed-variant",
+      "on-secondary",
+      "on-secondary-container",
+      "on-secondary-fixed",
+      "on-secondary-fixed-variant",
+      "on-surface",
+      "on-surface-variant",
+      "on-tertiary",
+      "on-tertiary-container",
+      "on-tertiary-fixed",
+      "on-tertiary-fixed-variant",
+      "outline",
+      "outline-variant",
+      "primary",
+      "primary-container",
+      "primary-fixed",
+      "primary-fixed-dim",
+      "scrim",
+      "secondary",
+      "secondary-container",
+      "secondary-fixed",
+      "secondary-fixed-dim",
+      "shadow",
+      "source-color",
+      "surface",
+      "surface-bright",
+      "surface-container",
+      "surface-container-high",
+      "surface-container-highest",
+      "surface-container-low",
+      "surface-container-lowest",
+      "surface-dim",
+      "surface-tint",
+      "surface-variant",
+      "tertiary",
+      "tertiary-container",
+      "tertiary-fixed",
+      "tertiary-fixed-dim",
+    ].map((c) => [c, `$${c.replace(/-/g, "_")}`]),
   ),
 } as const;
 
@@ -44,6 +91,7 @@ export const COLOR_PROPS = {
   bg: "background-color",
   text: "color",
   border: "border-color",
+  outline: "outline-color",
 } as const;
 
 export const COLOR_VARIANTS = {
@@ -89,6 +137,8 @@ export const BORDER_STYLES = [
   "inset",
   "outset",
 ] as const;
+
+export const OUTLINE_STYLES = ["solid", "dashed", "dotted", "none"] as const;
 
 export const FONT_WEIGHTS = {
   thin: 100,
@@ -157,7 +207,7 @@ export const ANIMATIONS = {
   spin: "spin 1s linear infinite",
   ping: "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",
   pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-  bounce: "bounce 1s infinite",
+  bounce: "bounce 1s cubic-bezier(0.8, 0, 1, 1) infinite",
 } as const;
 
 export const TRANSITION_PROPERTIES = {

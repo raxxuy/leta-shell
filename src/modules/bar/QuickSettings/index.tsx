@@ -1,24 +1,23 @@
 import { Button, MenuButton } from "@/components/button";
 import Container from "@/components/Container";
 import { Align, Orientation } from "@/enums";
-import { toggleWindow } from "@/lib/utils";
-import ConfigService from "@/services/config";
+import { useGlobalConfig } from "@/hooks/useConfig";
+import { toggleWindow } from "@/utils";
 import Media from "./Media";
 
 export default function QuickSettings() {
-  const icons = ConfigService.bind("global", "icons");
-  const spacings = ConfigService.bind("global", "spacings");
+  const { spacing, iconSize } = useGlobalConfig();
 
   const handleClick = () => toggleWindow("settings");
 
   return (
     <MenuButton>
-      <image iconName="settings" pixelSize={icons((i) => i.pixelSize.small)} />
+      <image class="w-6" iconName="settings" pixelSize={iconSize("small")} />
       <popover>
         <Container class="p-0.5">
           <box
             orientation={Orientation.VERTICAL}
-            spacing={spacings((s) => s.medium)}
+            spacing={spacing("medium")}
             widthRequest={300}
           >
             <Media />
@@ -26,14 +25,11 @@ export default function QuickSettings() {
           <box
             class="px-1 py-4"
             orientation={Orientation.VERTICAL}
-            spacing={spacings((s) => s.small)}
+            spacing={spacing("small")}
             valign={Align.CENTER}
           >
             <Button class="p-2" onClicked={handleClick} valign={Align.CENTER}>
-              <image
-                iconName="sliders-01"
-                pixelSize={icons((i) => i.pixelSize.small)}
-              />
+              <image iconName="settings" pixelSize={iconSize("small")} />
             </Button>
           </box>
         </Container>

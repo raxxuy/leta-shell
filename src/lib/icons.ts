@@ -35,7 +35,7 @@ const MEDIA_ICONS = {
   [AstalMpris.PlaybackStatus.STOPPED]: "media-stop",
 } as const;
 
-export function getIcon(params: IconParams): string {
+export const getIcon = (params: IconParams): string => {
   switch (params.type) {
     case "volume": {
       const { subtype, volume, mute } = params;
@@ -79,4 +79,4 @@ export function getIcon(params: IconParams): string {
     default:
       return "";
   }
-}
+};

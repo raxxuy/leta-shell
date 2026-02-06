@@ -1,35 +1,27 @@
-import { createBinding, createState, For } from "ags";
+import { For } from "ags";
 import { MenuButton } from "@/components/button";
 import Container from "@/components/Container";
 import { Orientation } from "@/enums";
-import ConfigService from "@/services/config";
-import NotificationsService from "@/services/notification";
+import { useGlobalConfig } from "@/hooks/useConfig";
+import { useNotification } from "@/hooks/useNotification";
 import Notification from "./Notification";
 
 export default function Notifications() {
-  const notificationService = NotificationsService.get_default();
-  const icons = ConfigService.bind("global", "icons");
-  const spacings = ConfigService.bind("global", "spacings");
-  const notifications = createBinding(notificationService, "notifications");
+  const { spacing, iconSize } = useGlobalConfig();
+  const { iconName, notifications, checkNotifications } = useNotification();
 
-  const [iconName, setIconName] = createState<string>("notifications");
-
-  const handleVisible = ({ visible }: { visible: boolean }) => {
-    if (visible) setIconName("notifications");
+  const handleNotifyVisible = () => {
+    checkNotifications();
   };
-
-  notificationService.connect("notified", () => {
-    setIconName("notifications-notified");
-  });
 
   return (
     <MenuButton>
-      <image iconName={iconName} pixelSize={icons((i) => i.pixelSize.small)} />
-      <popover onNotifyVisible={handleVisible}>
+      <image class="w-6" iconName={iconName} pixelSize={iconSize("small")} />
+      <popover onNotifyVisible={handleNotifyVisible}>
         <Container>
           <box
             orientation={Orientation.VERTICAL}
-            spacing={spacings((s) => s.large)}
+            spacing={spacing("large")}
             widthRequest={400}
           >
             <For each={notifications}>

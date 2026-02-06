@@ -1,4 +1,4 @@
-import { BLUR_SIZES, SHADOW_SIZES } from "../constants";
+import { BLUR_SIZES, SHADOW_SIZES } from "@/constants/styles";
 
 export const generateFilter = (cls: string): string[] | null => {
   // Match values: grayscale, invert, sepia

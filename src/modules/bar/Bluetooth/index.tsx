@@ -2,17 +2,16 @@ import AstalBluetooth from "gi://AstalBluetooth";
 import { createBinding, For, With } from "ags";
 import { Button, MenuButton } from "@/components/button";
 import Container from "@/components/Container";
-import { CURSORS } from "@/constants";
+import { Cursors } from "@/constants";
 import { Orientation } from "@/enums";
+import { useGlobalConfig } from "@/hooks/useConfig";
 import { getIcon } from "@/lib/icons";
-import { exec } from "@/lib/utils";
-import ConfigService from "@/services/config";
+import { exec } from "@/utils";
 import PairedDevice from "./PairedDevice";
 
 export default function Bluetooth() {
+  const { spacing, iconSize } = useGlobalConfig();
   const bluetooth = AstalBluetooth.get_default();
-  const icons = ConfigService.bind("global", "icons");
-  const spacings = ConfigService.bind("global", "spacings");
   const isPowered = createBinding(bluetooth, "isPowered");
   const pairedDevices = createBinding(
     bluetooth,
@@ -20,7 +19,9 @@ export default function Bluetooth() {
   )((devices) => devices.filter((device) => device.paired));
 
   const iconName = isPowered((p) => getIcon({ type: "bluetooth", powered: p }));
-  const tooltipText = isPowered((p) => (p ? "Connected" : "Disconnected"));
+  const tooltipText = isPowered((p) =>
+    p ? "Bluetooth enabled" : "Bluetooth disabled",
+  );
 
   const handleClick = () => {
     exec(["rfkill", "unblock", "bluetooth"]);
@@ -30,8 +31,9 @@ export default function Bluetooth() {
   return (
     <MenuButton>
       <image
+        class="w-6"
         iconName={iconName}
-        pixelSize={icons((i) => i.pixelSize.small)}
+        pixelSize={iconSize("small")}
         tooltipText={tooltipText}
       />
       <popover>
@@ -41,22 +43,34 @@ export default function Bluetooth() {
               isPowered ? (
                 <box
                   orientation={Orientation.VERTICAL}
-                  spacing={spacings((s) => s.medium)}
+                  spacing={spacing("medium")}
                 >
                   <label class="font-bold" label="Paired devices" />
-                  <For each={pairedDevices}>
-                    {(device) => <PairedDevice device={device} />}
-                  </For>
+                  <With value={pairedDevices}>
+                    {(devices) =>
+                      devices.length > 0 ? (
+                        <box>
+                          <For each={pairedDevices}>
+                            {(device) => <PairedDevice device={device} />}
+                          </For>
+                        </box>
+                      ) : (
+                        <label
+                          class="text-on-surface/60"
+                          label="No paired devices"
+                        />
+                      )
+                    }
+                  </With>
                 </box>
               ) : (
                 <box
-                  class="bluetooth-disabled"
                   orientation={Orientation.VERTICAL}
-                  spacing={spacings((s) => s.medium)}
+                  spacing={spacing("medium")}
                 >
                   <label class="font-bold" label="Bluetooth is disabled" />
                   <Button
-                    cursor={CURSORS.pointer}
+                    cursor={Cursors.POINTER}
                     label="Enable Bluetooth"
                     onClicked={handleClick}
                   />

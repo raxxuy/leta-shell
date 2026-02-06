@@ -1,11 +1,11 @@
 import AstalTray from "gi://AstalTray";
 import { createBinding, For } from "ags";
-import ConfigService from "@/services/config";
+import { useGlobalConfig } from "@/hooks/useConfig";
 import TrayItem from "./TrayItem";
 
 export default function Tray() {
+  const { spacing } = useGlobalConfig();
   const tray = AstalTray.get_default();
-  const spacings = ConfigService.bind("global", "spacings");
   const items = createBinding(
     tray,
     "items",
@@ -13,7 +13,7 @@ export default function Tray() {
 
   return (
     <box
-      spacing={spacings((s) => s.small)}
+      spacing={spacing("small")}
       visible={items((items) => items.length > 0)}
     >
       <For each={items} id={(item) => item.id}>

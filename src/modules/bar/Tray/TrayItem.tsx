@@ -2,9 +2,9 @@ import type AstalTray from "gi://AstalTray";
 import { createBinding, onCleanup } from "ags";
 import { Gdk, type Gtk } from "ags/gtk4";
 import { MenuButton } from "@/components/button";
+import { useGlobalConfig } from "@/hooks/useConfig";
 import { loadClasses } from "@/lib/styles";
-import { addGestureClick, findWidget } from "@/lib/utils";
-import ConfigService from "@/services/config";
+import { addGestureClick, findWidget } from "@/utils";
 
 interface TrayItemProps {
   item: AstalTray.TrayItem;
@@ -13,7 +13,7 @@ interface TrayItemProps {
 const CONTAINER_STYLES = [
   "rounded-2xl",
   "border-2",
-  "border-background-lighter",
+  "border-primary",
   "bg-background-dark",
   "p-3",
   "shadow-md",
@@ -21,7 +21,7 @@ const CONTAINER_STYLES = [
 ];
 
 export default function TrayItem({ item }: TrayItemProps) {
-  const icons = ConfigService.bind("global", "icons");
+  const { iconSize } = useGlobalConfig();
   const gicon = createBinding(item, "gicon");
 
   const init = (self: Gtk.MenuButton) => {
@@ -54,8 +54,9 @@ export default function TrayItem({ item }: TrayItemProps) {
   return (
     <MenuButton $={init}>
       <image
+        class="w-6"
         gicon={gicon}
-        pixelSize={icons((i) => i.pixelSize.small)}
+        pixelSize={iconSize("small")}
         tooltipText={item.tooltip?.title ?? item.title}
       />
     </MenuButton>

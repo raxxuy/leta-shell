@@ -1,16 +1,15 @@
 import AstalWp from "gi://AstalWp";
-import ConfigService from "@/services/config";
+import { useGlobalConfig } from "@/hooks/useConfig";
 import Endpoint from "./Endpoint";
 
 export default function Sound() {
-  const wp = AstalWp.get_default();
-  const spacings = ConfigService.bind("global", "spacings");
-  const { defaultSpeaker: speaker, defaultMicrophone: microphone } = wp;
+  const { spacing } = useGlobalConfig();
+  const { defaultSpeaker, defaultMicrophone } = AstalWp.get_default();
 
   return (
-    <box spacing={spacings((s) => s.medium)}>
-      <Endpoint endpoint={speaker} type="speaker" />
-      <Endpoint endpoint={microphone} type="microphone" />
+    <box spacing={spacing("medium")}>
+      <Endpoint endpoint={defaultSpeaker} type="speaker" />
+      <Endpoint endpoint={defaultMicrophone} type="microphone" />
     </box>
   );
 }

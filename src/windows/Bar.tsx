@@ -2,16 +2,21 @@ import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import Window from "@/components/Window";
 import { Exclusivity } from "@/enums";
+import { useBarConfig } from "@/hooks/useConfig";
 import BarModule from "@/modules/bar";
-import ConfigService from "@/services/config";
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
-  const window = ConfigService.bind("bar", "window");
-  const defaultHeight = window((w) => w.defaultHeight + (w.floating ? 16 : 0));
+  const { window } = useBarConfig();
+  const defaultHeight = window(
+    (w) => w.defaultHeight + (w.floating ? 16 : 0) + (w.border ? 4 : 0),
+  );
+  const anchor = window((w) =>
+    w.anchor === "top" ? "top-full" : "bottom-full",
+  );
 
   return (
     <Window
-      anchor="top-full"
+      anchor={anchor}
       application={app}
       class="bar"
       defaultHeight={defaultHeight}

@@ -1,67 +1,69 @@
 import { CONFIG_DIR } from "@/constants";
-import {
-  buildPath,
-  ensureDir,
-  fileExists,
-  readFile,
-  writeFile,
-} from "../utils";
-import {
-  backgroundConfigSchema,
-  barConfigSchema,
-  globalConfigSchema,
-  launcherConfigSchema,
-  schemas,
-} from "./schema";
+import type { ConfigKey } from "@/types/config";
+import { buildPath, ensureDir, fileExists, readFile, writeFile } from "@/utils";
+import { type Configs, schemas } from "./schema";
 
-export const configs = {
-  bar: barConfigSchema.parse({
+const defaultConfigs: Configs = {
+  bar: schemas.bar.parse({
     window: {},
     layout: {},
     modules: { workspaces: {}, clock: {} },
   }),
-  global: globalConfigSchema.parse({
+  global: schemas.global.parse({
     spacings: {},
     icons: { pixelSize: {} },
   }),
-  launcher: launcherConfigSchema.parse({
-    modules: { items: {} },
-  }),
-  background: backgroundConfigSchema.parse({}),
+  background: schemas.background.parse({}),
+  wallpapers: schemas.wallpapers.parse({}),
+};
+
+export const configs = { ...defaultConfigs };
+
+const loadOrCreate = async <K extends ConfigKey>(
+  key: K,
+): Promise<Configs[K]> => {
+  const path = buildPath(CONFIG_DIR, `${key}.json`);
+
+  if (fileExists(path)) {
+    return schemas[key].parse(JSON.parse(readFile(path))) as Configs[K];
+  }
+
+  const defaultConfig = schemas[key].parse(defaultConfigs[key]) as Configs[K];
+
+  writeFile(path, JSON.stringify(defaultConfig, null, 2));
+
+  return defaultConfig;
 };
 
 export const initConfigs = async () => {
   ensureDir(CONFIG_DIR);
 
-  await Promise.all(
-    Object.keys(configs).map(async (k) => {
-      const key = k as keyof typeof configs;
-      const filePath = buildPath(CONFIG_DIR, `${key}.json`);
-
-      if (!fileExists(filePath)) {
-        const defaultConfig = schemas[key].parse(configs[key]);
-        writeFile(filePath, JSON.stringify(defaultConfig, null, 2));
-        configs[key] = defaultConfig as any;
-      } else {
-        const content = readFile(filePath);
-        const parsedContent = JSON.parse(content);
-        configs[key] = schemas[key].parse(parsedContent) as any;
-      }
-    }),
+  const entries = await Promise.all(
+    (Object.keys(schemas) as ConfigKey[]).map(async (key) => [
+      key,
+      await loadOrCreate(key),
+    ]),
   );
+
+  Object.assign(configs, Object.fromEntries(entries));
 };
 
-export const getConfig = <K extends keyof typeof configs>(
-  key: K,
-): (typeof configs)[K] => configs[key];
+export const getConfig = <K extends ConfigKey>(key: K): Configs[K] =>
+  configs[key];
 
-export const writeConfig = <K extends keyof typeof configs>(
+export const writeConfig = <K extends ConfigKey>(
   key: K,
-  config: Partial<(typeof configs)[K]>,
-): void => {
-  const merged = { ...configs[key], ...config };
-  const validated = schemas[key].parse(merged);
-  const filePath = buildPath(CONFIG_DIR, `${key}.json`);
-  writeFile(filePath, JSON.stringify(validated, null, 2));
-  configs[key] = validated as any;
+  partial: Partial<Configs[K]>,
+) => {
+  const validated = schemas[key].parse({
+    ...configs[key],
+    ...partial,
+  }) as Configs[K];
+
+  writeFile(
+    buildPath(CONFIG_DIR, `${key}.json`),
+    JSON.stringify(validated, null, 2),
+  );
+
+  configs[key] = validated;
 };

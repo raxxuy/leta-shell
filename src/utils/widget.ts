@@ -8,11 +8,11 @@ export const access = <T>(object: T | Accessor<T>): T => {
   return object instanceof Accessor ? object() : object;
 };
 
-export function addGestureClick<T extends Gtk.Widget>(
+export const addGestureClick = <T extends Gtk.Widget>(
   widget: T,
   button: number,
   callback: (source: T) => void,
-) {
+) => {
   const gesture = new Gtk.GestureClick({
     propagationPhase: PropagationPhase.CAPTURE,
     button,
@@ -22,7 +22,7 @@ export function addGestureClick<T extends Gtk.Widget>(
   widget.add_controller(gesture);
 
   return () => gesture.disconnect(handler); // Return cleanup function
-}
+};
 
 export const getUsedClasses = (widget?: Gtk.Widget): string[] => {
   const classes = new Set<string>();

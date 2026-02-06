@@ -1,3 +1,4 @@
+import clsx from "clsx/lite";
 import ImageWrapper from "@/components/ImageWrapper";
 import { Overflow } from "@/enums";
 import { loadClasses } from "@/lib/styles";
@@ -18,18 +19,22 @@ export default function WallpaperItem({
   onSecondaryClicked,
 }: WallpaperItemProps) {
   const handleClick = () => onClicked(src);
-  const handleSecondaryClick = () => onSecondaryClicked(src);
+  const _handleSecondaryClick = () => onSecondaryClicked(src);
 
   return (
     <ImageWrapper
       $={loadClasses(WallpaperItem)}
       button
-      class="m-4 rounded-3xl shadow-md transition focus:m-0"
+      class={clsx(
+        "m-4 rounded-3xl shadow-md transition",
+        "hover:m-2",
+        "focus:m-0",
+      )}
       file
       heightRequest={height}
       hexpand={false}
       onClicked={handleClick}
-      onSecondaryClicked={handleSecondaryClick}
+      // onSecondaryClicked={handleSecondaryClick}
       overflow={Overflow.HIDDEN}
       src={src}
       vexpand={false}

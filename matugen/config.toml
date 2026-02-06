@@ -1,0 +1,21 @@
+[config]
+version_check = false
+
+[templates.hypr]
+input_path = "templates/colors-hypr.conf"
+output_path = "~/.config/hypr/colors.conf"
+post_hook = "hyprctl reload"
+
+[templates.ghostty]
+input_path = "templates/colors-ghostty.conf"
+output_path = "~/.config/ghostty/themes/Matugen"
+post_hook = "pkill -SIGUSR2 ghostty"
+
+[templates.fish]
+input_path = "templates/colors.theme"
+output_path = "~/.config/fish/themes/Matugen.theme"
+post_hook = "yes | fish -c \"fish_config theme save Matugen\""
+
+[templates.colors]
+input_path = "templates/colors.scss"
+output_path = "~/.cache/leta-shell/styles/colors.scss"

@@ -1,6 +1,10 @@
-import { BORDER_STYLES, DIRECTIONS } from "../constants";
+import { BORDER_STYLES, DIRECTIONS } from "@/constants/styles";
 
 export const generateBorder = (cls: string): string[] | null => {
+  if (cls === "border") {
+    return ["border-width: 1px", "border-style: solid"];
+  }
+
   // Match border styles: border-solid, border-dashed, border-dotted, border-none
   const styleMatch = cls.match(/^border-(.+)$/);
 

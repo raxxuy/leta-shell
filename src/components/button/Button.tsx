@@ -1,7 +1,7 @@
 import { createComputed, onCleanup } from "ags";
 import { Gdk, type Gtk } from "ags/gtk4";
 import clsx from "clsx/lite";
-import { access, addGestureClick } from "@/lib/utils";
+import { access, addGestureClick } from "@/utils";
 
 type ButtonProps = JSX.IntrinsicElements["button"] & {
   initCss?: boolean;
@@ -10,10 +10,10 @@ type ButtonProps = JSX.IntrinsicElements["button"] & {
 };
 
 const baseStyles = clsx(
-  "transition duration-100 rounded text-foreground m-0.25",
-  "hover:bg-background-light hover:text-foreground-light",
-  "active:bg-background-lighter active:text-foreground-lighter",
-  "selected:bg-background-lighter selected:text-foreground-lighter",
+  "transition duration-100 rounded text-on-surface m-0.25",
+  "hover:bg-background-light hover:text-on-surface-light",
+  "active:bg-background-lighter active:text-on-surface-lighter",
+  "selected:bg-background-lighter selected:text-on-surface-lighter",
 );
 
 export default function Button({
@@ -32,17 +32,18 @@ export default function Button({
   });
 
   const init = (self: Gtk.Button) => {
-    const gestures = [
-      { callback: onSecondaryClicked, button: Gdk.BUTTON_SECONDARY },
-      { callback: onMiddleClicked, button: Gdk.BUTTON_MIDDLE },
-    ];
+    const cleanups = [
+      onSecondaryClicked &&
+        addGestureClick(self, Gdk.BUTTON_SECONDARY, onSecondaryClicked),
+      onMiddleClicked &&
+        addGestureClick(self, Gdk.BUTTON_MIDDLE, onMiddleClicked),
+    ].filter(Boolean);
 
-    gestures.forEach(({ callback, button }) => {
-      if (callback) {
-        const cleanup = addGestureClick(self, button, callback);
-        onCleanup(cleanup);
-      }
-    });
+    onCleanup(() =>
+      cleanups.forEach((cleanup) => {
+        cleanup?.();
+      }),
+    );
   };
 
   return <button $={init} class={className} {...props} />;

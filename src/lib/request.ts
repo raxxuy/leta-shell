@@ -1,5 +1,5 @@
 import app from "ags/gtk4/app";
-import { toggleWindow } from "./utils";
+import { toggleWindow } from "@/utils";
 
 type RequestHandler = (args: string[], response: (msg: string) => void) => void;
 

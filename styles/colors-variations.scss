@@ -5,108 +5,432 @@
 $background_dark: color.adjust($background, $lightness: -5%);
 $background_darker: color.adjust($background, $lightness: -20%);
 
-$foreground_dark: color.adjust($foreground, $lightness: -5%);
-$foreground_darker: color.adjust($foreground, $lightness: -20%);
+$error_dark: color.adjust($error, $lightness: -5%);
+$error_darker: color.adjust($error, $lightness: -20%);
 
-$color0_dark: color.adjust($color0, $lightness: -5%);
-$color0_darker: color.adjust($color0, $lightness: -20%);
+$error_container_dark: color.adjust($error_container, $lightness: -5%);
+$error_container_darker: color.adjust($error_container, $lightness: -20%);
 
-$color1_dark: color.adjust($color1, $lightness: -5%);
-$color1_darker: color.adjust($color1, $lightness: -20%);
+$inverse_on_surface_dark: color.adjust($inverse_on_surface, $lightness: -5%);
+$inverse_on_surface_darker: color.adjust($inverse_on_surface, $lightness: -20%);
 
-$color2_dark: color.adjust($color2, $lightness: -5%);
-$color2_darker: color.adjust($color2, $lightness: -20%);
+$inverse_primary_dark: color.adjust($inverse_primary, $lightness: -5%);
+$inverse_primary_darker: color.adjust($inverse_primary, $lightness: -20%);
 
-$color3_dark: color.adjust($color3, $lightness: -5%);
-$color3_darker: color.adjust($color3, $lightness: -20%);
+$inverse_surface_dark: color.adjust($inverse_surface, $lightness: -5%);
+$inverse_surface_darker: color.adjust($inverse_surface, $lightness: -20%);
 
-$color4_dark: color.adjust($color4, $lightness: -5%);
-$color4_darker: color.adjust($color4, $lightness: -20%);
+$on_background_dark: color.adjust($on_background, $lightness: -5%);
+$on_background_darker: color.adjust($on_background, $lightness: -20%);
 
-$color5_dark: color.adjust($color5, $lightness: -5%);
-$color5_darker: color.adjust($color5, $lightness: -20%);
+$on_error_dark: color.adjust($on_error, $lightness: -5%);
+$on_error_darker: color.adjust($on_error, $lightness: -20%);
 
-$color6_dark: color.adjust($color6, $lightness: -5%);
-$color6_darker: color.adjust($color6, $lightness: -20%);
+$on_error_container_dark: color.adjust($on_error_container, $lightness: -5%);
+$on_error_container_darker: color.adjust($on_error_container, $lightness: -20%);
 
-$color7_dark: color.adjust($color7, $lightness: -5%);
-$color7_darker: color.adjust($color7, $lightness: -20%);
+$on_primary_dark: color.adjust($on_primary, $lightness: -5%);
+$on_primary_darker: color.adjust($on_primary, $lightness: -20%);
 
-$color8_dark: color.adjust($color8, $lightness: -5%);
-$color8_darker: color.adjust($color8, $lightness: -20%);
+$on_primary_container_dark: color.adjust(
+    $on_primary_container,
+    $lightness: -5%
+);
+$on_primary_container_darker: color.adjust(
+    $on_primary_container,
+    $lightness: -20%
+);
 
-$color9_dark: color.adjust($color9, $lightness: -5%);
-$color9_darker: color.adjust($color9, $lightness: -20%);
+$on_primary_fixed_dark: color.adjust($on_primary_fixed, $lightness: -5%);
+$on_primary_fixed_darker: color.adjust($on_primary_fixed, $lightness: -20%);
 
-$color10_dark: color.adjust($color10, $lightness: -5%);
-$color10_darker: color.adjust($color10, $lightness: -20%);
+$on_primary_fixed_variant_dark: color.adjust(
+    $on_primary_fixed_variant,
+    $lightness: -5%
+);
+$on_primary_fixed_variant_darker: color.adjust(
+    $on_primary_fixed_variant,
+    $lightness: -20%
+);
 
-$color11_dark: color.adjust($color11, $lightness: -5%);
-$color11_darker: color.adjust($color11, $lightness: -20%);
+$on_secondary_dark: color.adjust($on_secondary, $lightness: -5%);
+$on_secondary_darker: color.adjust($on_secondary, $lightness: -20%);
 
-$color12_dark: color.adjust($color12, $lightness: -5%);
-$color12_darker: color.adjust($color12, $lightness: -20%);
+$on_secondary_container_dark: color.adjust(
+    $on_secondary_container,
+    $lightness: -5%
+);
+$on_secondary_container_darker: color.adjust(
+    $on_secondary_container,
+    $lightness: -20%
+);
 
-$color13_dark: color.adjust($color13, $lightness: -5%);
-$color13_darker: color.adjust($color13, $lightness: -20%);
+$on_secondary_fixed_dark: color.adjust($on_secondary_fixed, $lightness: -5%);
+$on_secondary_fixed_darker: color.adjust($on_secondary_fixed, $lightness: -20%);
 
-$color14_dark: color.adjust($color14, $lightness: -5%);
-$color14_darker: color.adjust($color14, $lightness: -20%);
+$on_secondary_fixed_variant_dark: color.adjust(
+    $on_secondary_fixed_variant,
+    $lightness: -5%
+);
+$on_secondary_fixed_variant_darker: color.adjust(
+    $on_secondary_fixed_variant,
+    $lightness: -20%
+);
 
-$color15_dark: color.adjust($color15, $lightness: -5%);
-$color15_darker: color.adjust($color15, $lightness: -20%);
+$on_surface_dark: color.adjust($on_surface, $lightness: -5%);
+$on_surface_darker: color.adjust($on_surface, $lightness: -20%);
+
+$on_surface_variant_dark: color.adjust($on_surface_variant, $lightness: -5%);
+$on_surface_variant_darker: color.adjust($on_surface_variant, $lightness: -20%);
+
+$on_tertiary_dark: color.adjust($on_tertiary, $lightness: -5%);
+$on_tertiary_darker: color.adjust($on_tertiary, $lightness: -20%);
+
+$on_tertiary_container_dark: color.adjust(
+    $on_tertiary_container,
+    $lightness: -5%
+);
+$on_tertiary_container_darker: color.adjust(
+    $on_tertiary_container,
+    $lightness: -20%
+);
+
+$on_tertiary_fixed_dark: color.adjust($on_tertiary_fixed, $lightness: -5%);
+$on_tertiary_fixed_darker: color.adjust($on_tertiary_fixed, $lightness: -20%);
+
+$on_tertiary_fixed_variant_dark: color.adjust(
+    $on_tertiary_fixed_variant,
+    $lightness: -5%
+);
+$on_tertiary_fixed_variant_darker: color.adjust(
+    $on_tertiary_fixed_variant,
+    $lightness: -20%
+);
+
+$outline_dark: color.adjust($outline, $lightness: -5%);
+$outline_darker: color.adjust($outline, $lightness: -20%);
+
+$outline_variant_dark: color.adjust($outline_variant, $lightness: -5%);
+$outline_variant_darker: color.adjust($outline_variant, $lightness: -20%);
+
+$primary_dark: color.adjust($primary, $lightness: -5%);
+$primary_darker: color.adjust($primary, $lightness: -20%);
+
+$primary_container_dark: color.adjust($primary_container, $lightness: -5%);
+$primary_container_darker: color.adjust($primary_container, $lightness: -20%);
+
+$primary_fixed_dark: color.adjust($primary_fixed, $lightness: -5%);
+$primary_fixed_darker: color.adjust($primary_fixed, $lightness: -20%);
+
+$primary_fixed_dim_dark: color.adjust($primary_fixed_dim, $lightness: -5%);
+$primary_fixed_dim_darker: color.adjust($primary_fixed_dim, $lightness: -20%);
+
+$scrim_dark: color.adjust($scrim, $lightness: -5%);
+$scrim_darker: color.adjust($scrim, $lightness: -20%);
+
+$secondary_dark: color.adjust($secondary, $lightness: -5%);
+$secondary_darker: color.adjust($secondary, $lightness: -20%);
+
+$secondary_container_dark: color.adjust($secondary_container, $lightness: -5%);
+$secondary_container_darker: color.adjust(
+    $secondary_container,
+    $lightness: -20%
+);
+
+$secondary_fixed_dark: color.adjust($secondary_fixed, $lightness: -5%);
+$secondary_fixed_darker: color.adjust($secondary_fixed, $lightness: -20%);
+
+$secondary_fixed_dim_dark: color.adjust($secondary_fixed_dim, $lightness: -5%);
+$secondary_fixed_dim_darker: color.adjust(
+    $secondary_fixed_dim,
+    $lightness: -20%
+);
+
+$shadow_dark: color.adjust($shadow, $lightness: -5%);
+$shadow_darker: color.adjust($shadow, $lightness: -20%);
+
+$source_color_dark: color.adjust($source_color, $lightness: -5%);
+$source_color_darker: color.adjust($source_color, $lightness: -20%);
+
+$surface_dark: color.adjust($surface, $lightness: -5%);
+$surface_darker: color.adjust($surface, $lightness: -20%);
+
+$surface_bright_dark: color.adjust($surface_bright, $lightness: -5%);
+$surface_bright_darker: color.adjust($surface_bright, $lightness: -20%);
+
+$surface_container_dark: color.adjust($surface_container, $lightness: -5%);
+$surface_container_darker: color.adjust($surface_container, $lightness: -20%);
+
+$surface_container_high_dark: color.adjust(
+    $surface_container_high,
+    $lightness: -5%
+);
+$surface_container_high_darker: color.adjust(
+    $surface_container_high,
+    $lightness: -20%
+);
+
+$surface_container_highest_dark: color.adjust(
+    $surface_container_highest,
+    $lightness: -5%
+);
+$surface_container_highest_darker: color.adjust(
+    $surface_container_highest,
+    $lightness: -20%
+);
+
+$surface_container_low_dark: color.adjust(
+    $surface_container_low,
+    $lightness: -5%
+);
+$surface_container_low_darker: color.adjust(
+    $surface_container_low,
+    $lightness: -20%
+);
+
+$surface_container_lowest_dark: color.adjust(
+    $surface_container_lowest,
+    $lightness: -5%
+);
+$surface_container_lowest_darker: color.adjust(
+    $surface_container_lowest,
+    $lightness: -20%
+);
+
+$surface_dim_dark: color.adjust($surface_dim, $lightness: -5%);
+$surface_dim_darker: color.adjust($surface_dim, $lightness: -20%);
+
+$surface_tint_dark: color.adjust($surface_tint, $lightness: -5%);
+$surface_tint_darker: color.adjust($surface_tint, $lightness: -20%);
+
+$surface_variant_dark: color.adjust($surface_variant, $lightness: -5%);
+$surface_variant_darker: color.adjust($surface_variant, $lightness: -20%);
+
+$tertiary_dark: color.adjust($tertiary, $lightness: -5%);
+$tertiary_darker: color.adjust($tertiary, $lightness: -20%);
+
+$tertiary_container_dark: color.adjust($tertiary_container, $lightness: -5%);
+$tertiary_container_darker: color.adjust($tertiary_container, $lightness: -20%);
+
+$tertiary_fixed_dark: color.adjust($tertiary_fixed, $lightness: -5%);
+$tertiary_fixed_darker: color.adjust($tertiary_fixed, $lightness: -20%);
+
+$tertiary_fixed_dim_dark: color.adjust($tertiary_fixed_dim, $lightness: -5%);
+$tertiary_fixed_dim_darker: color.adjust($tertiary_fixed_dim, $lightness: -20%);
 
 // Light
 $background_light: color.adjust($background, $lightness: 5%);
 $background_lighter: color.adjust($background, $lightness: 20%);
 
-$foreground_light: color.adjust($foreground, $lightness: 5%);
-$foreground_lighter: color.adjust($foreground, $lightness: 20%);
+$error_light: color.adjust($error, $lightness: 5%);
+$error_lighter: color.adjust($error, $lightness: 20%);
 
-$color0_light: color.adjust($color0, $lightness: 5%);
-$color0_lighter: color.adjust($color0, $lightness: 20%);
+$error_container_light: color.adjust($error_container, $lightness: 5%);
+$error_container_lighter: color.adjust($error_container, $lightness: 20%);
 
-$color1_light: color.adjust($color1, $lightness: 5%);
-$color1_lighter: color.adjust($color1, $lightness: 20%);
+$inverse_on_surface_light: color.adjust($inverse_on_surface, $lightness: 5%);
+$inverse_on_surface_lighter: color.adjust($inverse_on_surface, $lightness: 20%);
 
-$color2_light: color.adjust($color2, $lightness: 5%);
-$color2_lighter: color.adjust($color2, $lightness: 20%);
+$inverse_primary_light: color.adjust($inverse_primary, $lightness: 5%);
+$inverse_primary_lighter: color.adjust($inverse_primary, $lightness: 20%);
 
-$color3_light: color.adjust($color3, $lightness: 5%);
-$color3_lighter: color.adjust($color3, $lightness: 20%);
+$inverse_surface_light: color.adjust($inverse_surface, $lightness: 5%);
+$inverse_surface_lighter: color.adjust($inverse_surface, $lightness: 20%);
 
-$color4_light: color.adjust($color4, $lightness: 5%);
-$color4_lighter: color.adjust($color4, $lightness: 20%);
+$on_background_light: color.adjust($on_background, $lightness: 5%);
+$on_background_lighter: color.adjust($on_background, $lightness: 20%);
 
-$color5_light: color.adjust($color5, $lightness: 5%);
-$color5_lighter: color.adjust($color5, $lightness: 20%);
+$on_error_light: color.adjust($on_error, $lightness: 5%);
+$on_error_lighter: color.adjust($on_error, $lightness: 20%);
 
-$color6_light: color.adjust($color6, $lightness: 5%);
-$color6_lighter: color.adjust($color6, $lightness: 20%);
+$on_error_container_light: color.adjust($on_error_container, $lightness: 5%);
+$on_error_container_lighter: color.adjust($on_error_container, $lightness: 20%);
 
-$color7_light: color.adjust($color7, $lightness: 5%);
-$color7_lighter: color.adjust($color7, $lightness: 20%);
+$on_primary_light: color.adjust($on_primary, $lightness: 5%);
+$on_primary_lighter: color.adjust($on_primary, $lightness: 20%);
 
-$color8_light: color.adjust($color8, $lightness: 5%);
-$color8_lighter: color.adjust($color8, $lightness: 20%);
+$on_primary_container_light: color.adjust(
+    $on_primary_container,
+    $lightness: 5%
+);
+$on_primary_container_lighter: color.adjust(
+    $on_primary_container,
+    $lightness: 20%
+);
 
-$color9_light: color.adjust($color9, $lightness: 5%);
-$color9_lighter: color.adjust($color9, $lightness: 20%);
+$on_primary_fixed_light: color.adjust($on_primary_fixed, $lightness: 5%);
+$on_primary_fixed_lighter: color.adjust($on_primary_fixed, $lightness: 20%);
 
-$color10_light: color.adjust($color10, $lightness: 5%);
-$color10_lighter: color.adjust($color10, $lightness: 20%);
+$on_primary_fixed_variant_light: color.adjust(
+    $on_primary_fixed_variant,
+    $lightness: 5%
+);
+$on_primary_fixed_variant_lighter: color.adjust(
+    $on_primary_fixed_variant,
+    $lightness: 20%
+);
 
-$color11_light: color.adjust($color11, $lightness: 5%);
-$color11_lighter: color.adjust($color11, $lightness: 20%);
+$on_secondary_light: color.adjust($on_secondary, $lightness: 5%);
+$on_secondary_lighter: color.adjust($on_secondary, $lightness: 20%);
 
-$color12_light: color.adjust($color12, $lightness: 5%);
-$color12_lighter: color.adjust($color12, $lightness: 20%);
+$on_secondary_container_light: color.adjust(
+    $on_secondary_container,
+    $lightness: 5%
+);
+$on_secondary_container_lighter: color.adjust(
+    $on_secondary_container,
+    $lightness: 20%
+);
 
-$color13_light: color.adjust($color13, $lightness: 5%);
-$color13_lighter: color.adjust($color13, $lightness: 20%);
+$on_secondary_fixed_light: color.adjust($on_secondary_fixed, $lightness: 5%);
+$on_secondary_fixed_lighter: color.adjust($on_secondary_fixed, $lightness: 20%);
 
-$color14_light: color.adjust($color14, $lightness: 5%);
-$color14_lighter: color.adjust($color14, $lightness: 20%);
+$on_secondary_fixed_variant_light: color.adjust(
+    $on_secondary_fixed_variant,
+    $lightness: 5%
+);
+$on_secondary_fixed_variant_lighter: color.adjust(
+    $on_secondary_fixed_variant,
+    $lightness: 20%
+);
 
-$color15_light: color.adjust($color15, $lightness: 5%);
-$color15_lighter: color.adjust($color15, $lightness: 20%);
+$on_surface_light: color.adjust($on_surface, $lightness: 5%);
+$on_surface_lighter: color.adjust($on_surface, $lightness: 20%);
+
+$on_surface_variant_light: color.adjust($on_surface_variant, $lightness: 5%);
+$on_surface_variant_lighter: color.adjust($on_surface_variant, $lightness: 20%);
+
+$on_tertiary_light: color.adjust($on_tertiary, $lightness: 5%);
+$on_tertiary_lighter: color.adjust($on_tertiary, $lightness: 20%);
+
+$on_tertiary_container_light: color.adjust(
+    $on_tertiary_container,
+    $lightness: 5%
+);
+$on_tertiary_container_lighter: color.adjust(
+    $on_tertiary_container,
+    $lightness: 20%
+);
+
+$on_tertiary_fixed_light: color.adjust($on_tertiary_fixed, $lightness: 5%);
+$on_tertiary_fixed_lighter: color.adjust($on_tertiary_fixed, $lightness: 20%);
+
+$on_tertiary_fixed_variant_light: color.adjust(
+    $on_tertiary_fixed_variant,
+    $lightness: 5%
+);
+$on_tertiary_fixed_variant_lighter: color.adjust(
+    $on_tertiary_fixed_variant,
+    $lightness: 20%
+);
+
+$outline_light: color.adjust($outline, $lightness: 5%);
+$outline_lighter: color.adjust($outline, $lightness: 20%);
+
+$outline_variant_light: color.adjust($outline_variant, $lightness: 5%);
+$outline_variant_lighter: color.adjust($outline_variant, $lightness: 20%);
+
+$primary_light: color.adjust($primary, $lightness: 5%);
+$primary_lighter: color.adjust($primary, $lightness: 20%);
+
+$primary_container_light: color.adjust($primary_container, $lightness: 5%);
+$primary_container_lighter: color.adjust($primary_container, $lightness: 20%);
+
+$primary_fixed_light: color.adjust($primary_fixed, $lightness: 5%);
+$primary_fixed_lighter: color.adjust($primary_fixed, $lightness: 20%);
+
+$primary_fixed_dim_light: color.adjust($primary_fixed_dim, $lightness: 5%);
+$primary_fixed_dim_lighter: color.adjust($primary_fixed_dim, $lightness: 20%);
+
+$scrim_light: color.adjust($scrim, $lightness: 5%);
+$scrim_lighter: color.adjust($scrim, $lightness: 20%);
+
+$secondary_light: color.adjust($secondary, $lightness: 5%);
+$secondary_lighter: color.adjust($secondary, $lightness: 20%);
+
+$secondary_container_light: color.adjust($secondary_container, $lightness: 5%);
+$secondary_container_lighter: color.adjust(
+    $secondary_container,
+    $lightness: 20%
+);
+
+$secondary_fixed_light: color.adjust($secondary_fixed, $lightness: 5%);
+$secondary_fixed_lighter: color.adjust($secondary_fixed, $lightness: 20%);
+
+$secondary_fixed_dim_light: color.adjust($secondary_fixed_dim, $lightness: 5%);
+$secondary_fixed_dim_lighter: color.adjust(
+    $secondary_fixed_dim,
+    $lightness: 20%
+);
+
+$shadow_light: color.adjust($shadow, $lightness: 5%);
+$shadow_lighter: color.adjust($shadow, $lightness: 20%);
+
+$source_color_light: color.adjust($source_color, $lightness: 5%);
+$source_color_lighter: color.adjust($source_color, $lightness: 20%);
+
+$surface_light: color.adjust($surface, $lightness: 5%);
+$surface_lighter: color.adjust($surface, $lightness: 20%);
+
+$surface_bright_light: color.adjust($surface_bright, $lightness: 5%);
+$surface_bright_lighter: color.adjust($surface_bright, $lightness: 20%);
+
+$surface_container_light: color.adjust($surface_container, $lightness: 5%);
+$surface_container_lighter: color.adjust($surface_container, $lightness: 20%);
+
+$surface_container_high_light: color.adjust(
+    $surface_container_high,
+    $lightness: 5%
+);
+$surface_container_high_lighter: color.adjust(
+    $surface_container_high,
+    $lightness: 20%
+);
+
+$surface_container_highest_light: color.adjust(
+    $surface_container_highest,
+    $lightness: 5%
+);
+$surface_container_highest_lighter: color.adjust(
+    $surface_container_highest,
+    $lightness: 20%
+);
+
+$surface_container_low_light: color.adjust(
+    $surface_container_low,
+    $lightness: 5%
+);
+$surface_container_low_lighter: color.adjust(
+    $surface_container_low,
+    $lightness: 20%
+);
+
+$surface_container_lowest_light: color.adjust(
+    $surface_container_lowest,
+    $lightness: 5%
+);
+$surface_container_lowest_lighter: color.adjust(
+    $surface_container_lowest,
+    $lightness: 20%
+);
+
+$surface_dim_light: color.adjust($surface_dim, $lightness: 5%);
+$surface_dim_lighter: color.adjust($surface_dim, $lightness: 20%);
+
+$surface_tint_light: color.adjust($surface_tint, $lightness: 5%);
+$surface_tint_lighter: color.adjust($surface_tint, $lightness: 20%);
+
+$surface_variant_light: color.adjust($surface_variant, $lightness: 5%);
+$surface_variant_lighter: color.adjust($surface_variant, $lightness: 20%);
+
+$tertiary_light: color.adjust($tertiary, $lightness: 5%);
+$tertiary_lighter: color.adjust($tertiary, $lightness: 20%);
+
+$tertiary_container_light: color.adjust($tertiary_container, $lightness: 5%);
+$tertiary_container_lighter: color.adjust($tertiary_container, $lightness: 20%);
+
+$tertiary_fixed_light: color.adjust($tertiary_fixed, $lightness: 5%);
+$tertiary_fixed_lighter: color.adjust($tertiary_fixed, $lightness: 20%);
+
+$tertiary_fixed_dim_light: color.adjust($tertiary_fixed_dim, $lightness: 5%);
+$tertiary_fixed_dim_lighter: color.adjust($tertiary_fixed_dim, $lightness: 20%);

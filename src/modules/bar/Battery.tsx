@@ -2,14 +2,13 @@ import AstalBattery from "gi://AstalBattery";
 import { createBinding, createComputed, createState } from "ags";
 import { Gtk } from "ags/gtk4";
 import { RevealerTransitionType } from "@/enums";
+import { useGlobalConfig } from "@/hooks/useConfig";
 import { getIcon } from "@/lib/icons";
-import { formatPercentage, timeTo } from "@/lib/utils";
-import ConfigService from "@/services/config";
+import { formatPercentage, formatSeconds } from "@/utils";
 
 export default function Battery() {
+  const { spacing, iconSize } = useGlobalConfig();
   const battery = AstalBattery.get_default();
-  const icons = ConfigService.bind("global", "icons");
-  const spacings = ConfigService.bind("global", "spacings");
   const charging = createBinding(battery, "charging");
   const isPresent = createBinding(battery, "isPresent");
   const percentage = createBinding(battery, "percentage");
@@ -26,15 +25,19 @@ export default function Battery() {
 
   const tooltipText = createComputed(() => {
     percentage();
-    return timeTo(charging(), battery);
+    const label = charging() ? "Time to full" : "Time to empty";
+    const time = charging() ? battery.timeToFull : battery.timeToEmpty;
+    return `${label}: ${formatSeconds(time, "%-Hh %-Mm")}`;
   });
 
-  const handleEnter = () => setRevealed(true);
-  const handleLeave = () => setRevealed(false);
+  const handleHover = (entering: boolean) => setRevealed(entering);
 
   return (
-    <box spacing={spacings((s) => s.small)} visible={isPresent}>
-      <Gtk.EventControllerMotion onEnter={handleEnter} onLeave={handleLeave} />
+    <box spacing={spacing("small")} visible={isPresent}>
+      <Gtk.EventControllerMotion
+        onEnter={() => handleHover(true)}
+        onLeave={() => handleHover(false)}
+      />
       {/** biome-ignore assist/source/useSortedAttributes: rendering issues */}
       <revealer
         visible={revealed}
@@ -44,8 +47,9 @@ export default function Battery() {
         <label class="font-bold" label={percentage(formatPercentage)} />
       </revealer>
       <image
+        class="w-6"
         iconName={iconName}
-        pixelSize={icons((i) => i.pixelSize.small)}
+        pixelSize={iconSize("small")}
         tooltipText={tooltipText}
       />
     </box>

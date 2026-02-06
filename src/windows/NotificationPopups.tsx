@@ -6,15 +6,15 @@ import { timeout } from "ags/time";
 import Container from "@/components/Container";
 import Window from "@/components/Window";
 import { Layer, Orientation } from "@/enums";
+import { useGlobalConfig } from "@/hooks/useConfig";
 import { loadClasses } from "@/lib/styles";
 import Notification from "@/modules/bar/Notifications/Notification";
-import ConfigService from "@/services/config";
 import NotificationService from "@/services/notification";
 
 export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
-  const timers = new Map();
+  const { spacing } = useGlobalConfig();
   const notificationService = NotificationService.get_default();
-  const spacings = ConfigService.bind("global", "spacings");
+  const timers = new Map();
 
   const [list, setList] = createState<AstalNotifd.Notification[]>([]);
   const visible = list((l) => l.length > 0);
@@ -66,10 +66,7 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
       namespace="leta-shell"
       visible={visible}
     >
-      <box
-        orientation={Orientation.VERTICAL}
-        spacing={spacings((s) => s.medium)}
-      >
+      <box orientation={Orientation.VERTICAL} spacing={spacing("medium")}>
         <For each={list}>
           {(notification) => (
             <Container $={loadClasses(Container)} hexpand widthRequest={400}>

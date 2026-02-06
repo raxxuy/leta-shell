@@ -1,24 +1,15 @@
-import AstalMpris from "gi://AstalMpris";
-import { createBinding, createState, With } from "ags";
+import { With } from "ags";
+import { useMedia } from "@/hooks/useMedia";
 import Player from "./Player";
 
 export default function Media() {
-  const mpris = AstalMpris.get_default();
-  const players = createBinding(mpris, "players");
-
-  const [current, _setCurrent] = createState<number>(0);
+  const { currentPlayer } = useMedia();
 
   return (
-    <box>
-      <With value={current}>
-        {(current) => {
-          const player = players()[current];
-
-          if (!player) return null;
-
-          return <Player player={player} />;
-        }}
-      </With>
-    </box>
+    <With value={currentPlayer}>
+      {(currentPlayer) =>
+        currentPlayer ? <Player player={currentPlayer} /> : null
+      }
+    </With>
   );
 }

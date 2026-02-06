@@ -2,26 +2,24 @@
 @use "colors" as *;
 @use "mixins" as *;
 @use "utilities" as *;
+@use "keyframes" as *;
 @use "colors-variations" as *;
 
 * {
     all: unset;
-    color: $foreground;
+    color: $on_surface;
     font-size: 1rem;
     font-family: "SF Pro Text";
+    -gtk-icon-size: 24px;
 }
 
 tooltip {
     @include shadow;
     @include border(transparent, 0px, 1rem);
-    background: rgba(black, 0.5);
+    background: rgba($background_darker, 0.8);
     padding: 1rem;
     font-size: 1rem;
     margin: 5px 10px 15px;
-}
-
-image {
-    min-width: 24px;
 }
 
 modelbutton {
@@ -33,13 +31,13 @@ modelbutton {
 
     &:hover {
         background-color: $background_light;
-        color: $foreground_lighter;
+        color: $on_surface_lighter;
     }
 
     &.active,
     &:active {
         background-color: $background_lighter;
-        color: $foreground_lighter;
+        color: $on_surface_lighter;
     }
 
     &:focus-visible {
@@ -47,7 +45,7 @@ modelbutton {
     }
 
     label:disabled {
-        color: $foreground_darker;
+        color: $on_surface_darker;
     }
 }
 
@@ -55,7 +53,7 @@ levelbar {
     trough {
         .filled {
             border-radius: 2rem;
-            background-color: $color10_lighter;
+            background-color: $tertiary_lighter;
         }
 
         .empty {
@@ -111,11 +109,11 @@ calendar {
 
             &.today {
                 background-color: $background_lighter;
-                color: $foreground_lighter;
+                color: $on_surface_lighter;
             }
 
             &.other-month {
-                color: $foreground_darker;
+                color: $on_surface_darker;
             }
         }
     }

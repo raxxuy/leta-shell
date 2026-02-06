@@ -1,5 +1,5 @@
-import { exec, toggleWindow } from "@/lib/utils";
-import type { LauncherProvider, LauncherResult } from "../types";
+import type { LauncherProvider, LauncherResult } from "@/types/launcher";
+import { exec, toggleWindow } from "@/utils";
 
 export class WebSearchProvider implements LauncherProvider {
   name = "web";

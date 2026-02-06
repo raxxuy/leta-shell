@@ -4,9 +4,26 @@
 @use "colors-variations" as *;
 
 .launcher {
-    text > popover > contents > scrolledwindow {
+    entry > text {
+        color: $on_surface_dark;
+
+        &:focus-within {
+            color: $on_surface_lighter;
+        }
+
+        placeholder {
+            color: $on_surface_dark;
+        }
+    }
+
+    selection {
+        background-color: $background_light;
+        color: $on_surface_lighter;
+    }
+
+    contents > scrolledwindow {
         @include border($background_lighter, 1px, 1rem);
-        background: $background-dark;
+        background: $background_dark;
         padding: 0.75rem;
         box-shadow: 0 0 0.5rem 0.3rem rgba(0, 0, 0, 0.3);
         margin: 5px 10px 15px;

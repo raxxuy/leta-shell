@@ -1,4 +1,3 @@
-import type AstalBattery from "gi://AstalBattery";
 import GLib from "gi://GLib";
 
 export const formatVolume = (volume: number): string =>
@@ -21,13 +20,4 @@ export const formatSeconds = (
 export const now = (format?: string): GLib.DateTime | string => {
   const date = GLib.DateTime.new_now_local();
   return format ? (date.format(format) ?? "") : date;
-};
-
-export const timeTo = (
-  charging: boolean,
-  battery: AstalBattery.Device,
-): string => {
-  const label = charging ? "Time to full" : "Time to empty";
-  const time = charging ? battery.timeToFull : battery.timeToEmpty;
-  return `${label}: ${formatSeconds(time, "%hh %mm")}`;
 };

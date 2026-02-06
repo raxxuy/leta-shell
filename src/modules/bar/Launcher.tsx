@@ -1,15 +1,15 @@
 import { Button } from "@/components/button";
-import { toggleWindow } from "@/lib/utils";
-import ConfigService from "@/services/config";
+import { useGlobalConfig } from "@/hooks/useConfig";
+import { toggleWindow } from "@/utils";
 
 export default function Launcher() {
-  const icons = ConfigService.bind("global", "icons");
+  const { iconSize } = useGlobalConfig();
 
   const handleClick = () => toggleWindow("launcher");
 
   return (
     <Button onClicked={handleClick}>
-      <image iconName="search" pixelSize={icons((i) => i.pixelSize.small)} />
+      <image class="w-6" iconName="search" pixelSize={iconSize("small")} />
     </Button>
   );
 }

@@ -1,4 +1,4 @@
-import { SHADOW_SIZES } from "../constants";
+import { SHADOW_SIZES } from "@/constants/styles";
 
 export const generateShadow = (cls: string): string[] | null => {
   // Match arbitrary values: shadow-[0_4px_8px_rgba(0,0,0,0.2)]

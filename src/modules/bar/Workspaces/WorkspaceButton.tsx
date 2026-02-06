@@ -1,18 +1,21 @@
 import type AstalHyprland from "gi://AstalHyprland";
 import { createBinding, createComputed } from "ags";
 import clsx from "clsx/lite";
-import { CURSORS } from "@/constants";
+import { Cursors } from "@/constants";
+import { useBarConfig } from "@/hooks/useConfig";
+import { useHyprland } from "@/hooks/useHyprland";
 import { loadClasses } from "@/lib/styles";
-import ConfigService from "@/services/config";
-import HyprlandService from "@/services/hyprland";
 
 interface WorkspaceButtonProps {
   workspace: AstalHyprland.Workspace;
 }
 
 export default function WorkspaceButton({ workspace }: WorkspaceButtonProps) {
-  const hyprland = HyprlandService.get_default().astalHyprland;
-  const variation = ConfigService.bind("bar", "modules.workspaces.variation");
+  const {
+    modules: { workspaces },
+  } = useBarConfig();
+  const { hyprland } = useHyprland();
+
   const clients = createBinding(hyprland, "clients");
   const focusedWorkspace = createBinding(hyprland, "focusedWorkspace");
 
@@ -21,18 +24,23 @@ export default function WorkspaceButton({ workspace }: WorkspaceButtonProps) {
 
     const isOccupied = hyprland.get_workspace(workspace.id)?.clients.length > 0;
     const isFocused = focusedWorkspace().id === workspace.id;
+    const variant = workspaces().variant;
 
-    const base =
-      "my-0.5 px-1.5 border-1 transition ease-in-out hover:border-color-13-lighter hover:bg-color-13-light shadow-2xs";
+    const base = clsx(
+      "my-0.5 px-1.5 border-1 transition ease-in-out",
+      "hover:border-tertiary-lighter hover:bg-tertiary",
+    );
 
-    const stateClasses = isFocused
-      ? "border-color-13-lighter bg-color-13-light mb-0"
-      : isOccupied
-        ? "border-color-13-light bg-color-13"
-        : "border-color-10-light bg-color-10";
+    const stateClasses = clsx(
+      isFocused
+        ? "border-tertiary-lighter bg-tertiary mb-0"
+        : isOccupied
+          ? "border-tertiary-light bg-tertiary-dark"
+          : "border-surface-container-high-lighter bg-surface-container-high-light",
+    );
 
     const variantClasses =
-      variation() === "box"
+      variant === "box"
         ? clsx("rounded-md h-3.5", isFocused ? "w-7" : "w-2")
         : clsx("rounded-full h-2 mx-0.5", isFocused ? "w-8.5" : "w-0.5");
 
@@ -45,7 +53,7 @@ export default function WorkspaceButton({ workspace }: WorkspaceButtonProps) {
     <button
       $={loadClasses(WorkspaceButton)}
       class={classNames}
-      cursor={CURSORS.pointer}
+      cursor={Cursors.POINTER}
       focusable={false}
       onClicked={handleClick}
     />

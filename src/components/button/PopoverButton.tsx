@@ -1,7 +1,7 @@
 import { onCleanup } from "ags";
 import { Gdk, type Gtk } from "ags/gtk4";
 import { StateFlags } from "@/enums";
-import { addGestureClick } from "@/lib/utils";
+import { addGestureClick } from "@/utils";
 import Button from "./Button";
 
 type PopoverButtonProps = JSX.IntrinsicElements["button"] & {
@@ -18,25 +18,20 @@ export default function PopoverButton({
 }: PopoverButtonProps) {
   const init = (self: Gtk.Button) => {
     const popover = self.get_first_child()?.get_last_child() as Gtk.Popover;
+    if (!popover) return;
 
-    // Add gesture for popover
-    const popoverCleanup = addGestureClick(
-      self,
-      primary ? Gdk.BUTTON_PRIMARY : Gdk.BUTTON_SECONDARY,
-      () => {
-        popover.show();
-        self.set_state_flags(StateFlags.SELECTED, false);
-      },
+    const popoverButton = primary ? Gdk.BUTTON_PRIMARY : Gdk.BUTTON_SECONDARY;
+    const clickedButton = primary ? Gdk.BUTTON_SECONDARY : Gdk.BUTTON_PRIMARY;
+
+    const popoverCleanup = addGestureClick(self, popoverButton, () => {
+      popover.show();
+      self.set_state_flags(StateFlags.SELECTED, false);
+    });
+
+    const clickedCleanup = addGestureClick(self, clickedButton, () =>
+      onClicked(self),
     );
 
-    // Add gesture for clicked handler
-    const clickedCleanup = addGestureClick(
-      self,
-      primary ? Gdk.BUTTON_SECONDARY : Gdk.BUTTON_PRIMARY,
-      () => onClicked(self),
-    );
-
-    // Handle popover close
     const closeHandler = popover.connect("closed", () =>
       self.unset_state_flags(StateFlags.SELECTED),
     );

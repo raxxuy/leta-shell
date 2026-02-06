@@ -1,9 +1,10 @@
-import { STATES } from "../constants";
+import { STATES } from "@/constants/styles";
 import { generateAnimation } from "./animation";
 import { generateBorder } from "./border";
 import { generateColor } from "./color";
 import { generateFilter } from "./filter";
 import { generateOpacity } from "./opacity";
+import { generateOutline } from "./outline";
 import { generateRounded } from "./rounded";
 import { generateShadow } from "./shadow";
 import { generateSpacing } from "./spacing";
@@ -28,11 +29,12 @@ const generateUtility = (className: string): string[] | null => {
 
   const generators = [
     generateSpacing,
-    generateColor,
     generateRounded,
-    generateTypography,
-    generateOpacity,
     generateBorder,
+    generateTypography,
+    generateColor,
+    generateOutline,
+    generateOpacity,
     generateFilter,
     generateShadow,
     generateAnimation,

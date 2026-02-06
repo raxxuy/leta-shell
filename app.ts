@@ -8,6 +8,7 @@ import Background from "@/windows/Background";
 import Bar from "@/windows/Bar";
 import Launcher from "@/windows/Launcher";
 import NotificationPopups from "@/windows/NotificationPopups";
+import Settings from "@/windows/Settings";
 import WallpaperManager from "@/windows/WallpaperManager";
 
 app.start({
@@ -25,6 +26,7 @@ app.start({
       NotificationPopups(monitor);
       WallpaperManager(monitor);
     });
+    Settings();
   },
   requestHandler(argv, res) {
     request(argv, res);

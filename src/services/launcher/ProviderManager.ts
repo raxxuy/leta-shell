@@ -1,4 +1,4 @@
-import type { LauncherProvider, LauncherResult } from "./types";
+import type { LauncherProvider, LauncherResult } from "@/types/launcher";
 
 export class ProviderManager {
   private providers: LauncherProvider[] = [];

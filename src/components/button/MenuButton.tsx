@@ -2,17 +2,17 @@ import { createComputed, onCleanup } from "ags";
 import type { Gtk } from "ags/gtk4";
 import clsx from "clsx/lite";
 import { StateFlags } from "@/enums";
-import { access } from "@/lib/utils";
+import { access } from "@/utils";
 
 type MenuButtonProps = JSX.IntrinsicElements["menubutton"] & {
   initCss?: boolean;
 };
 
 const baseStyles = clsx(
-  "transition duration-100 rounded text-foreground m-0.25",
-  "hover:bg-background-light hover:text-foreground-light",
-  "active:bg-background-lighter active:text-foreground-lighter",
-  "selected:bg-background-lighter selected:text-foreground-lighter",
+  "transition duration-100 rounded text-on-surface m-0.25",
+  "hover:bg-background-light hover:text-on-surface-light",
+  "active:bg-background-lighter active:text-on-surface-lighter",
+  "selected:bg-background-lighter selected:text-on-surface-lighter",
 );
 
 export default function MenuButton({

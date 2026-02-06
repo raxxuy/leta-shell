@@ -1,146 +1,163 @@
+import { onCleanup } from "ags";
 import type { Gtk } from "ags/gtk4";
 import app from "ags/gtk4/app";
-import { kebabCase } from "es-toolkit";
+import { debounce, kebabCase } from "es-toolkit";
 import {
   CACHE_STYLES_DIR,
-  COLORS_DEST,
-  COLORS_SOURCE,
   CSS_FILE,
   SRC_STYLES_DIR,
+  UTILITIES_FILE,
   UTILITIES_JSON_FILE,
 } from "@/constants";
 import {
-  buildPath,
-  dirExists,
-  ensureDir,
   exec,
   fileExists,
   generateColors,
   getUsedClasses,
   readFile,
   writeFile,
-} from "../utils";
+} from "@/utils";
 import { getUtility } from "./generators";
 
-const mappedWidgets = new Set<string>();
-const usedSet = new Set<string>();
-const sections: string[] = [
-  "/* Auto-generated utility classes */\n",
+// State
+const state = {
+  mappedWidgets: new Set<string>(),
+  usedClasses: new Set<string>(),
+  utilitySections: [] as string[],
+  isApplying: false,
+  isInitialized: false,
+  initPromise: null as Promise<void> | null,
+};
+
+const SCSS_HEADERS = [
+  "/* Auto-generated utility classes */",
   '@use "mixins" as *;',
   '@use "colors" as *;',
   '@use "keyframes" as *;',
-  '@use "colors-variations" as *;\n',
-  "/* Utility classes */\n",
-];
+  '@use "colors-variations" as *;',
+  "",
+  "/* Utility classes */",
+].join("\n");
 
-let isApplying = false;
+// Utilities
+const escapeClassName = (cls: string) => {
+  const escaped = cls.replace(/[:.#/[\]]/g, "\\$&");
+  return escaped + (cls.includes(":") ? `:${cls.split(":")[0]}` : "");
+};
 
-const isFirstRun = (): boolean => !dirExists(CACHE_STYLES_DIR);
+const generateUtilityScss = (cls: string) => {
+  const utility = getUtility(cls);
+  if (!utility) return null;
+  return `.${escapeClassName(cls)} { ${utility.join("; ")}; }`;
+};
 
-const initStyles = async (): Promise<void> => {
-  ensureDir(CACHE_STYLES_DIR);
+const addUtilityClass = (cls: string) => {
+  if (state.usedClasses.has(cls) || !getUtility(cls)) return false;
+
+  state.usedClasses.add(cls);
+  const scss = generateUtilityScss(cls);
+  if (scss) state.utilitySections.push(scss);
+
+  return true;
+};
+
+const writeUtilities = () => {
+  writeFile(
+    UTILITIES_FILE,
+    `${SCSS_HEADERS}\n${state.utilitySections.join("\n")}`,
+  );
+  writeFile(UTILITIES_JSON_FILE, JSON.stringify([...state.usedClasses]));
+  console.log(`✅ Generated utilities for ${state.usedClasses.size} classes`);
+};
+
+const loadCachedUtilities = () => {
+  if (!fileExists(UTILITIES_JSON_FILE)) return;
+  try {
+    const cached: string[] = JSON.parse(readFile(UTILITIES_JSON_FILE));
+    cached.forEach(addUtilityClass);
+    console.log(`📦 Loaded ${state.usedClasses.size} cached utilities`);
+    writeUtilities();
+  } catch (error) {
+    console.error("Failed to load cached utilities:", error);
+  }
+};
+
+const compileAndApply = async () => {
+  await exec(
+    `sass ${CACHE_STYLES_DIR}/index.scss ${CSS_FILE} --load-path=${CACHE_STYLES_DIR}`,
+  );
+  app.apply_css(CSS_FILE, true);
+};
+
+const debouncedRecompile = debounce(async () => {
+  if (!state.isApplying) await compileAndApply();
+}, 100);
+
+const initStyles = async () => {
   await generateColors();
   await exec(
-    [
-      `cp -r ${SRC_STYLES_DIR}/. ${CACHE_STYLES_DIR}`,
-      `chmod -R u+w ${CACHE_STYLES_DIR}`,
-    ].join(" && "),
+    `cp -r ${SRC_STYLES_DIR}/. ${CACHE_STYLES_DIR} && chmod -R u+w ${CACHE_STYLES_DIR}`,
   );
+  loadCachedUtilities();
+  state.isInitialized = true;
+  console.log("✅ Styles initialized");
 };
 
-const escapeClassName = (cls: string): string => {
-  const escaped = cls.replace(/[:./[\]]/g, "\\$&");
-  const pseudoClass = cls.includes(":") ? `:${cls.split(":")[0]}` : "";
-  return escaped + pseudoClass;
+const ensureInitialized = async () => {
+  if (state.isInitialized) return;
+  if (!state.initPromise) state.initPromise = initStyles();
+  await state.initPromise;
 };
 
-const writeUtilities = (): void => {
-  const scss = sections.join("\n");
-  writeFile(buildPath(CACHE_STYLES_DIR, "_utilities.scss"), scss);
-  writeFile(
-    buildPath(CACHE_STYLES_DIR, "utilities.json"),
-    JSON.stringify([...usedSet]),
-  );
-  console.log(`✅ Generated utilities for ${usedSet.size} classes`);
-};
-
-export const setClasses = (classes: string[], restart = false): void => {
-  const previous = usedSet.size;
+export const setClasses = async (classes: string[], restart = false) => {
+  await ensureInitialized();
+  let hasNewClasses = false;
 
   for (const cls of classes) {
-    if (!usedSet.has(cls)) {
-      const utility = getUtility(cls);
-
-      if (utility) {
-        usedSet.add(cls);
-        const className = escapeClassName(cls);
-        sections.push(`.${className} { ${utility.join("; ")}; }`);
-      }
-    }
+    if (addUtilityClass(cls)) hasNewClasses = true;
   }
 
-  if (usedSet.size > previous) {
+  if (hasNewClasses) {
     writeUtilities();
+    debouncedRecompile();
   }
 
-  if (restart) {
-    applyTheme();
-  }
+  if (restart) applyTheme();
 };
 
-/* Primarily used for loading dynamic widgets who weren't rendered from the start */
 export const loadClasses = (component: { name: string }, name?: string) => {
   const kebabName = name || kebabCase(component.name);
   let isFirstRun = true;
 
   return (self: Gtk.Widget) => {
-    const shouldRestart = isFirstRun && !mappedWidgets.has(kebabName);
+    const shouldRestart = isFirstRun && !state.mappedWidgets.has(kebabName);
 
     if (isFirstRun) {
-      mappedWidgets.add(kebabName);
+      state.mappedWidgets.add(kebabName);
       isFirstRun = false;
     }
 
     setClasses(getUsedClasses(self), shouldRestart);
+
+    const handler = self.connect("notify::css-classes", () =>
+      setClasses(getUsedClasses(self)),
+    );
+
+    onCleanup(() => self.disconnect(handler));
   };
 };
 
-const loadCachedUtilities = (): void => {
-  if (!fileExists(UTILITIES_JSON_FILE)) return;
+export const applyTheme = async () => {
+  if (state.isApplying) return;
+  state.isApplying = true;
 
   try {
-    const cached = JSON.parse(readFile(UTILITIES_JSON_FILE));
-    setClasses(cached);
-  } catch (error) {
-    console.error("Failed to parse utilities.json:", error);
-  }
-};
-
-const compileStyles = async (): Promise<void> => {
-  await exec(
-    [
-      `cp ${COLORS_SOURCE} ${COLORS_DEST}`,
-      `sass ${CACHE_STYLES_DIR}/index.scss ${CSS_FILE} --load-path=${CACHE_STYLES_DIR}`,
-      `hyprctl reload`,
-    ].join(" && "),
-  );
-};
-
-export const applyTheme = async (): Promise<void> => {
-  if (isApplying) return;
-  isApplying = true;
-
-  try {
-    if (isFirstRun()) await initStyles();
-
-    loadCachedUtilities();
-    setClasses(getUsedClasses());
-
-    await compileStyles();
-    app.apply_css(CSS_FILE, true);
+    await ensureInitialized();
+    await setClasses(getUsedClasses());
+    await compileAndApply();
   } catch (error) {
     console.error("Failed to apply theme:", error);
   } finally {
-    isApplying = false;
+    state.isApplying = false;
   }
 };

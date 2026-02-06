@@ -1,16 +1,17 @@
 import { monitorFile } from "ags/file";
 import type GObject from "ags/gobject";
 import { getter, register, setter, signal } from "ags/gobject";
-import { PICTURES_DIR, WAL_FILE } from "@/constants";
+import { PICTURES_DIR, WALLPAPER_FILE } from "@/constants";
 import { applyTheme } from "@/lib/styles";
 import {
+  cleanupOrphanedCache,
   exec,
   generateColors,
   isImageFile,
   readFile,
   scaleAndCenterImage,
   writeFile,
-} from "@/lib/utils";
+} from "@/utils";
 import Service from "./base";
 
 interface WallpaperSignals extends GObject.Object.SignalSignatures {
@@ -27,11 +28,11 @@ interface CachedPicture {
 @register({ GTypeName: "WallpaperService" })
 export default class WallpaperService extends Service<WallpaperSignals> {
   private static instance: WallpaperService;
+  private monitorWidth = 0;
+  private monitorHeight = 0;
+  #source = "";
   #pictures: string[] = [];
   #cachedPictures: CachedPicture[] = [];
-  #source = "";
-  #monitorWidth = 0;
-  #monitorHeight = 0;
 
   static get_default() {
     if (!WallpaperService.instance) {
@@ -70,13 +71,12 @@ export default class WallpaperService extends Service<WallpaperSignals> {
 
     this.#source = path;
     this.setWallpaper(path);
-
     this.notify("source");
   }
 
   setMonitorDimensions(width: number, height: number): void {
-    this.#monitorWidth = width;
-    this.#monitorHeight = height;
+    this.monitorWidth = width;
+    this.monitorHeight = height;
     this.fetchPictures();
   }
 
@@ -90,19 +90,28 @@ export default class WallpaperService extends Service<WallpaperSignals> {
     }
   }
 
-  async setWallpaper(path?: string): Promise<void> {
-    if (!path) writeFile(WAL_FILE, "");
+  private async setWallpaper(path?: string): Promise<void> {
+    writeFile(WALLPAPER_FILE, path as string);
+
     await generateColors(path);
     await applyTheme();
   }
 
-  async fetchPictures(): Promise<void> {
+  private async fetchPictures(): Promise<void> {
     try {
       const output = await exec(["find", PICTURES_DIR, "-maxdepth 1 -type f"]);
+
       this.#pictures = output
         .split("\n")
         .filter((line) => line.trim() && isImageFile(line.trim()))
         .sort();
+
+      // Clean up orphaned cache files before generating new ones
+      await cleanupOrphanedCache(
+        this.#pictures,
+        this.monitorWidth,
+        this.monitorHeight,
+      );
 
       await this.generateCachedPictures();
     } catch (error) {
@@ -115,17 +124,17 @@ export default class WallpaperService extends Service<WallpaperSignals> {
     }
   }
 
-  async generateCachedPictures(): Promise<void> {
+  private async generateCachedPictures(): Promise<void> {
     const cachedPromises = this.#pictures.map(async (picture) => {
       const cachedPath = await scaleAndCenterImage(
         picture,
-        this.#monitorWidth,
-        this.#monitorHeight,
+        this.monitorWidth,
+        this.monitorHeight,
       );
 
       return {
         original: picture,
-        cached: cachedPath || picture, // Fallback to original if caching fails
+        cached: cachedPath || picture,
       };
     });
 
@@ -134,13 +143,28 @@ export default class WallpaperService extends Service<WallpaperSignals> {
     this.cachedPicturesChanged();
   }
 
+  private async initializeWallpaper(path: string): Promise<void> {
+    try {
+      await generateColors(path);
+      await applyTheme();
+      this.wallpaperChanged(false);
+    } catch (error) {
+      console.error("Failed to initialize wallpaper:", error);
+    }
+  }
+
   constructor() {
     super();
 
-    this.source = readFile(WAL_FILE);
+    const wallpaperPath = readFile(WALLPAPER_FILE);
+
+    this.#source = wallpaperPath;
+
+    if (wallpaperPath) {
+      this.initializeWallpaper(wallpaperPath);
+    }
 
     // Monitor pictures directory
     monitorFile(PICTURES_DIR, () => this.fetchPictures());
-    // this.fetchPictures();
   }
 }

@@ -1,7 +1,7 @@
 import type AstalMpris from "gi://AstalMpris";
 import { createBinding } from "ags";
 import ImageWrapper from "@/components/ImageWrapper";
-import { Orientation, Overflow } from "@/enums";
+import { Align, Orientation, Overflow } from "@/enums";
 import PlayerControls from "./PlayerControls";
 
 interface PlayerProps {
@@ -18,8 +18,11 @@ export default function Player({ player }: PlayerProps) {
       overflow={Overflow.HIDDEN}
     >
       <overlay>
-        <ImageWrapper class="h-40 w-80 brightness-70" src={artUrl} />
-        <PlayerControls player={player} />
+        <ImageWrapper class="h-42 w-80 brightness-60" src={artUrl} />
+        <overlay $type="overlay" overflow={Overflow.HIDDEN} valign={Align.END}>
+          <ImageWrapper class="h-32 w-80 blur-xs" src={artUrl} />
+          <PlayerControls player={player} />
+        </overlay>
       </overlay>
     </box>
   );

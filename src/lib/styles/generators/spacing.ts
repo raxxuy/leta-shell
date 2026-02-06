@@ -1,4 +1,4 @@
-import { DIRECTIONS, SPACING_PROPS } from "../constants";
+import { DIRECTIONS, SPACING_PROPS } from "@/constants/styles";
 
 export const generateSpacing = (cls: string): string[] | null => {
   // Match arbitrary values: w-[64px], p-[2.5rem], m-[10%], p-[5px_10px], m-[5px_10px_15px_20px]

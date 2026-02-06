@@ -1,10 +1,12 @@
 {
+  "name": "leta-shell",
+  "type": "module",
   "scripts": {
     "lint": "biome check",
     "build": "./scripts/build.sh",
     "start": "./build/bin/leta-shell",
     "clean": "./scripts/clean.sh",
-    "dev": "./scripts/watch.sh"
+    "dev": "./scripts/dev.sh"
   },
   "dependencies": {
     "ags": "github:Aylur/ags",
@@ -12,10 +14,7 @@
     "es-toolkit": "^1.44.0",
     "zod": "^4.3.6"
   },
-  "prettier": {
-    "semi": true
-  },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.13"
+    "@biomejs/biome": "^2.3.14"
   }
 }

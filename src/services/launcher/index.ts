@@ -1,5 +1,6 @@
 import type GObject from "ags/gobject";
 import { getter, register } from "ags/gobject";
+import type { LauncherResult } from "@/types/launcher";
 import Service from "../base";
 import { ProviderManager } from "./ProviderManager";
 import {
@@ -9,14 +10,13 @@ import {
   CommandsProvider,
   WebSearchProvider,
 } from "./providers";
-import type { LauncherResult } from "./types";
 
 interface LauncherSignals extends GObject.Object.SignalSignatures {}
 
 @register({ GTypeName: "LauncherService" })
 export default class LauncherService extends Service<LauncherSignals> {
   private static instance: LauncherService;
-  #providerManager = new ProviderManager();
+  private providerManager = new ProviderManager();
   #results: LauncherResult[] = [];
   #searching = false;
 
@@ -25,19 +25,6 @@ export default class LauncherService extends Service<LauncherSignals> {
       LauncherService.instance = new LauncherService();
     }
     return LauncherService.instance;
-  }
-
-  constructor() {
-    super();
-    this.#registerProviders();
-  }
-
-  #registerProviders() {
-    this.#providerManager.register(new CalculatorProvider());
-    this.#providerManager.register(new AppsProvider());
-    this.#providerManager.register(new CommandsProvider());
-    this.#providerManager.register(new ActionsProvider());
-    this.#providerManager.register(new WebSearchProvider());
   }
 
   @getter(Array)
@@ -61,7 +48,7 @@ export default class LauncherService extends Service<LauncherSignals> {
     this.notify("searching");
 
     try {
-      const results = await this.#providerManager.search(query);
+      const results = await this.providerManager.search(query);
       this.#results = results;
       this.notify("results");
     } finally {
@@ -73,5 +60,18 @@ export default class LauncherService extends Service<LauncherSignals> {
   clear() {
     this.#results = [];
     this.notify("results");
+  }
+
+  private registerProviders() {
+    this.providerManager.register(new CalculatorProvider());
+    this.providerManager.register(new AppsProvider());
+    this.providerManager.register(new CommandsProvider());
+    this.providerManager.register(new ActionsProvider());
+    this.providerManager.register(new WebSearchProvider());
+  }
+
+  constructor() {
+    super();
+    this.registerProviders();
   }
 }

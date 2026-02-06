@@ -12,8 +12,9 @@ interface NotificationSignals extends GObject.Object.SignalSignatures {
 @register({ GTypeName: "NotificationService" })
 export default class NotificationService extends Service<NotificationSignals> {
   private static instance: NotificationService;
-  #notifd: AstalNotifd.Notifd = AstalNotifd.get_default();
+  private notifd: AstalNotifd.Notifd = AstalNotifd.get_default();
   #notifications: AstalNotifd.Notification[] = [];
+  #iconName: string = "notifications";
 
   static get_default() {
     if (!NotificationService.instance) {
@@ -33,18 +34,29 @@ export default class NotificationService extends Service<NotificationSignals> {
     return this.#notifications;
   }
 
+  @getter(String)
+  get iconName() {
+    return this.#iconName;
+  }
+
   @getter(Boolean)
   get dontDisturb() {
-    return this.#notifd.dontDisturb;
+    return this.notifd.dontDisturb;
   }
 
   @setter(Boolean)
   set dontDisturb(value: boolean) {
-    this.#notifd.dontDisturb = value;
+    this.notifd.dontDisturb = value;
+    this.#iconName = value ? "notifications-disabled" : "notifications";
+  }
+
+  checkNotifications() {
+    this.#iconName = "notifications";
+    this.notify("icon-name");
   }
 
   getNotification(id: number): AstalNotifd.Notification {
-    const notification = this.#notifd.get_notification(id);
+    const notification = this.notifd.get_notification(id);
 
     if (!notification) throw new Error(`Notification with id ${id} not found`);
 
@@ -54,10 +66,12 @@ export default class NotificationService extends Service<NotificationSignals> {
   constructor() {
     super();
 
-    const notifiedHandler = this.#notifd.connect(
+    const notifiedHandler = this.notifd.connect(
       "notified",
       (_, id, replaced) => {
-        const notification = this.#notifd.get_notification(id);
+        const notification = this.notifd.get_notification(id);
+
+        this.#iconName = "notifications-notified";
 
         if (!notification) return;
 
@@ -69,20 +83,22 @@ export default class NotificationService extends Service<NotificationSignals> {
           this.#notifications = [notification, ...this.#notifications];
         }
 
+        this.notify("icon-name");
         this.notify("notifications");
         this.emit("notified", id, replaced);
       },
     );
 
-    const resolvedHandler = this.#notifd.connect("resolved", (_, id) => {
+    const resolvedHandler = this.notifd.connect("resolved", (_, id) => {
       this.#notifications = this.#notifications.filter((n) => n.id !== id);
+      this.notify("icon-name");
       this.notify("notifications");
       this.emit("resolved", id);
     });
 
     onCleanup(() => {
-      this.#notifd.disconnect(notifiedHandler);
-      this.#notifd.disconnect(resolvedHandler);
+      this.notifd.disconnect(notifiedHandler);
+      this.notifd.disconnect(resolvedHandler);
     });
   }
 }

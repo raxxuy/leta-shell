@@ -3,9 +3,10 @@ import { exec as _exec, execAsync } from "ags/process";
 const run = (
   command: string | string[],
   async: boolean,
+  shell: string = "bash",
 ): string | Promise<string> => {
   const cmd = Array.isArray(command) ? command.join(" ") : command;
-  const args = ["bash", "-c", cmd];
+  const args = [shell, "-c", cmd];
 
   try {
     return async ? execAsync(args) : _exec(args);
@@ -15,8 +16,10 @@ const run = (
   }
 };
 
-export const exec = (command: string | string[]): Promise<string> =>
-  run(command, true) as Promise<string>;
+export const exec = (
+  command: string | string[],
+  shell?: string,
+): Promise<string> => run(command, true, shell) as Promise<string>;
 
-export const execSync = (command: string | string[]): string =>
-  run(command, false) as string;
+export const execSync = (command: string | string[], shell?: string): string =>
+  run(command, false, shell) as string;

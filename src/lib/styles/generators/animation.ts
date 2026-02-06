@@ -1,4 +1,4 @@
-import { ANIMATIONS } from "../constants";
+import { ANIMATIONS } from "@/constants/styles";
 
 export const generateAnimation = (cls: string): string[] | null => {
   // Match: animate-none

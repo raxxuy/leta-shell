@@ -1,6 +1,6 @@
 import AstalApps from "gi://AstalApps";
-import { toggleWindow } from "@/lib/utils";
-import type { LauncherProvider, LauncherResult } from "../types";
+import type { LauncherProvider, LauncherResult } from "@/types/launcher";
+import { toggleWindow } from "@/utils";
 
 export class AppsProvider implements LauncherProvider {
   name = "apps";
@@ -12,6 +12,7 @@ export class AppsProvider implements LauncherProvider {
   }
 
   async search(query: string): Promise<LauncherResult[]> {
+    this.apps.reload();
     return this.apps
       .exact_query(query)
       .sort((a, b) => a.name.localeCompare(b.name))

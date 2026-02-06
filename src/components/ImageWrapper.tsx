@@ -1,7 +1,8 @@
 import Gio from "gi://Gio";
 import { type Accessor, createComputed } from "ags";
 import { Gtk } from "ags/gtk4";
-import { access } from "@/lib/utils";
+import { ContentFit } from "@/enums";
+import { access } from "@/utils";
 import { Button } from "./button";
 
 type ImageWrapperBase = {
@@ -27,13 +28,13 @@ export default function ImageWrapper({
   src: srcProp,
   file: fileProp = false,
   button = false,
-  contentFit = Gtk.ContentFit.COVER,
+  contentFit = ContentFit.COVER,
   ...props
 }: ImageWrapperProps) {
   const source = createComputed(() => {
     const src = access(srcProp);
-    const file = access(fileProp);
-    return file ? Gio.File.new_for_path(src) : Gio.File.new_for_uri(src);
+    const isFile = access(fileProp);
+    return isFile ? Gio.File.new_for_path(src) : Gio.File.new_for_uri(src);
   });
 
   const image = (
@@ -41,9 +42,10 @@ export default function ImageWrapper({
   );
 
   if (button) {
-    const { onSecondaryClicked, ...buttonProps } = props as ImageWrapperButton;
+    const buttonProps = props as ImageWrapperButton;
+    const { onSecondaryClicked, ...restProps } = buttonProps;
     return (
-      <Button onSecondaryClicked={onSecondaryClicked} {...buttonProps}>
+      <Button onSecondaryClicked={onSecondaryClicked} {...restProps}>
         <overlay hexpand vexpand>
           {image}
         </overlay>
@@ -51,7 +53,5 @@ export default function ImageWrapper({
     );
   }
 
-  return (
-    <overlay {...(props as JSX.IntrinsicElements["overlay"])}>{image}</overlay>
-  );
+  return <overlay {...(props as ImageWrapperOverlay)}>{image}</overlay>;
 }

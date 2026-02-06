@@ -9,9 +9,9 @@ import {
   Orientation,
   RevealerTransitionType,
 } from "@/enums";
+import { useGlobalConfig } from "@/hooks/useConfig";
 import { getIcon } from "@/lib/icons";
-import { adjustVolume, formatVolume, toggleMute } from "@/lib/utils";
-import ConfigService from "@/services/config";
+import { adjustVolume, formatVolume, toggleMute } from "@/utils";
 import EndpointListItem from "./EndpointListItem";
 
 interface EndpointProps {
@@ -20,9 +20,8 @@ interface EndpointProps {
 }
 
 export default function Endpoint({ endpoint, type }: EndpointProps) {
+  const { spacing, iconSize } = useGlobalConfig();
   const audio = AstalWp.get_default().audio;
-  const icons = ConfigService.bind("global", "icons");
-  const spacings = ConfigService.bind("global", "spacings");
   const mute = createBinding(endpoint, "mute");
   const volume = createBinding(endpoint, "volume");
   const devices = createBinding(audio, `${type}s`);
@@ -68,14 +67,15 @@ export default function Endpoint({ endpoint, type }: EndpointProps) {
         onClicked={() => toggleMute(endpoint)}
       >
         <image
+          class="w-6"
           iconName={iconName}
-          pixelSize={icons((i) => i.pixelSize.small)}
+          pixelSize={iconSize("small")}
           tooltipText={description}
         />
         <popover onNotifyVisible={({ visible }) => setOpened(visible)}>
           <Container
             orientation={Orientation.VERTICAL}
-            spacing={spacings((s) => s.small)}
+            spacing={spacing("small")}
           >
             <For each={devices}>
               {(device) => <EndpointListItem endpoint={device} />}

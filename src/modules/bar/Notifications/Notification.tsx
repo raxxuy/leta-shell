@@ -10,18 +10,16 @@ import {
   Orientation,
   Overflow,
 } from "@/enums";
+import { useGlobalConfig } from "@/hooks/useConfig";
 import { loadClasses } from "@/lib/styles";
-import { formatSeconds } from "@/lib/utils";
-import ConfigService from "@/services/config";
+import { formatSeconds } from "@/utils";
 
 type NotificationProps = {
   notification: AstalNotifd.Notification;
 };
 
 export default function Notification({ notification }: NotificationProps) {
-  const icons = ConfigService.bind("global", "icons");
-  const spacings = ConfigService.bind("global", "spacings");
-
+  const { spacing, iconSize } = useGlobalConfig();
   const handleClick = () => notification.dismiss();
 
   return (
@@ -32,14 +30,14 @@ export default function Notification({ notification }: NotificationProps) {
       vexpand={false}
     >
       <overlay widthRequest={400}>
-        <box spacing={spacings((s) => s.medium)}>
+        <box spacing={spacing("medium")}>
           <ImageWrapper
             class="rounded-lg shadow-md"
             file
-            heightRequest={icons((i) => i.pixelSize.larger)}
+            heightRequest={iconSize("larger")}
             overflow={Overflow.HIDDEN}
             src={notification.image}
-            widthRequest={icons((i) => i.pixelSize.larger)}
+            widthRequest={iconSize("larger")}
           />
           <box>
             <box orientation={Orientation.VERTICAL} vexpand>
@@ -63,17 +61,17 @@ export default function Notification({ notification }: NotificationProps) {
 
               <box valign={Align.END} vexpand>
                 <label
-                  class="font-medium text-foreground-dark/80 text-sm"
+                  class="font-medium text-on-surface-dark/80 text-sm"
                   halign={Align.START}
                   label={formatSeconds(notification.time, "%H:%M", true)}
                 />
                 <box halign={Align.END} hexpand>
                   <image
                     iconName={notification.appIcon}
-                    pixelSize={icons((i) => i.pixelSize.small)}
+                    pixelSize={iconSize("small")}
                   />
                   <label
-                    class="font-medium text-foreground-dark/80 text-sm"
+                    class="font-medium text-on-surface-dark/80 text-sm"
                     label={startCase(notification.appName)}
                   />
                 </box>
@@ -90,11 +88,7 @@ export default function Notification({ notification }: NotificationProps) {
             valign={Align.START}
             vexpand
           >
-            <image
-              class="h-6 w-6"
-              iconName="x"
-              pixelSize={icons((i) => i.pixelSize.small)}
-            />
+            <image class="h-6 w-6" iconName="x" pixelSize={iconSize("small")} />
           </Button>
         </box>
       </overlay>

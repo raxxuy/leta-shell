@@ -4,6 +4,7 @@ CONFIG_DIR="$HOME/.config/leta-shell"
 WAL_DIR="$CACHE_DIR/wal"
 STYLES_DIR="$CACHE_DIR/styles"
 PICTURES_DIR="$CACHE_DIR/pictures"
+CLEAN_ALL=false
 CLEAN_STYLES=false
 CLEAN_CONFIGS=false
 CLEAN_PICTURES=false
@@ -11,9 +12,7 @@ CLEAN_PICTURES=false
 while getopts "apsc" opt; do
     case $opt in
         a)
-            CLEAN_PICTURES=true
-            CLEAN_STYLES=true
-            CLEAN_CONFIGS=true
+            CLEAN_ALL=true
             ;;
         p)
             CLEAN_PICTURES=true
@@ -38,6 +37,11 @@ done
 
 echo "Removing build directory: $BUILD_DIR"
 rm -rf "$BUILD_DIR"
+
+if [ "$CLEAN_ALL" = true ]; then
+    rm -rf "$CACHE_DIR"/*
+    exit 0
+fi
 
 if [ "$CLEAN_PICTURES" = true ]; then
     echo "Removing pictures directory: $PICTURES_DIR"

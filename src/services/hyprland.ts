@@ -3,9 +3,9 @@ import GLib from "gi://GLib";
 import type GObject from "ags/gobject";
 import { getter, register } from "ags/gobject";
 import { subprocess } from "ags/process";
-import { exec } from "@/lib/utils";
-import Service from "../base";
-import type { Keyboard } from "./types";
+import type { Keyboard } from "@/types/hyprland";
+import { exec } from "@/utils";
+import Service from "./base";
 
 interface HyprlandSignals extends GObject.Object.SignalSignatures {}
 
@@ -47,7 +47,7 @@ export default class HyprlandService extends Service<HyprlandSignals> {
     exec(["hyprctl", "switchxkblayout", this.#mainKeyboard.name, "next"]);
   }
 
-  async #startSocketListener() {
+  private async startSocketListener() {
     const signature = GLib.getenv("HYPRLAND_INSTANCE_SIGNATURE");
     const runtimeDir = GLib.get_user_runtime_dir();
     const socketPath = `${runtimeDir}/hypr/${signature}/.socket2.sock`;
@@ -59,13 +59,13 @@ export default class HyprlandService extends Service<HyprlandSignals> {
         const [keyboardName] = data.split(",");
 
         if (keyboardName === this.#mainKeyboard.name) {
-          await this.#updateMainKeyboard(keyboardName);
+          await this.updateMainKeyboard(keyboardName);
         }
       }
     });
   }
 
-  async #updateMainKeyboard(keyboardName: string) {
+  private async updateMainKeyboard(keyboardName: string) {
     try {
       const devices = JSON.parse(await exec(["hyprctl", "devices", "-j"]));
       const keyboard = devices.keyboards.find(
@@ -81,7 +81,7 @@ export default class HyprlandService extends Service<HyprlandSignals> {
     }
   }
 
-  async #initializeDevices() {
+  private async initializeDevices() {
     try {
       const devices = JSON.parse(await exec(["hyprctl", "devices", "-j"]));
       this.#mainKeyboard = devices.keyboards.find(
@@ -100,7 +100,7 @@ export default class HyprlandService extends Service<HyprlandSignals> {
 
   constructor() {
     super();
-    this.#initializeDevices();
-    this.#startSocketListener();
+    this.initializeDevices();
+    this.startSocketListener();
   }
 }

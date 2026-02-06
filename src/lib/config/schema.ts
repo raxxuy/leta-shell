@@ -1,9 +1,13 @@
 import { z } from "zod";
+import { PICTURES_DIR } from "@/constants";
 
-export const barConfigSchema = z.object({
+const barConfigSchema = z.object({
   window: z.object({
     defaultHeight: z.number().min(16).max(64).default(24),
+    anchor: z.enum(["top", "bottom"]).default("top"),
     floating: z.boolean().default(true),
+    border: z.boolean().default(false),
+    bubbles: z.boolean().default(false),
   }),
   layout: z.object({
     start: z.array(z.string()).default(["launcher", "workspaces", "tray"]),
@@ -22,7 +26,7 @@ export const barConfigSchema = z.object({
   modules: z.object({
     workspaces: z.object({
       count: z.number().min(1).max(10).default(10),
-      variation: z.enum(["box", "dot"]).default("dot"),
+      variant: z.enum(["box", "dot"]).default("dot"),
     }),
     clock: z.object({
       currentFormat: z.number().min(0).max(2).default(0),
@@ -34,7 +38,7 @@ export const barConfigSchema = z.object({
   }),
 });
 
-export const globalConfigSchema = z.object({
+const globalConfigSchema = z.object({
   spacings: z.object({
     small: z.number().default(4),
     medium: z.number().default(10),
@@ -51,27 +55,21 @@ export const globalConfigSchema = z.object({
   }),
 });
 
-export const backgroundConfigSchema = z.object({
+const backgroundConfigSchema = z.object({
   enabled: z.boolean().default(true),
 });
 
-export const launcherConfigSchema = z.object({
-  modules: z.object({
-    items: z.object({
-      delay: z.number().min(0).max(1000).default(100),
-    }),
-  }),
+const wallpapersConfigSchema = z.object({
+  location: z.string().default(PICTURES_DIR),
 });
 
 export const schemas = {
   bar: barConfigSchema,
   global: globalConfigSchema,
-  launcher: launcherConfigSchema,
   background: backgroundConfigSchema,
-};
+  wallpapers: wallpapersConfigSchema,
+} as const;
 
-// Export types
-export type BarConfig = z.infer<typeof barConfigSchema>;
-export type GlobalConfig = z.infer<typeof globalConfigSchema>;
-export type LauncherConfig = z.infer<typeof launcherConfigSchema>;
-export type BackgroundConfig = z.infer<typeof backgroundConfigSchema>;
+export type Configs = {
+  [K in keyof typeof schemas]: z.infer<(typeof schemas)[K]>;
+};

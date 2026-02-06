@@ -1,7 +1,8 @@
 import { For } from "ags";
 import type GObject from "ags/gobject";
 import clsx from "clsx/lite";
-import ConfigService from "@/services/config";
+import { useBarConfig, useGlobalConfig } from "@/hooks/useConfig";
+import { loadClasses } from "@/lib/styles";
 import Battery from "./Battery";
 import Bluetooth from "./Bluetooth";
 import Client from "./Client";
@@ -29,28 +30,31 @@ const MODULES: Record<string, () => GObject.Object> = {
 };
 
 export default function BarModule() {
-  const window = ConfigService.bind("bar", "window");
-  const spacings = ConfigService.bind("global", "spacings");
+  const { spacing } = useGlobalConfig();
+  const { window, layout } = useBarConfig();
 
   const classNames = window((w) =>
     clsx(
       "bg-background-dark/80 shadow-md",
       w.floating ? "mx-2 my-1 rounded-lg px-2 py-1.5" : "px-4",
+      w.border
+        ? w.floating
+          ? "border-2 border-primary"
+          : `${w.anchor === "top" ? "border-b-2" : "border-t-2"} border-primary`
+        : "",
     ),
   );
 
   const Section = ({ type }: { type: "start" | "center" | "end" }) => {
-    const layout = ConfigService.bind("bar", `layout.${type}`);
-
     return (
-      <box $type={type} spacing={spacings((s) => s.medium)}>
-        <For each={layout}>{(module) => MODULES[module]()}</For>
+      <box $type={type} spacing={spacing("medium")}>
+        <For each={layout[type]}>{(module) => MODULES[module]()}</For>
       </box>
     );
   };
 
   return (
-    <centerbox class={classNames}>
+    <centerbox $={loadClasses(BarModule)} class={classNames}>
       <Section type="start" />
       <Section type="center" />
       <Section type="end" />
