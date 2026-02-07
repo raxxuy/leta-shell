@@ -17,6 +17,7 @@ export const {
   PropagationPhase,
   RevealerTransitionType,
   StateFlags,
+  ResponseType,
 } = Gtk;
 export const { ModifierType } = Gdk;
 export const { ApplicationFlags } = Gio;

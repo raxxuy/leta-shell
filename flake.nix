@@ -11,10 +11,10 @@
   };
 
   outputs =
-    { self
-    , nixpkgs
-    , ags
-    ,
+    {
+      self,
+      nixpkgs,
+      ags,
     }:
     let
       system = "x86_64-linux";
@@ -36,6 +36,7 @@
         bluetooth
         wireplumber
         powerprofiles
+        pkgs.libgtop
       ];
 
       extraPackages = astalPackages ++ [
@@ -72,6 +73,25 @@
             cp -r * $out/share
             ags bundle ${entry} $out/bin/${pname} -d "SRC='$out/share'"
 
+            # Install the leta CLI tool
+            cat > $out/bin/leta-cli << 'EOF'
+            #!/bin/sh
+            SOCKET_PATH="/run/user/$(id -u)/leta-shell.sock"
+
+            if [ ! -S "$SOCKET_PATH" ]; then
+              echo "ERROR: leta-shell not running"
+              exit 1
+            fi
+
+            if [ $# -eq 0 ]; then
+              echo "Usage: leta <command> [args...]"
+              exit 1
+            fi
+
+            echo "$*" | ${pkgs.socat}/bin/socat - UNIX-CONNECT:"$SOCKET_PATH" 2>/dev/null
+            EOF
+            chmod +x $out/bin/leta-cli
+
             runHook postInstall
           '';
 
@@ -90,6 +110,7 @@
           buildInputs = [
             pkgs.pnpm
             pkgs.inotify-tools
+            pkgs.socat
             (ags.packages.${system}.default.override {
               inherit extraPackages;
             })

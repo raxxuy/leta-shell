@@ -4,6 +4,7 @@ import { Align, Orientation } from "@/enums";
 import { useGlobalConfig } from "@/hooks/useConfig";
 import { toggleWindow } from "@/utils";
 import Media from "./Media";
+import UserCard from "./UserCard";
 
 export default function QuickSettings() {
   const { spacing, iconSize } = useGlobalConfig();
@@ -16,10 +17,11 @@ export default function QuickSettings() {
       <popover>
         <Container class="p-0.5">
           <box
+            class="w-100"
             orientation={Orientation.VERTICAL}
             spacing={spacing("medium")}
-            widthRequest={300}
           >
+            <UserCard />
             <Media />
           </box>
           <box

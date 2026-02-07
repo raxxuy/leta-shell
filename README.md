@@ -97,11 +97,11 @@ Add these keybindings to your `hyprland.conf`:
 ```conf
 # Shell controls
 bind = $mod, L, exec, leta-shell
-bind = $mod SHIFT, L, exec, leta-shell quit
+bind = $mod SHIFT, L, exec, leta-cli quit
 
 # Interface toggles
-bind = $mod, R, exec, leta-shell toggle launcher
-bind = $mod, W, exec, leta-shell toggle wallpapers
+bind = $mod, R, exec, leta-cli toggle launcher
+bind = $mod, W, exec, leta-cli toggle wallpapers
 ```
 
 # Recommended
@@ -120,7 +120,7 @@ layerrule = ignore_alpha 0.3, match:namespace leta-shell
 - [X] Improve the background/wallpapers system so it doesn't eat up a lot of memory
 - [x] Notification daemon/menu
 - [?] Power menu
-- [ ] Settings menu
+- [?] Settings menu
 - [ ] Update notifier
 - [ ] Theme manager
 - [x] Media player

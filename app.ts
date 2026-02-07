@@ -3,6 +3,7 @@ import style from "styles/index.scss";
 import { initCache } from "@/lib/cache";
 import { initConfigs } from "@/lib/config";
 import request from "@/lib/request";
+import { socketService } from "@/lib/socket";
 import { applyTheme } from "@/lib/styles";
 import Background from "@/windows/Background";
 import Bar from "@/windows/Bar";
@@ -19,6 +20,9 @@ app.start({
     initConfigs();
     initCache();
     applyTheme();
+
+    socketService.start();
+
     app.monitors.forEach((monitor) => {
       Bar(monitor);
       Launcher(monitor);
@@ -27,6 +31,10 @@ app.start({
       WallpaperManager(monitor);
     });
     Settings();
+
+    app.connect("shutdown", () => {
+      socketService.stop();
+    });
   },
   requestHandler(argv, res) {
     request(argv, res);
