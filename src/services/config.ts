@@ -2,8 +2,10 @@ import { createBinding } from "ags";
 import type GObject from "ags/gobject";
 import { getter, register, signal } from "ags/gobject";
 import { get, set } from "es-toolkit/compat";
+import { USER_PICTURE_FILE } from "@/constants";
 import { configs, writeConfig } from "@/lib/config";
 import type { ConfigKey, ConfigType, Get, Path } from "@/types/config";
+import { scaleAndCenterImage } from "@/utils";
 import Service from "./base";
 
 interface ConfigSignals extends GObject.Object.SignalSignatures {
@@ -25,6 +27,11 @@ export default class ConfigService extends Service<ConfigSignals> {
   @getter(Object)
   get configs() {
     return this.#configs;
+  }
+
+  @getter(String)
+  get avatar() {
+    return USER_PICTURE_FILE;
   }
 
   @signal(String, String)
@@ -63,6 +70,22 @@ export default class ConfigService extends Service<ConfigSignals> {
 
   bind<K extends ConfigKey, P extends Path<ConfigType<K>>>(key: K, path: P) {
     return createBinding(this, "configs")(() => this.getValue(key, path));
+  }
+
+  async setAvatar(sourcePath: string) {
+    const scaledPath = await scaleAndCenterImage(
+      sourcePath,
+      80,
+      80,
+      USER_PICTURE_FILE,
+      true,
+    );
+
+    if (scaledPath) {
+      this.notify("avatar");
+    } else {
+      console.error("Failed to set avatar");
+    }
   }
 
   static setValue<K extends ConfigKey, P extends Path<ConfigType<K>>>(

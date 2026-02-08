@@ -29,7 +29,7 @@ export default function Notification({ notification }: NotificationProps) {
       maximumSize={400}
       vexpand={false}
     >
-      <overlay widthRequest={400}>
+      <overlay>
         <box spacing={spacing("medium")}>
           <ImageWrapper
             class="rounded-lg shadow-md"

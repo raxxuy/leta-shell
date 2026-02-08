@@ -14,7 +14,7 @@ export default class NotificationService extends Service<NotificationSignals> {
   private static instance: NotificationService;
   private notifd: AstalNotifd.Notifd = AstalNotifd.get_default();
   #notifications: AstalNotifd.Notification[] = [];
-  #iconName: string = "notifications";
+  #iconName = this.dontDisturb ? "notifications-disabled" : "notifications";
 
   static get_default() {
     if (!NotificationService.instance) {
@@ -48,10 +48,18 @@ export default class NotificationService extends Service<NotificationSignals> {
   set dontDisturb(value: boolean) {
     this.notifd.dontDisturb = value;
     this.#iconName = value ? "notifications-disabled" : "notifications";
+    this.notify("icon-name");
+    this.notify("dont-disturb");
   }
 
-  checkNotifications() {
-    this.#iconName = "notifications";
+  clearNotifications() {
+    this.notifd.notifications.forEach((n) => {
+      n.dismiss();
+    });
+
+    this.#iconName = this.dontDisturb
+      ? "notifications-disabled"
+      : "notifications";
     this.notify("icon-name");
   }
 
@@ -63,17 +71,23 @@ export default class NotificationService extends Service<NotificationSignals> {
     return notification;
   }
 
+  setDontDisturb(value: boolean) {
+    this.dontDisturb = value;
+  }
+
   constructor() {
     super();
 
     const notifiedHandler = this.notifd.connect(
       "notified",
       (_, id, replaced) => {
+        if (this.dontDisturb) return;
+
         const notification = this.notifd.get_notification(id);
 
-        this.#iconName = "notifications-notified";
-
         if (!notification) return;
+
+        this.#iconName = "notifications-notified";
 
         if (replaced && this.#notifications.some((n) => n.id === id)) {
           this.#notifications = this.#notifications.map((n) =>

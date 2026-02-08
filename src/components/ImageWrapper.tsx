@@ -46,9 +46,7 @@ export default function ImageWrapper({
     const { onSecondaryClicked, ...restProps } = buttonProps;
     return (
       <Button onSecondaryClicked={onSecondaryClicked} {...restProps}>
-        <overlay>
-          {image}
-        </overlay>
+        <overlay>{image}</overlay>
       </Button>
     );
   }

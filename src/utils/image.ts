@@ -42,13 +42,21 @@ export const scaleAndCenterImage = async (
   path: string,
   width: number,
   height: number,
+  outputPath?: string,
+  force = false,
 ): Promise<string | null> => {
-  const cachedPath = getCachedImagePath(path, width, height);
+  const cachedPath = outputPath || getCachedImagePath(path, width, height);
 
-  if (fileExists(cachedPath)) return cachedPath;
+  if (!force && fileExists(cachedPath)) return cachedPath;
 
   try {
-    ensureDir(CACHE_PICTURES_DIR);
+    if (outputPath) {
+      // Ensure output directory exists for custom paths
+      const outputDir = outputPath.substring(0, outputPath.lastIndexOf("/"));
+      ensureDir(outputDir);
+    } else {
+      ensureDir(CACHE_PICTURES_DIR);
+    }
 
     await exec([
       "magick",

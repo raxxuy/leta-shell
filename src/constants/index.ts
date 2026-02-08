@@ -25,7 +25,7 @@ export const UTILITIES_JSON_FILE = buildPath(
   "utilities.json",
 );
 export const WALLPAPER_FILE = buildPath(CACHE_DIR, "wallpaper");
-export const USER_PICTURE_FILE = buildPath(CONFIG_DIR, "user.png");
+export const USER_PICTURE_FILE = buildPath(CONFIG_DIR, "user");
 
 // System
 export const USER_NAME = GLib.get_user_name();

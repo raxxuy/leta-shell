@@ -1,13 +1,15 @@
 import Gio from "gi://Gio";
 import { Gtk } from "ags/gtk4";
 import ImageWrapper from "@/components/ImageWrapper";
-import { Cursors, USER_PICTURE_FILE } from "@/constants";
+import { Cursors } from "@/constants";
 import { Overflow } from "@/enums";
-import { exec } from "@/utils";
+import { useGlobalConfig } from "@/hooks/useConfig";
 
 Gio._promisify(Gtk.FileDialog.prototype, "open", "open_finish");
 
 export default function UserAvatar() {
+  const { avatar, setAvatar } = useGlobalConfig();
+
   const handleImageClick = async () => {
     const fileChooser = new Gtk.FileDialog({
       title: "Select an image",
@@ -23,7 +25,7 @@ export default function UserAvatar() {
 
       if (file) {
         const path = file.get_path() as string;
-        exec(["cp", path, USER_PICTURE_FILE]);
+        await setAvatar(path);
         console.log("Image updated successfully!");
       }
     } catch (_err) {
@@ -39,7 +41,7 @@ export default function UserAvatar() {
       file
       onClicked={handleImageClick}
       overflow={Overflow.HIDDEN}
-      src={USER_PICTURE_FILE}
+      src={avatar}
       tooltipText="Change avatar"
     />
   );

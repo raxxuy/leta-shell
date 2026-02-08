@@ -9,7 +9,6 @@ As of now, the shell is designed to be used in a NixOS environment. Once it is f
 The following packages are required:
 
 - `upower`
-- `pywal16`
 - `dart-sass`
 - `imagemagick`
 - `wl-clipboard`

@@ -69,7 +69,7 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
       <box orientation={Orientation.VERTICAL} spacing={spacing("medium")}>
         <For each={list}>
           {(notification) => (
-            <Container $={loadClasses(Container)} hexpand widthRequest={400}>
+            <Container $={loadClasses(Container)} class="w-100" hexpand>
               <Notification notification={notification} />
             </Container>
           )}

@@ -7,7 +7,8 @@ export const useHyprland = () => {
   return {
     hyprland: hyprlandService.astalHyprland,
     workspaceDummy: hyprlandService.workspaceDummy,
-    changeWorkspace: (direction: number) => hyprlandService.changeWorkspace(direction),
+    changeWorkspace: (direction: number) =>
+      hyprlandService.changeWorkspace(direction),
     changeKeyboardLayout: () => hyprlandService.changeKeyboardLayout(),
     mainKeyboard: createBinding(hyprlandService, "mainKeyboard"),
   };

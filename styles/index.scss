@@ -69,7 +69,7 @@ scale {
         background-color: $background_darker;
 
         highlight {
-            filter: brightness(150%);
+            filter: brightness(200%);
             background-color: $background_lighter;
         }
 
@@ -79,8 +79,8 @@ scale {
             min-height: 2px;
             padding: 2px;
             border-radius: 9999px;
-            background-color: $background_lighter;
-            outline: 3px solid $background_lighter;
+            background-color: $primary_dark;
+            outline: 3px solid $primary_dark;
             outline-offset: -1px;
         }
     }

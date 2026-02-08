@@ -69,7 +69,6 @@ export default function PlayerControls({ player }: PlayerControlsProps) {
       </box>
 
       <slider
-        heightRequest={5}
         max={length}
         min={0}
         onChangeValue={handleSliderChange}
