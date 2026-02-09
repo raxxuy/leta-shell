@@ -6,7 +6,7 @@ import { toggleWindow } from "@/utils";
 import Media from "./Media";
 import UserCard from "./UserCard";
 
-export default function QuickSettings() {
+export default function ControlCenter() {
   const { spacing, iconSize } = useGlobalConfig();
 
   const handleClick = () => toggleWindow("settings");

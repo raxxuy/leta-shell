@@ -7,10 +7,10 @@ import Battery from "./Battery";
 import Bluetooth from "./Bluetooth";
 import Client from "./Client";
 import Clock from "./Clock";
+import ControlCenter from "./ControlCenter";
 import KeyboardLayout from "./KeyboardLayout";
 import Launcher from "./Launcher";
 import Notifications from "./Notifications";
-import QuickSettings from "./QuickSettings";
 import Sound from "./Sound";
 import Tray from "./Tray";
 import Workspaces from "./Workspaces";
@@ -26,7 +26,7 @@ const MODULES: Record<string, () => GObject.Object> = {
   bluetooth: Bluetooth,
   notifications: Notifications,
   "keyboard-layout": KeyboardLayout,
-  "quick-settings": QuickSettings,
+  "control-center": ControlCenter,
 };
 
 export default function BarModule() {

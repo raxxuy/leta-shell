@@ -1,4 +1,3 @@
-import { createBinding } from "ags";
 import type { Configs } from "@/lib/config/schema";
 import ConfigService from "@/services/config";
 import type { Get, Path } from "@/types/config";
@@ -64,9 +63,7 @@ export const useGlobalConfig = () => {
       spacings((s) => s[key] * scale),
     iconSize: (key: keyof Configs["global"]["icons"]["pixelSize"], scale = 1) =>
       icons((i) => i.pixelSize[key] * scale),
-    setAvatar: (path: string) => configService.setAvatar(path),
     icons,
-    avatar: createBinding(configService, "avatar"),
     spacings,
   };
 };

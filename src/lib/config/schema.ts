@@ -20,7 +20,7 @@ const barConfigSchema = z.object({
         "bluetooth",
         "notifications",
         "clock",
-        "quick-settings",
+        "control-center",
       ]),
   }),
   modules: z.object({

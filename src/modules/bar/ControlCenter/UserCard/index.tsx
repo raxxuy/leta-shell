@@ -6,7 +6,10 @@ export default function UserCard() {
   const { spacing } = useGlobalConfig();
 
   return (
-    <box class="rounded-xl bg-background p-2" spacing={spacing("medium")}>
+    <box
+      class="rounded-xl border border-outline/20 bg-background p-2.5"
+      spacing={spacing("medium")}
+    >
       <UserAvatar />
       <UserInfo />
     </box>

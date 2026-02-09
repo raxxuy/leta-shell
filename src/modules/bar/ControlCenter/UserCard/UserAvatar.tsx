@@ -1,14 +1,15 @@
 import Gio from "gi://Gio";
 import { Gtk } from "ags/gtk4";
+import clsx from "clsx";
 import ImageWrapper from "@/components/ImageWrapper";
 import { Cursors } from "@/constants";
 import { Overflow } from "@/enums";
-import { useGlobalConfig } from "@/hooks/useConfig";
+import { useUser } from "@/hooks/useUser";
 
 Gio._promisify(Gtk.FileDialog.prototype, "open", "open_finish");
 
 export default function UserAvatar() {
-  const { avatar, setAvatar } = useGlobalConfig();
+  const { avatar, setAvatar } = useUser();
 
   const handleImageClick = async () => {
     const fileChooser = new Gtk.FileDialog({
@@ -36,7 +37,11 @@ export default function UserAvatar() {
   return (
     <ImageWrapper
       button
-      class="h-20 w-20 rounded-xl border-primary/40 shadow-lg"
+      class={clsx(
+        "h-20 w-20 rounded-xl border-2 border-primary/40 shadow-lg transition",
+        "hover:border-primary/60 hover:shadow-xl",
+        "active:scale-95",
+      )}
       cursor={Cursors.POINTER}
       file
       onClicked={handleImageClick}

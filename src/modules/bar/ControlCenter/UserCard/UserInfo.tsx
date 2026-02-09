@@ -14,15 +14,15 @@ export default function UserInfo() {
       orientation={Orientation.VERTICAL}
       spacing={spacing("medium")}
     >
-      <box orientation={Orientation.VERTICAL}>
+      <box orientation={Orientation.VERTICAL} spacing={spacing("small")}>
         <label
-          class="font-bold text-md"
+          class="font-bold text-lg"
           halign={Align.START}
           label={USER_NAME}
           tooltipText={`${USER_NAME}@${HOST_NAME}`}
         />
         <label
-          class="font-semibold text-sm"
+          class="font-medium text-outline text-sm"
           halign={Align.START}
           label={uptime}
         />
