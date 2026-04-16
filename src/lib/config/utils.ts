@@ -1,0 +1,25 @@
+import { writeConfig } from "@/lib/config";
+import type { ValueOrUpdater } from "@/types/config";
+import type { ConfigKey, ConfigType } from "./schemas";
+
+const writeQueue = new Map<ConfigKey, ReturnType<typeof setTimeout>>();
+
+export const scheduleWrite = <K extends ConfigKey>(
+  key: K,
+  config: ConfigType<K>,
+  delay = 300,
+): void => {
+  const existing = writeQueue.get(key);
+  if (existing) clearTimeout(existing);
+
+  writeQueue.set(
+    key,
+    setTimeout(() => {
+      writeConfig(key, config);
+      writeQueue.delete(key);
+    }, delay),
+  );
+};
+
+export const resolveUpdater = <T>(value: ValueOrUpdater<T>, current: T): T =>
+  typeof value === "function" ? (value as (c: T) => T)(current) : value;

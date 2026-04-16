@@ -1,0 +1,17 @@
+{
+  "name": "leta-shell",
+  "type": "module",
+  "scripts": {
+    "dev": "ags run ."
+  },
+  "dependencies": {
+    "ags": "github:Aylur/ags",
+    "clsx": "^2.1.1",
+    "es-toolkit": "^1.45.1",
+    "tailwind2gtk": "github:raxxuy/tailwind2gtk",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.12"
+  }
+}
