@@ -5,7 +5,7 @@ import {
   schemaDefaults,
   schemas,
 } from "@/lib/config/schemas";
-import { buildPath, ensureDir, readFile, writeFile } from "@/utils";
+import { buildPath, ensureDir, readFile, writeFile } from "@/lib/fs";
 
 const getConfigPath = (key: ConfigKey): string =>
   buildPath(CONFIG_DIR, `${key}.json`);

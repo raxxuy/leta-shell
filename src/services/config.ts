@@ -14,7 +14,6 @@ import {
 } from "@/lib/config/schemas";
 import { resolveUpdater, scheduleWrite } from "@/lib/config/utils";
 import type { Get, Path, ValueOrUpdater } from "@/types/config";
-import { structuredClone } from "@/utils";
 import Service from "./base";
 
 @register({ GTypeName: "ConfigService" })
@@ -51,8 +50,8 @@ export default class ConfigService extends Service {
 
     if (Object.is(current, next)) return;
 
-    const updated = set(structuredClone(this.#configs[key]), path, next);
-    const parsed = schemas[key].parse(updated) as ConfigType<K>;
+    const updated = set({ ...this.#configs[key] }, path, next);
+    const parsed = schemas[key].parse(updated) as Configs[K];
 
     this.setConfigs({ ...this.#configs, [key]: parsed });
     scheduleWrite(key, parsed);
@@ -76,12 +75,12 @@ export default class ConfigService extends Service {
     this.#configs = configs;
   }
 
-  @monitor(
-    (_self: ConfigService) => CONFIG_DIR,
-    Gio.FileMonitorEvent.CHANGES_DONE_HINT,
-  )
+  @monitor(CONFIG_DIR, Gio.FileMonitorEvent.CHANGES_DONE_HINT)
   private onConfigChanged() {
     const reloaded = initConfigs();
+
+    if (JSON.stringify(reloaded) === JSON.stringify(this.#configs)) return;
+
     this.setConfigs(reloaded);
   }
 }

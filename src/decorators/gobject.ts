@@ -9,9 +9,11 @@ type Method<T extends GObject.Object, Args extends any[] = any[]> = (
 
 type NotifyProps<T> = Array<Extract<keyof T, string> | (string & {})>;
 
-type SignalOf<T extends GObject.Object> = T extends { $signals: infer S }
-  ? (keyof S & string) | `${string}::${string}`
-  : string;
+type KnownSignals<T> = T extends { $signals: infer S }
+  ? Extract<keyof S, string>
+  : never;
+
+type SignalOf<T> = KnownSignals<T> | (string & {});
 
 /**
  * Connects a signal handler to a signal on a target object.

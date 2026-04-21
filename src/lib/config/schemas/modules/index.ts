@@ -1,12 +1,16 @@
-import { z } from "zod";
+import z from "zod";
+import { CenterNotchSchema, centerNotchDefaults } from "./center-notch";
 import { ClockSchema, clockDefaults } from "./clock";
+import { WorkspaceSchema, workspaceDefaults } from "./workspaces";
 
-export const moduleConfigDefaults = {
+export const moduleSettingsDefaults = {
   clock: clockDefaults,
-};
+  workspaces: workspaceDefaults,
+  centerNotch: centerNotchDefaults,
+} as const;
 
-export const ModuleConfigSchema = z.object({
+export const ModuleSettingsSchema = z.object({
   clock: ClockSchema.default(clockDefaults),
+  workspaces: WorkspaceSchema.default(workspaceDefaults),
+  centerNotch: CenterNotchSchema.default(centerNotchDefaults),
 });
-
-export type ModuleConfig = z.infer<typeof ModuleConfigSchema>;

@@ -15,20 +15,3 @@ export type Get<T, P> = P extends `${infer K}.${infer Rest}`
   : P extends keyof T
     ? T[P]
     : never;
-
-export type JSONSchemaProperty = {
-  default?: unknown;
-  enum?: string[];
-  items?: JSONSchemaProperty;
-  maximum?: number;
-  minimum?: number;
-  properties?: Record<string, JSONSchemaProperty>;
-  required?: string[];
-  type: "string" | "number" | "boolean" | "array" | "object";
-};
-
-export type JSONSchemaObject = {
-  properties: Record<string, JSONSchemaProperty>;
-  required?: string[];
-  type: "object";
-};

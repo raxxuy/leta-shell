@@ -4,7 +4,7 @@ import type { Anchor } from "@/types/window";
 
 const { TOP, RIGHT, LEFT, BOTTOM, NONE } = WindowAnchor;
 
-export const ANCHORS_MAP: Record<Anchor, Astal.WindowAnchor> = {
+export const WINDOW_ANCHORS_MAP: Record<Anchor, Astal.WindowAnchor> = {
   none: NONE,
   top: TOP,
   left: LEFT,

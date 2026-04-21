@@ -1,0 +1,25 @@
+import { createComputed, createState } from "ags";
+import { timeout } from "ags/time";
+
+export function useSliderDrag(onRelease: (value: number) => void) {
+  const [isDragging, setIsDragging] = createState(false);
+  const [dragPosition, setDragPosition] = createState(0);
+
+  const displayPosition = (livePosition: () => number) =>
+    createComputed(() => (isDragging() ? dragPosition() : livePosition()));
+
+  const handleChange = ({ value }: { value: number }) => {
+    setDragPosition(Math.floor(value));
+  };
+
+  const handleDrag = () => {
+    if (isDragging.peek()) {
+      onRelease(dragPosition.peek());
+      timeout(100, () => setIsDragging(false));
+    } else {
+      setIsDragging(true);
+    }
+  };
+
+  return { displayPosition, handleChange, handleDrag };
+}

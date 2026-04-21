@@ -1,11 +1,13 @@
 import { Astal } from "ags/gtk4";
 import app from "ags/gtk4/app";
-import { ANCHORS_MAP } from "@/constants/window";
 import type { Anchor } from "@/types/window";
+import { WINDOW_ANCHORS_MAP } from "./constants";
 
-export const getAnchor = (anchor: Anchor | undefined): Astal.WindowAnchor =>
+export const resolveAnchor = (
+  anchor: Anchor | undefined,
+): Astal.WindowAnchor =>
   anchor
-    ? (ANCHORS_MAP[anchor] ?? Astal.WindowAnchor.NONE)
+    ? (WINDOW_ANCHORS_MAP[anchor] ?? Astal.WindowAnchor.NONE)
     : Astal.WindowAnchor.NONE;
 
 export const toggleWindow = (windowName: string): void => {

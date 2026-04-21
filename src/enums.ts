@@ -13,6 +13,7 @@ export const {
   Orientation,
   Overflow,
   PolicyType,
+  PositionType,
   PropagationLimit,
   PropagationPhase,
   RevealerTransitionType,
