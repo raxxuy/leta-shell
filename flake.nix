@@ -114,7 +114,7 @@
           options.programs.leta-shell.enable = lib.mkEnableOption "Leta Shell";
           config = lib.mkIf config.programs.leta-shell.enable {
             environment.systemPackages = [
-              self.packages.${pkgs.system}.default
+              self.packages.${pkgs.stdenv.hostPlatform.system}.default
               pkgs.dart-sass
             ];
           };
@@ -131,7 +131,7 @@
           options.programs.leta-shell.enable = lib.mkEnableOption "Leta Shell";
           config = lib.mkIf config.programs.leta-shell.enable {
             home.packages = [
-              self.packages.${pkgs.system}.default
+              self.packages.${pkgs.stdenv.hostPlatform.system}.default
               pkgs.dart-sass
             ];
           };
