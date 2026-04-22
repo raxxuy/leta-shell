@@ -57,29 +57,6 @@
           cp -r node_modules/* $out/node_modules
         '';
       };
-
-      module =
-        {
-          config,
-          lib,
-          pkgs,
-          ...
-        }:
-        {
-          options.programs.leta-shell.enable = lib.mkEnableOption "Leta Shell";
-
-          config = lib.mkIf config.programs.leta-shell.enable {
-            environment.systemPackages = lib.mkIf (config ? environment) [
-              self.packages.${pkgs.system}.default
-              pkgs.dart-sass
-            ];
-
-            home.packages = lib.mkIf (config ? home) [
-              self.packages.${pkgs.system}.default
-              pkgs.dart-sass
-            ];
-          };
-        };
     in
     {
       packages.${system} = {
@@ -126,7 +103,38 @@
         };
       };
 
-      nixosModules.default = module;
-      homeManagerModules.default = module;
+      nixosModules.default =
+        {
+          config,
+          lib,
+          pkgs,
+          ...
+        }:
+        {
+          options.programs.leta-shell.enable = lib.mkEnableOption "Leta Shell";
+          config = lib.mkIf config.programs.leta-shell.enable {
+            environment.systemPackages = [
+              self.packages.${pkgs.system}.default
+              pkgs.dart-sass
+            ];
+          };
+        };
+
+      homeManagerModules.default =
+        {
+          config,
+          lib,
+          pkgs,
+          ...
+        }:
+        {
+          options.programs.leta-shell.enable = lib.mkEnableOption "Leta Shell";
+          config = lib.mkIf config.programs.leta-shell.enable {
+            home.packages = [
+              self.packages.${pkgs.system}.default
+              pkgs.dart-sass
+            ];
+          };
+        };
     };
 }
