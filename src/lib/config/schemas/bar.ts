@@ -7,7 +7,7 @@ export const barDefaults = {
   layout: {
     left: ["workspaces"] as string[],
     center: ["center-notch"] as string[],
-    right: [] as string[],
+    right: ["clock"] as string[],
   },
   settings: moduleSettingsDefaults,
 } as const;

@@ -5,24 +5,6 @@
     font-family: "SF Pro Display";
 }
 
-@keyframes bounce-in {
-    0% {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-    70% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-.animate-bounce-in {
-    animation: bounce-in 250ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
 .playback-slider {
     background-color: rgba(white, 0.15);
     border-radius: 9999px;

@@ -21,7 +21,7 @@ export default function CovertArt() {
         return (
           <overlay class="m-1 shadow-lg">
             <Image
-              class="min-h-24 min-w-24 rounded-lg"
+              class="min-h-26 min-w-26 rounded-lg"
               overflow={Overflow.HIDDEN}
               src={artUrl}
             />

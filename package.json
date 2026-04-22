@@ -1,7 +1,7 @@
 {
   "name": "leta-shell",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "scripts": {
     "dev": "ags run .",
     "watch": "nodemon --watch . --ext ts,tsx,json,scss --exec \"pkill ags; npm run dev\""
@@ -9,7 +9,7 @@
   "dependencies": {
     "ags": "github:Aylur/ags",
     "clsx": "^2.1.1",
-    "es-toolkit": "^1.45.1",
+    "es-toolkit": "^1.46.0",
     "tailwind2gtk": "github:raxxuy/tailwind2gtk",
     "zod": "^4.3.6"
   },

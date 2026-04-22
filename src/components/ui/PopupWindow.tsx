@@ -1,82 +1,110 @@
-import { createState } from "ags";
-import { type Astal, Gtk } from "ags/gtk4";
+import { type CCProps, onMount } from "ags";
+import GObject from "ags/gobject";
+import { Astal, Gtk } from "ags/gtk4";
+import { RevealerTransitionType } from "@/enums";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useEscape } from "@/hooks/useEscape";
 import { createReactiveMemo } from "@/lib/reactive";
+import { resolveAnchor } from "@/lib/window";
 import type { Reactive } from "@/types/reactive";
 import type { Anchor } from "@/types/window";
-import Window from "./Window";
 
-type PopupWindowProps = Omit<JSX.IntrinsicElements["window"], "anchor"> & {
+/**
+ * {@link https://github.com/TheWolfStreet/ags2-shell/blob/main/widget/shared/PopupWindow.tsx}
+ *
+ * Thank you for this
+ */
+class PopupImpl extends Astal.Window {
+  revealer?: Gtk.Revealer;
+
+  override vfunc_show(): void {
+    super.vfunc_show();
+    this.revealer?.set_reveal_child(true);
+  }
+
+  override vfunc_hide(): void {
+    this.revealer?.set_reveal_child(false);
+  }
+
+  hide_super(): void {
+    super.vfunc_hide();
+  }
+}
+
+type PopupWindowProps = Omit<
+  CCProps<PopupImpl, Partial<PopupImpl>>,
+  "anchor" | "position"
+> & {
   anchor?: Reactive<Anchor>;
   position?: Reactive<"center" | "top" | "bottom">;
+  transitionType?: Reactive<Gtk.RevealerTransitionType>;
 };
+
+const Popup = GObject.registerClass(PopupImpl);
 
 const positions = {
   center: {
     halign: Gtk.Align.CENTER,
     valign: Gtk.Align.CENTER,
-    transition: Gtk.RevealerTransitionType.CROSSFADE,
   },
   top: {
     halign: Gtk.Align.CENTER,
     valign: Gtk.Align.START,
-    transition: Gtk.RevealerTransitionType.SLIDE_DOWN,
   },
   bottom: {
     halign: Gtk.Align.CENTER,
     valign: Gtk.Align.END,
-    transition: Gtk.RevealerTransitionType.SLIDE_UP,
   },
 } as const;
 
 export default function PopupWindow({
+  anchor: anchorProp,
   position = "center",
+  transitionType = RevealerTransitionType.CROSSFADE,
   children,
+  $,
   ...props
 }: PopupWindowProps) {
-  let winRef: Astal.Window;
-  let revealerRef: Gtk.Revealer;
+  const anchor = createReactiveMemo(anchorProp, resolveAnchor);
 
-  const [open, setOpen] = createState(false);
-  let bound = false;
+  let winRef: PopupImpl;
+  let revealerRef: Gtk.Revealer;
 
   const pos = createReactiveMemo(position, (p) => positions[p]);
   const halign = pos((p) => p.halign);
   const valign = pos((p) => p.valign);
-  const transition = pos((p) => p.transition);
 
   const bindControllers = () => {
-    if (!winRef || !revealerRef) return;
-    if (bound) return;
-
-    bound = true;
-
-    useEscape(winRef, () => setOpen(false));
-    useClickOutside(winRef, revealerRef, () => setOpen(false));
+    useEscape(winRef, () => winRef.hide());
+    useClickOutside(winRef, revealerRef, () => winRef.hide());
   };
 
   return (
-    <Window
-      $={(w) => {
-        winRef = w;
-        bindControllers();
+    <Popup
+      $={(self) => {
+        winRef = self;
+        $?.(self);
       }}
-      visible={open}
+      anchor={anchor}
       {...props}
     >
       <revealer
-        $={(r) => {
-          revealerRef = r;
-          bindControllers();
+        $={(self) => {
+          onMount(() => {
+            revealerRef = self;
+            winRef.revealer = self;
+            bindControllers();
+          });
         }}
-        revealChild={open}
-        transitionType={transition}
+        halign={halign}
+        onNotifyChildRevealed={(self) => {
+          if (!self.get_child_revealed()) winRef.hide_super();
+        }}
+        transitionType={transitionType}
+        valign={valign}
       >
-        <box halign={halign} valign={valign}>
-          {children}
-        </box>
+        {children}
       </revealer>
-    </Window>
+    </Popup>
   );
 }

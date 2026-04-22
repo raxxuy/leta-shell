@@ -1,6 +1,7 @@
 import app from "ags/gtk4/app";
 import style from "scss/index.scss";
 import { initCache } from "@/lib/cache";
+import { startSocket, stopSocket } from "@/lib/socket";
 import { applyTheme, getUsedClasses, setClasses } from "@/lib/theme";
 import ConfigService from "@/services/config";
 import MprisService from "@/services/mpris";
@@ -14,6 +15,9 @@ app.start({
   iconTheme: "custom",
   css: style,
   main() {
+    initCache();
+    startSocket();
+
     ConfigService.get_default();
     MprisService.get_default();
     WallpaperService.get_default().initMonitors(app.monitors);
@@ -24,15 +28,17 @@ app.start({
       WallpaperSelectorWindow(mon);
     });
 
-    initCache();
-
     applyTheme({
       setClasses,
       classes: getUsedClasses(app.windows),
     });
-  },
-});
 
-app.connect("notify::windows", () => {
-  setClasses(getUsedClasses(app.windows));
+    app.connect("notify::windows", () => {
+      setClasses(getUsedClasses(app.windows));
+    });
+
+    app.connect("shutdown", () => {
+      stopSocket();
+    });
+  },
 });

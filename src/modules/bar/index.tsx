@@ -1,4 +1,5 @@
 import CenterNotch from "./CenterNotch";
+import Clock from "./Clock";
 import Workspaces from "./Workspaces";
 
 export default function BarModule() {
@@ -11,7 +12,7 @@ export default function BarModule() {
         <CenterNotch />
       </box>
       <box $type="end">
-        <label label={"bye"} />
+        <Clock />
       </box>
     </centerbox>
   );

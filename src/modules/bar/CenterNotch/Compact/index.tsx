@@ -13,7 +13,7 @@ export default function Compact() {
   return (
     <With value={mode}>
       {(mode) => (
-        <box class="min-w-48" hexpand={false}>
+        <box class="min-w-4xs" hexpand={false}>
           {components[mode]()}
         </box>
       )}

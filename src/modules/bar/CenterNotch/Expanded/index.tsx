@@ -37,7 +37,7 @@ export default function Expanded() {
       <box class="mt-1" spacing={spacing.sm}>
         {modes.map((m) => (
           <button class={buttonClassName(m)} onClicked={() => selectMode(m)}>
-            <image iconName={icons[m]} pixelSize={pixelSize.sm} />
+            <image class="shadow-xl" iconName={icons[m]} pixelSize={pixelSize.sm} />
           </button>
         ))}
       </box>

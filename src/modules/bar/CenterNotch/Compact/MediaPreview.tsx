@@ -34,11 +34,7 @@ export default function MediaPreview() {
         const previewLabel = createComputed(() => `${title()} - ${artist()}`);
 
         return player ? (
-          <box
-            $={loadClasses(MediaPreview)}
-            class="min-w-48"
-            overflow={Overflow.HIDDEN}
-          >
+          <box $={loadClasses(MediaPreview)} overflow={Overflow.HIDDEN}>
             <Gtk.EventControllerScroll
               flags={EventControllerScrollFlags.VERTICAL}
               onScroll={onPlayerChanged}
