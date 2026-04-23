@@ -2,9 +2,10 @@ import app from "ags/gtk4/app";
 import style from "scss/index.scss";
 import { initCache } from "@/lib/cache";
 import { startSocket, stopSocket } from "@/lib/socket";
-import { applyTheme, getUsedClasses, setClasses } from "@/lib/theme";
+import { applyTheme } from "@/lib/theme";
 import ConfigService from "@/services/config";
 import MprisService from "@/services/mpris";
+import ThemeService from "@/services/theme";
 import WallpaperService from "@/services/wallpaper";
 import BarWindow from "@/windows/Bar";
 import WallpaperWindow from "@/windows/Wallpaper";
@@ -19,6 +20,7 @@ app.start({
     startSocket();
 
     ConfigService.get_default();
+    ThemeService.get_default();
     MprisService.get_default();
     WallpaperService.get_default().initMonitors(app.monitors);
 
@@ -28,14 +30,7 @@ app.start({
       WallpaperSelectorWindow(mon);
     });
 
-    applyTheme({
-      setClasses,
-      classes: getUsedClasses(app.windows),
-    });
-
-    app.connect("notify::windows", () => {
-      setClasses(getUsedClasses(app.windows));
-    });
+    applyTheme();
 
     app.connect("shutdown", () => {
       stopSocket();

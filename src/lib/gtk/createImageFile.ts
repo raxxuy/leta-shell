@@ -1,6 +1,6 @@
 import Gio from "gi://Gio";
 import { createMemo } from "ags";
-import { access } from "@/lib/reactive/access";
+import { access } from "@/lib/reactive";
 import type { Reactive } from "@/types/reactive";
 
 export const createImageFile = (

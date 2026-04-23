@@ -1,0 +1,8 @@
+[config]
+version_check = false
+prefer = "saturation"
+caching = false
+
+[templates.colors]
+input_path = "templates/colors.scss"
+output_path = "/colors.scss"

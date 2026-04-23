@@ -21,7 +21,7 @@ export default class ConfigService extends Service {
   private static instance: ConfigService;
 
   #configs: Configs = initConfigs();
-  #bindings = new Map<string, ReturnType<typeof createBinding>>();
+  #bindings = new Map<string, Accessor<unknown>>();
 
   static get_default(): ConfigService {
     if (!ConfigService.instance) ConfigService.instance = new ConfigService();
@@ -76,7 +76,7 @@ export default class ConfigService extends Service {
   }
 
   @monitor(CONFIG_DIR, Gio.FileMonitorEvent.CHANGES_DONE_HINT)
-  private onConfigChanged() {
+  protected onConfigChanged() {
     const reloaded = initConfigs();
 
     if (JSON.stringify(reloaded) === JSON.stringify(this.#configs)) return;

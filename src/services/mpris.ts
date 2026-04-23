@@ -11,36 +11,34 @@ export default class MprisService extends Service {
   #queue: AstalMpris.Player[] = [];
 
   static get_default(): MprisService {
-    if (!MprisService.instance) {
-      MprisService.instance = new MprisService();
-    }
+    if (!MprisService.instance) MprisService.instance = new MprisService();
     return MprisService.instance;
   }
 
   @getter(Array<AstalMpris.Player>)
-  get players() {
+  get players(): AstalMpris.Player[] {
     return this.#players;
   }
 
   @getter(Array<AstalMpris.Player>)
-  get queue() {
+  get queue(): AstalMpris.Player[] {
     return this.#queue;
   }
 
   @getter(AstalMpris.Player)
-  get active() {
+  get active(): AstalMpris.Player {
     return this.#queue[0] ?? null;
   }
 
   @emitNotify("queue", "active")
-  setActive(player: AstalMpris.Player) {
+  setActive(player: AstalMpris.Player): void {
     if (!this.#queue.includes(player)) return;
 
     this.#queue = [player, ...this.#queue.filter((p) => p !== player)];
   }
 
   @emitNotify("queue", "active")
-  next() {
+  next(): void {
     if (this.#queue.length === 0) return;
 
     const [first, ...rest] = this.#queue;
@@ -48,7 +46,7 @@ export default class MprisService extends Service {
   }
 
   @emitNotify("queue", "active")
-  previous() {
+  previous(): void {
     if (this.#queue.length === 0) return;
 
     const last = this.#queue[this.#queue.length - 1];
@@ -56,24 +54,30 @@ export default class MprisService extends Service {
   }
 
   @emitNotify("queue", "active")
-  private addPlayer(player: AstalMpris.Player) {
+  private addPlayer(player: AstalMpris.Player): void {
     this.#players.push(player);
     this.#queue.push(player);
   }
 
   @emitNotify("queue", "active")
-  private removePlayer(player: AstalMpris.Player) {
+  private removePlayer(player: AstalMpris.Player): void {
     this.#players = this.#players.filter((p) => p !== player);
     this.#queue = this.#queue.filter((p) => p !== player);
   }
 
   @connect("player-added", () => AstalMpris.get_default())
-  private onPlayerAdded(_: AstalMpris.Mpris, player: AstalMpris.Player) {
+  protected onPlayerAdded(
+    _: AstalMpris.Mpris,
+    player: AstalMpris.Player,
+  ): void {
     this.addPlayer(player);
   }
 
   @connect("player-closed", () => AstalMpris.get_default())
-  private onPlayerRemoved(_: AstalMpris.Mpris, player: AstalMpris.Player) {
+  protected onPlayerRemoved(
+    _: AstalMpris.Mpris,
+    player: AstalMpris.Player,
+  ): void {
     this.removePlayer(player);
   }
 }

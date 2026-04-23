@@ -23,14 +23,19 @@ export default function AudioVisualizer() {
 
   createEffect(() => {
     const player = activePlayer();
+    const status = () => createBinding(player, "playbackStatus")();
+    const playing = player && status() === AstalMpris.PlaybackStatus.PLAYING;
 
-    if (
-      !player ||
-      createBinding(player, "playbackStatus")() !==
-        AstalMpris.PlaybackStatus.PLAYING
-    ) {
+    if (!playing) {
       cava.active = false;
-      setValues(Array(barCount.peek()).fill(0));
+
+      const decay = setInterval(() => {
+        setValues((prev) => {
+          const next = prev.map((v) => (v <= 0.05 ? 0 : v * 0.6));
+          if (next.every((v) => v === 0)) clearInterval(decay);
+          return next;
+        });
+      }, 50);
     } else {
       cava.active = true;
     }

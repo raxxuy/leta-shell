@@ -16,7 +16,7 @@ export default function Workspaces() {
 
   return (
     <box
-      // class="rounded-lg border border-zinc-400 bg-zinc-700 p-3.5 shadow-lg"
+      class="rounded-lg bg-black px-3.5 shadow-lg"
       halign={Align.CENTER}
       spacing={spacing.sm}
     >

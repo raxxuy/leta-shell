@@ -18,18 +18,18 @@ export default class PictureService extends Service {
   }
 
   @getter(Array<string>)
-  get pictures() {
+  get pictures(): string[] {
     return this.#pictures;
   }
 
   @emitNotify("pictures")
-  private scanPictures() {
+  private scanPictures(): void {
     const pictures = listDir(PICTURES_DIR, true);
     if (pictures) this.#pictures = pictures;
   }
 
   @monitor(PICTURES_DIR)
-  private onPicturesChanged() {
+  protected onPicturesChanged(): void {
     this.scanPictures();
   }
 

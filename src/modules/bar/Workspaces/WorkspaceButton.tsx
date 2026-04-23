@@ -11,9 +11,9 @@ interface WorkspaceButtonProps {
 }
 
 const workspaceStateClasses = {
-  focused: "bg-blue-200 px-5 transform-[scaleY(1.3)]",
+  focused: "bg-(--primary) px-5 transform-[scaleY(1.3)]",
   occupied: "bg-zinc-100",
-  empty: "bg-black",
+  empty: "bg-black outline outline-zinc-600",
 } as const;
 
 const workspaceStateCursors = {

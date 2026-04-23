@@ -1,8 +1,9 @@
+import type GLib from "gi://GLib";
 import { writeConfig } from "@/lib/config";
 import type { ValueOrUpdater } from "@/types/config";
 import type { ConfigKey, Configs } from "./schemas";
 
-const writeQueue = new Map<ConfigKey, ReturnType<typeof setTimeout>>();
+const writeQueue = new Map<ConfigKey, GLib.Source>();
 
 export const scheduleWrite = <K extends ConfigKey>(
   key: K,

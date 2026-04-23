@@ -11,6 +11,7 @@ import {
 } from "@/constants";
 import { monitor } from "@/decorators/monitor";
 import { buildPath, ensureDir, fileExists } from "@/lib/fs";
+import { scaleCover } from "@/lib/gtk";
 import Service from "./base";
 import ConfigService from "./config";
 
@@ -28,17 +29,23 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
   #cache = new Map<string, string>();
 
   static get_default(): WallpaperService {
-    if (!WallpaperService.instance) {
+    if (!WallpaperService.instance)
       WallpaperService.instance = new WallpaperService();
-    }
     return WallpaperService.instance;
   }
 
-  @signal()
-  wallpaperChanged() {}
+  @signal(String, String, Boolean)
+  wallpaperChanged(_path: string, _hash: string, _global: boolean) {}
 
   private get wallpaperConfig() {
     return ConfigService.get_default().configs.wallpaper;
+  }
+
+  public getConstants() {
+    return {
+      THUMBNAIL_WIDTH: WallpaperService.THUMBNAIL_WIDTH,
+      THUMBNAIL_HEIGHT: WallpaperService.THUMBNAIL_HEIGHT,
+    };
   }
 
   public get(monitorId: string): string | null {
@@ -68,6 +75,8 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
   }
 
   public setWallpaper(monitorId: string, path: string): void {
+    const hash = this.hash(path);
+
     ConfigService.get_default().setValue(
       "wallpaper",
       "monitorWallpapers",
@@ -76,12 +85,14 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
         [monitorId]: path,
       }),
     );
-    this.emit("wallpaper-changed");
+    this.emit("wallpaper-changed", path, hash, false);
   }
 
   public setGlobalWallpaper(path: string): void {
+    const hash = this.hash(path);
+
     ConfigService.get_default().setValue("wallpaper", "globalWallpaper", path);
-    this.emit("wallpaper-changed");
+    this.emit("wallpaper-changed", path, hash, true);
   }
 
   public initMonitors(monitors: Gdk.Monitor[]): void {
@@ -109,17 +120,16 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
     return cfg.monitorWallpapers[monitorId] || cfg.globalWallpaper || null;
   }
 
+  private hash(path: string): string | null {
+    return GLib.compute_checksum_for_string(GLib.ChecksumType.SHA256, path, -1);
+  }
+
   private key(path: string, w: number, h: number): string {
     return `${path}:${w}x${h}`;
   }
 
   private buildCachedFile(path: string, w: number, h: number): string | null {
-    const hash = GLib.compute_checksum_for_string(
-      GLib.ChecksumType.SHA256,
-      path,
-      -1,
-    );
-
+    const hash = this.hash(path);
     if (!hash) return null;
 
     const originalFile = Gio.File.new_for_path(
@@ -134,29 +144,11 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
     ensureDir(resDir);
 
     const file = buildPath(resDir, `${hash}.png`);
-
     if (fileExists(file)) return file;
 
     const pixbuf = GdkPixbuf.Pixbuf.new_from_file(path);
 
-    const srcW = pixbuf.get_width();
-    const srcH = pixbuf.get_height();
-    const scale = Math.max(w / srcW, h / srcH);
-
-    const scaledW = Math.round(srcW * scale);
-    const scaledH = Math.round(srcH * scale);
-
-    const offsetX = Math.round((scaledW - w) / 2);
-    const offsetY = Math.round((scaledH - h) / 2);
-
-    const scaled = pixbuf.scale_simple(
-      scaledW,
-      scaledH,
-      GdkPixbuf.InterpType.BILINEAR,
-    );
-    if (!scaled) return null;
-
-    const cropped = scaled.new_subpixbuf(offsetX, offsetY, w, h);
+    const cropped = scaleCover(pixbuf, w, h);
     if (!cropped) return null;
 
     cropped.savev(file, "png", [], []);
@@ -168,7 +160,7 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
   }
 
   @monitor(CONFIG_DIR)
-  private onConfigChanged(): void {
+  protected onConfigChanged(): void {
     this.invalidate();
   }
 }

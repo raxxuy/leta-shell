@@ -33,11 +33,7 @@ export default function WallpaperSelectorModule({
           vscrollbarPolicy={PolicyType.NEVER}
           widthRequest={width * 0.95}
         >
-          <box
-            hexpand
-            spacing={spacing.xl}
-            valign={Align.CENTER}
-          >
+          <box hexpand spacing={spacing.xl} valign={Align.CENTER}>
             <For each={pictures}>
               {(picture) => (
                 <ThumbnailButton

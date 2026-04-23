@@ -1,7 +1,7 @@
 {
   "name": "leta-shell",
   "type": "module",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "scripts": {
     "dev": "ags run .",
     "watch": "nodemon --watch . --ext ts,tsx,json,scss --exec \"pkill ags; npm run dev\""

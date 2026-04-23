@@ -1,6 +1,6 @@
 import Gio from "gi://Gio";
 import GLib from "gi://GLib";
-import request from "@/lib/request";
+import request from "./request";
 
 const SOCKET_PATH = `${GLib.get_user_runtime_dir()}/leta-shell.sock`;
 
