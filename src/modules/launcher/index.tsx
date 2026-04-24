@@ -1,0 +1,72 @@
+import { For, onMount } from "ags";
+import type { Gdk, Gtk } from "ags/gtk4";
+import app from "ags/gtk4/app";
+import { Align, Orientation } from "@/enums";
+import { usePixelSize } from "@/hooks/services/config/usePixelSize";
+import { useSpacing } from "@/hooks/services/config/useSpacing";
+import { useLauncher } from "@/hooks/services/launcher/useLauncher";
+import LauncherItem from "./LauncherItem";
+
+interface LauncherModuleProps {
+  gdkmonitor: Gdk.Monitor;
+}
+
+export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
+  const spacing = useSpacing();
+  const pixelSize = usePixelSize();
+  const { results, clear, search } = useLauncher();
+  const { width } = gdkmonitor.geometry;
+
+  let entryRef: Gtk.Entry;
+
+  const resultsVisible = results((r) => r.length > 0);
+
+  return (
+    <box
+      $={() => {
+        onMount(() => {
+          const window = app.get_window("launcher");
+          window?.connect("notify::visible", () => {
+            if (window.visible) entryRef.grab_focus();
+            else {
+              entryRef.set_text("");
+              clear();
+            }
+          });
+        });
+      }}
+      class="rounded-2xl border border-white/8 bg-zinc-950/95 shadow-2xl"
+      halign={Align.CENTER}
+      orientation={Orientation.VERTICAL}
+      widthRequest={width * 0.28}
+    >
+      <box class="p-6" spacing={spacing.md} valign={Align.CENTER}>
+        <image
+          class="opacity-40"
+          iconName="search-md"
+          pixelSize={pixelSize.scale("sm", 1.25)}
+        />
+        <entry
+          $={(self) => (entryRef = self)}
+          class="launcher-entry text-lg"
+          hexpand
+          onActivate={() => results.peek()[0].activate()}
+          onNotifyText={(self) => search(self.text)}
+          placeholderText="Search for apps and commands..."
+        />
+      </box>
+      <box
+        class="mx-4 rounded-full border border-white/8"
+        visible={resultsVisible}
+      />
+      <box
+        class="my-2 px-4 pt-1 pb-2"
+        orientation={Orientation.VERTICAL}
+        spacing={spacing.xs}
+        visible={resultsVisible}
+      >
+        <For each={results}>{(result) => <LauncherItem result={result} />}</For>
+      </box>
+    </box>
+  );
+}

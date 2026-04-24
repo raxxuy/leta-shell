@@ -1,0 +1,54 @@
+import { getter, register } from "ags/gobject";
+import { emitNotify } from "@/decorators/gobject";
+import Service from "../base";
+import AppsProvider from "./providers/apps";
+import WebProvider from "./providers/web";
+import type { LauncherProvider, LauncherResult } from "./types";
+
+@register({ GTypeName: "LauncherService" })
+export default class LauncherService extends Service {
+  private static instance: LauncherService;
+
+  #providers: LauncherProvider[] = [];
+  #results: LauncherResult[] = [];
+
+  static get_default(): LauncherService {
+    if (!LauncherService.instance)
+      LauncherService.instance = new LauncherService();
+    return LauncherService.instance;
+  }
+
+  @getter(Array<LauncherResult>)
+  get results(): LauncherResult[] {
+    return this.#results;
+  }
+
+  search(query: string): void {
+    if (!query.trim()) {
+      this.clear();
+      return;
+    }
+
+    const results = this.#providers
+      .slice()
+      .sort((a, b) => a.priority - b.priority)
+      .filter((provider) => provider.shouldSearch(query))
+      .flatMap((provider) => provider.search(query));
+
+    this.setResults(results);
+  }
+
+  clear(): void {
+    this.setResults([]);
+  }
+
+  @emitNotify("results")
+  private setResults(results: LauncherResult[]): void {
+    this.#results = results;
+  }
+
+  constructor() {
+    super();
+    this.#providers = [new AppsProvider(), new WebProvider()];
+  }
+}

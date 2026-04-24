@@ -1,7 +1,7 @@
 import { With } from "ags";
 import { Orientation } from "@/enums";
-import { useActivePlayer } from "@/hooks/useActivePlayer";
-import { useSpacing } from "@/hooks/useSpacing";
+import { useSpacing } from "@/hooks/services/config/useSpacing";
+import { useActivePlayer } from "@/hooks/services/mpris/useActivePlayer";
 import { PlaybackButtons } from "./PlaybackButtons";
 import { PlaybackSlider } from "./PlaybackSlider";
 import PlaybackTime from "./PlaybackTime";

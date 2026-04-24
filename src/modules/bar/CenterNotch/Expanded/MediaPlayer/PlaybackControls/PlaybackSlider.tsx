@@ -1,7 +1,7 @@
 import type AstalMpris from "gi://AstalMpris";
 import { Orientation } from "@/enums";
-import { usePlayback } from "@/hooks/usePlayback";
-import { useSliderDrag } from "@/hooks/useSliderDrag";
+import { usePlayback } from "@/hooks/services/mpris/usePlayback";
+import { useSliderDrag } from "@/hooks/ui/useSliderDrag";
 
 interface PlaybackSliderProps {
   player: AstalMpris.Player;

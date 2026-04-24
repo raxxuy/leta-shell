@@ -8,6 +8,7 @@ import MprisService from "@/services/mpris";
 import ThemeService from "@/services/theme";
 import WallpaperService from "@/services/wallpaper";
 import BarWindow from "@/windows/Bar";
+import LauncherWindow from "@/windows/Launcher";
 import WallpaperWindow from "@/windows/Wallpaper";
 import WallpaperSelectorWindow from "@/windows/WallpaperSelector";
 
@@ -26,6 +27,7 @@ app.start({
 
     app.monitors.forEach((mon) => {
       BarWindow(mon);
+      LauncherWindow(mon);
       WallpaperWindow(mon);
       WallpaperSelectorWindow(mon);
     });

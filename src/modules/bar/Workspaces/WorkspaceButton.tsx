@@ -3,7 +3,7 @@ import { createComputed } from "ags";
 import clsx from "clsx/lite";
 import { Cursor } from "@/constants";
 import { Align } from "@/enums";
-import { useWorkspaceState } from "@/hooks/useWorkspaceState";
+import { useWorkspaceState } from "@/hooks/hyprland/useWorkspaceState";
 import { loadClasses } from "@/lib/theme";
 
 interface WorkspaceButtonProps {

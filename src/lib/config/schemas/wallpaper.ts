@@ -7,7 +7,7 @@ export const wallpaperDefaults = {
   monitorWallpapers: {} as Record<string, string>,
 } as const;
 
-export const wallpaperSchema = z.object({
+export const WallpaperSchema = z.object({
   enabled: z.boolean().default(wallpaperDefaults.enabled),
   useGlobal: z.boolean().default(wallpaperDefaults.useGlobal),
   globalWallpaper: z.string().default(wallpaperDefaults.globalWallpaper),
@@ -16,4 +16,4 @@ export const wallpaperSchema = z.object({
     .default(wallpaperDefaults.monitorWallpapers),
 });
 
-export type WallpaperConfig = z.infer<typeof wallpaperSchema>;
+export type WallpaperConfig = z.infer<typeof WallpaperSchema>;

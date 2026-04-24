@@ -12,6 +12,7 @@ import {
 import { monitor } from "@/decorators/monitor";
 import { buildPath, ensureDir, fileExists } from "@/lib/fs";
 import { scaleCover } from "@/lib/gtk";
+import type { WallpaperConfig } from "@/schemas/wallpaper";
 import Service from "./base";
 import ConfigService from "./config";
 
@@ -37,15 +38,8 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
   @signal(String, String, Boolean)
   wallpaperChanged(_path: string, _hash: string, _global: boolean) {}
 
-  private get wallpaperConfig() {
+  private get wallpaperConfig(): WallpaperConfig {
     return ConfigService.get_default().configs.wallpaper;
-  }
-
-  public getConstants() {
-    return {
-      THUMBNAIL_WIDTH: WallpaperService.THUMBNAIL_WIDTH,
-      THUMBNAIL_HEIGHT: WallpaperService.THUMBNAIL_HEIGHT,
-    };
   }
 
   public get(monitorId: string): string | null {
@@ -75,6 +69,8 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
   }
 
   public setWallpaper(monitorId: string, path: string): void {
+    if (!this.wallpaperConfig.enabled) return;
+
     const hash = this.hash(path);
 
     ConfigService.get_default().setValue(
@@ -89,6 +85,8 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
   }
 
   public setGlobalWallpaper(path: string): void {
+    if (!this.wallpaperConfig.enabled) return;
+
     const hash = this.hash(path);
 
     ConfigService.get_default().setValue("wallpaper", "globalWallpaper", path);

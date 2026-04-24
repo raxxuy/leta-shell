@@ -2,9 +2,9 @@ import AstalCava from "gi://AstalCava";
 import AstalMpris from "gi://AstalMpris";
 import { createBinding, createEffect, createState, onCleanup, With } from "ags";
 import { Align, Orientation } from "@/enums";
-import { useActivePlayer } from "@/hooks/useActivePlayer";
-import { useConfig } from "@/hooks/useConfig";
-import { useSpacing } from "@/hooks/useSpacing";
+import { useConfig } from "@/hooks/services/config/useConfig";
+import { useSpacing } from "@/hooks/services/config/useSpacing";
+import { useActivePlayer } from "@/hooks/services/mpris/useActivePlayer";
 
 export default function AudioVisualizer() {
   const spacing = useSpacing();

@@ -1,6 +1,6 @@
 import { createMemo, createState, onCleanup } from "ags";
 import { interval } from "ags/time";
-import { useConfig } from "@/hooks/useConfig";
+import { useConfig } from "@/hooks/services/config/useConfig";
 import { now } from "@/lib/time/now";
 
 export default function Clock() {
@@ -16,5 +16,5 @@ export default function Clock() {
 
   onCleanup(() => clockInterval.cancel());
 
-  return <label class="font-bold text-sm" label={time(String)} />;
+  return <label class="font-bold text-base" label={time(String)} />;
 }

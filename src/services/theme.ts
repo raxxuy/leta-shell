@@ -1,5 +1,5 @@
 import { register } from "ags/gobject";
-import { CACHE_SCSS_DIR, CACHE_THEMES_DIR } from "@/constants";
+import { CACHE_COLORS_FILE, CACHE_THEMES_DIR } from "@/constants";
 import { connect } from "@/decorators/gobject";
 import { buildPath, dirExists, ensureDir } from "@/lib/fs";
 import { exec } from "@/lib/process";
@@ -33,9 +33,7 @@ export default class ThemeService extends Service {
   }
 
   private async applyColors(themeDir: string): Promise<void> {
-    await exec(
-      `cp ${buildPath(themeDir, "colors.scss")} ${buildPath(CACHE_SCSS_DIR, "colors.scss")}`,
-    );
+    await exec(`cp ${buildPath(themeDir, "colors.scss")} ${CACHE_COLORS_FILE}`);
   }
 
   @connect("wallpaper-changed", () => WallpaperService.get_default())

@@ -2,8 +2,8 @@ import { type CCProps, onMount } from "ags";
 import GObject from "ags/gobject";
 import { Astal, Gtk } from "ags/gtk4";
 import { RevealerTransitionType } from "@/enums";
-import { useClickOutside } from "@/hooks/useClickOutside";
-import { useEscape } from "@/hooks/useEscape";
+import { useClickOutside } from "@/hooks/ui/useClickOutside";
+import { useEscape } from "@/hooks/ui/useEscape";
 import { createReactiveMemo } from "@/lib/reactive";
 import { resolveAnchor } from "@/lib/window";
 import type { Reactive } from "@/types/reactive";
@@ -28,6 +28,7 @@ class PopupImpl extends Astal.Window {
 
   hide_super(): void {
     super.vfunc_hide();
+    this.notify("visible");
   }
 }
 
@@ -38,6 +39,7 @@ type PopupWindowProps = Omit<
   anchor?: Reactive<Anchor>;
   position?: Reactive<"center" | "top" | "bottom">;
   transitionType?: Reactive<Gtk.RevealerTransitionType>;
+  transitionDuration?: Reactive<number>;
 };
 
 const Popup = GObject.registerClass(PopupImpl);
@@ -61,6 +63,7 @@ export default function PopupWindow({
   anchor: anchorProp,
   position = "center",
   transitionType = RevealerTransitionType.CROSSFADE,
+  transitionDuration = 200,
   children,
   $,
   ...props
@@ -100,6 +103,7 @@ export default function PopupWindow({
         onNotifyChildRevealed={(self) => {
           if (!self.get_child_revealed()) winRef.hide_super();
         }}
+        transitionDuration={transitionDuration}
         transitionType={transitionType}
         valign={valign}
       >

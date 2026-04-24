@@ -1,4 +1,4 @@
-import { useConfig } from "@/hooks/useConfig";
+import { useConfig } from "@/hooks/services/config/useConfig";
 import { CenterNotchModeEnum } from "@/schemas/modules/center-notch";
 
 export function useCenterNotchMode() {

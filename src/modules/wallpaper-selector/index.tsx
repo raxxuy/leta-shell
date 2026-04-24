@@ -1,8 +1,8 @@
 import { For } from "ags";
 import type { Gdk } from "ags/gtk4";
 import { Align, PolicyType } from "@/enums";
-import { usePictures } from "@/hooks/usePictures";
-import { useSpacing } from "@/hooks/useSpacing";
+import { useSpacing } from "@/hooks/services/config/useSpacing";
+import { usePictures } from "@/hooks/services/pictures/usePictures";
 import WallpaperService from "@/services/wallpaper";
 import ThumbnailButton from "./ThumbnailButton";
 
@@ -16,7 +16,7 @@ export default function WallpaperSelectorModule({
   const spacing = useSpacing();
   const pictures = usePictures();
   const wallpaperService = WallpaperService.get_default();
-  const { width } = gdkmonitor.get_geometry();
+  const { width } = gdkmonitor.geometry;
 
   const onWallpaperSelected = (picture: string) => {
     wallpaperService.setWallpaper(gdkmonitor.connector, picture);
@@ -24,7 +24,7 @@ export default function WallpaperSelectorModule({
 
   return (
     <box class="mx-4 my-2">
-      <box class="rounded-2xl border border-blue-400/20 bg-black p-3 shadow-md">
+      <box class="rounded-2xl border border-blue-400/20 bg-zinc-950/95 p-3 shadow-md">
         <scrolledwindow
           class="rounded-xl"
           heightRequest={240}

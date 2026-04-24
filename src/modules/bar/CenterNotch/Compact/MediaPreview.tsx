@@ -6,8 +6,8 @@ import {
   EventControllerScrollFlags,
   Overflow,
 } from "@/enums";
-import { useActivePlayer } from "@/hooks/useActivePlayer";
-import { useScrollLock } from "@/hooks/useScrollLock";
+import { useActivePlayer } from "@/hooks/services/mpris/useActivePlayer";
+import { useScrollLock } from "@/hooks/ui/useScrollLock";
 import { loadClasses } from "@/lib/theme";
 import MprisService from "@/services/mpris";
 

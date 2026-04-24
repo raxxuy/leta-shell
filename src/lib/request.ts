@@ -3,7 +3,7 @@ import { toggleWindow } from "./window";
 
 type RequestHandler = (args: string[], response: (msg: string) => void) => void;
 
-const validWindows = ["wallpaper-selector"];
+const validWindows = ["launcher", "wallpaper-selector"];
 
 const handlers: Record<string, RequestHandler> = {
   quit: (_, response) => {

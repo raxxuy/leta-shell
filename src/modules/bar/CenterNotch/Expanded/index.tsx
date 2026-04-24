@@ -1,9 +1,9 @@
 import { With } from "ags";
 import clsx from "clsx/lite";
 import { Orientation } from "@/enums";
+import { usePixelSize } from "@/hooks/services/config/usePixelSize";
+import { useSpacing } from "@/hooks/services/config/useSpacing";
 import { useCenterNotchMode } from "@/hooks/useCenterNotchMode";
-import { usePixelSize } from "@/hooks/usePixelSize";
-import { useSpacing } from "@/hooks/useSpacing";
 import MediaPlayer from "./MediaPlayer";
 
 const components = {

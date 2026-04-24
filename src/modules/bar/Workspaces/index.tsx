@@ -2,8 +2,8 @@ import AstalHyprland from "gi://AstalHyprland";
 import { For } from "ags";
 import { range } from "es-toolkit";
 import { Align } from "@/enums";
-import { useConfig } from "@/hooks/useConfig";
-import { useSpacing } from "@/hooks/useSpacing";
+import { useConfig } from "@/hooks/services/config/useConfig";
+import { useSpacing } from "@/hooks/services/config/useSpacing";
 import WorkspaceButton from "./WorkspaceButton";
 
 export default function Workspaces() {
@@ -15,11 +15,7 @@ export default function Workspaces() {
   );
 
   return (
-    <box
-      class="rounded-lg bg-black px-3.5 shadow-lg"
-      halign={Align.CENTER}
-      spacing={spacing.sm}
-    >
+    <box halign={Align.CENTER} spacing={spacing.sm}>
       <For each={workspaces}>
         {(workspace) => <WorkspaceButton workspace={workspace} />}
       </For>

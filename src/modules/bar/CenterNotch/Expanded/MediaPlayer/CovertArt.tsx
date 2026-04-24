@@ -1,9 +1,9 @@
 import { createBinding, With } from "ags";
 import Image from "@/components/ui/Image";
 import { Align, Overflow } from "@/enums";
-import { useActivePlayer } from "@/hooks/useActivePlayer";
+import { usePixelSize } from "@/hooks/services/config/usePixelSize";
+import { useActivePlayer } from "@/hooks/services/mpris/useActivePlayer";
 import { useAppQuery } from "@/hooks/useAppQuery";
-import { usePixelSize } from "@/hooks/usePixelSize";
 
 export default function CovertArt() {
   const pixelSize = usePixelSize();

@@ -1,6 +1,6 @@
 import { createBinding, With } from "ags";
 import { Orientation } from "@/enums";
-import { useActivePlayer } from "@/hooks/useActivePlayer";
+import { useActivePlayer } from "@/hooks/services/mpris/useActivePlayer";
 
 export default function TrackInfo() {
   const activePlayer = useActivePlayer();

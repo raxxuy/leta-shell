@@ -2,9 +2,21 @@
 Name=leta
 Comment=Leta-shell icon theme
 Inherits=Adwaita
-Directories=scalable/actions
+Directories=scalable/general,scalable/media,scalable/navigation
 
-[scalable/actions]
+[scalable/general]
+Size=16
+MinSize=16
+MaxSize=512
+Type=Scalable
+
+[scalable/media]
+Size=16
+MinSize=16
+MaxSize=512
+Type=Scalable
+
+[scalable/navigation]
 Size=16
 MinSize=16
 MaxSize=512

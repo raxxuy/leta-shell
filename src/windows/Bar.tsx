@@ -2,7 +2,7 @@ import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import Window from "@/components/ui/Window";
 import { Exclusivity } from "@/enums";
-import { useConfig } from "@/hooks/useConfig";
+import { useConfig } from "@/hooks/services/config/useConfig";
 import BarModule from "@/modules/bar";
 
 export default function BarWindow(gdkmonitor: Gdk.Monitor) {
