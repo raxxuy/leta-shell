@@ -16,7 +16,7 @@ export default function LauncherItem({ result }: LauncherItemProps) {
     <button
       $={loadClasses(LauncherItem)}
       class="rounded-lg px-3 py-2 transition-colors hover:bg-white/5 focus:bg-white/8 active:bg-white/10"
-      heightRequest={48}
+      heightRequest={54}
       onActivate={result.activate}
     >
       <box spacing={spacing.md} valign={Align.CENTER}>
@@ -30,6 +30,7 @@ export default function LauncherItem({ result }: LauncherItemProps) {
             class="font-semibold text-base"
             halign={Align.START}
             label={result.label}
+            xalign={0}
           />
           {result.description && (
             <label
@@ -38,6 +39,7 @@ export default function LauncherItem({ result }: LauncherItemProps) {
               halign={Align.START}
               label={result.description}
               maxWidthChars={56}
+              xalign={0}
             />
           )}
         </box>

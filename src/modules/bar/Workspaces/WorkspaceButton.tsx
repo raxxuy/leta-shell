@@ -3,7 +3,7 @@ import { createComputed } from "ags";
 import clsx from "clsx/lite";
 import { Cursor } from "@/constants";
 import { Align } from "@/enums";
-import { useWorkspaceState } from "@/hooks/hyprland/useWorkspaceState";
+import { useWorkspaceState } from "@/hooks/astal/hyprland/useWorkspaceState";
 import { loadClasses } from "@/lib/theme";
 
 interface WorkspaceButtonProps {
@@ -12,8 +12,8 @@ interface WorkspaceButtonProps {
 
 const workspaceStateClasses = {
   focused: "bg-(--primary) px-5 transform-[scaleY(1.3)]",
-  occupied: "bg-zinc-100",
-  empty: "bg-black outline outline-zinc-600",
+  occupied: "bg-(--primary)/60",
+  empty: "bg-(--primary)/20",
 } as const;
 
 const workspaceStateCursors = {

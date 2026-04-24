@@ -6,6 +6,29 @@
     font-family: "SF Pro Display";
 }
 
+@keyframes popin {
+    0% {
+        transform: scale(0);
+    }
+    80% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+tooltip {
+    margin: 5px 10px 15px;
+    border-radius: var(--radius-lg);
+    padding: 0.5rem 1rem;
+    background-color: color-mix(
+        in oklch,
+        var(--color-zinc-950) 95%,
+        transparent
+    );
+}
+
 .playback-slider {
     background-color: rgba(white, 0.15);
     border-radius: 9999px;
@@ -33,5 +56,71 @@
 
     placeholder {
         opacity: 0.8;
+    }
+}
+
+.tray-item {
+    &:checked {
+        popover scrolledwindow {
+            animation: popin 150ms var(--ease-in-out) forwards;
+        }
+    }
+
+    popover {
+        transition-property: transform;
+        transition-timing-function: var(--default-transition-timing-function);
+        transition-duration: var(--default-transition-duration);
+        margin-top: -0.25rem;
+
+        scrolledwindow {
+            margin: 5px 10px 15px;
+            border-radius: var(--radius-2xl);
+            border-width: 1px;
+            border-style: solid;
+            border-color: color-mix(in oklch, var(--tertiary) 20%, transparent);
+            background-color: color-mix(
+                in oklch,
+                var(--color-zinc-950) 95%,
+                transparent
+            );
+            padding: 0.75rem;
+            padding-bottom: 0.25rem;
+            box-shadow: var(--shadow-md);
+
+            box {
+                > modelbutton {
+                    border-radius: var(--radius-lg);
+                    padding: 0.25rem 0.5rem;
+                    transition-property:
+                        color, background-color, border-color,
+                        text-decoration-color, fill, stroke;
+                    transition-timing-function: var(
+                        --default-transition-timing-function
+                    );
+                    transition-duration: var(--default-transition-duration);
+                    margin-bottom: 0.5rem;
+
+                    &:hover {
+                        background-color: var(--color-zinc-800);
+                    }
+
+                    &:focus {
+                        background-color: var(--color-zinc-800);
+                    }
+
+                    &:active {
+                        background-color: var(--color-zinc-700);
+                    }
+
+                    > label {
+                        color: var(--color-zinc-100);
+
+                        &:disabled {
+                            color: var(--color-zinc-400);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

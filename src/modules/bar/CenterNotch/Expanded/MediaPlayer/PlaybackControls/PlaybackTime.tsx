@@ -10,8 +10,8 @@ interface PlaybackTimeProps {
 export default function PlaybackTime({ player }: PlaybackTimeProps) {
   const { length, position } = usePlayback(player);
 
-  const formattedLength = length((s) => formatDuration(s));
-  const formattedPosition = position((s) => formatDuration(s));
+  const formattedLength = length((l) => formatDuration(l));
+  const formattedPosition = position((p) => formatDuration(p));
 
   return (
     <box hexpand>

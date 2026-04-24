@@ -8,7 +8,6 @@ import {
 } from "@/enums";
 import { useActivePlayer } from "@/hooks/services/mpris/useActivePlayer";
 import { useScrollLock } from "@/hooks/ui/useScrollLock";
-import { loadClasses } from "@/lib/theme";
 import MprisService from "@/services/mpris";
 
 export default function MediaPreview() {
@@ -34,7 +33,7 @@ export default function MediaPreview() {
         const previewLabel = createComputed(() => `${title()} - ${artist()}`);
 
         return player ? (
-          <box $={loadClasses(MediaPreview)} overflow={Overflow.HIDDEN}>
+          <box overflow={Overflow.HIDDEN}>
             <Gtk.EventControllerScroll
               flags={EventControllerScrollFlags.VERTICAL}
               onScroll={onPlayerChanged}

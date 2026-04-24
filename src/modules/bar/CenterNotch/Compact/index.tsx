@@ -1,5 +1,5 @@
 import { With } from "ags";
-import { useCenterNotchMode } from "@/hooks/useCenterNotchMode";
+import { useCenterNotchMode } from "@/hooks/services/config/useCenterNotchMode";
 import MediaPreview from "./MediaPreview";
 
 const components = {

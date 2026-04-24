@@ -35,10 +35,10 @@ export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
           });
         });
       }}
-      class="rounded-2xl border border-white/8 bg-zinc-950/95 shadow-2xl"
+      class="m-[5px_10px_15px] rounded-2xl border border-(--tertiary)/20 bg-zinc-950/95 shadow-lg"
       halign={Align.CENTER}
       orientation={Orientation.VERTICAL}
-      widthRequest={width * 0.28}
+      widthRequest={width * 0.29}
     >
       <box class="p-6" spacing={spacing.md} valign={Align.CENTER}>
         <image

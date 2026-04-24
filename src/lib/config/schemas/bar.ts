@@ -14,7 +14,7 @@ export const barDefaults = {
 
 export const BarSchema = z.object({
   position: z.enum(["top", "bottom"]).default(barDefaults.position),
-  height: z.number().int().min(1).default(barDefaults.height),
+  height: z.number().int().min(38).default(barDefaults.height),
   layout: z.object({
     left: z.array(z.string()).default(barDefaults.layout.left).readonly(),
     center: z.array(z.string()).default(barDefaults.layout.center).readonly(),

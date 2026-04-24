@@ -23,10 +23,10 @@ export default function WallpaperSelectorModule({
   };
 
   return (
-    <box class="mx-4 my-2">
-      <box class="rounded-2xl border border-blue-400/20 bg-zinc-950/95 p-3 shadow-md">
+    <box class="m-[5px_10px_15px]">
+      <box class="rounded-2xl border border-(--tertiary)/20 bg-zinc-950/95 p-4 shadow-lg">
         <scrolledwindow
-          class="rounded-xl"
+          class="rounded-2xl"
           heightRequest={240}
           hscrollbarPolicy={PolicyType.EXTERNAL}
           kineticScrolling

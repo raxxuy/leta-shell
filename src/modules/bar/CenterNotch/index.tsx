@@ -2,7 +2,7 @@ import { createState } from "ags";
 import { Gtk } from "ags/gtk4";
 import clsx from "clsx/lite";
 import { Cursor } from "@/constants";
-import { useCenterNotchMode } from "@/hooks/useCenterNotchMode";
+import { useCenterNotchMode } from "@/hooks/services/config/useCenterNotchMode";
 import { loadClasses } from "@/lib/theme";
 import Compact from "./Compact";
 import Expanded from "./Expanded";
@@ -15,7 +15,7 @@ export default function CenterNotch() {
   const className = open((o) =>
     clsx(
       "my-1 rounded-lg bg-zinc-950/95 px-4 py-2 transition-all hover:px-6 shadow-lg",
-      o && "transform-[scale(0.01)]",
+      o && "transform-[scale(0.001)] shadow-none",
     ),
   );
 
@@ -34,7 +34,7 @@ export default function CenterNotch() {
       <menubutton cursor={Cursor.POINTER}>
         <Compact />
         <popover
-          class="mx-1 mb-1 rounded-xl bg-zinc-950/95 p-4 shadow-lg transition-all"
+          class="m-[5px_10px_15px] rounded-2xl bg-zinc-950/95 p-4 shadow-md"
           hasArrow={false}
           onNotifyVisible={(self) => setOpen(self.visible)}
         >

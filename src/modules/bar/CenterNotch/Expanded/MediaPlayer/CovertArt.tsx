@@ -3,7 +3,7 @@ import Image from "@/components/ui/Image";
 import { Align, Overflow } from "@/enums";
 import { usePixelSize } from "@/hooks/services/config/usePixelSize";
 import { useActivePlayer } from "@/hooks/services/mpris/useActivePlayer";
-import { useAppQuery } from "@/hooks/useAppQuery";
+import { useAppQuery } from "@/hooks/astal/useAppQuery";
 
 export default function CovertArt() {
   const pixelSize = usePixelSize();
@@ -27,7 +27,7 @@ export default function CovertArt() {
             />
             <image
               $type="overlay"
-              class="-mr-1 -mb-1 shadow-xl"
+              class="-mr-1 -mb-1 shadow-md"
               halign={Align.END}
               iconName={app.iconName}
               pixelSize={pixelSize.md}

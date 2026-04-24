@@ -1,7 +1,7 @@
 import { useConfig } from "@/hooks/services/config/useConfig";
 import { CenterNotchModeEnum } from "@/schemas/modules/center-notch";
 
-export function useCenterNotchMode() {
+export const useCenterNotchMode = () => {
   const [mode, setMode] = useConfig("bar", "settings.centerNotch.mode");
   const modes = CenterNotchModeEnum.options;
 
@@ -14,4 +14,4 @@ export function useCenterNotchMode() {
   const selectMode = (mode: (typeof modes)[number]) => setMode(mode);
 
   return { mode, setMode, switchMode, selectMode, modes };
-}
+};
