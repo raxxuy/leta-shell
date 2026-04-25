@@ -30,6 +30,7 @@
         apps
         cava
         tray
+        notifd
       ];
 
       extraPackages = astalPackages ++ [

@@ -50,6 +50,7 @@ export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
           $={(self) => (entryRef = self)}
           class="launcher-entry text-lg"
           hexpand
+          maxLength={26}
           onActivate={() => results.peek()[0].activate()}
           onNotifyText={(self) => search(self.text)}
           placeholderText="Search for apps and commands..."

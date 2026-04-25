@@ -11,6 +11,10 @@ export const usePlayback = (player: AstalMpris.Player) => {
   const length = createBinding(player, "length")(Math.floor);
   const position = createBinding(player, "position")(Math.floor);
   const playbackStatus = createBinding(player, "playbackStatus");
-  const playbackIcon = playbackStatus((status) => playbackIcons[status]);
-  return { length, position, playbackIcon };
+
+  return {
+    length,
+    position,
+    playbackIcon: playbackStatus((status) => playbackIcons[status]),
+  };
 };

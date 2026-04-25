@@ -1,13 +1,13 @@
 import { type CCProps, onMount } from "ags";
 import GObject from "ags/gobject";
-import { Astal, Gtk } from "ags/gtk4";
+import { Astal, type Gtk } from "ags/gtk4";
 import { RevealerTransitionType } from "@/enums";
 import { useClickOutside } from "@/hooks/ui/useClickOutside";
 import { useEscape } from "@/hooks/ui/useEscape";
-import { createReactiveMemo } from "@/lib/reactive";
-import { resolveAnchor } from "@/lib/window";
+import { access, createReactiveMemo } from "@/lib/reactive";
+import { positions, resolveAnchor } from "@/lib/window";
 import type { Reactive } from "@/types/reactive";
-import type { Anchor } from "@/types/window";
+import type { Anchor, PositionKey } from "@/types/window";
 
 /**
  * {@link https://github.com/TheWolfStreet/ags2-shell/blob/main/widget/shared/PopupWindow.tsx}
@@ -34,36 +34,24 @@ class PopupImpl extends Astal.Window {
 
 type PopupWindowProps = Omit<
   CCProps<PopupImpl, Partial<PopupImpl>>,
-  "anchor" | "position"
+  "anchor"
 > & {
   anchor?: Reactive<Anchor>;
-  position?: Reactive<"center" | "top" | "bottom">;
+  position?: Reactive<PositionKey>;
   transitionType?: Reactive<Gtk.RevealerTransitionType>;
   transitionDuration?: Reactive<number>;
+  clickOutside?: Reactive<boolean>;
+  escape?: Reactive<boolean>;
 };
 
 const Popup = GObject.registerClass(PopupImpl);
-
-const positions = {
-  center: {
-    halign: Gtk.Align.CENTER,
-    valign: Gtk.Align.CENTER,
-  },
-  top: {
-    halign: Gtk.Align.CENTER,
-    valign: Gtk.Align.START,
-  },
-  bottom: {
-    halign: Gtk.Align.CENTER,
-    valign: Gtk.Align.END,
-  },
-} as const;
 
 export default function PopupWindow({
   anchor: anchorProp,
   position = "center",
   transitionType = RevealerTransitionType.CROSSFADE,
   transitionDuration = 200,
+  clickOutside: clickOutsideProp = true,
   children,
   $,
   ...props
@@ -78,8 +66,10 @@ export default function PopupWindow({
   const valign = pos((p) => p.valign);
 
   const bindControllers = () => {
+    const clickOutside = access(clickOutsideProp);
+
     useEscape(winRef, () => winRef.hide());
-    useClickOutside(winRef, revealerRef, () => winRef.hide());
+    if (clickOutside) useClickOutside(winRef, revealerRef, () => winRef.hide());
   };
 
   return (

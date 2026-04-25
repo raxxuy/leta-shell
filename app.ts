@@ -9,6 +9,7 @@ import ThemeService from "@/services/theme";
 import WallpaperService from "@/services/wallpaper";
 import BarWindow from "@/windows/Bar";
 import LauncherWindow from "@/windows/Launcher";
+import NotificationsWindow from "@/windows/Notifications";
 import WallpaperWindow from "@/windows/Wallpaper";
 import WallpaperSelectorWindow from "@/windows/WallpaperSelector";
 
@@ -29,6 +30,7 @@ app.start({
       BarWindow(mon);
       LauncherWindow(mon);
       WallpaperWindow(mon);
+      NotificationsWindow(mon);
       WallpaperSelectorWindow(mon);
     });
 

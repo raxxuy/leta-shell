@@ -1,4 +1,4 @@
-import { createBinding, With } from "ags";
+import { createBinding, createMemo, With } from "ags";
 import Image from "@/components/ui/Image";
 import { Align, Overflow } from "@/enums";
 import { useAppQuery } from "@/hooks/astal/useAppQuery";
@@ -18,12 +18,17 @@ export default function CovertArt() {
 
         const artUrl = createBinding(player, "artUrl");
 
+        // When listening to albums on soundcloud, artUrl will be the first played song, then it switches to coverArt
+        const artSrc = createMemo(() => artUrl() || player.coverArt);
+        const isFile = artUrl((url) => !url);
+
         return (
           <overlay class="m-1 shadow-lg">
             <Image
               class="min-h-26 min-w-26 rounded-lg"
+              file={isFile}
               overflow={Overflow.HIDDEN}
-              src={artUrl}
+              src={artSrc}
             />
             <image
               $type="overlay"

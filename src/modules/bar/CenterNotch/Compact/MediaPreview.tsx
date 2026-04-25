@@ -44,6 +44,7 @@ export default function MediaPreview() {
               hexpand
               label={previewLabel}
               maxWidthChars={22}
+              tooltipText={previewLabel}
             />
           </box>
         ) : (
