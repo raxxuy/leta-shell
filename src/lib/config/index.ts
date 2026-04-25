@@ -1,11 +1,11 @@
 import { CONFIG_DIR } from "@/constants";
+import { buildPath, ensureDir, readFile, writeFile } from "../fs";
 import {
   type ConfigKey,
   type Configs,
   schemaDefaults,
   schemas,
-} from "@/lib/config/schemas";
-import { buildPath, ensureDir, readFile, writeFile } from "@/lib/fs";
+} from "./schemas";
 
 const getConfigPath = (key: ConfigKey): string =>
   buildPath(CONFIG_DIR, `${key}.json`);

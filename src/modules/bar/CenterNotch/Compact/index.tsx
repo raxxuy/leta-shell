@@ -1,10 +1,11 @@
 import { With } from "ags";
 import { useCenterNotchMode } from "@/hooks/services/config/useCenterNotchMode";
 import MediaPreview from "./MediaPreview";
+import WeatherPreview from "./WeatherPreview";
 
 const components = {
   media: () => <MediaPreview />,
-  weather: () => <box>test</box>,
+  weather: () => <WeatherPreview />,
 };
 
 export default function Compact() {

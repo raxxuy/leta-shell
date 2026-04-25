@@ -1,3 +1,3 @@
 export { applyTheme } from "./apply";
-export { callMatugen } from "./matugen";
+export { callMatugen, relinkTheme } from "./matugen";
 export { getUsedClasses, loadClasses, setClasses } from "./plugin";

@@ -3,7 +3,7 @@ import { CACHE_COLORS_FILE, CACHE_THEMES_DIR } from "@/constants";
 import { connect } from "@/decorators/gobject";
 import { buildPath, dirExists, ensureDir } from "@/lib/fs";
 import { exec } from "@/lib/process";
-import { applyTheme, callMatugen } from "@/lib/theme";
+import { applyTheme, callMatugen, relinkTheme } from "@/lib/theme";
 import Service from "./base";
 import WallpaperService from "./wallpaper";
 
@@ -25,7 +25,7 @@ export default class ThemeService extends Service {
         await callMatugen(path, themeDir);
       }
 
-      await this.applyColors(themeDir);
+      await Promise.all([relinkTheme(themeDir), this.applyColors(themeDir)]);
       await applyTheme();
     } catch (error) {
       console.error("ThemeService: Failed to generate theme", error);

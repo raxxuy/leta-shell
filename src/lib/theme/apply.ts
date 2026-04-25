@@ -1,6 +1,6 @@
 import app from "ags/gtk4/app";
 import { CACHE_CSS_FILE, CACHE_SCSS_DIR, SRC_SCSS_DIR } from "@/constants";
-import { exec } from "@/lib/process/exec";
+import { exec } from "../process";
 import { getUsedClasses, setClasses } from "./plugin";
 
 export const compileCss = async (): Promise<void> => {

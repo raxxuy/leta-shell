@@ -8,7 +8,7 @@ import {
   CACHE_WALLPAPERS_RENDERED_DIR,
   SRC_COLORS_FILE,
 } from "@/constants";
-import { ensureDir, fileExists, readFile, writeFile } from "@/lib/fs";
+import { ensureDir, fileExists, readFile, writeFile } from "../fs";
 
 export const initCache = (): void => {
   ensureDir(CACHE_DIR);

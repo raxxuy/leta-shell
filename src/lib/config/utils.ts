@@ -1,6 +1,6 @@
 import type GLib from "gi://GLib";
-import { writeConfig } from "@/lib/config";
 import type { ValueOrUpdater } from "@/types/config";
+import { writeConfig } from "../config";
 import type { ConfigKey, Configs } from "./schemas";
 
 const writeQueue = new Map<ConfigKey, GLib.Source>();

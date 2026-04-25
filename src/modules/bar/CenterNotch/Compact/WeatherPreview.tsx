@@ -1,1 +1,3 @@
-export default function WeatherPreview() {}
+export default function WeatherPreview() {
+  return <box>test</box>;
+}

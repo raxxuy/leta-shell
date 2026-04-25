@@ -6,3 +6,15 @@ caching = false
 [templates.colors]
 input_path = "templates/colors.scss"
 output_path = "/colors.scss"
+
+[templates.ghostty]
+input_path = "templates/ghostty"
+output_path = "/ghostty"
+
+[templates.fish]
+input_path = "templates/fish"
+output_path = "/fish"
+
+[templates.hypr]
+input_path = "templates/hypr"
+output_path = "/hypr"
