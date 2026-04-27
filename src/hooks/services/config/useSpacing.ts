@@ -1,13 +1,19 @@
-import { useConfig } from "./useConfig";
+import useConfig from "./useConfig";
 
-export const useSpacing = () => {
+export default function useSpacing() {
   const [spacing] = useConfig("global", "spacing");
 
+  const xs = spacing((s) => s.xs);
+  const sm = spacing((s) => s.sm);
+  const md = spacing((s) => s.md);
+  const lg = spacing((s) => s.lg);
+  const xl = spacing((s) => s.xl);
+
   return {
-    xs: spacing((s) => s.xs),
-    sm: spacing((s) => s.sm),
-    md: spacing((s) => s.md),
-    lg: spacing((s) => s.lg),
-    xl: spacing((s) => s.xl),
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
   };
-};
+}

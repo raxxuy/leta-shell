@@ -1,8 +1,15 @@
 import { getter, register } from "ags/gobject";
-import { PICTURES_DIR } from "@/constants";
+import {
+  CACHE_WALLPAPERS_ORIGINAL_DIR,
+  CACHE_WALLPAPERS_RENDERED_DIR,
+  PICTURES_DIR,
+  THUMBNAIL_HEIGHT,
+  THUMBNAIL_WIDTH,
+} from "@/constants";
 import { emitNotify } from "@/decorators/gobject";
 import { monitor } from "@/decorators/monitor";
 import { listDir } from "@/lib/fs";
+import { renderImage } from "@/lib/gtk";
 import Service from "./base";
 
 @register({ GTypeName: "PictureService" })
@@ -20,6 +27,16 @@ export default class PictureService extends Service {
   @getter(Array<string>)
   get pictures(): string[] {
     return this.#pictures;
+  }
+
+  getThumbnail(path: string): string | null {
+    return renderImage(
+      path,
+      THUMBNAIL_WIDTH,
+      THUMBNAIL_HEIGHT,
+      CACHE_WALLPAPERS_ORIGINAL_DIR,
+      CACHE_WALLPAPERS_RENDERED_DIR,
+    );
   }
 
   @emitNotify("pictures")

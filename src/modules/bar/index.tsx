@@ -1,4 +1,4 @@
-import { useSpacing } from "@/hooks/services/config/useSpacing";
+import useSpacing from "@/hooks/services/config/useSpacing";
 import CenterNotch from "./CenterNotch";
 import Clock from "./Clock";
 import Tray from "./Tray";

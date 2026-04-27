@@ -50,4 +50,8 @@ export const SRC_MATUGEN_CONFIG_FILE = buildPath(
 export const USER_NAME = GLib.get_user_name();
 export const HOST_NAME = GLib.get_host_name();
 
+// Magic numbers
+export const THUMBNAIL_WIDTH = 400;
+export const THUMBNAIL_HEIGHT = 225;
+
 export * as Cursor from "./cursor";

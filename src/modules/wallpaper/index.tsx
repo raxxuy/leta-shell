@@ -1,15 +1,19 @@
 import { With } from "ags";
-import type { Gdk } from "ags/gtk4";
 import Image from "@/components/ui/Image";
-import { useWallpaper } from "@/hooks/services/wallpaper/useWallpaper";
+import useWallpaper from "@/hooks/services/useWallpaper";
 
 interface WallpaperModuleProps {
-  gdkmonitor: Gdk.Monitor;
+  connector: string;
+  height: number;
+  width: number;
 }
 
-export default function WallpaperModule({ gdkmonitor }: WallpaperModuleProps) {
-  const wallpaper = useWallpaper(gdkmonitor.connector);
-  const { width, height } = gdkmonitor.geometry;
+export default function WallpaperModule({
+  connector,
+  width,
+  height,
+}: WallpaperModuleProps) {
+  const [wallpaper] = useWallpaper(connector);
 
   return (
     <With value={wallpaper}>

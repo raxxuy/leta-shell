@@ -2,11 +2,11 @@ import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import Window from "@/components/ui/Window";
 import { Exclusivity, Layer } from "@/enums";
-import { useNotifications } from "@/hooks/services/notification/useNotifications";
+import useNotificationsProps from "@/hooks/ui/windows/useNotificationsProps";
 import NotificationsModule from "@/modules/notifications";
 
 export default function NotificationsWindow(gdkmonitor: Gdk.Monitor) {
-  const { hasNotifications } = useNotifications();
+  const { hasNotifications } = useNotificationsProps();
 
   return (
     <Window

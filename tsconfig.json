@@ -3,23 +3,14 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "ags/gtk4",
-    "lib": [
-      "ES2023"
-    ],
+    "lib": ["ES2023"],
     "module": "ES2022",
     "moduleResolution": "Bundler",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/app": [
-        "./app"
-      ],
-      "@/schemas/*": [
-        "./src/lib/config/schemas/*"
-      ]
+      "@/*": ["./src/*"],
+      "@/app": ["./app"],
     },
     "strict": true,
-    "target": "ES2020"
-  }
+    "target": "ES2020",
+  },
 }

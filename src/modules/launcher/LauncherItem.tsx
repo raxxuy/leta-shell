@@ -1,6 +1,6 @@
 import { Align, EllipsizeMode, Orientation } from "@/enums";
-import { usePixelSize } from "@/hooks/services/config/usePixelSize";
-import { useSpacing } from "@/hooks/services/config/useSpacing";
+import usePixelSize from "@/hooks/services/config/usePixelSize";
+import useSpacing from "@/hooks/services/config/useSpacing";
 import { loadClasses } from "@/lib/theme";
 import type { LauncherResult } from "@/services/launcher/types";
 

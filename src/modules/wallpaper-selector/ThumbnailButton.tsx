@@ -1,5 +1,5 @@
 import ImageButton from "@/components/ui/ImageButton";
-import { Cursor } from "@/constants";
+import { Cursor, THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH } from "@/constants";
 import { Overflow } from "@/enums";
 
 interface ThumbnailButtonProps {
@@ -19,11 +19,11 @@ export default function ThumbnailButton({
         class="rounded-2xl outline outline-2 outline-transparent transition-all duration-150 ease-out hover:outline-white/40 focus:outline-white"
         cursor={Cursor.POINTER}
         file
-        heightRequest={225}
+        heightRequest={THUMBNAIL_HEIGHT}
         onClicked={onClick}
         overflow={Overflow.HIDDEN}
         src={source}
-        widthRequest={400}
+        widthRequest={THUMBNAIL_WIDTH}
       />
     </box>
   );

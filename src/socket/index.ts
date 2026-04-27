@@ -4,7 +4,7 @@ import request from "./request";
 
 const SOCKET_PATH = `${GLib.get_user_runtime_dir()}/leta-shell.sock`;
 
-function handleConnection(connection: Gio.SocketConnection): void {
+const handleConnection = (connection: Gio.SocketConnection): void => {
   const stream = new Gio.DataInputStream({
     base_stream: connection.get_input_stream(),
   });
@@ -23,9 +23,9 @@ function handleConnection(connection: Gio.SocketConnection): void {
       connection.close(null);
     }
   });
-}
+};
 
-export function startSocket(): void {
+export const startSocket = (): void => {
   const file = Gio.File.new_for_path(SOCKET_PATH);
   if (file.query_exists(null)) file.delete(null);
 
@@ -44,9 +44,9 @@ export function startSocket(): void {
   });
 
   service.start();
-}
+};
 
-export function stopSocket(): void {
+export const stopSocket = (): void => {
   const file = Gio.File.new_for_path(SOCKET_PATH);
   if (file.query_exists(null)) file.delete(null);
-}
+};

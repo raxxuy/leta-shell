@@ -1,21 +1,20 @@
 import { For, onMount } from "ags";
-import type { Gdk, Gtk } from "ags/gtk4";
+import type { Gtk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import { Align, Orientation } from "@/enums";
-import { usePixelSize } from "@/hooks/services/config/usePixelSize";
-import { useSpacing } from "@/hooks/services/config/useSpacing";
-import { useLauncher } from "@/hooks/services/launcher/useLauncher";
+import usePixelSize from "@/hooks/services/config/usePixelSize";
+import useSpacing from "@/hooks/services/config/useSpacing";
+import useLauncher from "@/hooks/services/useLauncher";
 import LauncherItem from "./LauncherItem";
 
 interface LauncherModuleProps {
-  gdkmonitor: Gdk.Monitor;
+  width: number;
 }
 
-export default function LauncherModule({ gdkmonitor }: LauncherModuleProps) {
+export default function LauncherModule({ width }: LauncherModuleProps) {
   const spacing = useSpacing();
   const pixelSize = usePixelSize();
   const { results, clear, search } = useLauncher();
-  const { width } = gdkmonitor.geometry;
 
   let entryRef: Gtk.Entry;
 

@@ -1,6 +1,7 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: <> */
 import type GObject from "gi://GObject";
 import { onCleanup } from "ags";
+import type { SignalOf } from "@/types/gobject";
 
 type Method<T extends GObject.Object, Args extends any[] = any[]> = (
   this: T,
@@ -8,12 +9,6 @@ type Method<T extends GObject.Object, Args extends any[] = any[]> = (
 ) => void | Promise<void>;
 
 type NotifyProps<T> = Array<Extract<keyof T, string> | (string & {})>;
-
-type KnownSignals<T> = T extends { $signals: infer S }
-  ? Extract<keyof S, string>
-  : never;
-
-type SignalOf<T> = KnownSignals<T> | (string & {});
 
 /**
  * Connects a signal handler to a signal on a target object.

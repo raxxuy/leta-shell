@@ -1,11 +1,11 @@
 import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import { Exclusivity, Layer } from "@/enums";
-import { useConfig } from "@/hooks/services/config/useConfig";
+import useWallpaperProps from "@/hooks/ui/windows/useWallpaperProps";
 import WallpaperModule from "@/modules/wallpaper";
 
 export default function WallpaperWindow(gdkmonitor: Gdk.Monitor) {
-  const [enabled] = useConfig("wallpaper", "enabled");
+  const { enabled, connector, width, height } = useWallpaperProps(gdkmonitor);
 
   return (
     <window
@@ -17,7 +17,7 @@ export default function WallpaperWindow(gdkmonitor: Gdk.Monitor) {
       namespace="leta-shell"
       visible={enabled}
     >
-      <WallpaperModule gdkmonitor={gdkmonitor} />
+      <WallpaperModule connector={connector} height={height} width={width} />
     </window>
   );
 }

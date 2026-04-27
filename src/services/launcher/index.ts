@@ -1,6 +1,8 @@
 import { getter, register } from "ags/gobject";
 import { emitNotify } from "@/decorators/gobject";
+import type { LauncherConfig } from "@/lib/config/schemas/launcher";
 import Service from "../base";
+import ConfigService from "../config";
 import AppsProvider from "./providers/apps";
 import WebProvider from "./providers/web";
 import type { LauncherProvider, LauncherResult } from "./types";
@@ -8,6 +10,7 @@ import type { LauncherProvider, LauncherResult } from "./types";
 @register({ GTypeName: "LauncherService" })
 export default class LauncherService extends Service {
   private static instance: LauncherService;
+  private static readonly MAX_RESULTS = 5;
 
   #providers: LauncherProvider[] = [];
   #results: LauncherResult[] = [];
@@ -18,9 +21,13 @@ export default class LauncherService extends Service {
     return LauncherService.instance;
   }
 
+  private get config(): LauncherConfig {
+    return ConfigService.get_default().configs.launcher;
+  }
+
   @getter(Array<LauncherResult>)
   get results(): LauncherResult[] {
-    return this.#results;
+    return this.#results.slice(0, this.config.maxResults);
   }
 
   search(query: string): void {

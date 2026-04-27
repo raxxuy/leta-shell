@@ -1,26 +1,24 @@
 import { For } from "ags";
-import type { Gdk } from "ags/gtk4";
 import { Align, PolicyType } from "@/enums";
-import { useSpacing } from "@/hooks/services/config/useSpacing";
-import { usePictures } from "@/hooks/services/pictures/usePictures";
-import WallpaperService from "@/services/wallpaper";
+import useSpacing from "@/hooks/services/config/useSpacing";
+import usePictures from "@/hooks/services/usePictures";
+import useWallpaper from "@/hooks/services/useWallpaper";
 import ThumbnailButton from "./ThumbnailButton";
 
 interface WallpaperSelectorProps {
-  gdkmonitor: Gdk.Monitor;
+  connector: string;
+  width: number;
 }
 
 export default function WallpaperSelectorModule({
-  gdkmonitor,
+  connector,
+  width,
 }: WallpaperSelectorProps) {
   const spacing = useSpacing();
-  const pictures = usePictures();
-  const wallpaperService = WallpaperService.get_default();
-  const { width } = gdkmonitor.geometry;
+  const { pictures, getThumbnail } = usePictures();
+  const [, setWallpaper] = useWallpaper(connector);
 
-  const onWallpaperSelected = (picture: string) => {
-    wallpaperService.setWallpaper(gdkmonitor.connector, picture);
-  };
+  const scrollWidth = width * 0.95;
 
   return (
     <box class="m-[5px_10px_15px]">
@@ -31,14 +29,14 @@ export default function WallpaperSelectorModule({
           hscrollbarPolicy={PolicyType.EXTERNAL}
           kineticScrolling
           vscrollbarPolicy={PolicyType.NEVER}
-          widthRequest={width * 0.95}
+          widthRequest={scrollWidth}
         >
           <box hexpand spacing={spacing.xl} valign={Align.CENTER}>
             <For each={pictures}>
               {(picture) => (
                 <ThumbnailButton
-                  onClick={() => onWallpaperSelected(picture)}
-                  source={wallpaperService.getThumbnail(picture)}
+                  onClick={() => setWallpaper(picture)}
+                  source={getThumbnail(picture)}
                 />
               )}
             </For>

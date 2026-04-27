@@ -1,16 +1,14 @@
 import { For } from "ags";
-import { useTray } from "@/hooks/astal/useTray";
-import { useSpacing } from "@/hooks/services/config/useSpacing";
+import useSpacing from "@/hooks/services/config/useSpacing";
+import useTray from "@/hooks/system/useTray";
 import TrayItem from "./TrayItem";
 
 export default function Tray() {
-  const items = useTray();
+  const { items, hasItems } = useTray();
   const spacing = useSpacing();
 
-  const itemsVisible = items((items) => items.length > 0);
-
   return (
-    <box class="my-2" spacing={spacing.sm} visible={itemsVisible}>
+    <box class="my-2" spacing={spacing.sm} visible={hasItems}>
       <For each={items} id={(item) => item.id}>
         {(item) => <TrayItem item={item} />}
       </For>

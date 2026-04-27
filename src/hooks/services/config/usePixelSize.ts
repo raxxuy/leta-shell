@@ -1,16 +1,23 @@
-import type { PixelSize } from "@/schemas/global";
-import { useConfig } from "./useConfig";
+import type { PixelSize } from "@/lib/config/schemas/global";
+import useConfig from "./useConfig";
 
-export const usePixelSize = () => {
+export default function usePixelSize() {
   const [pixelSize] = useConfig("global", "pixelSize");
 
+  const xs = pixelSize((ps) => ps.xs);
+  const sm = pixelSize((ps) => ps.sm);
+  const md = pixelSize((ps) => ps.md);
+  const lg = pixelSize((ps) => ps.lg);
+  const xl = pixelSize((ps) => ps.xl);
+  const scale = (size: keyof PixelSize, factor: number) =>
+    pixelSize((ps) => Math.round(ps[size] * factor));
+
   return {
-    xs: pixelSize((ps) => ps.xs),
-    sm: pixelSize((ps) => ps.sm),
-    md: pixelSize((ps) => ps.md),
-    lg: pixelSize((ps) => ps.lg),
-    xl: pixelSize((ps) => ps.xl),
-    scale: (size: keyof PixelSize, factor: number) =>
-      pixelSize((ps) => Math.round(ps[size] * factor)),
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+    scale,
   };
-};
+}

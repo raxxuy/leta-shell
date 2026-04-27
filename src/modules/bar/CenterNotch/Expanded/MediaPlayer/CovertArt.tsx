@@ -1,9 +1,10 @@
-import { createBinding, createMemo, With } from "ags";
+import { With } from "ags";
 import Image from "@/components/ui/Image";
 import { Align, Overflow } from "@/enums";
-import { useAppQuery } from "@/hooks/astal/useAppQuery";
-import { usePixelSize } from "@/hooks/services/config/usePixelSize";
-import { useActivePlayer } from "@/hooks/services/mpris/useActivePlayer";
+import usePixelSize from "@/hooks/services/config/usePixelSize";
+import useActivePlayer from "@/hooks/services/mpris/useActivePlayer";
+import useCoverArt from "@/hooks/services/mpris/useCoverArt";
+import useAppQuery from "@/hooks/system/useAppQuery";
 
 export default function CovertArt() {
   const pixelSize = usePixelSize();
@@ -15,12 +16,7 @@ export default function CovertArt() {
         if (!player) return null;
 
         const [app] = useAppQuery(player.entry);
-
-        const artUrl = createBinding(player, "artUrl");
-
-        // When listening to albums on soundcloud, artUrl will be the first played song, then it switches to coverArt
-        const artSrc = createMemo(() => artUrl() || player.coverArt);
-        const isFile = artUrl((url) => !url);
+        const { artSrc, isFile } = useCoverArt(player);
 
         return (
           <overlay class="m-1 shadow-lg">

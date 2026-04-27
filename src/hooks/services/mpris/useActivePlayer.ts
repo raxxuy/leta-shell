@@ -1,7 +1,10 @@
 import { createBinding } from "ags";
 import MprisService from "@/services/mpris";
 
-export const useActivePlayer = () => {
-  const mprisService = MprisService.get_default();
-  return createBinding(mprisService, "active");
+export default function useActivePlayer() {
+  const service = MprisService.get_default();
+
+  const player = createBinding(service, "active");
+
+  return player;
 };

@@ -1,5 +1,6 @@
+export { bindMenuButtonState } from "./bindMenuButtonState";
 export { createClickOutside } from "./createClickOutside";
 export { createEscape } from "./createEscape";
 export { createImageFile } from "./createImageFile";
-export { createMenuButton } from "./createMenuButton";
-export { scaleCover } from "./pixbuf";
+export { createInterval } from "./createInterval";
+export { hashPath, renderImage, scaleCover } from "./pixbuf";

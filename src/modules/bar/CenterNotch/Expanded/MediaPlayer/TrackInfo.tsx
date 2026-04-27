@@ -1,6 +1,7 @@
-import { createBinding, With } from "ags";
+import { With } from "ags";
 import { Orientation } from "@/enums";
-import { useActivePlayer } from "@/hooks/services/mpris/useActivePlayer";
+import useActivePlayer from "@/hooks/services/mpris/useActivePlayer";
+import useTrackInfo from "@/hooks/services/mpris/useTrackInfo";
 
 export default function TrackInfo() {
   const activePlayer = useActivePlayer();
@@ -10,9 +11,8 @@ export default function TrackInfo() {
       <With value={activePlayer}>
         {(player) => {
           if (!player) return null;
-
-          const title = createBinding(player, "title");
-          const artist = createBinding(player, "artist");
+          
+          const { title, artist } = useTrackInfo(player);
 
           return (
             <box hexpand orientation={Orientation.VERTICAL}>

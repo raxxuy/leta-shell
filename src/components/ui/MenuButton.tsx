@@ -1,7 +1,7 @@
-import { createMenuButton } from "@/lib/gtk";
+import { bindMenuButtonState } from "@/lib/gtk";
 
 type MenuButtonProps = JSX.IntrinsicElements["menubutton"];
 
 export default function MenuButton(props: MenuButtonProps) {
-  return <menubutton {...props} $={createMenuButton} />;
+  return <menubutton {...props} $={bindMenuButtonState} />;
 }

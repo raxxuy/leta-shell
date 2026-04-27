@@ -1,7 +1,7 @@
 import { With } from "ags";
 import { Orientation } from "@/enums";
-import { useCenterNotchMode } from "@/hooks/services/config/useCenterNotchMode";
-import { useSpacing } from "@/hooks/services/config/useSpacing";
+import useCenterNotchMode from "@/hooks/services/config/useCenterNotchMode";
+import useSpacing from "@/hooks/services/config/useSpacing";
 import MediaPlayer from "./MediaPlayer";
 
 const components = {
@@ -11,7 +11,6 @@ const components = {
 
 export default function Expanded() {
   const spacing = useSpacing();
-
   const { mode } = useCenterNotchMode();
 
   return (

@@ -1,4 +1,4 @@
-import { createBinding, createComputed, With } from "ags";
+import { With } from "ags";
 import { Gtk } from "ags/gtk4";
 import {
   Align,
@@ -6,37 +6,25 @@ import {
   EventControllerScrollFlags,
   Overflow,
 } from "@/enums";
-import { useActivePlayer } from "@/hooks/services/mpris/useActivePlayer";
-import { useScrollLock } from "@/hooks/ui/useScrollLock";
-import MprisService from "@/services/mpris";
+import useMediaPreview, {
+  usePreviewLabel,
+} from "@/hooks/services/mpris/useMediaPreview";
 
 export default function MediaPreview() {
-  const activePlayer = useActivePlayer();
-  const handleScroll = useScrollLock(200);
-  const mprisService = MprisService.get_default();
-
-  const onPlayerChanged = (_: unknown, __: unknown, dy: number) => {
-    if (mprisService.players.length < 2) return;
-
-    handleScroll(dy, (dir) => {
-      if (dir > 0) mprisService.next();
-      else mprisService.previous();
-    });
-  };
+  const { activePlayer, onScroll } = useMediaPreview();
 
   return (
     <With value={activePlayer}>
       {(player) => {
-        const title = createBinding(player, "title");
-        const artist = createBinding(player, "artist");
+        if (!player) return <label hexpand label="No active player" />;
 
-        const previewLabel = createComputed(() => `${title()} - ${artist()}`);
+        const previewLabel = usePreviewLabel(player);
 
-        return player ? (
+        return (
           <box overflow={Overflow.HIDDEN}>
             <Gtk.EventControllerScroll
               flags={EventControllerScrollFlags.VERTICAL}
-              onScroll={onPlayerChanged}
+              onScroll={onScroll}
             />
             <label
               ellipsize={EllipsizeMode.END}
@@ -47,8 +35,6 @@ export default function MediaPreview() {
               tooltipText={previewLabel}
             />
           </box>
-        ) : (
-          <label hexpand label="No active player" />
         );
       }}
     </With>

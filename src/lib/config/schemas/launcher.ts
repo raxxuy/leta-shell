@@ -1,6 +1,7 @@
 import z from "zod";
 
 export const launcherDefaults = {
+  maxResults: 5,
   providers: {
     web: {
       searchEngine: "google",
@@ -11,6 +12,12 @@ export const launcherDefaults = {
 export const WebSearchEngineEnum = z.enum(["google", "duckduckgo", "brave"]);
 
 export const LauncherSchema = z.object({
+  maxResults: z
+    .number()
+    .int()
+    .min(1)
+    .max(10)
+    .default(launcherDefaults.maxResults),
   providers: z.object({
     web: z.object({
       searchEngine: WebSearchEngineEnum.default(
