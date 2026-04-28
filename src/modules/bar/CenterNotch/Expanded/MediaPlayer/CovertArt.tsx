@@ -5,6 +5,7 @@ import usePixelSize from "@/hooks/services/config/usePixelSize";
 import useActivePlayer from "@/hooks/services/mpris/useActivePlayer";
 import useCoverArt from "@/hooks/services/mpris/useCoverArt";
 import useAppQuery from "@/hooks/system/useAppQuery";
+import { loadClasses } from "@/lib/theme";
 
 export default function CovertArt() {
   const pixelSize = usePixelSize();
@@ -19,7 +20,7 @@ export default function CovertArt() {
         const { artSrc, isFile } = useCoverArt(player);
 
         return (
-          <overlay class="m-1 shadow-lg">
+          <overlay $={loadClasses(CovertArt)} class="m-1 shadow-lg">
             <Image
               class="min-h-26 min-w-26 rounded-lg"
               file={isFile}

@@ -7,4 +7,4 @@ export default function useActivePlayer() {
   const player = createBinding(service, "active");
 
   return player;
-};
+}

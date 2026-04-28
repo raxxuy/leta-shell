@@ -31,6 +31,8 @@
         cava
         tray
         notifd
+        bluetooth
+        wireplumber
       ];
 
       extraPackages = astalPackages ++ [

@@ -1,5 +1,6 @@
 import { With } from "ags";
 import useCenterNotchMode from "@/hooks/services/config/useCenterNotchMode";
+import { loadClasses } from "@/lib/theme";
 import MediaPreview from "./MediaPreview";
 import WeatherPreview from "./WeatherPreview";
 
@@ -14,7 +15,11 @@ export default function Compact() {
   return (
     <With value={mode}>
       {(m) => (
-        <box class="min-w-4xs" hexpand={false}>
+        <box
+          $={loadClasses(Compact, "compact", true)}
+          class="min-w-4xs"
+          hexpand={false}
+        >
           {components[m]()}
         </box>
       )}

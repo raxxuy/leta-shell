@@ -6,16 +6,22 @@
     font-family: "SF Pro Display";
 }
 
-@keyframes popin {
+@keyframes bounce-in {
     0% {
         transform: scale(0);
+        opacity: 0;
     }
     80% {
         transform: scale(1.05);
     }
     100% {
         transform: scale(1);
+        opacity: 1;
     }
+}
+
+.animate-bounce-in {
+    animation: bounce-in 250ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 tooltip {
@@ -27,6 +33,52 @@ tooltip {
         var(--color-zinc-950) 95%,
         transparent
     );
+}
+
+.switch {
+    slider {
+        border-radius: 9999px;
+        background-color: white;
+        min-width: 0.85rem;
+        min-height: 0.85rem;
+        box-shadow: 0 1px 3px rgba(black, 0.3);
+    }
+}
+
+.endpoint-slider {
+    background-color: rgba(white, 0.12);
+    border-radius: 9999px;
+    /* min-height: 0.85rem; */
+
+    highlight {
+        background-color: rgba(white, 0.95);
+        border-radius: 9999px;
+    }
+
+    &:active {
+        slider {
+            min-width: 0.7rem;
+            min-height: 0.7rem;
+            margin: -2px 0;
+        }
+    }
+
+    slider {
+        min-width: 0.5rem;
+        min-height: 0.5rem;
+        padding: 0;
+        margin: -1px 0;
+        background-color: white;
+        border-radius: 9999px;
+        box-shadow: 0 1px 2px rgba(black, 0.6);
+        outline: none;
+
+        &:hover {
+            min-width: 0.7rem;
+            min-height: 0.7rem;
+            margin: -2px 0;
+        }
+    }
 }
 
 .playback-slider {
@@ -62,7 +114,7 @@ tooltip {
 .tray-item {
     &:checked {
         popover scrolledwindow {
-            animation: popin 150ms var(--ease-in-out) forwards;
+            animation: bounce-in 150ms var(--ease-in-out) forwards;
         }
     }
 

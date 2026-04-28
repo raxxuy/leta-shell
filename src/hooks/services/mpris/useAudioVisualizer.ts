@@ -1,20 +1,19 @@
 import AstalCava from "gi://AstalCava";
 import AstalMpris from "gi://AstalMpris";
-import { createBinding, createEffect, createState } from "ags";
+import { createBinding, createEffect, createState, onCleanup } from "ags";
+import useConfig from "@/hooks/services/config/useConfig";
 import useActivePlayer from "@/hooks/services/mpris/useActivePlayer";
-import { createSignalState } from "@/lib/reactive";
-import useConfig from "../config/useConfig";
 
 export default function useAudioVisualizer() {
   const [count] = useConfig(
     "bar",
     "settings.centerNotch.media.visualizer.count",
   );
-  const activePlayer = useActivePlayer();
 
   const cava = AstalCava.get_default();
-
   if (!cava) return createState<number[]>([])[0];
+
+  const activePlayer = useActivePlayer();
 
   createEffect(() => {
     cava.set_bars(count());
@@ -58,9 +57,11 @@ export default function useAudioVisualizer() {
     }
   });
 
-  createSignalState(cava, "notify::values", () => {
+  const id = cava.connect("notify::values", () => {
     setValues(cava.values.slice(0, count.peek()));
   });
+
+  onCleanup(() => cava.disconnect(id));
 
   return values;
 }

@@ -29,9 +29,10 @@ const MediaButton = ({ iconName, onClick, pixelSize }: MediaButtonProps) => (
 
 export const PlaybackButtons = ({ player }: PlaybackButtonsProps) => {
   const spacing = useSpacing();
-  const { scale } = usePixelSize();
+  const pixelSize = usePixelSize();
   const { playbackIcon } = usePlayback(player);
-  const size = scale("sm", 1.25);
+
+  const size = pixelSize.scale("sm", 1.25);
 
   return (
     <box class="-mt-5.5" halign={Align.CENTER} hexpand spacing={spacing.md}>

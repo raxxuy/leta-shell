@@ -1,7 +1,10 @@
 import { createComputed, createState } from "ags";
 import { timeout } from "ags/time";
 
-export default function useSliderDrag(onRelease: (value: number) => void) {
+export default function useSliderDrag(
+  onRelease: (value: number) => void,
+  floor?: boolean,
+) {
   const [isDragging, setIsDragging] = createState(false);
   const [dragPosition, setDragPosition] = createState(0);
 
@@ -9,7 +12,7 @@ export default function useSliderDrag(onRelease: (value: number) => void) {
     createComputed(() => (isDragging() ? dragPosition() : livePosition()));
 
   const handleChange = ({ value }: { value: number }) => {
-    setDragPosition(Math.floor(value));
+    setDragPosition(floor ? Math.floor(value) : value);
   };
 
   const handleDrag = () => {

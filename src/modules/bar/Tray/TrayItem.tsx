@@ -24,7 +24,7 @@ export default function TrayItem({ item }: TrayItemProps) {
   return (
     <MenuButton
       $={init}
-      class="tray-item rounded-lg px-1 transition-colors checked:bg-zinc-700 hover:bg-zinc-800 active:bg-zinc-700"
+      class="tray-item min-h-6.5 min-w-6.5 rounded-lg transition-colors checked:bg-zinc-700 hover:bg-zinc-800 active:bg-zinc-700"
       focusable={false}
     >
       <image

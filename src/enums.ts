@@ -10,6 +10,7 @@ export const {
   EventControllerScrollFlags,
   InputHints,
   Justification,
+  NaturalWrapMode,
   Orientation,
   Overflow,
   PolicyType,
@@ -22,5 +23,5 @@ export const {
 } = Gtk;
 export const { ModifierType } = Gdk;
 export const { ApplicationFlags, FileMonitorEvent } = Gio;
-export const { EllipsizeMode } = Pango;
+export const { EllipsizeMode, WrapMode } = Pango;
 export const { UserDirectory, FileTest } = GLib;

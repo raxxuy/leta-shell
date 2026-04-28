@@ -1,17 +1,13 @@
 import type AstalMpris from "gi://AstalMpris";
 import { Align } from "@/enums";
 import usePlayback from "@/hooks/services/mpris/usePlayback";
-import { formatDuration } from "@/lib/time";
 
 interface PlaybackTimeProps {
   player: AstalMpris.Player;
 }
 
 export default function PlaybackTime({ player }: PlaybackTimeProps) {
-  const { length, position } = usePlayback(player);
-
-  const formattedLength = length((l) => formatDuration(l));
-  const formattedPosition = position((p) => formatDuration(p));
+  const { formattedLength, formattedPosition } = usePlayback(player);
 
   return (
     <box hexpand>
