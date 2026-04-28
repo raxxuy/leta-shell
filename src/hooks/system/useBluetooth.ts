@@ -23,7 +23,9 @@ export default function useBluetooth() {
     ),
   );
 
-  const togglePower = () => (bluetooth.adapter.powered = !isPowered.peek());
+  const togglePower = (state: boolean) => {
+    if (state !== isPowered.peek()) bluetooth.adapter.powered = state;
+  };
 
   const toggleScanning = () => {
     if (discovering.peek()) bluetooth.adapter.stop_discovery();

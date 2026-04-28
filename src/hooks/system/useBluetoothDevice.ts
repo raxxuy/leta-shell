@@ -9,7 +9,7 @@ export default function useBluetoothDevice(device: AstalBluetooth.Device) {
   const connecting = createBinding(device, "connecting");
   const batteryPercentage = createBinding(device, "batteryPercentage");
 
-  const name = rawName((n) => n ?? "");
+  const name = rawName((n) => n ?? "Unknown device");
   const actionLabel = connected((c) => (c ? "Disconnect" : "Connect"));
 
   const connectionLabel = createComputed(() => {

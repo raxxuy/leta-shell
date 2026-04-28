@@ -62,6 +62,8 @@ export default function Notification({ notification }: NotificationProps) {
             ellipsize={EllipsizeMode.END}
             halign={Align.START}
             label={notification.body}
+            maxWidthChars={40}
+            xalign={0}
           />
         )}
       </box>

@@ -39,7 +39,7 @@ export default function Bluetooth() {
               cursor={Cursor.POINTER}
               halign={Align.END}
               hexpand
-              onNotifyActive={togglePower}
+              onNotifyActive={({ active }) => togglePower(active)}
             />
           </box>
           <With value={isPowered}>
