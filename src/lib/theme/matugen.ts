@@ -30,7 +30,7 @@ export const relinkTheme = async (themeDir: string): Promise<void> => {
       // biome-ignore lint/style/noNonNullAssertion: <get_parent() and get_path() are non-null for absolute paths>
       ensureDir(destFile.get_parent()!.get_path()!);
 
-      destFile.delete(null);
+      if (destFile.query_exists(null)) destFile.delete(null);
       destFile.make_symbolic_link(src, null);
       if (reload) await exec(reload).catch(() => {});
     }),
