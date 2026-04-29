@@ -2,6 +2,7 @@ import { Align } from "@/enums";
 import useSpacing from "@/hooks/services/config/useSpacing";
 import Bluetooth from "./Bluetooth";
 import Microphone from "./Microphone";
+import Power from "./Power";
 import Speaker from "./Speaker";
 
 export default function Indicators() {
@@ -9,6 +10,7 @@ export default function Indicators() {
 
   return (
     <box spacing={spacing.sm} valign={Align.CENTER}>
+      <Power />
       <Speaker />
       <Microphone />
       <Bluetooth />

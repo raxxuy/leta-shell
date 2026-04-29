@@ -81,10 +81,32 @@ tooltip {
     }
 }
 
+.battery-bar {
+    background-color: rgba(white, 0.1);
+    border-radius: 9999px;
+    min-height: 0.5rem;
+
+    trough {
+        .filled {
+            border-radius: 9999px;
+            background-color: color-mix(
+                in oklch,
+                var(--primary) 95%,
+                transparent
+            );
+        }
+
+        .empty {
+            border-radius: 9999px;
+            background-color: rgba(white, 0.1);
+        }
+    }
+}
+
 .playback-slider {
     background-color: rgba(white, 0.15);
     border-radius: 9999px;
-    min-height: 4px;
+    min-height: 0.25rem;
 
     highlight {
         background-color: rgba(white, 0.9);

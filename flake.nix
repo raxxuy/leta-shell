@@ -31,8 +31,10 @@
         cava
         tray
         notifd
+        battery
         bluetooth
         wireplumber
+        powerprofiles
       ];
 
       extraPackages = astalPackages ++ [
@@ -42,13 +44,13 @@
 
       nodeModules = pkgs.stdenv.mkDerivation {
         pname = "${pname}-node-modules";
-        version = "0.1.0";
+        version = "0.1.11";
         src = ./.;
         nativeBuildInputs = [ pkgs.bun ];
 
         outputHashMode = "recursive";
         outputHashAlgo = "sha256";
-        outputHash = "sha256-9jN/kEgRvQ223NSihUQ2wqjJIANF3N9T1nIn+mUbXnc=";
+        outputHash = "sha256-Mf7O0AKQ3k152TX1tMFpgOKsDaCYXEMNzrFVjiajgVY=";
 
         buildPhase = ''
           export HOME=$TMPDIR

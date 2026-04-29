@@ -32,7 +32,7 @@ export default function Bluetooth() {
       >
         <box orientation={Orientation.VERTICAL} spacing={spacing.lg}>
           <box hexpand valign={Align.CENTER}>
-            <label class="font-bold" label="Bluetooth" />
+            <label class="font-semibold opacity-90" label="Bluetooth" />
             <switch
               active={isPowered}
               class="switch min-h-4 min-w-8 rounded-full bg-white/15 p-0.5 transition-colors duration-200 checked:bg-(--primary)/90"

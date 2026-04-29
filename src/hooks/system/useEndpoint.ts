@@ -15,7 +15,7 @@ export default function useEndpoint(
     mute() ? "Muted" : `${Math.round(volume() * 100)}%`,
   );
 
-  const setVolume = (v: number) => endpoint.set_volume(v);
+  const setVolume = (volume: number) => endpoint.set_volume(volume);
   const toggleMute = () => endpoint.set_mute(!mute.peek());
 
   return {

@@ -32,8 +32,8 @@ export default function Microphone() {
         class="m-[5px_10px_15px] mt-4 min-w-xs rounded-2xl border border-(--tertiary)/20 bg-zinc-950/95 p-6 shadow-md"
         hasArrow={false}
       >
-        <box orientation={Orientation.VERTICAL} spacing={spacing.md}>
-          <box hexpand>
+        <box orientation={Orientation.VERTICAL} spacing={spacing.lg}>
+          <box hexpand valign={Align.CENTER}>
             <label
               class="font-semibold opacity-90"
               halign={Align.START}
@@ -46,12 +46,16 @@ export default function Microphone() {
             <box
               class="min-w-14 pl-4"
               halign={Align.END}
-              hexpand
               valign={Align.CENTER}
+              vexpand
             >
-              <button focusable={false} onClicked={toggleMute}>
+              <button
+                focusable={false}
+                halign={Align.CENTER}
+                onClicked={toggleMute}
+              >
                 <label
-                  class="hover:transform-[scale(1.1)] font-semibold"
+                  class="hover:transform-[scale(1.05)] font-semibold"
                   halign={Align.END}
                   hexpand
                   label={formattedVolume}
