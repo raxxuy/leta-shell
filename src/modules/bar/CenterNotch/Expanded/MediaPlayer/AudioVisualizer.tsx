@@ -2,7 +2,7 @@ import { With } from "ags";
 import { Align, Orientation } from "@/enums";
 import useSpacing from "@/hooks/services/config/useSpacing";
 import useAudioVisualizer from "@/hooks/services/mpris/useAudioVisualizer";
-import { loadClasses } from "@/lib/theme";
+import { scan } from "@/lib/theme";
 
 export default function AudioVisualizer() {
   const spacing = useSpacing();
@@ -12,7 +12,7 @@ export default function AudioVisualizer() {
     <With value={values}>
       {(values) => (
         <box
-          $={loadClasses(AudioVisualizer)}
+          $={scan}
           class="m-1"
           halign={Align.END}
           hexpand

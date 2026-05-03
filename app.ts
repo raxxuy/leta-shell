@@ -30,9 +30,9 @@ app.start({
     startSocket();
 
     ConfigService.get_default();
+    ThemeService.get_default();
     MprisService.get_default();
     WallpaperService.get_default().initMonitors(app.monitors);
-    ThemeService.get_default();
 
     app.monitors.forEach((mon) => {
       windows.forEach((win) => {

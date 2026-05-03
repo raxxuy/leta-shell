@@ -9,11 +9,7 @@ export default function Profiles() {
 
   return (
     <box orientation={Orientation.VERTICAL} spacing={spacing.lg}>
-      <label
-        class="opacity-80"
-        halign={Align.START}
-        label="Power profile"
-      />
+      <label class="opacity-80" halign={Align.START} label="Power profile" />
       <box orientation={Orientation.VERTICAL} spacing={spacing.sm}>
         {profiles.map(({ profile }) => (
           <ProfileButton

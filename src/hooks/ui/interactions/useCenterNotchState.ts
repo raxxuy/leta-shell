@@ -7,8 +7,8 @@ export default function useCenterNotchState() {
 
   const className = open((o) =>
     clsx(
-      "my-1 rounded-lg bg-zinc-950/95 px-4 py-2 transition-all hover:px-6 shadow-lg",
-      o && "transform-[scale(0.001)] shadow-none",
+      "my-1 rounded-lg transform-cpu bg-zinc-950/95 px-4 py-2 transition-all hover:px-6 shadow-lg",
+      o && "scale-1 shadow-none",
     ),
   );
 

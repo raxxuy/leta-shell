@@ -2,7 +2,7 @@ import type AstalBluetooth from "gi://AstalBluetooth";
 import { Align, Orientation } from "@/enums";
 import useSpacing from "@/hooks/services/config/useSpacing";
 import useBluetoothDevice from "@/hooks/system/useBluetoothDevice";
-import { loadClasses } from "@/lib/theme";
+import { scan, setup } from "@/lib/theme";
 
 export default function BluetoothDeviceItem({
   device,
@@ -14,12 +14,8 @@ export default function BluetoothDeviceItem({
     useBluetoothDevice(device);
 
   return (
-    <box $={loadClasses(BluetoothDeviceItem)} spacing={spacing.md}>
-      <box
-        $={loadClasses(BluetoothDeviceItem, "bluetooth-device-dot")}
-        class={dotClassName}
-        valign={Align.CENTER}
-      />
+    <box $={scan} spacing={spacing.md}>
+      <box $={setup} class={dotClassName} valign={Align.CENTER} />
       <box hexpand orientation={Orientation.VERTICAL}>
         <label class="font-medium" halign={Align.START} label={name} />
         <label

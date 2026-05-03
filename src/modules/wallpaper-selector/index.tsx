@@ -22,7 +22,7 @@ export default function WallpaperSelectorModule({
 
   return (
     <box class="m-[5px_10px_15px]">
-      <box class="rounded-2xl border border-(--tertiary)/20 bg-zinc-950/95 p-4 shadow-lg">
+      <box class="rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-4 shadow-lg">
         <scrolledwindow
           class="rounded-2xl"
           heightRequest={240}

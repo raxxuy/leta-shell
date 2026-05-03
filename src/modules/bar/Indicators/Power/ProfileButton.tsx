@@ -3,7 +3,7 @@ import { Align } from "@/enums";
 import usePixelSize from "@/hooks/services/config/usePixelSize";
 import useSpacing from "@/hooks/services/config/useSpacing";
 import { usePowerProfile } from "@/hooks/system/usePowerProfiles";
-import { loadClasses } from "@/lib/theme";
+import { setup } from "@/lib/theme";
 
 interface ProfileButtonProps {
   onClicked: () => void;
@@ -19,12 +19,7 @@ export default function ProfileButton({
   const { className, iconName } = usePowerProfile(profile);
 
   return (
-    <button
-      $={loadClasses(ProfileButton, "profile-button", true)}
-      class={className}
-      hexpand
-      onClicked={onClicked}
-    >
+    <button $={setup} class={className} hexpand onClicked={onClicked}>
       <box hexpand spacing={spacing.lg} valign={Align.CENTER}>
         <label class="text-[15px] opacity-90" label={startCase(profile)} />
         <image

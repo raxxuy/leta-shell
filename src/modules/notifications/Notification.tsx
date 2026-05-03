@@ -4,7 +4,7 @@ import { timeout } from "ags/time";
 import { Align, EllipsizeMode, Orientation } from "@/enums";
 import usePixelSize from "@/hooks/services/config/usePixelSize";
 import useSpacing from "@/hooks/services/config/useSpacing";
-import { loadClasses } from "@/lib/theme";
+import { scan } from "@/lib/theme";
 import { formatLocalTime } from "@/lib/time";
 
 interface NotificationProps {
@@ -21,8 +21,8 @@ export default function Notification({ notification }: NotificationProps) {
 
   return (
     <button
-      $={loadClasses(Notification)}
-      class="hover:transform-[scale(1.02)] m-[5px_10px_15px] rounded-2xl border border-(--tertiary)/20 bg-zinc-950/95 p-4 shadow-md transition-transform hover:border-(--tertiary)/40"
+      $={scan}
+      class="m-[5px_10px_15px] transform-cpu rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-4 shadow-md transition-transform hover:scale-102 hover:border-tertiary/40"
       hexpand={false}
       onClicked={() => notification.dismiss()}
     >

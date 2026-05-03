@@ -1,7 +1,7 @@
 import ImageButton from "@/components/ui/ImageButton";
 import { Cursor, THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH } from "@/constants";
 import { Overflow } from "@/enums";
-import { loadClasses } from "@/lib/theme";
+import { scan } from "@/lib/theme";
 
 interface ThumbnailButtonProps {
   onClick: () => void;
@@ -16,11 +16,11 @@ export default function ThumbnailButton({
 
   return (
     <box
-      $={loadClasses(ThumbnailButton)}
-      class="active:transform-[scale(0.97)] rounded-2xl shadow-md transition duration-200 hover:shadow-xl active:shadow-lg"
+      $={scan}
+      class="transform-cpu rounded-2xl shadow-md transition duration-200 hover:shadow-xl active:scale-97 active:shadow-lg"
     >
       <ImageButton
-        class="rounded-2xl outline outline-2 outline-transparent transition-all duration-150 ease-out hover:outline-white/40 focus:outline-white"
+        class="rounded-2xl outline-2 outline-transparent transition-all duration-150 ease-out hover:outline-white/40 focus:outline-white"
         cursor={Cursor.POINTER}
         file
         heightRequest={THUMBNAIL_HEIGHT}

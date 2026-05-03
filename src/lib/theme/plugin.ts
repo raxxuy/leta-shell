@@ -1,27 +1,44 @@
 import { debounce } from "es-toolkit";
-import { createSimpleAgsPlugin } from "tailwind2gtk/plugins/ags-simple";
+import { agsPlugin } from "tailwind2gtk/plugins/ags";
 import { CACHE_UTILITIES_FILE, CACHE_UTILITIES_JSON_FILE } from "@/constants";
 import { compileCss } from "./apply";
-import { SCSS_HEADER, VARIABLES } from "./constants";
 
-const debouncedCompileCss = debounce(() => {
-  compileCss();
+const debouncedCompileCss = debounce(async () => {
+  await compileCss();
 }, 100);
 
-export const { loadClasses, setClasses, getUsedClasses } =
-  createSimpleAgsPlugin({
-    utilitiesFile: CACHE_UTILITIES_FILE,
-    utilitiesJsonFile: CACHE_UTILITIES_JSON_FILE,
-
-    scssOptions: {
-      header: SCSS_HEADER,
-    },
-
-    onNewClasses: debouncedCompileCss,
-
-    tailwindConfig: {
-      theme: {
-        variables: VARIABLES,
+export const { scan, setup } = agsPlugin({
+  jsonPath: CACHE_UTILITIES_JSON_FILE,
+  cssPath: CACHE_UTILITIES_FILE,
+  onCacheUpdate: () => {
+    debouncedCompileCss();
+  },
+  tailwindConfig: {
+    theme: {
+      spacing: "4px",
+      colors: {
+        primary: "var(--primary)",
+        tertiary: "var(--tertiary)",
+      },
+      keyframes: {
+        "bounce-in": {
+          "0%": {
+            transform: "scale(0)",
+            opacity: "0",
+          },
+          "80%": {
+            transform: "scale(1.05)",
+          },
+          "100%": {
+            transform: "scale(1)",
+            opacity: "1",
+          },
+        },
+      },
+      animation: {
+        "bounce-in":
+          "bounce-in 250ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
       },
     },
-  });
+  },
+});

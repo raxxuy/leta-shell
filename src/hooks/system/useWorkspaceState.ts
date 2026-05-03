@@ -4,9 +4,9 @@ import clsx from "clsx/lite";
 import { Cursor } from "@/constants";
 
 const stateClasses = {
-  focused: "bg-(--primary) px-5 transform-[scaleY(1.3)]",
-  occupied: "bg-(--primary)/60",
-  empty: "bg-(--primary)/20",
+  focused: "bg-primary px-5 scale-y-130",
+  occupied: "bg-primary/60",
+  empty: "bg-primary/20",
 } as const;
 
 const stateCursors = {
@@ -34,7 +34,7 @@ export default function useWorkspaceState(workspace: AstalHyprland.Workspace) {
 
   const className = createComputed(() =>
     clsx(
-      "rounded-lg px-2 min-h-4 transition-transform origin-center duration-500",
+      "transform-cpu rounded-lg px-2 min-h-4 transition-transform ease-out origin-center duration-300",
       stateClasses[state()],
     ),
   );

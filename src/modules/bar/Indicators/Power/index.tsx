@@ -1,3 +1,4 @@
+import clsx from "clsx/lite";
 import MenuButton from "@/components/ui/MenuButton";
 import Popover from "@/components/ui/Popover";
 import { Align, Orientation } from "@/enums";
@@ -25,7 +26,7 @@ export default function Power() {
       <image iconName={iconName} pixelSize={pixelSize.sm} />
       <Popover
         animated
-        class="m-[5px_10px_15px] mt-4 min-w-sm rounded-2xl border border-(--tertiary)/20 bg-zinc-950/95 p-6 shadow-md"
+        class="m-[5px_10px_15px] mt-4 min-w-sm rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-6 shadow-md"
         hasArrow={false}
       >
         <box orientation={Orientation.VERTICAL} spacing={spacing.lg}>
@@ -41,7 +42,10 @@ export default function Power() {
           </box>
           <box hexpand valign={Align.CENTER}>
             <levelbar
-              class="battery-bar min-w-xs"
+              class={clsx(
+                "min-h-2 min-w-xs rounded-full bg-white/10",
+                "[&>trough_*]:rounded-full [&>trough_.empty]:bg-white/10 [&>trough_.filled]:bg-primary/95",
+              )}
               halign={Align.START}
               hexpand
               maxValue={1}

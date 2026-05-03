@@ -34,7 +34,7 @@ export default function LauncherModule({ width }: LauncherModuleProps) {
           });
         });
       }}
-      class="m-[5px_10px_15px] rounded-2xl border border-(--tertiary)/20 bg-zinc-950/95 shadow-lg"
+      class="m-[5px_10px_15px] rounded-2xl border border-tertiary/20 bg-zinc-950/95 shadow-lg"
       halign={Align.CENTER}
       orientation={Orientation.VERTICAL}
       widthRequest={width * 0.29}
@@ -47,7 +47,7 @@ export default function LauncherModule({ width }: LauncherModuleProps) {
         />
         <entry
           $={(self) => (entryRef = self)}
-          class="launcher-entry text-lg"
+          class="text-lg [&_placeholder]:opacity-80"
           hexpand
           maxLength={26}
           onActivate={() => results.peek()[0].activate()}

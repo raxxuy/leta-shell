@@ -12,7 +12,7 @@ export default function BarModule() {
     <centerbox class="mb-0.5 px-4">
       <box
         $type="start"
-        class="rounded-b-2xl border border-(--tertiary)/20 border-t-0 bg-zinc-950/95 px-4 shadow-md"
+        class="rounded-b-2xl border border-tertiary/20 border-t-0 bg-zinc-950/95 px-4 shadow-md"
         spacing={spacing.xl}
       >
         <Workspaces />
@@ -23,7 +23,7 @@ export default function BarModule() {
       </box>
       <box
         $type="end"
-        class="rounded-b-2xl border border-(--tertiary)/20 border-t-0 bg-zinc-950/95 px-4 shadow-md"
+        class="rounded-b-2xl border border-tertiary/20 border-t-0 bg-zinc-950/95 px-4 shadow-md"
         spacing={spacing.xl}
       >
         <Indicators />

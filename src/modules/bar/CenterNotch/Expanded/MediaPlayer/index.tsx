@@ -1,6 +1,6 @@
 import { Align, Orientation } from "@/enums";
 import useSpacing from "@/hooks/services/config/useSpacing";
-import { loadClasses } from "@/lib/theme";
+import { scan } from "@/lib/theme";
 import AudioVisualizer from "./AudioVisualizer";
 import CovertArt from "./CovertArt";
 import PlaybackControls from "./PlaybackControls";
@@ -10,7 +10,7 @@ export default function MediaPlayer() {
   const spacing = useSpacing();
 
   return (
-    <box $={loadClasses(MediaPlayer)} class="min-w-xl" spacing={spacing.md}>
+    <box $={scan} class="min-w-xl" spacing={spacing.md}>
       {/* IMAGE */}
       <box class="min-w-26" halign={Align.START} valign={Align.CENTER}>
         <CovertArt />

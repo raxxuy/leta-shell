@@ -2,7 +2,7 @@ import { Gtk } from "ags/gtk4";
 import { Cursor } from "@/constants";
 import useCenterNotchMode from "@/hooks/services/config/useCenterNotchMode";
 import useCenterNotchState from "@/hooks/ui/interactions/useCenterNotchState";
-import { loadClasses } from "@/lib/theme";
+import { setup } from "@/lib/theme";
 import Compact from "./Compact";
 import Expanded from "./Expanded";
 
@@ -11,7 +11,7 @@ export default function CenterNotch() {
   const { setOpen, hovered, setHovered, className } = useCenterNotchState();
 
   return (
-    <box $={loadClasses(CenterNotch)} class={className}>
+    <box $={setup} class={className}>
       <Gtk.EventControllerMotion
         onEnter={() => setHovered(true)}
         onLeave={() => setHovered(false)}

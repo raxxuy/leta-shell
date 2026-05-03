@@ -1,3 +1,4 @@
+import clsx from "clsx/lite";
 import MenuButton from "@/components/ui/MenuButton";
 import Popover from "@/components/ui/Popover";
 import { Align, Orientation, WrapMode } from "@/enums";
@@ -29,7 +30,7 @@ export default function Microphone() {
       <image iconName={iconName} pixelSize={pixelSize.sm} />
       <Popover
         animated
-        class="m-[5px_10px_15px] mt-4 min-w-xs rounded-2xl border border-(--tertiary)/20 bg-zinc-950/95 p-6 shadow-md"
+        class="m-[5px_10px_15px] mt-4 min-w-xs rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-6 shadow-md"
         hasArrow={false}
       >
         <box orientation={Orientation.VERTICAL} spacing={spacing.lg}>
@@ -55,7 +56,7 @@ export default function Microphone() {
                 onClicked={toggleMute}
               >
                 <label
-                  class="hover:transform-[scale(1.05)] font-semibold"
+                  class="transform-cpu font-semibold hover:scale-105"
                   halign={Align.END}
                   hexpand
                   label={formattedVolume}
@@ -66,7 +67,12 @@ export default function Microphone() {
           </box>
           <box class="min-h-4" valign={Align.CENTER}>
             <slider
-              class="endpoint-slider"
+              class={clsx(
+                "rounded-full bg-white/12",
+                "[&_highlight]:rounded-full [&_highlight]:bg-white/95",
+                "[&_slider:hover]:m-[-2px_0] [&_slider:hover]:min-h-[0.7rem] [&_slider:hover]:min-w-[0.7rem] [&_slider]:-my-[1px] [&_slider]:min-h-2 [&_slider]:min-w-2 [&_slider]:rounded-full [&_slider]:bg-white",
+                "active:[&_slider]:-my-0.5 active:[&_slider]:min-h-[0.7rem] active:[&_slider]:min-w-[0.7rem]",
+              )}
               hexpand
               max={1}
               min={0}

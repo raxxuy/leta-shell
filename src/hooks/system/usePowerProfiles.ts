@@ -28,7 +28,7 @@ export const usePowerProfile = (profile: string) => {
     clsx(
       "rounded-lg px-3 py-2 border transition-colors",
       ap === profile
-        ? "border-(--tertiary)/20 bg-(--primary)/20 hover:bg-(--primary)/30 active:bg-(--primary)/40"
+        ? "border-tertiary/20 bg-primary/20 hover:bg-primary/30 active:bg-primary/40"
         : "border-white/10 bg-zinc-900/80 hover:bg-zinc-800/80 active:bg-zinc-700/80",
     ),
   );

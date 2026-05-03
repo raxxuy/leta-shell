@@ -2,7 +2,7 @@ import { With } from "ags";
 import { Orientation } from "@/enums";
 import useSpacing from "@/hooks/services/config/useSpacing";
 import useActivePlayer from "@/hooks/services/mpris/useActivePlayer";
-import { loadClasses } from "@/lib/theme";
+import { scan } from "@/lib/theme";
 import { PlaybackButtons } from "./PlaybackButtons";
 import { PlaybackSlider } from "./PlaybackSlider";
 import PlaybackTime from "./PlaybackTime";
@@ -17,7 +17,7 @@ export default function PlaybackControls() {
         {(player) =>
           player ? (
             <box
-              $={loadClasses(PlaybackControls)}
+              $={scan}
               orientation={Orientation.VERTICAL}
               spacing={spacing.md}
             >

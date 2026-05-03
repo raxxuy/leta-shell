@@ -1,7 +1,7 @@
 import app from "ags/gtk4/app";
 import { CACHE_CSS_FILE, CACHE_SCSS_DIR, SRC_SCSS_DIR } from "@/constants";
 import { exec } from "../process";
-import { getUsedClasses, setClasses } from "./plugin";
+import { scan } from "./plugin";
 
 export const compileCss = async (): Promise<void> => {
   try {
@@ -23,7 +23,7 @@ const initializeStyles = async (): Promise<void> => {
 export const applyTheme = async (): Promise<void> => {
   try {
     await initializeStyles();
-    setClasses(getUsedClasses(app.windows));
+    await Promise.all(app.windows.map((w) => scan?.(w)));
     await compileCss();
   } catch (error) {
     console.error("Failed to apply theme:", error);

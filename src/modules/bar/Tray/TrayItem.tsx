@@ -3,7 +3,7 @@ import { createBinding } from "ags";
 import type { Gtk } from "ags/gtk4";
 import MenuButton from "@/components/ui/MenuButton";
 import usePixelSize from "@/hooks/services/config/usePixelSize";
-import { loadClasses } from "@/lib/theme";
+import { scan } from "@/lib/theme";
 
 interface TrayItemProps {
   item: AstalTray.TrayItem;
@@ -18,7 +18,7 @@ export default function TrayItem({ item }: TrayItemProps) {
     self.set_menu_model(item.menuModel ?? null);
     self.insert_action_group("dbusmenu", item.actionGroup ?? null);
 
-    loadClasses(TrayItem)(self);
+    scan?.(self);
   };
 
   return (

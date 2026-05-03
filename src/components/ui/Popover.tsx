@@ -1,7 +1,7 @@
 import { createMemo, createState } from "ags";
 import clsx from "clsx/lite";
 import { access } from "@/lib/reactive";
-import { loadClasses } from "@/lib/theme";
+import { setup } from "@/lib/theme";
 import type { Reactive } from "@/types/reactive";
 
 type PopoverProps = JSX.IntrinsicElements["popover"] & {
@@ -36,7 +36,7 @@ export default function Popover({
       }}
       {...props}
     >
-      <box $={loadClasses(Popover)} class={className}>
+      <box $={setup} class={className}>
         {children}
       </box>
     </popover>

@@ -1,4 +1,5 @@
 import type AstalMpris from "gi://AstalMpris";
+import clsx from "clsx/lite";
 import { Orientation } from "@/enums";
 import usePlayback from "@/hooks/services/mpris/usePlayback";
 import useSliderDrag from "@/hooks/ui/interactions/useSliderDrag";
@@ -18,7 +19,11 @@ export const PlaybackSlider = ({ player }: PlaybackSliderProps) => {
 
   return (
     <slider
-      class="playback-slider"
+      class={clsx(
+        "min-h-2 rounded-full bg-white/15",
+        "[&_highlight]:rounded-full [&_highlight]:bg-white/90",
+        "[&_slider]:-my-[1px] [&_slider]:min-h-1.5 [&_slider]:min-w-1.5 [&_slider]:rounded-full [&_slider]:bg-white",
+      )}
       hexpand
       max={length}
       min={0}

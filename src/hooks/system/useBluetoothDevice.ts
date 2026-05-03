@@ -19,10 +19,7 @@ export default function useBluetoothDevice(device: AstalBluetooth.Device) {
   });
 
   const dotClassName = connected((c) =>
-    clsx(
-      "rounded-full min-w-3 min-h-3",
-      c ? "bg-(--primary)/80" : "bg-zinc-700",
-    ),
+    clsx("rounded-full min-w-3 min-h-3", c ? "bg-primary/80" : "bg-zinc-700"),
   );
 
   const toggleConnection = () => {

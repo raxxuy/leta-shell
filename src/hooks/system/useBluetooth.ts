@@ -18,7 +18,7 @@ export default function useBluetooth() {
     clsx(
       "rounded-lg py-1.5 border border-white/10 transition-colors",
       d
-        ? "animate-pulse bg-(--primary)/20 hover:bg-(--primary)/30 active:bg-(--primary)/40"
+        ? "animate-pulse bg-primary/20 hover:bg-primary/30 active:bg-primary/40"
         : "animate-none bg-zinc-900/80 hover:bg-zinc-800/80 active:bg-zinc-700/80",
     ),
   );
