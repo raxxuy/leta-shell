@@ -2,8 +2,8 @@ import type AstalNotifd from "gi://AstalNotifd";
 import { createEffect } from "ags";
 import { timeout } from "ags/time";
 import { Align, EllipsizeMode, Orientation } from "@/enums";
-import usePixelSize from "@/hooks/services/config/usePixelSize";
-import useSpacing from "@/hooks/services/config/useSpacing";
+import usePixelSize from "@/hooks/core/usePixelSize";
+import useSpacing from "@/hooks/core/useSpacing";
 import { scan } from "@/lib/theme";
 import { formatLocalTime } from "@/lib/time";
 

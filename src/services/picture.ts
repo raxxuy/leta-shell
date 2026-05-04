@@ -1,3 +1,4 @@
+import Gio from "gi://Gio";
 import { getter, register } from "ags/gobject";
 import {
   CACHE_WALLPAPERS_ORIGINAL_DIR,
@@ -45,7 +46,7 @@ export default class PictureService extends Service {
     if (pictures) this.#pictures = pictures;
   }
 
-  @monitor(PICTURES_DIR)
+  @monitor(PICTURES_DIR, Gio.FileMonitorEvent.CHANGES_DONE_HINT)
   protected onPicturesChanged(): void {
     this.scanPictures();
   }

@@ -44,13 +44,13 @@
 
       nodeModules = pkgs.stdenv.mkDerivation {
         pname = "${pname}-node-modules";
-        version = "0.1.12";
+        version = "0.1.13";
         src = ./.;
         nativeBuildInputs = [ pkgs.bun ];
 
         outputHashMode = "recursive";
         outputHashAlgo = "sha256";
-        outputHash = "sha256-HGadvN0Dzkdf3dnj3kn7uoWXTxGHxp6ngU4emHLnKvI=";
+        outputHash = "sha256-mdDeheCMxcI3PrYekm4ZDmIiDyvCTEiMKRDfhNTCiJ8=";
 
         buildPhase = ''
           export HOME=$TMPDIR
@@ -88,7 +88,7 @@
             ln -s ${nodeModules}/node_modules $out/share/${pname}/node_modules
 
             cd $out/share/${pname}
-            ags bundle ${entry} $out/bin/.${pname}-wrapped -d "SRC='$out/share/${pname}'"
+            ags bundle ${entry} $out/bin/.${pname}-wrapped -d "SRC='$out/share/${pname}'" -d "PROD=true"
 
             substitute ${./bin/leta-shell} $out/bin/${pname} --replace "@out@" "$out"
             chmod +x $out/bin/${pname}

@@ -1,4 +1,4 @@
-import useConfig from "./useConfig";
+import useConfig from "@/hooks/services/useConfig";
 
 export default function useSpacing() {
   const [spacing] = useConfig("global", "spacing");

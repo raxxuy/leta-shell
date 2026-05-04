@@ -1,5 +1,5 @@
 import { With } from "ags";
-import useCenterNotchMode from "@/hooks/services/config/useCenterNotchMode";
+import useCenterNotchMode from "@/hooks/features/center-notch/useCenterNotchMode";
 import { scan } from "@/lib/theme";
 import MediaPreview from "./MediaPreview";
 import WeatherPreview from "./WeatherPreview";

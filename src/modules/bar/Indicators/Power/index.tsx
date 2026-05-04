@@ -2,9 +2,9 @@ import clsx from "clsx/lite";
 import MenuButton from "@/components/ui/MenuButton";
 import Popover from "@/components/ui/Popover";
 import { Align, Orientation } from "@/enums";
-import usePixelSize from "@/hooks/services/config/usePixelSize";
-import useSpacing from "@/hooks/services/config/useSpacing";
-import useBattery from "@/hooks/system/useBattery";
+import usePixelSize from "@/hooks/core/usePixelSize";
+import useSpacing from "@/hooks/core/useSpacing";
+import useBattery from "@/hooks/features/power/useBattery";
 import Profiles from "./Profiles";
 
 export default function Power() {

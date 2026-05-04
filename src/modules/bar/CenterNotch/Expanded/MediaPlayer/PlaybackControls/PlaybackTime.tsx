@@ -1,6 +1,6 @@
 import type AstalMpris from "gi://AstalMpris";
 import { Align } from "@/enums";
-import usePlayback from "@/hooks/services/mpris/usePlayback";
+import usePlayback from "@/hooks/features/center-notch/media/usePlayback";
 
 interface PlaybackTimeProps {
   player: AstalMpris.Player;

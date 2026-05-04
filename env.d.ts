@@ -1,4 +1,5 @@
 declare const SRC: string
+declare const PROD: boolean
 
 declare module "inline:*" {
   const content: string

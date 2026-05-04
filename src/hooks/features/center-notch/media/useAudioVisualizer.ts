@@ -1,8 +1,8 @@
 import AstalCava from "gi://AstalCava";
 import AstalMpris from "gi://AstalMpris";
 import { createBinding, createEffect, createState, onCleanup } from "ags";
-import useConfig from "@/hooks/services/config/useConfig";
-import useActivePlayer from "@/hooks/services/mpris/useActivePlayer";
+import useConfig from "@/hooks/services/useConfig";
+import useMpris from "@/hooks/services/useMpris";
 
 export default function useAudioVisualizer() {
   const [count] = useConfig(
@@ -13,7 +13,7 @@ export default function useAudioVisualizer() {
   const cava = AstalCava.get_default();
   if (!cava) return createState<number[]>([])[0];
 
-  const activePlayer = useActivePlayer();
+  const { activePlayer } = useMpris();
 
   createEffect(() => {
     cava.set_bars(count());
@@ -32,10 +32,13 @@ export default function useAudioVisualizer() {
       createBinding(player, "playbackStatus")() ===
         AstalMpris.PlaybackStatus.PLAYING;
 
+    if (decay) {
+      clearInterval(decay);
+      decay = null;
+    }
+
     if (!playing) {
       cava.active = false;
-
-      if (decay) return;
 
       decay = setInterval(() => {
         setValues((prev) => {
@@ -49,11 +52,6 @@ export default function useAudioVisualizer() {
       }, 50);
     } else {
       cava.active = true;
-
-      if (decay) {
-        clearInterval(decay);
-        decay = null;
-      }
     }
   });
 

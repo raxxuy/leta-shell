@@ -10,7 +10,11 @@ export default function useBluetoothDevice(device: AstalBluetooth.Device) {
   const batteryPercentage = createBinding(device, "batteryPercentage");
 
   const name = rawName((n) => n ?? "Unknown device");
+  const hasPercentage = batteryPercentage((p) => p !== -1);
   const actionLabel = connected((c) => (c ? "Disconnect" : "Connect"));
+  const batteryPercentageLabel = batteryPercentage((p) =>
+    p === -1 ? "" : `${p * 100}%`,
+  );
 
   const connectionLabel = createComputed(() => {
     if (connecting()) return "Connecting...";
@@ -19,7 +23,7 @@ export default function useBluetoothDevice(device: AstalBluetooth.Device) {
   });
 
   const dotClassName = connected((c) =>
-    clsx("rounded-full min-w-3 min-h-3", c ? "bg-primary/80" : "bg-zinc-700"),
+    clsx("rounded-full min-w-3 min-h-3", c ? "bg-primary" : "bg-zinc-700"),
   );
 
   const toggleConnection = () => {
@@ -32,10 +36,11 @@ export default function useBluetoothDevice(device: AstalBluetooth.Device) {
     paired,
     connected,
     connecting,
-    batteryPercentage,
-    connectionLabel,
-    dotClassName,
+    hasPercentage,
     actionLabel,
+    connectionLabel,
+    batteryPercentageLabel,
+    dotClassName,
     toggleConnection,
   };
 }

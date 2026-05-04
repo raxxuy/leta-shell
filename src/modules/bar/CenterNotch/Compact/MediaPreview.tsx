@@ -6,9 +6,8 @@ import {
   EventControllerScrollFlags,
   Overflow,
 } from "@/enums";
-import useMediaPreview, {
-  usePreviewLabel,
-} from "@/hooks/services/mpris/useMediaPreview";
+import useMediaPreview from "@/hooks/features/center-notch/media/useMediaPreview";
+import useTrackInfo from "@/hooks/features/center-notch/media/useTrackInfo";
 
 export default function MediaPreview() {
   const { activePlayer, onScroll } = useMediaPreview();
@@ -18,7 +17,7 @@ export default function MediaPreview() {
       {(player) => {
         if (!player) return <label hexpand label="No active player" />;
 
-        const previewLabel = usePreviewLabel(player);
+        const { previewLabel } = useTrackInfo(player);
 
         return (
           <box overflow={Overflow.HIDDEN}>

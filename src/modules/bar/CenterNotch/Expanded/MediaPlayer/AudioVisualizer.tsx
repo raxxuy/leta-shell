@@ -1,7 +1,7 @@
 import { With } from "ags";
 import { Align, Orientation } from "@/enums";
-import useSpacing from "@/hooks/services/config/useSpacing";
-import useAudioVisualizer from "@/hooks/services/mpris/useAudioVisualizer";
+import useSpacing from "@/hooks/core/useSpacing";
+import useAudioVisualizer from "@/hooks/features/center-notch/media/useAudioVisualizer";
 import { scan } from "@/lib/theme";
 
 export default function AudioVisualizer() {

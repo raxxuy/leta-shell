@@ -2,9 +2,9 @@ import clsx from "clsx/lite";
 import MenuButton from "@/components/ui/MenuButton";
 import Popover from "@/components/ui/Popover";
 import { Align, Orientation, WrapMode } from "@/enums";
-import usePixelSize from "@/hooks/services/config/usePixelSize";
-import useSpacing from "@/hooks/services/config/useSpacing";
-import useEndpoint from "@/hooks/system/useEndpoint";
+import usePixelSize from "@/hooks/core/usePixelSize";
+import useSpacing from "@/hooks/core/useSpacing";
+import useEndpoint from "@/hooks/features/audio/useEndpoint";
 import useWirePlumber from "@/hooks/system/useWirePlumber";
 
 export default function Speaker() {

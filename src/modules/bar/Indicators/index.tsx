@@ -1,5 +1,5 @@
 import { Align } from "@/enums";
-import useSpacing from "@/hooks/services/config/useSpacing";
+import useSpacing from "@/hooks/core/useSpacing";
 import Bluetooth from "./Bluetooth";
 import Microphone from "./Microphone";
 import Power from "./Power";

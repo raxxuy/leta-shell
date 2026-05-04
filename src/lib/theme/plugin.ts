@@ -1,21 +1,26 @@
 import { debounce } from "es-toolkit";
 import { agsPlugin } from "tailwind2gtk/plugins/ags";
-import { CACHE_UTILITIES_FILE, CACHE_UTILITIES_JSON_FILE } from "@/constants";
+import {
+  CACHE_COLORS_FILE,
+  CACHE_UTILITIES_FILE,
+  CACHE_UTILITIES_JSON_FILE,
+  SRC_TAILWIND_FILE,
+} from "@/constants";
 import { compileCss } from "./apply";
 
-const debouncedCompileCss = debounce(async () => {
-  await compileCss();
-}, 100);
+const debouncedCompileCss = debounce(() => compileCss(), 100);
 
 export const { scan, setup } = agsPlugin({
   jsonPath: CACHE_UTILITIES_JSON_FILE,
   cssPath: CACHE_UTILITIES_FILE,
+  themePath: PROD ? undefined : SRC_TAILWIND_FILE,
+  resolveVarsFrom: CACHE_COLORS_FILE,
   onCacheUpdate: () => {
     debouncedCompileCss();
   },
   tailwindConfig: {
     theme: {
-      spacing: "4px",
+      // spacing: "",
       colors: {
         primary: "var(--primary)",
         tertiary: "var(--tertiary)",

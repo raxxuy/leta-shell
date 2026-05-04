@@ -1,5 +1,5 @@
+import useConfig from "@/hooks/services/useConfig";
 import { CenterNotchModeEnum } from "@/lib/config/schemas/modules/center-notch";
-import useConfig from "./useConfig";
 
 export default function useCenterNotchMode() {
   const [mode, setMode] = useConfig("bar", "settings.centerNotch.mode");

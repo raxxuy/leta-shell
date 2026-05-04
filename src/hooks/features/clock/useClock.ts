@@ -1,7 +1,7 @@
 import { createMemo } from "ags";
 import { createPoll } from "ags/time";
+import useConfig from "@/hooks/services/useConfig";
 import { now } from "@/lib/time";
-import useConfig from "../services/config/useConfig";
 
 export default function useClock() {
   const [format] = useConfig("bar", "settings.clock.format");

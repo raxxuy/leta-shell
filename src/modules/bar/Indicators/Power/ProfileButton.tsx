@@ -1,8 +1,8 @@
 import { startCase } from "es-toolkit";
 import { Align } from "@/enums";
-import usePixelSize from "@/hooks/services/config/usePixelSize";
-import useSpacing from "@/hooks/services/config/useSpacing";
-import { usePowerProfile } from "@/hooks/system/usePowerProfiles";
+import usePixelSize from "@/hooks/core/usePixelSize";
+import useSpacing from "@/hooks/core/useSpacing";
+import { usePowerProfile } from "@/hooks/features/power/usePowerProfiles";
 import { setup } from "@/lib/theme";
 
 interface ProfileButtonProps {

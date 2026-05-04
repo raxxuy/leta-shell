@@ -1,7 +1,7 @@
 {
   "name": "leta-shell",
   "type": "module",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "scripts": {
     "dev": "ags run .",
     "watch": "nodemon --watch . --ext ts,tsx,json,scss --exec \"pkill gjs; sleep 1; bun run dev\""
@@ -11,7 +11,7 @@
     "clsx": "^2.1.1",
     "es-toolkit": "^1.46.1",
     "tailwind2gtk": "github:raxxuy/tailwind2gtk#new",
-    "zod": "^4.4.2"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.14",

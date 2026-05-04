@@ -1,6 +1,6 @@
 import type AstalHyprland from "gi://AstalHyprland";
 import { Align } from "@/enums";
-import useWorkspaceState from "@/hooks/system/useWorkspaceState";
+import useWorkspaceState from "@/hooks/features/workspaces/useWorkspaceState";
 import { setup } from "@/lib/theme";
 
 interface WorkspaceButtonProps {

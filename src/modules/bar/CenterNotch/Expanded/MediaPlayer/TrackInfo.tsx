@@ -1,11 +1,11 @@
 import { With } from "ags";
 import { Orientation } from "@/enums";
-import useActivePlayer from "@/hooks/services/mpris/useActivePlayer";
-import useTrackInfo from "@/hooks/services/mpris/useTrackInfo";
+import useTrackInfo from "@/hooks/features/center-notch/media/useTrackInfo";
+import useMpris from "@/hooks/services/useMpris";
 import { scan } from "@/lib/theme";
 
 export default function TrackInfo() {
-  const activePlayer = useActivePlayer();
+  const { activePlayer } = useMpris();
 
   return (
     <box>

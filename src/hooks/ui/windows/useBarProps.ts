@@ -1,4 +1,4 @@
-import useConfig from "@/hooks/services/config/useConfig";
+import useConfig from "@/hooks/services/useConfig";
 
 export default function useBarProps() {
   const [position] = useConfig("bar", "position");

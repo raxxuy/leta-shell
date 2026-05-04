@@ -96,7 +96,7 @@
 
     "supports-color": ["supports-color@5.5.0", "", { "dependencies": { "has-flag": "^3.0.0" } }, "sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow=="],
 
-    "tailwind2gtk": ["tailwind2gtk@github:raxxuy/tailwind2gtk#70cb18f", { "dependencies": { "es-toolkit": "^1.46.1" } }, "raxxuy-tailwind2gtk-70cb18f", "sha512-493qc0lI9TaNv3ZrD3VtrH1yf9mCqe0+/8XFKik5OJ0gHBp2tehS1cR2M2tbdQKAGijyk/tTLCW253l4dcpk5A=="],
+    "tailwind2gtk": ["tailwind2gtk@github:raxxuy/tailwind2gtk#f988dd3", {}, "raxxuy-tailwind2gtk-f988dd3", "sha512-rQsIoEwjUOvhN4viDXi9pZH1JBvITOWE4qTZ3H4K6NIEnEcBgEyOeOuY/RUJeA/6YOa2BY8sJeunjjeog5cGIA=="],
 
     "to-regex-range": ["to-regex-range@5.0.1", "", { "dependencies": { "is-number": "^7.0.0" } }, "sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ=="],
 
@@ -104,6 +104,6 @@
 
     "undefsafe": ["undefsafe@2.0.5", "", {}, "sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA=="],
 
-    "zod": ["zod@4.4.2", "", {}, "sha512-IynmDyxsEsb9RKzO3J9+4SxXnl2FTFSzNBaKKaMV6tsSk0rw9gYw9gs+JFCq/qk2LCZ78KDwyj+Z289TijSkUw=="],
+    "zod": ["zod@4.4.3", "", {}, "sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ=="],
   }
 }

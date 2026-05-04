@@ -21,11 +21,7 @@ export default function Popover({
     const isAnimated = access(animatedProp);
     const classes = access(classNameProp);
 
-    return clsx(
-      classes,
-      isAnimated &&
-        (visible() ? "animate-bounce-in" : "animate-none opacity-0"),
-    );
+    return clsx(classes, isAnimated && visible() && "animate-bounce-in");
   });
 
   return (

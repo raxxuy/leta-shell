@@ -1,4 +1,4 @@
-import useTime from "@/hooks/system/useClock";
+import useTime from "@/hooks/features/clock/useClock";
 
 export default function Clock() {
   const time = useTime();

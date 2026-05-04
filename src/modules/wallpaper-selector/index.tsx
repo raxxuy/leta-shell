@@ -1,6 +1,6 @@
 import { For } from "ags";
 import { Align, PolicyType } from "@/enums";
-import useSpacing from "@/hooks/services/config/useSpacing";
+import useSpacing from "@/hooks/core/useSpacing";
 import usePictures from "@/hooks/services/usePictures";
 import useWallpaper from "@/hooks/services/useWallpaper";
 import ThumbnailButton from "./ThumbnailButton";

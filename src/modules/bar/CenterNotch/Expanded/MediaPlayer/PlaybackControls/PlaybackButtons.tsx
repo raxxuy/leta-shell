@@ -1,9 +1,9 @@
 import type AstalMpris from "gi://AstalMpris";
 import { Cursor } from "@/constants";
 import { Align } from "@/enums";
-import usePixelSize from "@/hooks/services/config/usePixelSize";
-import useSpacing from "@/hooks/services/config/useSpacing";
-import usePlayback from "@/hooks/services/mpris/usePlayback";
+import usePixelSize from "@/hooks/core/usePixelSize";
+import useSpacing from "@/hooks/core/useSpacing";
+import usePlayback from "@/hooks/features/center-notch/media/usePlayback";
 import type { Reactive } from "@/types/reactive";
 
 interface PlaybackButtonsProps {

@@ -1,15 +1,15 @@
 import { With } from "ags";
 import Image from "@/components/ui/Image";
 import { Align, Overflow } from "@/enums";
-import usePixelSize from "@/hooks/services/config/usePixelSize";
-import useActivePlayer from "@/hooks/services/mpris/useActivePlayer";
-import useCoverArt from "@/hooks/services/mpris/useCoverArt";
+import usePixelSize from "@/hooks/core/usePixelSize";
+import useCoverArt from "@/hooks/features/center-notch/media/useCoverArt";
+import useMpris from "@/hooks/services/useMpris";
 import useAppQuery from "@/hooks/system/useAppQuery";
 import { scan } from "@/lib/theme";
 
 export default function CovertArt() {
   const pixelSize = usePixelSize();
-  const activePlayer = useActivePlayer();
+  const { activePlayer } = useMpris();
 
   return (
     <With value={activePlayer}>

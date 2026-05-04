@@ -28,6 +28,9 @@ export default class WebProvider implements LauncherProvider {
         activate: () => {
           toggleWindow("launcher");
           exec(`xdg-open ${this.engine}${encodeURIComponent(query)}`);
+          exec(
+            "hyprctl dispatch focuswindow class:$(xdg-settings get default-web-browser | sed 's/\\.desktop$//')",
+          );
         },
       },
     ];

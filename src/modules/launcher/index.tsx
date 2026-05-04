@@ -2,8 +2,8 @@ import { For, onMount } from "ags";
 import type { Gtk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import { Align, Orientation } from "@/enums";
-import usePixelSize from "@/hooks/services/config/usePixelSize";
-import useSpacing from "@/hooks/services/config/useSpacing";
+import usePixelSize from "@/hooks/core/usePixelSize";
+import useSpacing from "@/hooks/core/useSpacing";
 import useLauncher from "@/hooks/services/useLauncher";
 import LauncherItem from "./LauncherItem";
 

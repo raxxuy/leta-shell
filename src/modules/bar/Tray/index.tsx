@@ -1,7 +1,7 @@
 import { For } from "ags";
 import { Align } from "@/enums";
-import useSpacing from "@/hooks/services/config/useSpacing";
-import useTray from "@/hooks/system/useTray";
+import useSpacing from "@/hooks/core/useSpacing";
+import useTray from "@/hooks/features/tray/useTray";
 import TrayItem from "./TrayItem";
 
 export default function Tray() {

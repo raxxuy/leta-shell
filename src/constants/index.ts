@@ -41,6 +41,7 @@ export const CACHE_UTILITIES_JSON_FILE = buildPath(
 
 // Source files
 export const SRC_COLORS_FILE = buildPath(SRC_SCSS_DIR, "colors.scss");
+export const SRC_TAILWIND_FILE = buildPath(SRC, "tailwind.css");
 export const SRC_MATUGEN_CONFIG_FILE = buildPath(
   SRC_MATUGEN_DIR,
   "config.toml",

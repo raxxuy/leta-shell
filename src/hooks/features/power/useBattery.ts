@@ -4,6 +4,7 @@ import { formatUtcTime } from "@/lib/time";
 
 export default function useBattery() {
   const battery = AstalBattery.get_default();
+
   const charging = createBinding(battery, "charging");
   const isPresent = createBinding(battery, "isPresent");
   const percentage = createBinding(battery, "percentage");

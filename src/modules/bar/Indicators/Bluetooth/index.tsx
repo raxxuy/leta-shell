@@ -4,9 +4,9 @@ import MenuButton from "@/components/ui/MenuButton";
 import Popover from "@/components/ui/Popover";
 import { Cursor } from "@/constants";
 import { Align, Orientation } from "@/enums";
-import usePixelSize from "@/hooks/services/config/usePixelSize";
-import useSpacing from "@/hooks/services/config/useSpacing";
-import useBluetooth from "@/hooks/system/useBluetooth";
+import usePixelSize from "@/hooks/core/usePixelSize";
+import useSpacing from "@/hooks/core/useSpacing";
+import useBluetooth from "@/hooks/features/bluetooth/useBluetooth";
 import { scan, setup } from "@/lib/theme";
 import BluetoothDeviceItem from "./BluetoothDeviceItem";
 

@@ -3,7 +3,6 @@ import { createBinding } from "ags";
 
 export default function useWirePlumber() {
   const wp = AstalWp.get_default();
-
   const speaker = wp.defaultSpeaker;
   const microphone = wp.defaultMicrophone;
 

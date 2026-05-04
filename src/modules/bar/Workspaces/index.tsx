@@ -1,7 +1,7 @@
 import { For } from "ags";
 import { Align } from "@/enums";
-import useSpacing from "@/hooks/services/config/useSpacing";
-import useWorkspaces from "@/hooks/system/useWorkspaces";
+import useSpacing from "@/hooks/core/useSpacing";
+import useWorkspaces from "@/hooks/features/workspaces/useWorkspaces";
 import WorkspaceButton from "./WorkspaceButton";
 
 export default function Workspaces() {
