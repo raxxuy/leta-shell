@@ -88,7 +88,7 @@
             ln -s ${nodeModules}/node_modules $out/share/${pname}/node_modules
 
             cd $out/share/${pname}
-            ags bundle ${entry} $out/bin/.${pname}-wrapped -d "SRC='$out/share/${pname}'" -d "PROD=true"
+            ags bundle ${entry} $out/bin/.${pname}-wrapped -d "SRC='$out/share/${pname}'" -d "ENV='prod'"
 
             substitute ${./bin/leta-shell} $out/bin/${pname} --replace "@out@" "$out"
             chmod +x $out/bin/${pname}

@@ -13,7 +13,7 @@ const debouncedCompileCss = debounce(() => compileCss(), 100);
 export const { scan, setup } = agsPlugin({
   jsonPath: CACHE_UTILITIES_JSON_FILE,
   cssPath: CACHE_UTILITIES_FILE,
-  themePath: PROD ? undefined : SRC_TAILWIND_FILE,
+  themePath: ENV === "dev" ? SRC_TAILWIND_FILE : undefined,
   resolveVarsFrom: CACHE_COLORS_FILE,
   onCacheUpdate: () => {
     debouncedCompileCss();

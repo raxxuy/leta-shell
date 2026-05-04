@@ -1,5 +1,5 @@
 declare const SRC: string
-declare const PROD: boolean
+declare const ENV: string
 
 declare module "inline:*" {
   const content: string
