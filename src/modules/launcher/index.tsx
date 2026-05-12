@@ -1,10 +1,11 @@
-import { For, onMount } from "ags";
+import { onMount, With } from "ags";
 import type { Gtk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import { Align, Orientation } from "@/enums";
-import usePixelSize from "@/hooks/core/usePixelSize";
-import useSpacing from "@/hooks/core/useSpacing";
 import useLauncher from "@/hooks/services/useLauncher";
+import usePixelSize from "@/hooks/services/usePixelSize";
+import useSpacing from "@/hooks/services/useSpacing";
+import { scan, unscan } from "@/lib/theme";
 import LauncherItem from "./LauncherItem";
 
 interface LauncherModuleProps {
@@ -14,11 +15,9 @@ interface LauncherModuleProps {
 export default function LauncherModule({ width }: LauncherModuleProps) {
   const spacing = useSpacing();
   const pixelSize = usePixelSize();
-  const { results, clear, search } = useLauncher();
+  const { results, hasResults, maxResults, clear, search } = useLauncher();
 
   let entryRef: Gtk.Entry;
-
-  const resultsVisible = results((r) => r.length > 0);
 
   return (
     <box
@@ -57,15 +56,30 @@ export default function LauncherModule({ width }: LauncherModuleProps) {
       </box>
       <box
         class="mx-4 rounded-full border border-white/8"
-        visible={resultsVisible}
+        visible={hasResults}
       />
       <box
         class="my-2 px-4 pt-1 pb-2"
         orientation={Orientation.VERTICAL}
         spacing={spacing.xs}
-        visible={resultsVisible}
+        visible={hasResults}
       >
-        <For each={results}>{(result) => <LauncherItem result={result} />}</For>
+        <With
+          cleanup={(child) => unscan?.(child as Gtk.Widget)}
+          value={maxResults}
+        >
+          {(max) => (
+            <box
+              $={scan}
+              orientation={Orientation.VERTICAL}
+              spacing={spacing.xs}
+            >
+              {Array.from({ length: max }, (_, i) => (
+                <LauncherItem index={i} results={results} />
+              ))}
+            </box>
+          )}
+        </With>
       </box>
     </box>
   );

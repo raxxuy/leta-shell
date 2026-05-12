@@ -1,5 +1,5 @@
 import AstalHyprland from "gi://AstalHyprland";
-import { createBinding, createComputed } from "ags";
+import { createBinding, createMemo } from "ags";
 import clsx from "clsx/lite";
 import { Cursor } from "@/constants";
 
@@ -21,7 +21,7 @@ export default function useWorkspaceState(workspace: AstalHyprland.Workspace) {
   const clients = createBinding(workspace, "clients");
   const focused = createBinding(hypr, "focusedWorkspace");
 
-  const state = createComputed(() => {
+  const state = createMemo(() => {
     clients(); // track client changes to recompute state
 
     const isOccupied = hypr.get_workspace(workspace.id)?.clients.length > 0;
@@ -32,7 +32,7 @@ export default function useWorkspaceState(workspace: AstalHyprland.Workspace) {
     return "empty";
   });
 
-  const className = createComputed(() =>
+  const className = createMemo(() =>
     clsx(
       "transform-cpu rounded-lg px-2 min-h-4 transition-transform ease-out origin-center duration-300",
       stateClasses[state()],

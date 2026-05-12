@@ -11,7 +11,11 @@ export default function useAudioVisualizer() {
   );
 
   const cava = AstalCava.get_default();
-  if (!cava) return createState<number[]>([])[0];
+  if (!cava)
+    return {
+      count,
+      values: createState<number[]>([])[0],
+    };
 
   const { activePlayer } = useMpris();
 
@@ -23,8 +27,6 @@ export default function useAudioVisualizer() {
     Array(count.peek()).fill(0),
   );
 
-  let decay: ReturnType<typeof setInterval> | null = null;
-
   createEffect(() => {
     const player = activePlayer();
     const playing =
@@ -32,10 +34,7 @@ export default function useAudioVisualizer() {
       createBinding(player, "playbackStatus")() ===
         AstalMpris.PlaybackStatus.PLAYING;
 
-    if (decay) {
-      clearInterval(decay);
-      decay = null;
-    }
+    let decay: ReturnType<typeof setInterval> | null = null;
 
     if (!playing) {
       cava.active = false;
@@ -53,6 +52,13 @@ export default function useAudioVisualizer() {
     } else {
       cava.active = true;
     }
+
+    onCleanup(() => {
+      if (decay) {
+        clearInterval(decay);
+        decay = null;
+      }
+    });
   });
 
   const id = cava.connect("notify::values", () => {
@@ -61,5 +67,5 @@ export default function useAudioVisualizer() {
 
   onCleanup(() => cava.disconnect(id));
 
-  return values;
+  return { count, values };
 }

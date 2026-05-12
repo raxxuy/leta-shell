@@ -10,7 +10,7 @@ import { compileCss } from "./apply";
 
 const debouncedCompileCss = debounce(() => compileCss(), 100);
 
-export const { scan, setup } = agsPlugin({
+export const { scan, unscan } = agsPlugin({
   jsonPath: CACHE_UTILITIES_JSON_FILE,
   cssPath: CACHE_UTILITIES_FILE,
   themePath: ENV === "dev" ? SRC_TAILWIND_FILE : undefined,
@@ -20,13 +20,21 @@ export const { scan, setup } = agsPlugin({
   },
   tailwindConfig: {
     theme: {
+      apply: {
+        "bar-popover":
+          "m-[5px_10px_15px] mt-4 rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-6 shadow-md",
+        "bar-menubutton":
+          "min-h-6.5 min-w-6.5 rounded-lg transition-colors checked:bg-zinc-700 hover:bg-zinc-800 active:bg-zinc-700",
+        "bar-container":
+          "rounded-b-2xl border border-tertiary/20 border-t-0 bg-zinc-950/95 px-4 shadow-md",
+      },
       // spacing: "",
       colors: {
         primary: "var(--primary)",
         tertiary: "var(--tertiary)",
       },
       keyframes: {
-        "bounce-in": {
+        "pop-in": {
           "0%": {
             transform: "scale(0)",
             opacity: "0",
@@ -39,10 +47,43 @@ export const { scan, setup } = agsPlugin({
             opacity: "1",
           },
         },
+        wobble: {
+          "0%": {
+            transform: "scale(1.05) skewY(5deg)",
+          },
+          "50%": {
+            transform: "scale(0.95) skewY(-5deg)",
+          },
+          "100%": {
+            transform: "scale(1) skewY(0deg)",
+          },
+        },
+        "scale-in": {
+          "0%": {
+            transform: "scale(0.95)",
+            opacity: "0",
+          },
+          "100%": {
+            transform: "scale(1)",
+            opacity: "1",
+          },
+        },
+        "scale-out": {
+          "0%": {
+            transform: "scale(1)",
+            opacity: "1",
+          },
+          "100%": {
+            transform: "scale(0.95)",
+            opacity: "0",
+          },
+        },
       },
       animation: {
-        "bounce-in":
-          "bounce-in 250ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+        "pop-in": "pop-in 250ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+        wobble: "wobble 200ms ease-out forwards",
+        "scale-in": "scale-in 100ms ease-out forwards",
+        "scale-out": "scale-out 200ms ease-out forwards",
       },
     },
   },

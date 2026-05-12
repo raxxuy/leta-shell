@@ -10,7 +10,6 @@ import type { LauncherProvider, LauncherResult } from "./types";
 @register({ GTypeName: "LauncherService" })
 export default class LauncherService extends Service {
   private static instance: LauncherService;
-  private static readonly MAX_RESULTS = 5;
 
   #providers: LauncherProvider[] = [];
   #results: LauncherResult[] = [];

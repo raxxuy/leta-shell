@@ -1,13 +1,14 @@
 import { For, With } from "ags";
+import type { Gtk } from "ags/gtk4";
 import clsx from "clsx";
 import MenuButton from "@/components/ui/MenuButton";
 import Popover from "@/components/ui/Popover";
 import { Cursor } from "@/constants";
 import { Align, Orientation } from "@/enums";
-import usePixelSize from "@/hooks/core/usePixelSize";
-import useSpacing from "@/hooks/core/useSpacing";
 import useBluetooth from "@/hooks/features/bluetooth/useBluetooth";
-import { scan, setup } from "@/lib/theme";
+import usePixelSize from "@/hooks/services/usePixelSize";
+import useSpacing from "@/hooks/services/useSpacing";
+import { scan, unscan } from "@/lib/theme";
 import BluetoothDeviceItem from "./BluetoothDeviceItem";
 
 export default function Bluetooth() {
@@ -24,13 +25,9 @@ export default function Bluetooth() {
   } = useBluetooth();
 
   return (
-    <MenuButton class="min-h-6.5 min-w-6.5 rounded-lg transition-colors checked:bg-zinc-700 hover:bg-zinc-800 active:bg-zinc-700">
+    <MenuButton class="bar-menubutton">
       <image iconName={powerIcon} pixelSize={pixelSize.sm} />
-      <Popover
-        animated
-        class="m-[5px_10px_15px] mt-4 min-w-sm rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-6 shadow-md"
-        hasArrow={false}
-      >
+      <Popover animated class="bar-popover min-w-sm" hasArrow={false}>
         <box orientation={Orientation.VERTICAL} spacing={spacing.lg}>
           <box hexpand valign={Align.CENTER}>
             <label class="font-semibold opacity-90" label="Bluetooth" />
@@ -61,13 +58,15 @@ export default function Bluetooth() {
                       orientation={Orientation.VERTICAL}
                       spacing={spacing.md}
                     >
-                      <For each={devices}>
+                      <For
+                        cleanup={(element) => unscan?.(element as Gtk.Widget)}
+                        each={devices}
+                      >
                         {(device) => <BluetoothDeviceItem device={device} />}
                       </For>
                     </box>
                   </scrolledwindow>
                   <button
-                    $={setup}
                     class={buttonClassName}
                     focusable={false}
                     hexpand

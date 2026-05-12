@@ -2,8 +2,8 @@ import type AstalNotifd from "gi://AstalNotifd";
 import { createEffect } from "ags";
 import { timeout } from "ags/time";
 import { Align, EllipsizeMode, Orientation } from "@/enums";
-import usePixelSize from "@/hooks/core/usePixelSize";
-import useSpacing from "@/hooks/core/useSpacing";
+import usePixelSize from "@/hooks/services/usePixelSize";
+import useSpacing from "@/hooks/services/useSpacing";
 import { scan } from "@/lib/theme";
 import { formatLocalTime } from "@/lib/time";
 
@@ -22,7 +22,7 @@ export default function Notification({ notification }: NotificationProps) {
   return (
     <button
       $={scan}
-      class="m-[5px_10px_15px] transform-cpu rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-4 shadow-md transition-transform hover:scale-102 hover:border-tertiary/40"
+      class="m-[5px_10px_15px] transform-cpu rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-4 shadow-md transition-transform hover:scale-102 hover:border-tertiary/40 active:scale-98 active:border-tertiary/60 active:bg-zinc-850"
       hexpand={false}
       onClicked={() => notification.dismiss()}
     >

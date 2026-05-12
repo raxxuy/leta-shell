@@ -11,7 +11,7 @@ export default function useCenterNotchMode() {
     setMode(modes[next]);
   };
 
-  const selectMode = (mode: (typeof modes)[number]) => setMode(mode);
+  const selectMode = (nextMode: (typeof modes)[number]) => setMode(nextMode);
 
   return { mode, selectMode, switchMode, modes };
 }

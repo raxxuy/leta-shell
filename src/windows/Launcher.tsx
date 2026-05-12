@@ -11,6 +11,7 @@ export default function LauncherWindow(gdkmonitor: Gdk.Monitor) {
   return (
     <PopupWindow
       anchor="center"
+      animation="scale"
       application={app}
       exclusivity={Exclusivity.IGNORE}
       gdkmonitor={gdkmonitor}
@@ -20,8 +21,8 @@ export default function LauncherWindow(gdkmonitor: Gdk.Monitor) {
       name="launcher"
       namespace="leta-shell"
       position="top"
-      transitionDuration={100}
-      transitionType={RevealerTransitionType.CROSSFADE}
+      // transitionDuration={100}
+      transitionType={RevealerTransitionType.NONE}
     >
       <LauncherModule width={width} />
     </PopupWindow>

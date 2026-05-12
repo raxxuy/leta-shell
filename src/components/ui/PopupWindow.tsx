@@ -16,13 +16,25 @@ import type { Anchor, PositionKey } from "@/types/window";
  */
 class PopupImpl extends Astal.Window {
   revealer?: Gtk.Revealer;
+  animatedChild?: Gtk.Widget;
+  animation?: Reactive<PopupAnimation | undefined>;
 
   override vfunc_show(): void {
     super.vfunc_show();
+    const anim = this.animation ? access(this.animation) : null;
+    if (anim) {
+      this.animatedChild?.remove_css_class(`animate-${anim}-out`);
+      this.animatedChild?.add_css_class(`animate-${anim}-in`);
+    }
     this.revealer?.set_reveal_child(true);
   }
 
   override vfunc_hide(): void {
+    const anim = this.animation ? access(this.animation) : null;
+    if (anim) {
+      this.animatedChild?.remove_css_class(`animate-${anim}-in`);
+      this.animatedChild?.add_css_class(`animate-${anim}-out`);
+    }
     this.revealer?.set_reveal_child(false);
   }
 
@@ -32,16 +44,19 @@ class PopupImpl extends Astal.Window {
   }
 }
 
+type PopupAnimation = "slide-up" | "slide-down" | "scale" | "fade" | "none";
+
 type PopupWindowProps = Omit<
   CCProps<PopupImpl, Partial<PopupImpl>>,
   "anchor"
 > & {
   anchor?: Reactive<Anchor>;
+  animation?: Reactive<PopupAnimation>;
+  clickOutside?: Reactive<boolean>;
+  escape?: Reactive<boolean>;
   position?: Reactive<PositionKey>;
   transitionType?: Reactive<Gtk.RevealerTransitionType>;
   transitionDuration?: Reactive<number>;
-  clickOutside?: Reactive<boolean>;
-  escape?: Reactive<boolean>;
 };
 
 const Popup = GObject.registerClass(PopupImpl);
@@ -52,6 +67,7 @@ export default function PopupWindow({
   transitionType = RevealerTransitionType.CROSSFADE,
   transitionDuration = 200,
   clickOutside: clickOutsideProp = true,
+  animation,
   children,
   $,
   ...props
@@ -97,7 +113,16 @@ export default function PopupWindow({
         transitionType={transitionType}
         valign={valign}
       >
-        {children}
+        <box
+          $={(self) => {
+            onMount(() => {
+              winRef.animatedChild = self;
+              winRef.animation = animation;
+            });
+          }}
+        >
+          {children}
+        </box>
       </revealer>
     </Popup>
   );

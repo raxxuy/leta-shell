@@ -1,7 +1,7 @@
 import { With } from "ags";
 import { Orientation } from "@/enums";
-import useSpacing from "@/hooks/core/useSpacing";
 import useCenterNotchMode from "@/hooks/features/center-notch/useCenterNotchMode";
+import useSpacing from "@/hooks/services/useSpacing";
 import MediaPlayer from "./MediaPlayer";
 
 const components = {

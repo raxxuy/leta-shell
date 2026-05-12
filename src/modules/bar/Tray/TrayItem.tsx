@@ -2,7 +2,7 @@ import type AstalTray from "gi://AstalTray";
 import { createBinding } from "ags";
 import type { Gtk } from "ags/gtk4";
 import MenuButton from "@/components/ui/MenuButton";
-import usePixelSize from "@/hooks/core/usePixelSize";
+import usePixelSize from "@/hooks/services/usePixelSize";
 import { scan } from "@/lib/theme";
 
 interface TrayItemProps {
@@ -22,11 +22,7 @@ export default function TrayItem({ item }: TrayItemProps) {
   };
 
   return (
-    <MenuButton
-      $={init}
-      class="tray-item min-h-6.5 min-w-6.5 rounded-lg transition-colors checked:bg-zinc-700 hover:bg-zinc-800 active:bg-zinc-700"
-      focusable={false}
-    >
+    <MenuButton $={init} class="tray-item bar-menubutton" focusable={false}>
       <image
         gicon={gicon}
         pixelSize={pixelSize.sm}

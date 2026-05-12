@@ -16,7 +16,7 @@ tooltip {
 .tray-item {
     &:checked {
         popover scrolledwindow {
-            animation: bounce-in 150ms var(--ease-in-out) forwards;
+            animation: pop-in 150ms var(--ease-in-out) forwards;
         }
     }
 

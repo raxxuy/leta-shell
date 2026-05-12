@@ -1,7 +1,6 @@
 import { createMemo, createState } from "ags";
 import clsx from "clsx/lite";
 import { access } from "@/lib/reactive";
-import { setup } from "@/lib/theme";
 import type { Reactive } from "@/types/reactive";
 
 type PopoverProps = JSX.IntrinsicElements["popover"] & {
@@ -21,7 +20,7 @@ export default function Popover({
     const isAnimated = access(animatedProp);
     const classes = access(classNameProp);
 
-    return clsx(classes, isAnimated && visible() && "animate-bounce-in");
+    return clsx(classes, isAnimated && visible() && "animate-pop-in");
   });
 
   return (
@@ -32,9 +31,7 @@ export default function Popover({
       }}
       {...props}
     >
-      <box $={setup} class={className}>
-        {children}
-      </box>
+      <box class={className}>{children}</box>
     </popover>
   );
 }

@@ -1,7 +1,7 @@
 import type AstalHyprland from "gi://AstalHyprland";
 import { Align } from "@/enums";
 import useWorkspaceState from "@/hooks/features/workspaces/useWorkspaceState";
-import { setup } from "@/lib/theme";
+import { scan } from "@/lib/theme";
 
 interface WorkspaceButtonProps {
   workspace: AstalHyprland.Workspace;
@@ -17,7 +17,7 @@ export default function WorkspaceButton({ workspace }: WorkspaceButtonProps) {
 
   return (
     <button
-      $={setup}
+      $={scan}
       class={className}
       cursor={cursor}
       focusable={false}

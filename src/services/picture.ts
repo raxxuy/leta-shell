@@ -46,7 +46,12 @@ export default class PictureService extends Service {
     if (pictures) this.#pictures = pictures;
   }
 
-  @monitor(PICTURES_DIR, Gio.FileMonitorEvent.CHANGES_DONE_HINT)
+  @monitor(
+    PICTURES_DIR,
+    Gio.FileMonitorEvent.CHANGES_DONE_HINT,
+    Gio.FileMonitorEvent.MOVED_IN,
+    Gio.FileMonitorEvent.MOVED_OUT,
+  )
   protected onPicturesChanged(): void {
     this.scanPictures();
   }

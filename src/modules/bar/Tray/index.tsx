@@ -1,7 +1,9 @@
 import { For } from "ags";
+import type { Gtk } from "ags/gtk4";
 import { Align } from "@/enums";
-import useSpacing from "@/hooks/core/useSpacing";
 import useTray from "@/hooks/features/tray/useTray";
+import useSpacing from "@/hooks/services/useSpacing";
+import { unscan } from "@/lib/theme";
 import TrayItem from "./TrayItem";
 
 export default function Tray() {
@@ -10,7 +12,11 @@ export default function Tray() {
 
   return (
     <box spacing={spacing.sm} valign={Align.CENTER} visible={hasItems}>
-      <For each={items} id={(item) => item.id}>
+      <For
+        cleanup={(element) => unscan?.(element as Gtk.Widget)}
+        each={items}
+        id={(item) => item.id}
+      >
         {(item) => <TrayItem item={item} />}
       </For>
     </box>

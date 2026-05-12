@@ -2,9 +2,9 @@ import clsx from "clsx/lite";
 import MenuButton from "@/components/ui/MenuButton";
 import Popover from "@/components/ui/Popover";
 import { Align, Orientation } from "@/enums";
-import usePixelSize from "@/hooks/core/usePixelSize";
-import useSpacing from "@/hooks/core/useSpacing";
 import useBattery from "@/hooks/features/power/useBattery";
+import usePixelSize from "@/hooks/services/usePixelSize";
+import useSpacing from "@/hooks/services/useSpacing";
 import Profiles from "./Profiles";
 
 export default function Power() {
@@ -19,16 +19,9 @@ export default function Power() {
   } = useBattery();
 
   return (
-    <MenuButton
-      class="min-h-6.5 min-w-6.5 rounded-lg transition-colors checked:bg-zinc-700 hover:bg-zinc-800 active:bg-zinc-800"
-      visible={isPresent}
-    >
+    <MenuButton class="bar-menubutton" visible={isPresent}>
       <image iconName={iconName} pixelSize={pixelSize.sm} />
-      <Popover
-        animated
-        class="m-[5px_10px_15px] mt-4 min-w-sm rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-6 shadow-md"
-        hasArrow={false}
-      >
+      <Popover animated class="bar-popover min-w-sm" hasArrow={false}>
         <box orientation={Orientation.VERTICAL} spacing={spacing.lg}>
           <box hexpand valign={Align.CENTER}>
             <label class="font-semibold opacity-90" label="Battery" />

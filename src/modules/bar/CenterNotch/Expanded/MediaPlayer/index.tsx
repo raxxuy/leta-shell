@@ -1,5 +1,5 @@
 import { Align, Orientation } from "@/enums";
-import useSpacing from "@/hooks/core/useSpacing";
+import useSpacing from "@/hooks/services/useSpacing";
 import { scan } from "@/lib/theme";
 import AudioVisualizer from "./AudioVisualizer";
 import CovertArt from "./CovertArt";

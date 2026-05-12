@@ -1,9 +1,9 @@
 import { With } from "ags";
 import Image from "@/components/ui/Image";
 import { Align, Overflow } from "@/enums";
-import usePixelSize from "@/hooks/core/usePixelSize";
 import useCoverArt from "@/hooks/features/center-notch/media/useCoverArt";
 import useMpris from "@/hooks/services/useMpris";
+import usePixelSize from "@/hooks/services/usePixelSize";
 import useAppQuery from "@/hooks/system/useAppQuery";
 import { scan } from "@/lib/theme";
 
@@ -29,7 +29,7 @@ export default function CovertArt() {
             />
             <image
               $type="overlay"
-              class="-mr-1 -mb-1 shadow-md"
+              class="inset-shadow-sm -mr-1 -mb-1"
               halign={Align.END}
               iconName={app.iconName}
               pixelSize={pixelSize.md}

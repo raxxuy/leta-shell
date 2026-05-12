@@ -1,7 +1,7 @@
 import { With } from "ags";
 import { Orientation } from "@/enums";
-import useSpacing from "@/hooks/core/useSpacing";
 import useMpris from "@/hooks/services/useMpris";
+import useSpacing from "@/hooks/services/useSpacing";
 import { scan } from "@/lib/theme";
 import { PlaybackButtons } from "./PlaybackButtons";
 import { PlaybackSlider } from "./PlaybackSlider";

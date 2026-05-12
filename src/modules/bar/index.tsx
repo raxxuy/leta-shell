@@ -1,7 +1,8 @@
-import useSpacing from "@/hooks/core/useSpacing";
+import useSpacing from "@/hooks/services/useSpacing";
 import CenterNotch from "./CenterNotch";
 import Clock from "./Clock";
 import Indicators from "./Indicators";
+import Settings from "./Settings";
 import Tray from "./Tray";
 import Workspaces from "./Workspaces";
 
@@ -10,24 +11,17 @@ export default function BarModule() {
 
   return (
     <centerbox class="mb-0.5 px-4">
-      <box
-        $type="start"
-        class="rounded-b-2xl border border-tertiary/20 border-t-0 bg-zinc-950/95 px-4 shadow-md"
-        spacing={spacing.xl}
-      >
+      <box $type="start" class="bar-container" spacing={spacing.xl}>
         <Workspaces />
         <Tray />
       </box>
       <box $type="center">
         <CenterNotch />
       </box>
-      <box
-        $type="end"
-        class="rounded-b-2xl border border-tertiary/20 border-t-0 bg-zinc-950/95 px-4 shadow-md"
-        spacing={spacing.xl}
-      >
+      <box $type="end" class="bar-container" spacing={spacing.xl}>
         <Indicators />
         <Clock />
+        <Settings />
       </box>
     </centerbox>
   );

@@ -10,6 +10,7 @@ import { startSocket, stopSocket } from "@/socket";
 import BarWindow from "@/windows/Bar";
 import LauncherWindow from "@/windows/Launcher";
 import NotificationsWindow from "@/windows/Notifications";
+import SettingsWindow from "@/windows/Settings";
 import WallpaperWindow from "@/windows/Wallpaper";
 import WallpaperSelectorWindow from "@/windows/WallpaperSelector";
 
@@ -19,6 +20,7 @@ const windows = [
   WallpaperWindow,
   NotificationsWindow,
   WallpaperSelectorWindow,
+  SettingsWindow,
 ];
 
 app.start({

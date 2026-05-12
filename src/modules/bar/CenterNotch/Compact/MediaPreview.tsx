@@ -15,7 +15,8 @@ export default function MediaPreview() {
   return (
     <With value={activePlayer}>
       {(player) => {
-        if (!player) return <label hexpand label="No active player" />;
+        if (!player)
+          return <label class="font-medium" hexpand label="No active player" />;
 
         const { previewLabel } = useTrackInfo(player);
 
@@ -26,6 +27,7 @@ export default function MediaPreview() {
               onScroll={onScroll}
             />
             <label
+              class="font-medium"
               ellipsize={EllipsizeMode.END}
               halign={Align.CENTER}
               hexpand
