@@ -44,13 +44,13 @@
 
       nodeModules = pkgs.stdenv.mkDerivation {
         pname = "${pname}-node-modules";
-        version = "0.1.14";
+        version = "0.1.15";
         src = ./.;
         nativeBuildInputs = [ pkgs.bun ];
 
         outputHashMode = "recursive";
         outputHashAlgo = "sha256";
-        outputHash = "sha256-zF2ZcDOW/yT/zz2jjR14OTljzTWlAStludukffYGlQo=";
+        outputHash = "sha256-BkHoVmxANrKbFjdeN6yEi3FNvIwa5DTi7pQdjZ266oI=";
 
         buildPhase = ''
           export HOME=$TMPDIR

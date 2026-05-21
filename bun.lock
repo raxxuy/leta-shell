@@ -96,7 +96,7 @@
 
     "supports-color": ["supports-color@5.5.0", "", { "dependencies": { "has-flag": "^3.0.0" } }, "sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow=="],
 
-    "tailwind2gtk": ["tailwind2gtk@github:raxxuy/tailwind2gtk#4adf6e3", {}, "raxxuy-tailwind2gtk-4adf6e3", "sha512-sfW7aHtUYJzsx8l4irGCl5oQpu8lk9RXc58aDCWfNIdMaDtOotuuSdqBIUb344FCFgNXj4x9MDeEAlipnCdteA=="],
+    "tailwind2gtk": ["tailwind2gtk@github:raxxuy/tailwind2gtk#d4fd26e", {}, "raxxuy-tailwind2gtk-d4fd26e", "sha512-pYGNa12Ytb8AKlioVACkV+Yd/h8CAYZQO+CeK4OjHJTmAv3phEnPKEHeYL02D3g1iiISl0OZBaDoCPtAKB7oPw=="],
 
     "to-regex-range": ["to-regex-range@5.0.1", "", { "dependencies": { "is-number": "^7.0.0" } }, "sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ=="],
 

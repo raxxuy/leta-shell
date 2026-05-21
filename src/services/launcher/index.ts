@@ -4,6 +4,7 @@ import type { LauncherConfig } from "@/lib/config/schemas/launcher";
 import Service from "../base";
 import ConfigService from "../config";
 import AppsProvider from "./providers/apps";
+import SessionProvider from "./providers/session";
 import WebProvider from "./providers/web";
 import type { LauncherProvider, LauncherResult } from "./types";
 
@@ -35,11 +36,13 @@ export default class LauncherService extends Service {
       return;
     }
 
+    const q = query.trim();
+
     const results = this.#providers
       .slice()
       .sort((a, b) => a.priority - b.priority)
-      .filter((provider) => provider.shouldSearch(query))
-      .flatMap((provider) => provider.search(query));
+      .filter((provider) => provider.shouldSearch(q))
+      .flatMap((provider) => provider.search(q));
 
     this.setResults(results);
   }
@@ -55,6 +58,10 @@ export default class LauncherService extends Service {
 
   constructor() {
     super();
-    this.#providers = [new AppsProvider(), new WebProvider()];
+    this.#providers = [
+      new AppsProvider(),
+      new WebProvider(),
+      new SessionProvider(),
+    ];
   }
 }

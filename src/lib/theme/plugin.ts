@@ -10,7 +10,7 @@ import { compileCss } from "./apply";
 
 const debouncedCompileCss = debounce(() => compileCss(), 100);
 
-export const { scan, unscan } = agsPlugin({
+export const { scan, cleanupWidget } = agsPlugin({
   jsonPath: CACHE_UTILITIES_JSON_FILE,
   cssPath: CACHE_UTILITIES_FILE,
   themePath: ENV === "dev" ? SRC_TAILWIND_FILE : undefined,
@@ -26,7 +26,7 @@ export const { scan, unscan } = agsPlugin({
         "bar-menubutton":
           "min-h-6.5 min-w-6.5 rounded-lg transition-colors checked:bg-zinc-700 hover:bg-zinc-800 active:bg-zinc-700",
         "bar-container":
-          "rounded-b-2xl border border-tertiary/20 border-t-0 bg-zinc-950/95 px-4 shadow-md",
+          "border border-tertiary/20 bg-zinc-950/95 px-4 shadow-md",
       },
       // spacing: "",
       colors: {

@@ -4,7 +4,7 @@ import ConfigService from "@/services/config";
 import type { LauncherProvider, LauncherResult } from "../types";
 
 export default class WebProvider implements LauncherProvider {
-  private searchEngines: Record<string, string> = {
+  private static readonly searchEngines: Record<string, string> = {
     google: "https://google.com/search?q=",
     duckduckgo: "https://duckduckgo.com/?q=",
     brave: "https://search.brave.com/search?q=",
@@ -13,7 +13,7 @@ export default class WebProvider implements LauncherProvider {
   private get engine(): string {
     const name =
       ConfigService.get_default().configs.launcher.providers.web.searchEngine;
-    return this.searchEngines[name] ?? this.searchEngines.google;
+    return WebProvider.searchEngines[name] ?? WebProvider.searchEngines.google;
   }
 
   id = "web";

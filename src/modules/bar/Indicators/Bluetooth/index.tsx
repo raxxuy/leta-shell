@@ -1,5 +1,4 @@
 import { For, With } from "ags";
-import type { Gtk } from "ags/gtk4";
 import clsx from "clsx";
 import MenuButton from "@/components/ui/MenuButton";
 import Popover from "@/components/ui/Popover";
@@ -8,7 +7,7 @@ import { Align, Orientation } from "@/enums";
 import useBluetooth from "@/hooks/features/bluetooth/useBluetooth";
 import usePixelSize from "@/hooks/services/usePixelSize";
 import useSpacing from "@/hooks/services/useSpacing";
-import { scan, unscan } from "@/lib/theme";
+import { cleanupWidget, scan } from "@/lib/theme";
 import BluetoothDeviceItem from "./BluetoothDeviceItem";
 
 export default function Bluetooth() {
@@ -58,10 +57,7 @@ export default function Bluetooth() {
                       orientation={Orientation.VERTICAL}
                       spacing={spacing.md}
                     >
-                      <For
-                        cleanup={(element) => unscan?.(element as Gtk.Widget)}
-                        each={devices}
-                      >
+                      <For cleanup={cleanupWidget} each={devices}>
                         {(device) => <BluetoothDeviceItem device={device} />}
                       </For>
                     </box>

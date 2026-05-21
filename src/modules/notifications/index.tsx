@@ -1,10 +1,10 @@
 import AstalNotifd from "gi://AstalNotifd";
 import { For, onMount } from "ags";
-import type { Astal, Gtk } from "ags/gtk4";
+import type { Astal } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import { Align, Orientation, WindowAnchor } from "@/enums";
 import useNotifications from "@/hooks/services/useNotifications";
-import { unscan } from "@/lib/theme";
+import { cleanupWidget } from "@/lib/theme";
 import Notification from "./Notification";
 
 export default function NotificationsModule() {
@@ -22,10 +22,7 @@ export default function NotificationsModule() {
 
   return (
     <box orientation={Orientation.VERTICAL} valign={Align.END}>
-      <For
-        cleanup={(element) => unscan?.(element as Gtk.Widget)}
-        each={notifications}
-      >
+      <For cleanup={cleanupWidget} each={notifications}>
         {(notification) => <Notification notification={notification} />}
       </For>
     </box>

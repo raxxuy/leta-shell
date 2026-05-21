@@ -21,7 +21,6 @@ export default function LauncherWindow(gdkmonitor: Gdk.Monitor) {
       name="launcher"
       namespace="leta-shell"
       position="top"
-      // transitionDuration={100}
       transitionType={RevealerTransitionType.NONE}
     >
       <LauncherModule width={width} />

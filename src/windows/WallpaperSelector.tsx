@@ -11,6 +11,7 @@ export default function WallpaperSelectorWindow(gdkmonitor: Gdk.Monitor) {
   return (
     <PopupWindow
       anchor="center"
+      animation="scale"
       application={app}
       exclusivity={Exclusivity.IGNORE}
       gdkmonitor={gdkmonitor}
@@ -18,7 +19,7 @@ export default function WallpaperSelectorWindow(gdkmonitor: Gdk.Monitor) {
       layer={Layer.OVERLAY}
       name="wallpaper-selector"
       namespace="leta-shell"
-      transitionType={RevealerTransitionType.SWING_UP}
+      transitionType={RevealerTransitionType.NONE}
     >
       <WallpaperSelectorModule connector={connector} width={width} />
     </PopupWindow>

@@ -5,7 +5,7 @@ import { Align, Orientation } from "@/enums";
 import useLauncher from "@/hooks/services/useLauncher";
 import usePixelSize from "@/hooks/services/usePixelSize";
 import useSpacing from "@/hooks/services/useSpacing";
-import { scan, unscan } from "@/lib/theme";
+import { cleanupWidget, scan } from "@/lib/theme";
 import LauncherItem from "./LauncherItem";
 
 interface LauncherModuleProps {
@@ -64,10 +64,7 @@ export default function LauncherModule({ width }: LauncherModuleProps) {
         spacing={spacing.xs}
         visible={hasResults}
       >
-        <With
-          cleanup={(child) => unscan?.(child as Gtk.Widget)}
-          value={maxResults}
-        >
+        <With cleanup={cleanupWidget} value={maxResults}>
           {(max) => (
             <box
               $={scan}

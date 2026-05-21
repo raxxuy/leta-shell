@@ -1,27 +1,21 @@
 import useSpacing from "@/hooks/services/useSpacing";
-import CenterNotch from "./CenterNotch";
-import Clock from "./Clock";
-import Indicators from "./Indicators";
-import Settings from "./Settings";
-import Tray from "./Tray";
-import Workspaces from "./Workspaces";
+import useBarProps from "@/hooks/ui/windows/useBarProps";
+import { widgetRegistry } from "./registry";
 
 export default function BarModule() {
   const spacing = useSpacing();
+  const { layout, containerClassName } = useBarProps();
 
   return (
     <centerbox class="mb-0.5 px-4">
-      <box $type="start" class="bar-container" spacing={spacing.xl}>
-        <Workspaces />
-        <Tray />
+      <box $type="start" class={containerClassName} spacing={spacing.xl}>
+        {layout.peek().left.map((name) => widgetRegistry[name]?.())}
       </box>
       <box $type="center">
-        <CenterNotch />
+        {layout.peek().center.map((name) => widgetRegistry[name]?.())}
       </box>
-      <box $type="end" class="bar-container" spacing={spacing.xl}>
-        <Indicators />
-        <Clock />
-        <Settings />
+      <box $type="end" class={containerClassName} spacing={spacing.xl}>
+        {layout.peek().right.map((name) => widgetRegistry[name]?.())}
       </box>
     </centerbox>
   );

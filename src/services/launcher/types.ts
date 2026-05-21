@@ -7,6 +7,7 @@ export interface LauncherProvider {
 
 export type LauncherResult = {
   activate(): void;
+  aliases?: string[];
   category?: string;
   description?: string;
   icon?: string;

@@ -48,7 +48,7 @@ type PopupAnimation = "slide-up" | "slide-down" | "scale" | "fade" | "none";
 
 type PopupWindowProps = Omit<
   CCProps<PopupImpl, Partial<PopupImpl>>,
-  "anchor"
+  "anchor" | "revealer" | "animatedChild"
 > & {
   anchor?: Reactive<Anchor>;
   animation?: Reactive<PopupAnimation>;
@@ -73,13 +73,12 @@ export default function PopupWindow({
   ...props
 }: PopupWindowProps) {
   const anchor = createReactiveMemo(anchorProp, resolveAnchor);
-
-  let winRef: PopupImpl;
-  let revealerRef: Gtk.Revealer;
-
   const pos = createReactiveMemo(position, (p) => positions[p]);
   const halign = pos((p) => p.halign);
   const valign = pos((p) => p.valign);
+
+  let winRef: PopupImpl;
+  let revealerRef: Gtk.Revealer;
 
   const bindControllers = () => {
     const clickOutside = access(clickOutsideProp);

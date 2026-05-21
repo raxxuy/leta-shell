@@ -13,14 +13,12 @@ export default function SettingsWindow(gdkmonitor: Gdk.Monitor) {
       anchor="center"
       animation="scale"
       application={app}
-      exclusivity={Exclusivity.IGNORE}
+      exclusivity={Exclusivity.EXCLUSIVE}
       gdkmonitor={gdkmonitor}
       keymode={Keymode.EXCLUSIVE}
       layer={Layer.OVERLAY}
       name="settings"
       namespace="leta-shell"
-      // position="top"
-      // transitionDuration={100}
       transitionType={RevealerTransitionType.NONE}
     >
       <SettingsModule height={height} width={width} />

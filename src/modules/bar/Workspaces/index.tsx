@@ -2,6 +2,7 @@ import { For } from "ags";
 import { Align } from "@/enums";
 import useWorkspaces from "@/hooks/features/workspaces/useWorkspaces";
 import useSpacing from "@/hooks/services/useSpacing";
+import { cleanupWidget } from "@/lib/theme";
 import WorkspaceButton from "./WorkspaceButton";
 
 export default function Workspaces() {
@@ -10,7 +11,7 @@ export default function Workspaces() {
 
   return (
     <box halign={Align.CENTER} spacing={spacing.sm}>
-      <For each={workspaces}>
+      <For cleanup={cleanupWidget} each={workspaces}>
         {(workspace) => <WorkspaceButton workspace={workspace} />}
       </For>
     </box>

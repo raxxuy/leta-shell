@@ -1,8 +1,6 @@
-import useTime from "@/hooks/features/clock/useClock";
+import useClock from "@/hooks/features/clock/useClock";
 
 export default function Clock() {
-  const time = useTime();
-  const label = time(String);
-
-  return <label class="font-bold text-base" label={label} />;
+  const time = useClock();
+  return <label class="font-bold text-base" label={time} />;
 }

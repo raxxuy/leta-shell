@@ -10,7 +10,7 @@ export default function useClock() {
 
   const time = createMemo(() => {
     counter(); // tick to recompute every second
-    return now().format(format());
+    return now().format(format()) ?? "";
   });
 
   return time;

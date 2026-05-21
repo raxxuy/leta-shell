@@ -1,10 +1,9 @@
 import { For } from "ags";
-import type { Gtk } from "ags/gtk4";
 import { Align, PolicyType } from "@/enums";
 import usePictures from "@/hooks/services/usePictures";
 import useSpacing from "@/hooks/services/useSpacing";
 import useWallpaper from "@/hooks/services/useWallpaper";
-import { unscan } from "@/lib/theme";
+import { cleanupWidget } from "@/lib/theme";
 import ThumbnailButton from "./ThumbnailButton";
 
 interface WallpaperSelectorProps {
@@ -34,10 +33,7 @@ export default function WallpaperSelectorModule({
           widthRequest={scrollWidth}
         >
           <box class="px-1" hexpand spacing={spacing.xl} valign={Align.CENTER}>
-            <For
-              cleanup={(element) => unscan?.(element as Gtk.Widget)}
-              each={pictures}
-            >
+            <For cleanup={cleanupWidget} each={pictures}>
               {(picture) => (
                 <ThumbnailButton
                   onClick={() => setWallpaper(picture)}

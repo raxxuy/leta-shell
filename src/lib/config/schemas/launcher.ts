@@ -22,7 +22,7 @@ export const LauncherSchema = z.object({
     web: z.object({
       searchEngine: WebSearchEngineEnum.default(
         launcherDefaults.providers.web.searchEngine,
-      ),
+      ).describe("The search engine used for web searches"),
     }),
   }),
 });
