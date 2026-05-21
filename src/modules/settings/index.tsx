@@ -6,6 +6,7 @@ import useSettingsCategory, {
 import BarPanel from "./panels/BarPanel";
 import LauncherPanel from "./panels/LauncherPanel";
 import Sidebar from "./Sidebar";
+import { cleanupWidget } from "@/lib/theme";
 
 interface SettingsModuleProps {
   height: number;
@@ -31,7 +32,7 @@ export default function SettingsModule({ width, height }: SettingsModuleProps) {
     >
       <Sidebar />
       <box class="p-4" hexpand orientation={Orientation.VERTICAL}>
-        <With value={active}>{(a) => panels[a]}</With>
+        <With value={active} cleanup={cleanupWidget}>{(a) => panels[a]}</With>
       </box>
     </box>
   );

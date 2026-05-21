@@ -15,7 +15,7 @@ export const THEME_SYMLINKS: Record<string, { dest: string; reload?: string }> =
       reload: 'yes | fish -c "fish_config theme save leta-shell"',
     },
     hypr: {
-      dest: buildPath(GLib.get_home_dir(), ".config/hypr/leta-shell.conf"),
+      dest: buildPath(GLib.get_home_dir(), ".config/hypr/leta-shell.lua"),
       reload: "hyprctl reload",
     },
   };

@@ -43,7 +43,7 @@ export default function Bluetooth() {
               onNotifyActive={({ active }) => togglePower(active)}
             />
           </box>
-          <With value={isPowered}>
+          <With value={isPowered} cleanup={cleanupWidget}>
             {(powered) =>
               powered ? (
                 <box

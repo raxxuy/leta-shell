@@ -8,12 +8,13 @@ import {
 } from "@/enums";
 import useMediaPreview from "@/hooks/features/center-notch/media/useMediaPreview";
 import useTrackInfo from "@/hooks/features/center-notch/media/useTrackInfo";
+import { cleanupWidget } from "@/lib/theme";
 
 export default function MediaPreview() {
   const { activePlayer, onScroll } = useMediaPreview();
 
   return (
-    <With value={activePlayer}>
+    <With cleanup={cleanupWidget} value={activePlayer}>
       {(player) => {
         if (!player)
           return <label class="font-medium" hexpand label="No active player" />;

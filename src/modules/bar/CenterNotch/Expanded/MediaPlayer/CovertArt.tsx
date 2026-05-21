@@ -5,14 +5,14 @@ import useCoverArt from "@/hooks/features/center-notch/media/useCoverArt";
 import useMpris from "@/hooks/services/useMpris";
 import usePixelSize from "@/hooks/services/usePixelSize";
 import useAppQuery from "@/hooks/system/useAppQuery";
-import { scan } from "@/lib/theme";
+import { cleanupWidget, scan } from "@/lib/theme";
 
 export default function CovertArt() {
   const pixelSize = usePixelSize();
   const { activePlayer } = useMpris();
 
   return (
-    <With value={activePlayer}>
+    <With cleanup={cleanupWidget} value={activePlayer}>
       {(player) => {
         if (!player) return null;
 

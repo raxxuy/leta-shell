@@ -2,14 +2,14 @@ import { With } from "ags";
 import { Orientation } from "@/enums";
 import useTrackInfo from "@/hooks/features/center-notch/media/useTrackInfo";
 import useMpris from "@/hooks/services/useMpris";
-import { scan } from "@/lib/theme";
+import { cleanupWidget, scan } from "@/lib/theme";
 
 export default function TrackInfo() {
   const { activePlayer } = useMpris();
 
   return (
     <box>
-      <With value={activePlayer}>
+      <With cleanup={cleanupWidget} value={activePlayer}>
         {(player) => {
           if (!player) return null;
 

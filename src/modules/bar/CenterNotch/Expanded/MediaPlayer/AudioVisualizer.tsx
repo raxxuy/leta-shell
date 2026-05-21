@@ -2,7 +2,7 @@ import { With } from "ags";
 import { Align, Orientation } from "@/enums";
 import useAudioVisualizer from "@/hooks/features/center-notch/media/useAudioVisualizer";
 import useSpacing from "@/hooks/services/useSpacing";
-import { scan } from "@/lib/theme";
+import { cleanupWidget, scan } from "@/lib/theme";
 
 export default function AudioVisualizer() {
   const spacing = useSpacing();
@@ -10,7 +10,7 @@ export default function AudioVisualizer() {
 
   return (
     <box $={scan} class="m-1" halign={Align.END} hexpand spacing={spacing.xs}>
-      <With value={count}>
+      <With cleanup={cleanupWidget} value={count}>
         {(c) => (
           <box
             $={scan}
