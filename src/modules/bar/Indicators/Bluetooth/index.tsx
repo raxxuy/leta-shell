@@ -24,7 +24,7 @@ export default function Bluetooth() {
   } = useBluetooth();
 
   return (
-    <MenuButton class="bar-menubutton">
+    <MenuButton class="bar-menubutton" focusable={false}>
       <image iconName={powerIcon} pixelSize={pixelSize.sm} />
       <Popover animated class="bar-popover min-w-sm" hasArrow={false}>
         <box orientation={Orientation.VERTICAL} spacing={spacing.lg}>
@@ -43,7 +43,7 @@ export default function Bluetooth() {
               onNotifyActive={({ active }) => togglePower(active)}
             />
           </box>
-          <With value={isPowered} cleanup={cleanupWidget}>
+          <With cleanup={cleanupWidget} value={isPowered}>
             {(powered) =>
               powered ? (
                 <box

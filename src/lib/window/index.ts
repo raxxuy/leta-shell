@@ -1,4 +1,4 @@
-export { WINDOW_ANCHORS_MAP } from "./constants";
-export { positions } from "./positions";
+export { type Anchor, windowAnchors } from "./anchors";
+export { type Position, type PositionKey, positions } from "./positions";
 export { resolveAnchor } from "./resolveAnchor";
 export { toggleWindow } from "./toggleWindow";

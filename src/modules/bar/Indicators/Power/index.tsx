@@ -19,7 +19,7 @@ export default function Power() {
   } = useBattery();
 
   return (
-    <MenuButton class="bar-menubutton" visible={isPresent}>
+    <MenuButton class="bar-menubutton" focusable={false} visible={isPresent}>
       <image iconName={iconName} pixelSize={pixelSize.sm} />
       <Popover animated class="bar-popover min-w-sm" hasArrow={false}>
         <box orientation={Orientation.VERTICAL} spacing={spacing.lg}>

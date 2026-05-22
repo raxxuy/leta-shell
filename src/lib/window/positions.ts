@@ -1,7 +1,6 @@
 import { Align } from "@/enums";
-import type { Position } from "@/types/window";
 
-export const positions: Position = {
+export const positions = {
   top: {
     halign: Align.CENTER,
     valign: Align.START,
@@ -38,4 +37,7 @@ export const positions: Position = {
     halign: Align.END,
     valign: Align.END,
   },
-};
+} as const;
+
+export type PositionKey = keyof typeof positions;
+export type Position = (typeof positions)[PositionKey];

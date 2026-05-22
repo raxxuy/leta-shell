@@ -23,7 +23,7 @@ export default function Microphone() {
   );
 
   return (
-    <MenuButton class="bar-menubutton" tooltipText={description}>
+    <MenuButton class="bar-menubutton" focusable={false} tooltipText={description}>
       <image iconName={iconName} pixelSize={pixelSize.sm} />
       <Popover animated class="bar-popover min-w-xs" hasArrow={false}>
         <box orientation={Orientation.VERTICAL} spacing={spacing.lg}>

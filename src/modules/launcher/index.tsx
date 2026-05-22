@@ -2,7 +2,7 @@ import { onMount, With } from "ags";
 import type { Gtk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import { Align, Orientation } from "@/enums";
-import useLauncher from "@/hooks/services/useLauncher";
+import useLauncher from "@/hooks/services/launcher/useLauncher";
 import usePixelSize from "@/hooks/services/usePixelSize";
 import useSpacing from "@/hooks/services/useSpacing";
 import { cleanupWidget, scan } from "@/lib/theme";

@@ -1,6 +1,6 @@
 import InputField from "@/components/ui/input/InputField";
 import Select from "@/components/ui/input/Select";
-import { Orientation } from "@/enums";
+import { Align, Orientation } from "@/enums";
 import useConfig from "@/hooks/services/useConfig";
 import useSpacing from "@/hooks/services/useSpacing";
 import { scan } from "@/lib/theme";

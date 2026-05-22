@@ -1,6 +1,6 @@
 import type { Accessor } from "ags";
 import { Align, EllipsizeMode, Orientation } from "@/enums";
-import { useLauncherItem } from "@/hooks/services/useLauncher";
+import { useLauncherItem } from "@/hooks/services/launcher/useLauncher";
 import usePixelSize from "@/hooks/services/usePixelSize";
 import useSpacing from "@/hooks/services/useSpacing";
 import type { LauncherResult } from "@/services/launcher/types";

@@ -1,3 +1,4 @@
+import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import style from "scss/index.scss";
 import { initCache } from "@/lib/cache";
@@ -14,7 +15,7 @@ import SettingsWindow from "@/windows/Settings";
 import WallpaperWindow from "@/windows/Wallpaper";
 import WallpaperSelectorWindow from "@/windows/WallpaperSelector";
 
-const windows = [
+const windowFactories = [
   BarWindow,
   LauncherWindow,
   WallpaperWindow,
@@ -23,29 +24,44 @@ const windows = [
   SettingsWindow,
 ];
 
+const services = [ConfigService, ThemeService, MprisService];
+
+const initializeInfrastructure = (): void => {
+  initCache();
+  startSocket();
+};
+
+const initializeServices = (): void => {
+  services.forEach((service) => {
+    service.get_default();
+  });
+
+  WallpaperService.get_default().initMonitors(app.monitors);
+};
+
+const mountWindows = (monitors: Gdk.Monitor[]): void => {
+  monitors.forEach((monitor) => {
+    windowFactories.forEach((windowFactory) => {
+      windowFactory(monitor);
+    });
+  });
+};
+
+const initializeEffects = (): void => {
+  applyTheme();
+
+  app.connect("shutdown", stopSocket);
+};
+
 app.start({
   icons: `${SRC}/assets/icons`,
   iconTheme: "custom",
   css: style,
+
   main() {
-    initCache();
-    startSocket();
-
-    ConfigService.get_default();
-    ThemeService.get_default();
-    MprisService.get_default();
-    WallpaperService.get_default().initMonitors(app.monitors);
-
-    app.monitors.forEach((mon) => {
-      windows.forEach((win) => {
-        win(mon);
-      });
-    });
-
-    applyTheme();
-
-    app.connect("shutdown", () => {
-      stopSocket();
-    });
+    initializeInfrastructure();
+    initializeServices();
+    mountWindows(app.monitors);
+    initializeEffects();
   },
 });

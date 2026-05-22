@@ -55,15 +55,15 @@ tooltip {
                     margin-bottom: 0.5rem;
 
                     &:hover {
-                        background-color: var(--color-zinc-800);
+                        background-color: color-mix(in oklch, white 10%, transparent);
                     }
 
                     &:focus {
-                        background-color: var(--color-zinc-800);
+                        background-color: color-mix(in oklch, white 10%, transparent);
                     }
 
                     &:active {
-                        background-color: var(--color-zinc-700);
+                        background-color: color-mix(in oklch, white 15%, transparent);
                     }
 
                     > label {

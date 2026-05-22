@@ -24,7 +24,7 @@ export const { scan, cleanupWidget } = agsPlugin({
         "bar-popover":
           "m-[5px_10px_15px] mt-4 rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-6 shadow-md",
         "bar-menubutton":
-          "min-h-6.5 min-w-6.5 rounded-lg transition-colors checked:bg-zinc-700 hover:bg-zinc-800 active:bg-zinc-700",
+          "min-h-6.5 min-w-6.5 rounded-lg transition-colors checked:bg-white/20 hover:bg-white/15 active:bg-white/20",
         "bar-container":
           "border border-tertiary/20 bg-zinc-950/95 px-4 shadow-md",
       },

@@ -5,9 +5,13 @@ import { RevealerTransitionType } from "@/enums";
 import useClickOutside from "@/hooks/ui/interactions/useClickOutside";
 import useEscape from "@/hooks/ui/interactions/useEscape";
 import { access, createReactiveMemo } from "@/lib/reactive";
-import { positions, resolveAnchor } from "@/lib/window";
+import {
+  type Anchor,
+  type PositionKey,
+  positions,
+  resolveAnchor,
+} from "@/lib/window";
 import type { Reactive } from "@/types/reactive";
-import type { Anchor, PositionKey } from "@/types/window";
 
 /**
  * {@link https://github.com/TheWolfStreet/ags2-shell/blob/main/widget/shared/PopupWindow.tsx}
@@ -46,7 +50,7 @@ class PopupImpl extends Astal.Window {
 
 type PopupAnimation = "slide-up" | "slide-down" | "scale" | "fade" | "none";
 
-type PopupWindowProps = Omit<
+export type PopupWindowProps = Omit<
   CCProps<PopupImpl, Partial<PopupImpl>>,
   "anchor" | "revealer" | "animatedChild"
 > & {

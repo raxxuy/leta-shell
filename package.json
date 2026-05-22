@@ -1,7 +1,7 @@
 {
   "name": "leta-shell",
   "type": "module",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "scripts": {
     "dev": "ags run . --define \"ENV='dev'\"",
     "watch": "nodemon --watch . --ext ts,tsx,json,scss --exec \"pkill gjs; sleep 1; bun run dev\""

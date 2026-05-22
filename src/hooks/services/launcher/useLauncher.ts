@@ -1,7 +1,7 @@
 import { type Accessor, createBinding } from "ags";
 import LauncherService from "@/services/launcher";
 import type { LauncherResult } from "@/services/launcher/types";
-import useConfig from "./useConfig";
+import useConfig from "../useConfig";
 
 export default function useLauncher() {
   const [maxResults] = useConfig("launcher", "maxResults");

@@ -1,9 +1,9 @@
 import { createReactiveMemo } from "@/lib/reactive";
+import type { Anchor } from "@/lib/window";
 import { resolveAnchor } from "@/lib/window";
 import type { Reactive } from "@/types/reactive";
-import type { Anchor } from "@/types/window";
 
-type WindowProps = Omit<JSX.IntrinsicElements["window"], "anchor"> & {
+export type WindowProps = Omit<JSX.IntrinsicElements["window"], "anchor"> & {
   anchor?: Reactive<Anchor>;
 };
 
