@@ -1,10 +1,10 @@
-import Select from "@/components/ui/input/Select";
-import Stepper from "@/components/ui/input/Stepper";
 import { Orientation } from "@/enums";
-import useConfig from "@/hooks/services/useConfig";
+import useConfig from "@/hooks/services/config/useConfig";
 import useSpacing from "@/hooks/services/useSpacing";
 import { scan } from "@/lib/theme";
-import { SettingRow } from "../Row";
+import Select from "@/modules/settings/components/Select";
+import Stepper from "@/modules/settings/components/Stepper";
+import { Row } from "../components/Row";
 
 const engines = ["google", "duckduckgo", "brave"] as const;
 
@@ -19,18 +19,18 @@ export default function LauncherPanel() {
   return (
     <box $={scan} orientation={Orientation.VERTICAL} spacing={spacing.lg}>
       {/* Max Results */}
-      <SettingRow label="Max Results">
+      <Row label="Max Results">
         <Stepper max={10} min={0} onChange={setMaxResults} value={maxResults} />
-      </SettingRow>
+      </Row>
 
       {/* Search Engine */}
-      <SettingRow label="Search Engine">
+      <Row label="Search Engine">
         <Select
-          onChange={setSearchEngine as (v: string) => void}
+          onChange={setSearchEngine}
           options={engines}
           value={searchEngine}
         />
-      </SettingRow>
+      </Row>
     </box>
   );
 }

@@ -1,32 +1,30 @@
 import { Gtk } from "ags/gtk4";
 import { Cursor } from "@/constants";
-import useCenterNotchMode from "@/hooks/features/center-notch/useCenterNotchMode";
-import useCenterNotchState from "@/hooks/features/center-notch/useCenterNotchState";
+import { useCenterNotch } from "@/hooks/features/center-notch/useCenterNotch";
 import Compact from "./Compact";
 import Expanded from "./Expanded";
 
 export default function CenterNotch() {
-  const { switchMode } = useCenterNotchMode();
-  const { setOpen, hovered, setHovered, className } = useCenterNotchState();
+  const notch = useCenterNotch();
 
   return (
-    <box class={className}>
+    <box class={notch.ui.className}>
       <Gtk.EventControllerMotion
-        onEnter={() => setHovered(true)}
-        onLeave={() => setHovered(false)}
+        onEnter={() => notch.state.setHovered(true)}
+        onLeave={() => notch.state.setHovered(false)}
       />
       <button
         class="mr-2"
         iconName="chevron-left"
-        onClicked={() => switchMode(-1)}
-        visible={hovered}
+        onClicked={() => notch.mode.cycle(-1)}
+        visible={notch.state.hovered}
       />
       <menubutton cursor={Cursor.POINTER}>
         <Compact />
         <popover
           class="m-[5px_10px_15px] rounded-2xl bg-zinc-950/95 p-4 shadow-md"
           hasArrow={false}
-          onNotifyVisible={(self) => setOpen(self.visible)}
+          onNotifyVisible={(self) => notch.state.setOpen(self.visible)}
         >
           <Expanded />
         </popover>
@@ -34,8 +32,8 @@ export default function CenterNotch() {
       <button
         class="ml-2"
         iconName="chevron-right"
-        onClicked={() => switchMode(1)}
-        visible={hovered}
+        onClicked={() => notch.mode.cycle(1)}
+        visible={notch.state.hovered}
       />
     </box>
   );

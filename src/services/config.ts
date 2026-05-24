@@ -1,6 +1,7 @@
 import Gio from "gi://Gio";
-import { type Accessor, createBinding } from "ags";
-import { getter, register } from "ags/gobject";
+import { type Accessor, createConnection } from "ags";
+import type GObject from "ags/gobject";
+import { getter, gtype, register, signal } from "ags/gobject";
 import { get, set } from "es-toolkit/compat";
 import { CONFIG_DIR } from "@/constants";
 import { emitNotify } from "@/decorators/gobject";
@@ -16,8 +17,12 @@ import { resolveUpdater, scheduleWrite } from "@/lib/config/utils";
 import type { Get, Path, ValueOrUpdater } from "@/types/config";
 import Service from "./base";
 
+interface ConfigServiceSignals extends GObject.Object.SignalSignatures {
+  "config-changed": ConfigService["configChanged"];
+}
+
 @register({ GTypeName: "ConfigService" })
-export default class ConfigService extends Service {
+export default class ConfigService extends Service<ConfigServiceSignals> {
   private static instance: ConfigService;
 
   #configs: Configs = initConfigs();
@@ -27,6 +32,9 @@ export default class ConfigService extends Service {
     if (!ConfigService.instance) ConfigService.instance = new ConfigService();
     return ConfigService.instance;
   }
+
+  @signal(gtype<ConfigKey>(String), gtype<Path<ConfigType<ConfigKey>>>(String))
+  configChanged(_key: ConfigKey, _path: Path<ConfigType<ConfigKey>>): void {}
 
   @getter(Object)
   get configs() {
@@ -54,6 +62,7 @@ export default class ConfigService extends Service {
     const parsed = schemas[key].parse(updated) as Configs[K];
 
     this.setConfigs({ ...this.#configs, [key]: parsed });
+    this.emit("config-changed", key, path);
     scheduleWrite(key, parsed);
   }
 
@@ -63,7 +72,16 @@ export default class ConfigService extends Service {
     if (!this.#bindings.has(cacheKey)) {
       this.#bindings.set(
         cacheKey,
-        createBinding(this, "configs")(() => this.getValue(key, path)),
+        createConnection(this.getValue(key, path), [
+          this,
+          "config-changed",
+          (changedKey: K, changedPath: P, current: Get<ConfigType<K>, P>) => {
+            if (changedKey !== key) return current;
+            if (changedPath !== path && changedPath !== "") return current;
+            return this.getValue(key, path);
+          },
+          // biome-ignore lint/suspicious/noExplicitAny: <Just terrible>
+        ] as any),
       );
     }
 
@@ -82,5 +100,9 @@ export default class ConfigService extends Service {
     if (JSON.stringify(reloaded) === JSON.stringify(this.#configs)) return;
 
     this.setConfigs(reloaded);
+
+    for (const key of Object.keys(reloaded)) {
+      this.emit("config-changed", key, "");
+    }
   }
 }

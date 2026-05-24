@@ -24,7 +24,10 @@ export default function InputField<T extends InputType = "text">({
 }: InputFieldProps<T>) {
   const text = createReactiveMemo(value as Reactive<string | number>, String);
   const className = createReactiveMemo(classProp ?? "", (v) =>
-    clsx("rounded-lg px-3 py-1.5 font-medium text-sm", v),
+    clsx(
+      "bg-zinc-950/50 rounded-lg px-3 py-1.5 font-medium text-sm outline outline-white/10 focus-within:outline-white/20 transition-all shadow-lg",
+      v,
+    ),
   );
 
   return (
@@ -34,9 +37,9 @@ export default function InputField<T extends InputType = "text">({
       onNotifyText={(self) => {
         if (type === "number") {
           const n = Number(self.text);
-          if (!Number.isNaN(n)) (onChange as (v: number) => void)(n);
+          if (!Number.isNaN(n)) onChange(n as InputValue<T>);
         } else {
-          (onChange as (v: string) => void)(self.text);
+          onChange(self.text as InputValue<T>);
         }
       }}
       placeholderText={placeholder}

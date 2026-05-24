@@ -44,7 +44,7 @@
 
       nodeModules = pkgs.stdenv.mkDerivation {
         pname = "${pname}-node-modules";
-        version = "0.1.17";
+        version = "0.1.18";
         src = ./.;
         nativeBuildInputs = [ pkgs.bun ];
 
@@ -84,6 +84,7 @@
             runHook preInstall
             mkdir -p $out/bin $out/share/${pname}
             cp -r * $out/share/${pname}
+            cp -r assets/icons/custom $out/share/icons/
 
             ln -s ${nodeModules}/node_modules $out/share/${pname}/node_modules
 

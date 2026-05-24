@@ -1,15 +1,15 @@
-import useCenterNotchMode from "@/hooks/features/center-notch/useCenterNotchMode";
+import { useCenterNotch } from "@/hooks/features/center-notch/useCenterNotch";
 import MediaPreview from "./MediaPreview";
 
 export default function Compact() {
-  const { mode } = useCenterNotchMode();
+  const { mode } = useCenterNotch();
 
   return (
     <box class="min-w-56" hexpand={false}>
-      <box visible={mode((m) => m === "media")}>
+      <box visible={mode.is("media")}>
         <MediaPreview />
       </box>
-      <box visible={mode((m) => m === "weather")}>
+      <box visible={mode.is("weather")}>
         <box>test</box>
       </box>
     </box>

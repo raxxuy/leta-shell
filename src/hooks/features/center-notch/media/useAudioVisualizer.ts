@@ -1,14 +1,13 @@
 import AstalCava from "gi://AstalCava";
 import AstalMpris from "gi://AstalMpris";
 import { createBinding, createEffect, createState, onCleanup } from "ags";
-import useConfig from "@/hooks/services/useConfig";
+import { BarConfigContext } from "@/contexts/BarConfigContext";
 import useMpris from "@/hooks/services/useMpris";
 
 export default function useAudioVisualizer() {
-  const [count] = useConfig(
-    "bar",
-    "settings.centerNotch.media.visualizer.count",
-  );
+  const {
+    visualizerCount: [count],
+  } = BarConfigContext.use();
 
   const cava = AstalCava.get_default();
   if (!cava)

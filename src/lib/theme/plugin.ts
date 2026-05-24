@@ -27,6 +27,8 @@ export const { scan, cleanupWidget } = agsPlugin({
           "min-h-6.5 min-w-6.5 rounded-lg transition-colors checked:bg-white/20 hover:bg-white/15 active:bg-white/20",
         "bar-container":
           "border border-tertiary/20 bg-zinc-950/95 px-4 shadow-md",
+        "menubutton-custom":
+          "rounded-lg border border-white/10 transition-colors checked:bg-white/8 hover:bg-white/5 active:bg-white/8 [&>button]:px-4 [&>button]:py-1.5",
       },
       // spacing: "",
       colors: {

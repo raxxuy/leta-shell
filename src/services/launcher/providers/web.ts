@@ -1,4 +1,4 @@
-import { exec } from "@/lib/process";
+import { openUrl } from "@/lib/browser";
 import { toggleWindow } from "@/lib/window";
 import ConfigService from "@/services/config";
 import type { LauncherProvider, LauncherResult } from "../types";
@@ -27,14 +27,7 @@ export default class WebProvider implements LauncherProvider {
         icon: "globe-01",
         activate: () => {
           toggleWindow("launcher");
-          exec(`xdg-open ${this.engine}${encodeURIComponent(query)}`);
-
-          const command = [
-            'BROWSER_CLASS=$(xdg-settings get default-web-browser | sed "s/\\.desktop$//")',
-            'hyprctl dispatch "hl.dsp.focus({ window = \\"class:$BROWSER_CLASS\\" })"',
-          ].join(" && ");
-
-          exec(command);
+          openUrl(`${this.engine}${encodeURIComponent(query)}`);
         },
       },
     ];

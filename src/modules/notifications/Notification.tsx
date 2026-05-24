@@ -1,5 +1,5 @@
 import type AstalNotifd from "gi://AstalNotifd";
-import { createEffect } from "ags";
+import { onMount } from "ags";
 import { timeout } from "ags/time";
 import { Align, EllipsizeMode, Orientation } from "@/enums";
 import usePixelSize from "@/hooks/services/usePixelSize";
@@ -15,9 +15,7 @@ export default function Notification({ notification }: NotificationProps) {
   const spacing = useSpacing();
   const pixelSize = usePixelSize();
 
-  createEffect(() => {
-    timeout(5000, () => notification.dismiss());
-  });
+  onMount(() => timeout(5000, () => notification.dismiss()));
 
   return (
     <button
@@ -41,7 +39,7 @@ export default function Notification({ notification }: NotificationProps) {
             class="text-xs opacity-60"
             halign={Align.END}
             hexpand
-            label={formatLocalTime(notification.time)?.toString()}
+            label={String(formatLocalTime(notification.time))}
           />
         </box>
 

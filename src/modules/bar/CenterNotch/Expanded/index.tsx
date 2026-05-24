@@ -1,18 +1,18 @@
 import { Orientation } from "@/enums";
-import useCenterNotchMode from "@/hooks/features/center-notch/useCenterNotchMode";
+import { useCenterNotch } from "@/hooks/features/center-notch/useCenterNotch";
 import useSpacing from "@/hooks/services/useSpacing";
 import MediaPlayer from "./MediaPlayer";
 
 export default function Expanded() {
   const spacing = useSpacing();
-  const { mode } = useCenterNotchMode();
+  const { mode } = useCenterNotch();
 
   return (
     <box orientation={Orientation.VERTICAL} spacing={spacing.md}>
-      <box visible={mode((m) => m === "media")}>
+      <box visible={mode.is("media")}>
         <MediaPlayer />
       </box>
-      <box visible={mode((m) => m === "weather")}>
+      <box visible={mode.is("weather")}>
         <box>test</box>
       </box>
     </box>

@@ -11,7 +11,7 @@ export default function Workspaces() {
 
   return (
     <box halign={Align.CENTER} spacing={spacing.sm}>
-      <For cleanup={cleanupWidget} each={workspaces}>
+      <For cleanup={cleanupWidget} each={workspaces} id={(w) => w.id}>
         {(workspace) => <WorkspaceButton workspace={workspace} />}
       </For>
     </box>

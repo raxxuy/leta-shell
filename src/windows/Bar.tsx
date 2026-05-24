@@ -1,17 +1,10 @@
 import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
-import Window, { type WindowProps } from "@/components/ui/Window";
+import Window from "@/components/ui/Window";
 import { Exclusivity } from "@/enums";
 import useBarProps from "@/hooks/ui/windows/useBarProps";
 import BarModule from "@/modules/bar";
-
-const WINDOW_PROPS = {
-  application: app,
-  exclusivity: Exclusivity.EXCLUSIVE,
-  name: "bar",
-  namespace: "leta-shell",
-  visible: true,
-} satisfies WindowProps;
+import BarConfigProvider from "@/providers/BarConfigProvider";
 
 export default function BarWindow(gdkmonitor: Gdk.Monitor) {
   const { anchor, height } = useBarProps();
@@ -19,11 +12,15 @@ export default function BarWindow(gdkmonitor: Gdk.Monitor) {
   return (
     <Window
       anchor={anchor}
+      application={app}
       defaultHeight={height}
+      exclusivity={Exclusivity.EXCLUSIVE}
       gdkmonitor={gdkmonitor}
-      {...WINDOW_PROPS}
+      name="bar"
+      namespace="leta-shell"
+      visible
     >
-      <BarModule />
+      <BarConfigProvider>{() => <BarModule />}</BarConfigProvider>
     </Window>
   );
 }
