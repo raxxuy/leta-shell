@@ -2,7 +2,7 @@
   description = "Leta Shell - AGS-based desktop shell";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/d233902339c02a9c334e7e593de68855ad26c4cb";
 
     ags = {
       url = "github:aylur/ags";
