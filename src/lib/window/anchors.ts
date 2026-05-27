@@ -1,3 +1,4 @@
+import type { Astal } from "ags/gtk4";
 import { WindowAnchor } from "@/enums";
 
 const { TOP, RIGHT, LEFT, BOTTOM, NONE } = WindowAnchor;
@@ -17,5 +18,8 @@ export const windowAnchors = {
   center: LEFT | RIGHT | TOP | BOTTOM,
   "center-inline": LEFT | RIGHT,
 };
+
+export const resolveAnchor = (anchor?: Anchor): Astal.WindowAnchor =>
+  windowAnchors[anchor ?? "none"];
 
 export type Anchor = keyof typeof windowAnchors;

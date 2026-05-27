@@ -9,6 +9,7 @@ export default function usePixelSize() {
   const md = pixelSize((ps) => ps.md);
   const lg = pixelSize((ps) => ps.lg);
   const xl = pixelSize((ps) => ps.xl);
+
   const scale = (size: keyof PixelSize, factor: number) =>
     pixelSize((ps) => Math.round(ps[size] * factor));
 

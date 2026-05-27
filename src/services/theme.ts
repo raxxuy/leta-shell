@@ -1,8 +1,8 @@
 import { register } from "ags/gobject";
 import { CACHE_COLORS_FILE, CACHE_THEMES_DIR } from "@/constants";
 import { connect } from "@/decorators/gobject";
-import { buildPath, dirExists, ensureDir } from "@/lib/fs";
-import { exec } from "@/lib/process";
+import { buildPath, dirExists, ensureDir, readFile, writeFile } from "@/lib/fs";
+import { hashPath } from "@/lib/hash";
 import { applyTheme, callMatugen, relinkTheme } from "@/lib/theme";
 import Service from "./base";
 import WallpaperService from "./wallpaper";
@@ -16,8 +16,11 @@ export default class ThemeService extends Service {
     return ThemeService.instance;
   }
 
-  private async generateTheme(path: string, hash: string): Promise<void> {
+  private async generateTheme(path: string): Promise<void> {
     try {
+      const hash = hashPath(path);
+      if (!hash) return;
+
       const themeDir = buildPath(CACHE_THEMES_DIR, hash);
 
       if (!dirExists(themeDir)) {
@@ -33,15 +36,12 @@ export default class ThemeService extends Service {
   }
 
   private async applyColors(themeDir: string): Promise<void> {
-    await exec(`cp ${buildPath(themeDir, "colors.scss")} ${CACHE_COLORS_FILE}`);
+    const src = readFile(buildPath(themeDir, "colors.scss"));
+    if (src) writeFile(CACHE_COLORS_FILE, src);
   }
 
   @connect("wallpaper-changed", () => WallpaperService.get_default())
-  protected onWallpaperChanged(
-    _: WallpaperService,
-    path: string,
-    hash: string,
-  ): void {
-    this.generateTheme(path, hash);
+  protected onWallpaperChanged(_: WallpaperService, path: string): void {
+    this.generateTheme(path);
   }
 }

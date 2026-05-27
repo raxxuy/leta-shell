@@ -1,5 +1,5 @@
 import { For, With } from "ags";
-import clsx from "clsx";
+import clsx from "clsx/lite";
 import MenuButton from "@/components/ui/MenuButton";
 import Popover from "@/components/ui/Popover";
 import { Cursor } from "@/constants";

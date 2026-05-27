@@ -25,7 +25,6 @@ export default function BarPanel() {
 
   return (
     <box $={scan} orientation={Orientation.VERTICAL} spacing={spacing.xl}>
-      {/* Max Results */}
       <Section title="Bar Settings">
         <Row label="Height">
           <InputField onChange={setHeight} type="number" value={height} />

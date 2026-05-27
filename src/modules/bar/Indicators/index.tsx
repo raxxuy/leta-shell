@@ -2,6 +2,7 @@ import { Align } from "@/enums";
 import useSpacing from "@/hooks/services/useSpacing";
 import Bluetooth from "./Bluetooth";
 import Microphone from "./Microphone";
+import Notifications from "./Notifications";
 import Power from "./Power";
 import Speaker from "./Speaker";
 
@@ -14,6 +15,7 @@ export default function Indicators() {
       <Speaker />
       <Microphone />
       <Bluetooth />
+      <Notifications />
     </box>
   );
 }

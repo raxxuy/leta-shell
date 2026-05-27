@@ -1,13 +1,20 @@
 import AstalNotifd from "gi://AstalNotifd";
-import { getter, register } from "ags/gobject";
+import { getter, property, register } from "ags/gobject";
+import { CACHE_NOTIFICATIONS_FILE } from "@/constants";
 import { connect, emitNotify } from "@/decorators/gobject";
-import Service from "./base";
+import { readFile, writeFile } from "@/lib/fs";
+import Service from "../base";
+import {
+  type PersistedNotification,
+  toPersistedNotification,
+} from "./persisted";
 
 @register({ GTypeName: "NotificationService" })
 export default class NotificationService extends Service {
   private static instance: NotificationService;
 
   #notifications: AstalNotifd.Notification[] = [];
+  #history: PersistedNotification[] = [];
 
   static get_default(): NotificationService {
     if (!NotificationService.instance)
@@ -15,9 +22,22 @@ export default class NotificationService extends Service {
     return NotificationService.instance;
   }
 
+  @property(Boolean) dontDisturb = AstalNotifd.get_default().dontDisturb;
+
   @getter(Array<AstalNotifd.Notification>)
   get notifications(): AstalNotifd.Notification[] {
     return this.#notifications;
+  }
+
+  @getter(Array<PersistedNotification>)
+  get history(): PersistedNotification[] {
+    return this.#history;
+  }
+
+  @emitNotify("history")
+  clearHistory(): void {
+    this.#history = [];
+    writeFile(CACHE_NOTIFICATIONS_FILE, "[]");
   }
 
   @emitNotify("notifications")
@@ -31,6 +51,8 @@ export default class NotificationService extends Service {
       );
     } else {
       this.#notifications = [notification, ...this.#notifications];
+      this.#history = [toPersistedNotification(notification), ...this.#history];
+      writeFile(CACHE_NOTIFICATIONS_FILE, JSON.stringify(this.#history));
     }
   }
 
@@ -45,6 +67,7 @@ export default class NotificationService extends Service {
     id: number,
     replaced: true,
   ): void {
+    if (this.dontDisturb) return;
     const notification = astalNotifd.get_notification(id);
     if (notification) this.upsertNotification(notification, replaced);
   }
@@ -52,5 +75,11 @@ export default class NotificationService extends Service {
   @connect("resolved", () => AstalNotifd.get_default())
   protected onResolved(_: AstalNotifd.Notifd, id: number): void {
     this.resolveNotification(id);
+  }
+
+  constructor() {
+    super();
+    const raw = readFile(CACHE_NOTIFICATIONS_FILE);
+    if (raw) this.#history = JSON.parse(raw);
   }
 }

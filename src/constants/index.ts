@@ -33,6 +33,10 @@ export const SRC_MATUGEN_DIR = buildPath(SRC, "matugen");
 // Cache files
 export const CACHE_CSS_FILE = buildPath(CACHE_SCSS_DIR, "index.css");
 export const CACHE_COLORS_FILE = buildPath(CACHE_SCSS_DIR, "colors.scss");
+export const CACHE_NOTIFICATIONS_FILE = buildPath(
+  CACHE_DIR,
+  "notifications.json",
+);
 export const CACHE_UTILITIES_FILE = buildPath(CACHE_SCSS_DIR, "utilities.scss");
 export const CACHE_UTILITIES_JSON_FILE = buildPath(
   CACHE_SCSS_DIR,

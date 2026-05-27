@@ -7,9 +7,9 @@ export const focusBrowser = () => {
       'hyprctl dispatch "hl.dsp.focus({ window = \\"class:$BROWSER_CLASS\\" })"',
     ].join(" && "),
   );
-}
+};
 
 export const openUrl = (url: string) => {
   exec(`xdg-open ${url}`);
   focusBrowser();
-}
+};

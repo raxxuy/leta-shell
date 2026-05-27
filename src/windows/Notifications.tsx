@@ -1,7 +1,9 @@
+import AstalNotifd from "gi://AstalNotifd";
+import { onMount } from "ags";
 import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import Window from "@/components/ui/Window";
-import { Exclusivity, Layer } from "@/enums";
+import { Exclusivity, Layer, WindowAnchor } from "@/enums";
 import useNotificationsProps from "@/hooks/ui/windows/useNotificationsProps";
 import NotificationsModule from "@/modules/notifications";
 
@@ -10,6 +12,15 @@ export default function NotificationsWindow(gdkmonitor: Gdk.Monitor) {
 
   return (
     <Window
+      $={(self) =>
+        onMount(() => {
+          const id = AstalNotifd.get_default().connect("resolved", () => {
+            self.set_anchor(WindowAnchor.NONE);
+            self.set_anchor(WindowAnchor.RIGHT | WindowAnchor.BOTTOM);
+          });
+          return () => AstalNotifd.get_default().disconnect(id);
+        })
+      }
       anchor="bottom-right"
       application={app}
       exclusivity={Exclusivity.IGNORE}

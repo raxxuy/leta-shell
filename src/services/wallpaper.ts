@@ -1,12 +1,8 @@
 import type GObject from "ags/gobject";
 import { register, signal } from "ags/gobject";
 import type { Gdk } from "ags/gtk4";
-import {
-  CACHE_WALLPAPERS_ORIGINAL_DIR,
-  CACHE_WALLPAPERS_RENDERED_DIR,
-} from "@/constants";
+import { renderImage } from "@/lib/cache";
 import type { WallpaperConfig } from "@/lib/config/schemas/wallpaper";
-import { hashPath, renderImage } from "@/lib/gtk";
 import Service from "./base";
 import ConfigService from "./config";
 
@@ -27,8 +23,8 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
     return WallpaperService.instance;
   }
 
-  @signal(String, String, Boolean)
-  wallpaperChanged(_path: string, _hash: string, _global: boolean) {}
+  @signal(String, Boolean)
+  wallpaperChanged(_path: string, _global: boolean) {}
 
   private get config(): WallpaperConfig {
     return ConfigService.get_default().configs.wallpaper;
@@ -45,21 +41,13 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
     const cached = this.#cache.get(key);
     if (cached) return cached;
 
-    const rendered = renderImage(
-      path,
-      size.width,
-      size.height,
-      CACHE_WALLPAPERS_ORIGINAL_DIR,
-      CACHE_WALLPAPERS_RENDERED_DIR,
-    );
+    const rendered = renderImage(path, size.width, size.height);
     if (rendered) this.#cache.set(key, rendered);
     return rendered;
   }
 
   public setWallpaper(monitorId: string, path: string): void {
     if (!this.config.enabled) return;
-
-    const hash = hashPath(path);
 
     ConfigService.get_default().setValue(
       "wallpaper",
@@ -69,21 +57,19 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
         [monitorId]: path,
       }),
     );
-    this.emit("wallpaper-changed", path, hash, false);
+    this.emit("wallpaper-changed", path, false);
   }
 
   public setGlobalWallpaper(path: string): void {
     if (!this.config.enabled) return;
 
-    const hash = hashPath(path);
-
     ConfigService.get_default().setValue("wallpaper", "globalWallpaper", path);
-    this.emit("wallpaper-changed", path, hash, true);
+    this.emit("wallpaper-changed", path, true);
   }
 
   public initMonitors(monitors: Gdk.Monitor[]): void {
     monitors.forEach((mon) => {
-      this.#monitorSizes.set(mon.connector, {
+      this.#monitorSizes.set(mon.connector as string, {
         width: mon.geometry.width,
         height: mon.geometry.height,
       });

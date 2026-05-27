@@ -39,7 +39,7 @@ export default function BluetoothDeviceItem({
         </box>
       </box>
       <button
-        class="rounded-lg border border-white/10 bg-zinc-900 px-2 py-1.5 transition-colors hover:bg-white/10 active:bg-white/15"
+        class="button-outline-custom"
         focusable={false}
         onClicked={toggleConnection}
         valign={Align.CENTER}
