@@ -44,13 +44,13 @@
 
       nodeModules = pkgs.stdenv.mkDerivation {
         pname = "${pname}-node-modules";
-        version = "0.1.19";
+        version = "0.1.20";
         src = ./.;
         nativeBuildInputs = [ pkgs.bun ];
 
         outputHashMode = "recursive";
         outputHashAlgo = "sha256";
-        outputHash = "sha256-BkHoVmxANrKbFjdeN6yEi3FNvIwa5DTi7pQdjZ266oI=";
+        outputHash = "sha256-o8AYd7yA9xo5bVV8c4tNxpuubEpx1h+1S6DVDBTAO/s=";
 
         buildPhase = ''
           export HOME=$TMPDIR
@@ -105,6 +105,7 @@
             (ags.packages.${system}.default.override {
               inherit extraPackages;
             })
+
             pkgs.nodejs
             pkgs.bun
           ];

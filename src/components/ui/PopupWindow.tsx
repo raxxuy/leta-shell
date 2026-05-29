@@ -2,8 +2,8 @@ import { type CCProps, onMount } from "ags";
 import GObject from "ags/gobject";
 import { Astal, type Gtk } from "ags/gtk4";
 import { RevealerTransitionType } from "@/enums";
-import useClickOutside from "@/hooks/ui/interactions/useClickOutside";
-import useEscape from "@/hooks/ui/interactions/useEscape";
+import { useClickOutside } from "@/hooks/ui/interactions/useClickOutside";
+import { useEscape } from "@/hooks/ui/interactions/useEscape";
 import { access, createReactiveMemo } from "@/lib/reactive";
 import {
   type Anchor,

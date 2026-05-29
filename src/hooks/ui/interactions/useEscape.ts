@@ -1,16 +1,13 @@
-import { Gtk } from "ags/gtk4";
-import { createEscape } from "@/lib/gtk";
+import { onCleanup } from "ags";
+import type { Gtk } from "ags/gtk4";
+import { createEscapeController } from "@/lib/gtk";
 
-export default function useEscape(widget: Gtk.Widget, onEscape: () => void) {
-  const controller = new Gtk.EventControllerKey();
-
-  controller.set_propagation_phase(Gtk.PropagationPhase.CAPTURE);
-
-  const handler = createEscape(onEscape);
-
-  controller.connect("key-pressed", handler);
+export const useEscape = (widget: Gtk.Widget, onEscape: () => void) => {
+  const controller = createEscapeController(onEscape);
 
   widget.add_controller(controller);
 
+  onCleanup(() => widget.remove_controller(controller));
+
   return controller;
-}
+};

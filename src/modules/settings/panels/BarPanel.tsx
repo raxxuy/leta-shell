@@ -1,13 +1,15 @@
 import { Orientation } from "@/enums";
 import useBarConfig from "@/hooks/services/config/useBarConfig";
 import useSpacing from "@/hooks/services/useSpacing";
+import type { BarWidget } from "@/lib/config/schemas/bar";
 import { CenterNotchModeEnum } from "@/lib/config/schemas/modules/center-notch";
 import { scan } from "@/lib/theme";
 import InputField from "@/modules/settings/components/InputField";
 import Select from "@/modules/settings/components/Select";
 import Stepper from "@/modules/settings/components/Stepper";
-import { Row } from "../components/Row";
-import { Section } from "../components/Section";
+import Reorderable from "../components/Reorderable";
+import Row from "../components/Row";
+import Section from "../components/Section";
 
 const positions = ["top", "bottom"] as const;
 const centerNotchModes = CenterNotchModeEnum.options;
@@ -16,6 +18,7 @@ export default function BarPanel() {
   const spacing = useSpacing();
   const {
     height: [height, setHeight],
+    layout: [layout, setLayout],
     position: [position, setPosition],
     clockFormat: [clockFormat, setClockFormat],
     workspaceCount: [workspaceCount, setWorkspaceCount],
@@ -31,6 +34,35 @@ export default function BarPanel() {
         </Row>
         <Row label="Position">
           <Select onChange={setPosition} options={positions} value={position} />
+        </Row>
+        <Row label="Layout">
+          <Reorderable
+            items={layout((l) => l.left)}
+            setItems={(updated) =>
+              setLayout({
+                ...layout.peek(),
+                left: updated as BarWidget[],
+              })
+            }
+          />
+          <Reorderable
+            items={layout((l) => l.center)}
+            setItems={(updated) =>
+              setLayout({
+                ...layout.peek(),
+                center: updated as BarWidget[],
+              })
+            }
+          />
+          <Reorderable
+            items={layout((l) => l.right)}
+            setItems={(updated) =>
+              setLayout({
+                ...layout.peek(),
+                right: updated as BarWidget[],
+              })
+            }
+          />
         </Row>
       </Section>
 

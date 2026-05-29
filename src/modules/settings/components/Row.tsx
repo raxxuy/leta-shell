@@ -6,13 +6,18 @@ import { toggleWindow } from "@/lib/window";
 import type { Reactive } from "@/types/reactive";
 
 interface RowProps {
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
   label: Reactive<string>;
   tooltip?: string;
   tooltipUrl?: string;
 }
 
-export function Row({ label, tooltip, tooltipUrl, children }: RowProps) {
+export default function Row({
+  label,
+  tooltip,
+  tooltipUrl,
+  children,
+}: RowProps) {
   const spacing = useSpacing();
   const pixelSize = usePixelSize();
 
@@ -38,7 +43,7 @@ export function Row({ label, tooltip, tooltipUrl, children }: RowProps) {
           </button>
         )}
       </box>
-      {children}
+      <box spacing={spacing.sm}>{children}</box>
     </box>
   );
 }

@@ -6,7 +6,7 @@ interface SectionProps {
   title: string;
 }
 
-export function Section({ title, children }: SectionProps) {
+export default function Section({ title, children }: SectionProps) {
   const spacing = useSpacing();
 
   return (

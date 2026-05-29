@@ -1,11 +1,11 @@
 import { onMount, With } from "ags";
 import type { Gtk } from "ags/gtk4";
-import app from "ags/gtk4/app";
 import { Align, Orientation } from "@/enums";
 import useLauncher from "@/hooks/services/launcher/useLauncher";
 import usePixelSize from "@/hooks/services/usePixelSize";
 import useSpacing from "@/hooks/services/useSpacing";
 import { cleanupWidget, scan } from "@/lib/theme";
+import { getWindow } from "@/lib/window/utils";
 import LauncherItem from "./LauncherItem";
 
 interface LauncherModuleProps {
@@ -23,7 +23,7 @@ export default function LauncherModule({ width }: LauncherModuleProps) {
     <box
       $={() => {
         onMount(() => {
-          const window = app.get_window("launcher");
+          const window = getWindow("launcher");
           window?.connect("notify::visible", () => {
             if (window.visible) entryRef.grab_focus();
             else {

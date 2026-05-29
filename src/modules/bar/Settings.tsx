@@ -5,6 +5,7 @@ export default function Settings() {
   return (
     <button
       class="bar-menubutton"
+      focusable={false}
       onClicked={() => toggleWindow("settings")}
       valign={Align.CENTER}
     >

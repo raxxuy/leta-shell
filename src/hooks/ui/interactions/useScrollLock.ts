@@ -1,6 +1,6 @@
 import { timeout } from "ags/time";
 
-export default function useScrollLock(cooldown = 200) {
+export const useScrollLock = (cooldown = 200) => {
   let locked = false;
 
   const handle = (direction: number, onScroll: (direction: number) => void) => {
@@ -12,4 +12,4 @@ export default function useScrollLock(cooldown = 200) {
   };
 
   return handle;
-}
+};

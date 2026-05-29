@@ -1,4 +1,7 @@
-export { createClickOutside } from "./createClickOutside";
-export { createEscape } from "./createEscape";
-export { createImageFile } from "./createImageFile";
+export {
+  createClickOutsideController,
+  createEscapeController,
+} from "./controllers";
+export { createImageFile } from "./image";
+export { createDragAndDrop } from "./interactions";
 export { scaleCover } from "./pixbuf";

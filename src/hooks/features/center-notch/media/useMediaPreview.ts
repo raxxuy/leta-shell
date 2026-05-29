@@ -1,5 +1,5 @@
 import useMpris from "@/hooks/services/useMpris";
-import useScrollLock from "@/hooks/ui/interactions/useScrollLock";
+import { useScrollLock } from "@/hooks/ui/interactions/useScrollLock";
 import MprisService from "@/services/mpris";
 
 export default function useMediaPreview() {

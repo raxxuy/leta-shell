@@ -4,10 +4,12 @@ import clsx from "clsx/lite";
 
 export default function useBluetooth() {
   const bluetooth = AstalBluetooth.get_default();
+  const adapter = bluetooth.adapter as AstalBluetooth.Adapter;
+
   const devices = createBinding(bluetooth, "devices");
   const isPowered = createBinding(bluetooth, "isPowered");
   const isConnected = createBinding(bluetooth, "isConnected");
-  const discovering = createBinding(bluetooth.adapter, "discovering");
+  const discovering = createBinding(adapter, "discovering");
 
   const powerIcon = isPowered((p) => (p ? "bluetooth-on" : "bluetooth-off"));
   const discoveringLabel = discovering((d) =>
@@ -24,12 +26,12 @@ export default function useBluetooth() {
   );
 
   const togglePower = (state: boolean) => {
-    if (state !== isPowered.peek()) bluetooth.adapter.powered = state;
+    if (state !== isPowered.peek()) adapter.powered = state;
   };
 
   const toggleScanning = () => {
-    if (discovering.peek()) bluetooth.adapter.stop_discovery();
-    else bluetooth.adapter.start_discovery();
+    if (discovering.peek()) adapter.stop_discovery();
+    else adapter.start_discovery();
   };
 
   return {

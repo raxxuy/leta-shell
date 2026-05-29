@@ -4,7 +4,7 @@ import useSpacing from "@/hooks/services/useSpacing";
 import { scan } from "@/lib/theme";
 import Select from "@/modules/settings/components/Select";
 import Stepper from "@/modules/settings/components/Stepper";
-import { Row } from "../components/Row";
+import Row from "../components/Row";
 
 const engines = ["google", "duckduckgo", "brave"] as const;
 

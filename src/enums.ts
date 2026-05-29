@@ -21,7 +21,7 @@ export const {
   StateFlags,
   ResponseType,
 } = Gtk;
-export const { ModifierType } = Gdk;
+export const { ModifierType, DragAction } = Gdk;
 export const { ApplicationFlags, FileMonitorEvent } = Gio;
 export const { EllipsizeMode, WrapMode } = Pango;
 export const { UserDirectory, FileTest } = GLib;

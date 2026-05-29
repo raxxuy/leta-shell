@@ -4,7 +4,7 @@ import useConfig from "@/hooks/services/config/useConfig";
 export default function useWallpaperProps(gdkmonitor: Gdk.Monitor) {
   const [enabled] = useConfig("wallpaper", "enabled");
   const { width, height } = gdkmonitor.geometry;
-  const connector = gdkmonitor.connector;
+  const connector = gdkmonitor.connector as string;
 
   return {
     enabled,

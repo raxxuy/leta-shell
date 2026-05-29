@@ -1,10 +1,10 @@
 import { createComputed, createState } from "ags";
 import { timeout } from "ags/time";
 
-export default function useSliderDrag(
+export const useSliderDrag = (
   onRelease: (value: number) => void,
   floor?: boolean,
-) {
+) => {
   const [isDragging, setIsDragging] = createState(false);
   const [dragPosition, setDragPosition] = createState(0);
 
@@ -25,4 +25,4 @@ export default function useSliderDrag(
   };
 
   return { displayPosition, handleChange, handleDrag };
-}
+};
