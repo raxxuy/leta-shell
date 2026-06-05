@@ -8,7 +8,6 @@
     "moduleResolution": "Bundler",
     "paths": {
       "@/*": ["./src/*"],
-      "@/app": ["./app"],
     },
     "strict": true,
     "target": "ES2020",

@@ -1,5 +1,5 @@
 import { createBinding } from "ags";
-import clsx from "clsx";
+import clsx from "clsx/lite";
 import NotificationService from "@/services/notification";
 
 export default function useNotifications() {

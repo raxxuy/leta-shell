@@ -34,7 +34,7 @@ export default function useWorkspaceState(workspace: AstalHyprland.Workspace) {
 
   const className = createMemo(() =>
     clsx(
-      "transform-cpu rounded-lg px-2 min-h-4 transition-transform ease-out origin-center duration-300",
+      "transform-cpu rounded-lg px-2 min-h-4 transition-[transform,color] ease-[cubic-bezier(0.34,1.56,0.64,1)] origin-center duration-300",
       stateClasses[state()],
     ),
   );

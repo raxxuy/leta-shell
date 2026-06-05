@@ -15,9 +15,7 @@ export const { scan, cleanupWidget } = agsPlugin({
   cssPath: CACHE_UTILITIES_FILE,
   themePath: ENV === "dev" ? SRC_TAILWIND_FILE : undefined,
   resolveVarsFrom: CACHE_COLORS_FILE,
-  onCacheUpdate: () => {
-    debouncedCompileCss();
-  },
+  onCacheUpdate: () => debouncedCompileCss(),
   tailwindConfig: {
     theme: {
       apply: {

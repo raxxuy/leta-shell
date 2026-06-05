@@ -1,7 +1,6 @@
-import { With } from "ags";
+import { createBinding, With } from "ags";
 import Image from "@/components/ui/Image";
 import { Align, Overflow } from "@/enums";
-import useCoverArt from "@/hooks/features/center-notch/media/useCoverArt";
 import useMpris from "@/hooks/services/useMpris";
 import usePixelSize from "@/hooks/services/usePixelSize";
 import useAppQuery from "@/hooks/system/useAppQuery";
@@ -17,15 +16,15 @@ export default function CovertArt() {
         if (!player) return null;
 
         const [app] = useAppQuery(player.entry);
-        const { artSrc, isFile } = useCoverArt(player);
+        const coverArt = createBinding(player, "coverArt");
 
         return (
           <overlay $={scan} class="m-1 shadow-lg">
             <Image
               class="min-h-26 min-w-26 rounded-lg"
-              file={isFile}
+              file
               overflow={Overflow.HIDDEN}
-              src={artSrc}
+              src={coverArt}
             />
             <image
               $type="overlay"
