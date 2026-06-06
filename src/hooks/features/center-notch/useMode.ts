@@ -1,5 +1,5 @@
 import { BarConfigContext } from "@/contexts/BarConfigContext";
-import { CenterNotchModeEnum } from "@/lib/config/schemas/modules/center-notch";
+import { CenterNotchModeEnum } from "@/lib/config/schemas/bar/modules/center-notch";
 
 export const useMode = () => {
   const { centerNotchMode } = BarConfigContext.use();

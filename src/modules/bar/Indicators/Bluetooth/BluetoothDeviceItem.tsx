@@ -1,7 +1,7 @@
 import type AstalBluetooth from "gi://AstalBluetooth";
 import { Align, Orientation } from "@/enums";
 import useBluetoothDevice from "@/hooks/features/bluetooth/useBluetoothDevice";
-import useSpacing from "@/hooks/services/useSpacing";
+import { useSpacing } from "@/hooks/services/useSpacing";
 import { scan } from "@/lib/theme";
 
 export default function BluetoothDeviceItem({

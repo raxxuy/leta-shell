@@ -3,7 +3,7 @@ import LauncherService from "@/services/launcher";
 import type { LauncherResult } from "@/services/launcher/types";
 import useConfig from "../config/useConfig";
 
-export default function useLauncher() {
+export default function useLauncherService() {
   const [maxResults] = useConfig("launcher", "maxResults");
   const service = LauncherService.get_default();
 

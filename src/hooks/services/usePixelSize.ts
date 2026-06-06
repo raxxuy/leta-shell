@@ -1,7 +1,7 @@
 import useConfig from "@/hooks/services/config/useConfig";
 import type { PixelSize } from "@/lib/config/schemas/global";
 
-export default function usePixelSize() {
+export const usePixelSize = () => {
   const [pixelSize] = useConfig("global", "pixelSize");
 
   const xs = pixelSize((ps) => ps.xs);
@@ -21,4 +21,4 @@ export default function usePixelSize() {
     xl,
     scale,
   };
-}
+};

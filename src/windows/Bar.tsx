@@ -2,12 +2,23 @@ import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import Window from "@/components/ui/Window";
 import { Exclusivity } from "@/enums";
-import useBarProps from "@/hooks/ui/windows/useBarProps";
+import { useBar } from "@/hooks/features/bar/useBar";
 import BarModule from "@/modules/bar";
 import BarConfigProvider from "@/providers/BarConfigProvider";
 
 export default function BarWindow(gdkmonitor: Gdk.Monitor) {
-  const { anchor, height } = useBarProps();
+  return (
+    <BarConfigProvider>
+      {() => <BarWindowInner gdkmonitor={gdkmonitor} />}
+    </BarConfigProvider>
+  );
+}
+
+const BarWindowInner = ({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) => {
+  const {
+    anchor,
+    height: [height],
+  } = useBar();
 
   return (
     <Window
@@ -20,7 +31,7 @@ export default function BarWindow(gdkmonitor: Gdk.Monitor) {
       namespace="leta-shell"
       visible
     >
-      <BarConfigProvider>{() => <BarModule />}</BarConfigProvider>
+      <BarModule />
     </Window>
   );
-}
+};

@@ -1,6 +1,6 @@
 import { Align, Orientation } from "@/enums";
 import useSettingsCategory from "@/hooks/features/settings/useSettingsCategory";
-import useSpacing from "@/hooks/services/useSpacing";
+import { useSpacing } from "@/hooks/services/useSpacing";
 
 export default function Sidebar() {
   const spacing = useSpacing();

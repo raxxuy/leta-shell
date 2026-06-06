@@ -3,8 +3,8 @@ import MenuButton from "@/components/ui/MenuButton";
 import Popover from "@/components/ui/Popover";
 import { Align, Orientation, WrapMode } from "@/enums";
 import useEndpoint from "@/hooks/features/audio/useEndpoint";
-import usePixelSize from "@/hooks/services/usePixelSize";
-import useSpacing from "@/hooks/services/useSpacing";
+import { usePixelSize } from "@/hooks/services/usePixelSize";
+import { useSpacing } from "@/hooks/services/useSpacing";
 import useWirePlumber from "@/hooks/system/useWirePlumber";
 
 export default function Microphone() {

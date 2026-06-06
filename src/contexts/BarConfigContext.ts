@@ -1,7 +1,6 @@
-import { type Accessor, createContext } from "ags";
+import { createContext } from "ags";
 import type { BarWidget } from "@/lib/config/schemas/bar";
-
-type ConfigTuple<T> = readonly [Accessor<T>, (next: T) => void];
+import type { ConfigTuple } from "@/types/config";
 
 export interface BarLayout {
   readonly center: readonly BarWidget[];

@@ -1,6 +1,6 @@
 import { Align, Orientation } from "@/enums";
 import usePowerProfiles from "@/hooks/features/power/usePowerProfiles";
-import useSpacing from "@/hooks/services/useSpacing";
+import { useSpacing } from "@/hooks/services/useSpacing";
 import ProfileButton from "./ProfileButton";
 
 export default function Profiles() {

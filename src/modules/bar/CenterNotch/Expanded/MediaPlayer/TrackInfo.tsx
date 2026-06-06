@@ -1,11 +1,11 @@
 import { With } from "ags";
+import { MprisContext } from "@/contexts/MprisContext";
 import { Orientation } from "@/enums";
-import useTrackInfo from "@/hooks/features/center-notch/media/useTrackInfo";
-import useMpris from "@/hooks/services/useMpris";
+import { useTrackInfo } from "@/hooks/features/media/useTrackInfo";
 import { cleanupWidget, scan } from "@/lib/theme";
 
 export default function TrackInfo() {
-  const { activePlayer } = useMpris();
+  const { activePlayer } = MprisContext.use();
 
   return (
     <box>

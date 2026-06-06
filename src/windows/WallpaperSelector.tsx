@@ -2,11 +2,24 @@ import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import PopupWindow from "@/components/ui/PopupWindow";
 import { Exclusivity, Keymode, Layer, RevealerTransitionType } from "@/enums";
-import useWallpaperProps from "@/hooks/ui/windows/useWallpaperProps";
 import WallpaperSelectorModule from "@/modules/wallpaper-selector";
+import WallpaperConfigProvider from "@/providers/WallpaperConfigProvider";
 
 export default function WallpaperSelectorWindow(gdkmonitor: Gdk.Monitor) {
-  const { connector, width } = useWallpaperProps(gdkmonitor);
+  return (
+    <WallpaperConfigProvider>
+      {() => <WallpaperSelectorWindowInner gdkmonitor={gdkmonitor} />}
+    </WallpaperConfigProvider>
+  );
+}
+
+const WallpaperSelectorWindowInner = ({
+  gdkmonitor,
+}: {
+  gdkmonitor: Gdk.Monitor;
+}) => {
+  const width = gdkmonitor.geometry.width;
+  const connector = gdkmonitor.connector as string;
 
   return (
     <PopupWindow
@@ -24,4 +37,4 @@ export default function WallpaperSelectorWindow(gdkmonitor: Gdk.Monitor) {
       <WallpaperSelectorModule connector={connector} width={width} />
     </PopupWindow>
   );
-}
+};

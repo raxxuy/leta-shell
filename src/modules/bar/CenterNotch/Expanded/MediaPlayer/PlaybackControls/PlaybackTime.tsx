@@ -1,5 +1,5 @@
 import type AstalMpris from "gi://AstalMpris";
-import usePlayback from "@/hooks/features/center-notch/media/usePlayback";
+import usePlayback from "@/hooks/features/media/usePlayback";
 
 interface PlaybackTimeProps {
   player: AstalMpris.Player;

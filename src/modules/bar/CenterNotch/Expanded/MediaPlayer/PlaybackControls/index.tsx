@@ -1,7 +1,7 @@
 import { With } from "ags";
+import { MprisContext } from "@/contexts/MprisContext";
 import { Orientation } from "@/enums";
-import useMpris from "@/hooks/services/useMpris";
-import useSpacing from "@/hooks/services/useSpacing";
+import { useSpacing } from "@/hooks/services/useSpacing";
 import { cleanupWidget, scan } from "@/lib/theme";
 import { PlaybackButtons } from "./PlaybackButtons";
 import { PlaybackSlider } from "./PlaybackSlider";
@@ -9,7 +9,7 @@ import PlaybackTime from "./PlaybackTime";
 
 export default function PlaybackControls() {
   const spacing = useSpacing();
-  const { activePlayer } = useMpris();
+  const { activePlayer } = MprisContext.use();
 
   return (
     <box orientation={Orientation.VERTICAL}>

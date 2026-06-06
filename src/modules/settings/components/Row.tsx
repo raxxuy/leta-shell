@@ -1,6 +1,6 @@
 import { Align } from "@/enums";
-import usePixelSize from "@/hooks/services/usePixelSize";
-import useSpacing from "@/hooks/services/useSpacing";
+import { usePixelSize } from "@/hooks/services/usePixelSize";
+import { useSpacing } from "@/hooks/services/useSpacing";
 import { openUrl } from "@/lib/browser";
 import { toggleWindow } from "@/lib/window";
 import type { Reactive } from "@/types/reactive";

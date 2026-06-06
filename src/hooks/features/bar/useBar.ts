@@ -1,7 +1,7 @@
 import clsx from "clsx/lite";
 import { BarConfigContext } from "@/contexts/BarConfigContext";
 
-export default function useBarConfig() {
+export const useBar = () => {
   const {
     position,
     height,
@@ -11,6 +11,8 @@ export default function useBarConfig() {
     centerNotchMode,
     visualizerCount,
   } = BarConfigContext.use();
+
+  const anchor = position[0]((p) => (p === "top" ? "top-full" : "bottom-full"));
 
   const containerClassName = position[0]((p) =>
     clsx(
@@ -25,10 +27,11 @@ export default function useBarConfig() {
     position,
     height,
     layout,
-    containerClassName,
     clockFormat,
     workspaceCount,
     centerNotchMode,
     visualizerCount,
+    anchor,
+    containerClassName,
   };
-}
+};

@@ -5,8 +5,8 @@ import Popover from "@/components/ui/Popover";
 import { Cursor } from "@/constants";
 import { Align, Orientation } from "@/enums";
 import useBluetooth from "@/hooks/features/bluetooth/useBluetooth";
-import usePixelSize from "@/hooks/services/usePixelSize";
-import useSpacing from "@/hooks/services/useSpacing";
+import { usePixelSize } from "@/hooks/services/usePixelSize";
+import { useSpacing } from "@/hooks/services/useSpacing";
 import { cleanupWidget, scan } from "@/lib/theme";
 import BluetoothDeviceItem from "./BluetoothDeviceItem";
 

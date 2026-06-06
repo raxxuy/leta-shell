@@ -1,6 +1,6 @@
 import { With } from "ags";
 import Image from "@/components/ui/Image";
-import useWallpaper from "@/hooks/services/useWallpaper";
+import { useWallpaperService } from "@/hooks/services/useWallpaperService";
 import { cleanupWidget } from "@/lib/theme";
 
 interface WallpaperModuleProps {
@@ -14,7 +14,7 @@ export default function WallpaperModule({
   width,
   height,
 }: WallpaperModuleProps) {
-  const [wallpaper] = useWallpaper(connector);
+  const { wallpaper } = useWallpaperService(connector);
 
   return (
     <With cleanup={cleanupWidget} value={wallpaper}>

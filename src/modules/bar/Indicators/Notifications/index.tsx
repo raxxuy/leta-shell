@@ -2,9 +2,9 @@ import { For } from "ags";
 import MenuButton from "@/components/ui/MenuButton";
 import Popover from "@/components/ui/Popover";
 import { Align, EllipsizeMode, Orientation } from "@/enums";
-import useNotifications from "@/hooks/services/useNotifications";
-import usePixelSize from "@/hooks/services/usePixelSize";
-import useSpacing from "@/hooks/services/useSpacing";
+import { useNotifications } from "@/hooks/features/notifications/useNotifications";
+import { usePixelSize } from "@/hooks/services/usePixelSize";
+import { useSpacing } from "@/hooks/services/useSpacing";
 import { cleanupWidget } from "@/lib/theme";
 import { formatLocalTime } from "@/lib/time";
 
@@ -13,11 +13,11 @@ export default function Notifications() {
   const pixelSize = usePixelSize();
   const {
     history,
-    hasHistory,
     iconName,
-    dndClassName,
-    toggleDnD,
+    hasHistory,
+    dndButtonClassName,
     clearHistory,
+    toggleDnD,
   } = useNotifications();
 
   return (
@@ -29,7 +29,7 @@ export default function Notifications() {
             <label class="font-semibold opacity-90" label="Notifications" />
             <box halign={Align.END} hexpand spacing={spacing.sm}>
               <button
-                class={dndClassName}
+                class={dndButtonClassName}
                 focusable={false}
                 onClicked={toggleDnD}
               >

@@ -2,11 +2,24 @@ import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import Window from "@/components/ui/Window";
 import { Exclusivity, Layer } from "@/enums";
-import useWallpaperProps from "@/hooks/ui/windows/useWallpaperProps";
+import { useWallpaper } from "@/hooks/features/wallpaper/useWallpaper";
 import WallpaperModule from "@/modules/wallpaper";
+import WallpaperConfigProvider from "@/providers/WallpaperConfigProvider";
 
 export default function WallpaperWindow(gdkmonitor: Gdk.Monitor) {
-  const { enabled, connector, width, height } = useWallpaperProps(gdkmonitor);
+  return (
+    <WallpaperConfigProvider>
+      {() => <WallpaperWindowInner gdkmonitor={gdkmonitor} />}
+    </WallpaperConfigProvider>
+  );
+}
+
+const WallpaperWindowInner = ({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) => {
+  const {
+    enabled: [enabled],
+  } = useWallpaper();
+  const { width, height } = gdkmonitor.geometry;
+  const connector = gdkmonitor.connector as string;
 
   return (
     <Window
@@ -21,4 +34,4 @@ export default function WallpaperWindow(gdkmonitor: Gdk.Monitor) {
       <WallpaperModule connector={connector} height={height} width={width} />
     </Window>
   );
-}
+};

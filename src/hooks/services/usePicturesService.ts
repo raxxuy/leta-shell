@@ -1,7 +1,7 @@
 import { createBinding } from "ags";
 import PictureService from "@/services/picture";
 
-export default function usePictures() {
+export const usePicturesService = () => {
   const service = PictureService.get_default();
 
   const pictures = createBinding(service, "pictures");
@@ -9,4 +9,4 @@ export default function usePictures() {
   const getThumbnail = (path: string) => service.getThumbnail(path);
 
   return { pictures, getThumbnail };
-}
+};

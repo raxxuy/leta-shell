@@ -30,7 +30,7 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
     return ConfigService.get_default().configs.wallpaper;
   }
 
-  public get(monitorId: string): string | null {
+  get(monitorId: string): string | null {
     const size = this.#monitorSizes.get(monitorId);
     if (!size) return null;
 
@@ -46,7 +46,7 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
     return rendered;
   }
 
-  public setWallpaper(monitorId: string, path: string): void {
+  setWallpaper(monitorId: string, path: string): void {
     if (!this.config.enabled) return;
 
     ConfigService.get_default().setValue(
@@ -60,14 +60,14 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
     this.emit("wallpaper-changed", path, false);
   }
 
-  public setGlobalWallpaper(path: string): void {
+  setGlobalWallpaper(path: string): void {
     if (!this.config.enabled) return;
 
     ConfigService.get_default().setValue("wallpaper", "globalWallpaper", path);
     this.emit("wallpaper-changed", path, true);
   }
 
-  public initMonitors(monitors: Gdk.Monitor[]): void {
+  initMonitors(monitors: Gdk.Monitor[]): void {
     monitors.forEach((mon) => {
       this.#monitorSizes.set(mon.connector as string, {
         width: mon.geometry.width,

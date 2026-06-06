@@ -1,8 +1,9 @@
 import { For } from "ags";
+import { THUMBNAIL_HEIGHT } from "@/constants";
 import { Align, PolicyType } from "@/enums";
-import usePictures from "@/hooks/services/usePictures";
-import useSpacing from "@/hooks/services/useSpacing";
-import useWallpaper from "@/hooks/services/useWallpaper";
+import { usePicturesService } from "@/hooks/services/usePicturesService";
+import { useSpacing } from "@/hooks/services/useSpacing";
+import { useWallpaperService } from "@/hooks/services/useWallpaperService";
 import { cleanupWidget } from "@/lib/theme";
 import ThumbnailButton from "./ThumbnailButton";
 
@@ -16,21 +17,19 @@ export default function WallpaperSelectorModule({
   width,
 }: WallpaperSelectorProps) {
   const spacing = useSpacing();
-  const { pictures, getThumbnail } = usePictures();
-  const [, setWallpaper] = useWallpaper(connector);
-
-  const scrollWidth = width * 0.95;
+  const { pictures, getThumbnail } = usePicturesService();
+  const { setWallpaper } = useWallpaperService(connector);
 
   return (
     <box class="m-[5px_10px_15px]">
       <box class="rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-4 shadow-lg">
         <scrolledwindow
           class="rounded-2xl"
-          heightRequest={240}
+          heightRequest={THUMBNAIL_HEIGHT * 1.2}
           hscrollbarPolicy={PolicyType.EXTERNAL}
           kineticScrolling
           vscrollbarPolicy={PolicyType.NEVER}
-          widthRequest={scrollWidth}
+          widthRequest={width}
         >
           <box class="px-1" hexpand spacing={spacing.xl} valign={Align.CENTER}>
             <For cleanup={cleanupWidget} each={pictures}>

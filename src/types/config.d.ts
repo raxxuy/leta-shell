@@ -1,3 +1,5 @@
+import type { Accessor } from "ags";
+
 export type ValueOrUpdater<T> = T | ((current: T) => T);
 
 export type Path<T> = T extends object
@@ -15,3 +17,5 @@ export type Get<T, P> = P extends `${infer K}.${infer Rest}`
   : P extends keyof T
     ? T[P]
     : never;
+
+export type ConfigTuple<T> = readonly [Accessor<T>, (next: T) => void];

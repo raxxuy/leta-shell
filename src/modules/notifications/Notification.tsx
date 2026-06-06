@@ -2,8 +2,8 @@ import type AstalNotifd from "gi://AstalNotifd";
 import { onMount } from "ags";
 import { timeout } from "ags/time";
 import { Align, EllipsizeMode, Orientation } from "@/enums";
-import usePixelSize from "@/hooks/services/usePixelSize";
-import useSpacing from "@/hooks/services/useSpacing";
+import { usePixelSize } from "@/hooks/services/usePixelSize";
+import { useSpacing } from "@/hooks/services/useSpacing";
 import { scan } from "@/lib/theme";
 import { formatLocalTime } from "@/lib/time";
 

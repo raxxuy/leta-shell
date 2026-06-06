@@ -3,8 +3,8 @@ import MenuButton from "@/components/ui/MenuButton";
 import Popover from "@/components/ui/Popover";
 import { Align, Orientation } from "@/enums";
 import useBattery from "@/hooks/features/power/useBattery";
-import usePixelSize from "@/hooks/services/usePixelSize";
-import useSpacing from "@/hooks/services/useSpacing";
+import { usePixelSize } from "@/hooks/services/usePixelSize";
+import { useSpacing } from "@/hooks/services/useSpacing";
 import Profiles from "./Profiles";
 
 export default function Power() {

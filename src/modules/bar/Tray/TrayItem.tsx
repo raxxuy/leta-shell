@@ -2,7 +2,7 @@ import type AstalTray from "gi://AstalTray";
 import { createBinding } from "ags";
 import type { Gtk } from "ags/gtk4";
 import MenuButton from "@/components/ui/MenuButton";
-import usePixelSize from "@/hooks/services/usePixelSize";
+import { usePixelSize } from "@/hooks/services/usePixelSize";
 import { scan } from "@/lib/theme";
 
 interface TrayItemProps {

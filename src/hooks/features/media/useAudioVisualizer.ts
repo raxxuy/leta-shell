@@ -2,12 +2,14 @@ import AstalCava from "gi://AstalCava";
 import AstalMpris from "gi://AstalMpris";
 import { createBinding, createEffect, createState, onCleanup } from "ags";
 import { BarConfigContext } from "@/contexts/BarConfigContext";
-import useMpris from "@/hooks/services/useMpris";
+import { MprisContext } from "@/contexts/MprisContext";
 
-export default function useAudioVisualizer() {
+export const useAudioVisualizer = () => {
   const {
     visualizerCount: [count],
   } = BarConfigContext.use();
+
+  const { activePlayer } = MprisContext.use();
 
   const cava = AstalCava.get_default();
   if (!cava)
@@ -15,8 +17,6 @@ export default function useAudioVisualizer() {
       count,
       values: createState<number[]>([])[0],
     };
-
-  const { activePlayer } = useMpris();
 
   createEffect(() => {
     cava.set_bars(count());
@@ -67,4 +67,4 @@ export default function useAudioVisualizer() {
   onCleanup(() => cava.disconnect(id));
 
   return { count, values };
-}
+};

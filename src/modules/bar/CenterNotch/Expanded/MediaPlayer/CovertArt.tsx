@@ -1,22 +1,21 @@
-import { createBinding, With } from "ags";
+import { With } from "ags";
 import Image from "@/components/ui/Image";
+import { MprisContext } from "@/contexts/MprisContext";
 import { Align, Overflow } from "@/enums";
-import useMpris from "@/hooks/services/useMpris";
-import usePixelSize from "@/hooks/services/usePixelSize";
-import useAppQuery from "@/hooks/system/useAppQuery";
+import { useCoverArt } from "@/hooks/features/media/useCoverArt";
+import { usePixelSize } from "@/hooks/services/usePixelSize";
 import { cleanupWidget, scan } from "@/lib/theme";
 
 export default function CovertArt() {
   const pixelSize = usePixelSize();
-  const { activePlayer } = useMpris();
+  const { activePlayer } = MprisContext.use();
 
   return (
     <With cleanup={cleanupWidget} value={activePlayer}>
       {(player) => {
         if (!player) return null;
 
-        const [app] = useAppQuery(player.entry);
-        const coverArt = createBinding(player, "coverArt");
+        const { iconName, coverArt } = useCoverArt(player);
 
         return (
           <overlay $={scan} class="m-1 shadow-lg">
@@ -28,9 +27,9 @@ export default function CovertArt() {
             />
             <image
               $type="overlay"
-              class="inset-shadow-sm -mr-1 -mb-1"
+              class="inset-shadow-sm -mr-1 -mb-1 drop-shadow-black/50 drop-shadow-md"
               halign={Align.END}
-              iconName={app.iconName}
+              iconName={iconName}
               pixelSize={pixelSize.md}
               valign={Align.END}
             />

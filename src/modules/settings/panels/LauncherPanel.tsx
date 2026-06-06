@@ -1,6 +1,6 @@
 import { Orientation } from "@/enums";
 import useConfig from "@/hooks/services/config/useConfig";
-import useSpacing from "@/hooks/services/useSpacing";
+import { useSpacing } from "@/hooks/services/useSpacing";
 import { scan } from "@/lib/theme";
 import Select from "@/modules/settings/components/Select";
 import Stepper from "@/modules/settings/components/Stepper";

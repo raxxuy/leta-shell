@@ -1,7 +1,7 @@
 import AstalNotifd from "gi://AstalNotifd";
 import { For, onMount } from "ags";
 import { Align, Orientation, WindowAnchor } from "@/enums";
-import useNotifications from "@/hooks/services/useNotifications";
+import { useNotifications } from "@/hooks/features/notifications/useNotifications";
 import { cleanupWidget } from "@/lib/theme";
 import { getWindow } from "@/lib/window/utils";
 import Notification from "./Notification";

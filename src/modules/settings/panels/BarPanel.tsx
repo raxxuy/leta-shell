@@ -1,8 +1,8 @@
 import { Orientation } from "@/enums";
-import useBarConfig from "@/hooks/services/config/useBarConfig";
-import useSpacing from "@/hooks/services/useSpacing";
+import { useBar } from "@/hooks/features/bar/useBar";
+import { useSpacing } from "@/hooks/services/useSpacing";
 import type { BarWidget } from "@/lib/config/schemas/bar";
-import { CenterNotchModeEnum } from "@/lib/config/schemas/modules/center-notch";
+import { CenterNotchModeEnum } from "@/lib/config/schemas/bar/modules/center-notch";
 import { scan } from "@/lib/theme";
 import InputField from "@/modules/settings/components/InputField";
 import Select from "@/modules/settings/components/Select";
@@ -24,7 +24,7 @@ export default function BarPanel() {
     workspaceCount: [workspaceCount, setWorkspaceCount],
     centerNotchMode: [centerNotchMode, setCenterNotchMode],
     visualizerCount: [visualizerCount, setVisualizerCount],
-  } = useBarConfig();
+  } = useBar();
 
   return (
     <box $={scan} orientation={Orientation.VERTICAL} spacing={spacing.xl}>

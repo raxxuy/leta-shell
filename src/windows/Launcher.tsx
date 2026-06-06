@@ -2,11 +2,19 @@ import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import PopupWindow from "@/components/ui/PopupWindow";
 import { Exclusivity, Keymode, Layer, RevealerTransitionType } from "@/enums";
-import useLauncherProps from "@/hooks/ui/windows/useLauncherProps";
 import LauncherModule from "@/modules/launcher";
+import LauncherConfigProvider from "@/providers/LauncherConfigProvider";
 
 export default function LauncherWindow(gdkmonitor: Gdk.Monitor) {
-  const { marginTop, width } = useLauncherProps(gdkmonitor);
+  return (
+    <LauncherConfigProvider>
+      {() => <LauncherWindowInner gdkmonitor={gdkmonitor} />}
+    </LauncherConfigProvider>
+  );
+}
+
+const LauncherWindowInner = ({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) => {
+  const { width, height } = gdkmonitor.geometry;
 
   return (
     <PopupWindow
@@ -17,7 +25,7 @@ export default function LauncherWindow(gdkmonitor: Gdk.Monitor) {
       gdkmonitor={gdkmonitor}
       keymode={Keymode.EXCLUSIVE}
       layer={Layer.OVERLAY}
-      marginTop={marginTop}
+      marginTop={height * 0.2}
       name="launcher"
       namespace="leta-shell"
       position="top"
@@ -26,4 +34,4 @@ export default function LauncherWindow(gdkmonitor: Gdk.Monitor) {
       <LauncherModule width={width} />
     </PopupWindow>
   );
-}
+};

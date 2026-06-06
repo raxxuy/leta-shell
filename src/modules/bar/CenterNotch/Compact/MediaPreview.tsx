@@ -6,8 +6,8 @@ import {
   EventControllerScrollFlags,
   Overflow,
 } from "@/enums";
-import useMediaPreview from "@/hooks/features/center-notch/media/useMediaPreview";
-import useTrackInfo from "@/hooks/features/center-notch/media/useTrackInfo";
+import { useMediaPreview } from "@/hooks/features/media/useMediaPreview";
+import { useTrackInfo } from "@/hooks/features/media/useTrackInfo";
 import { cleanupWidget } from "@/lib/theme";
 
 export default function MediaPreview() {

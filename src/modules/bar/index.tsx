@@ -1,6 +1,6 @@
 import { With } from "ags";
-import useBarConfig from "@/hooks/services/config/useBarConfig";
-import useSpacing from "@/hooks/services/useSpacing";
+import { useBar } from "@/hooks/features/bar/useBar";
+import { useSpacing } from "@/hooks/services/useSpacing";
 import type { BarWidget } from "@/lib/config/schemas/bar";
 import { cleanupWidget, scan } from "@/lib/theme";
 import CenterNotch from "./CenterNotch";
@@ -24,7 +24,7 @@ export default function BarModule() {
   const {
     layout: [layout],
     containerClassName,
-  } = useBarConfig();
+  } = useBar();
 
   return (
     <With cleanup={cleanupWidget} value={layout}>

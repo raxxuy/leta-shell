@@ -1,5 +1,5 @@
 import { Align, Orientation } from "@/enums";
-import useSpacing from "@/hooks/services/useSpacing";
+import { useSpacing } from "@/hooks/services/useSpacing";
 
 interface SectionProps {
   children: JSX.Element | JSX.Element[];

@@ -1,4 +1,4 @@
-import useSpacing from "@/hooks/services/useSpacing";
+import { useSpacing } from "@/hooks/services/useSpacing";
 import { access, createReactiveMemo } from "@/lib/reactive";
 import type { Reactive } from "@/types/reactive";
 

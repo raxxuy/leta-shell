@@ -27,4 +27,5 @@ export const LauncherSchema = z.object({
   }),
 });
 
+export type WebSearchEngine = z.infer<typeof WebSearchEngineEnum>;
 export type LauncherConfig = z.infer<typeof LauncherSchema>;

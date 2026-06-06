@@ -1,9 +1,9 @@
 import { onMount, With } from "ags";
 import type { Gtk } from "ags/gtk4";
 import { Align, Orientation } from "@/enums";
-import useLauncher from "@/hooks/services/launcher/useLauncher";
-import usePixelSize from "@/hooks/services/usePixelSize";
-import useSpacing from "@/hooks/services/useSpacing";
+import useLauncherService from "@/hooks/services/launcher/useLauncherService";
+import { usePixelSize } from "@/hooks/services/usePixelSize";
+import { useSpacing } from "@/hooks/services/useSpacing";
 import { cleanupWidget, scan } from "@/lib/theme";
 import { getWindow } from "@/lib/window/utils";
 import LauncherItem from "./LauncherItem";
@@ -15,7 +15,8 @@ interface LauncherModuleProps {
 export default function LauncherModule({ width }: LauncherModuleProps) {
   const spacing = useSpacing();
   const pixelSize = usePixelSize();
-  const { results, hasResults, maxResults, clear, search } = useLauncher();
+  const { results, hasResults, maxResults, clear, search } =
+    useLauncherService();
 
   let entryRef: Gtk.Entry;
 
