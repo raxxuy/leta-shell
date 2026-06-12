@@ -1,6 +1,7 @@
 import z from "zod";
 
 export const launcherDefaults = {
+  width: 558,
   maxResults: 5,
   providers: {
     web: {
@@ -12,6 +13,7 @@ export const launcherDefaults = {
 export const WebSearchEngineEnum = z.enum(["google", "duckduckgo", "brave"]);
 
 export const LauncherSchema = z.object({
+  width: z.number().int().min(0).default(launcherDefaults.width),
   maxResults: z
     .number()
     .int()

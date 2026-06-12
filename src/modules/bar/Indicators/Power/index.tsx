@@ -1,6 +1,6 @@
 import clsx from "clsx/lite";
-import MenuButton from "@/components/ui/MenuButton";
-import Popover from "@/components/ui/Popover";
+import MenuButton from "@/components/MenuButton";
+import Popover from "@/components/Popover";
 import { Align, Orientation } from "@/enums";
 import useBattery from "@/hooks/features/power/useBattery";
 import { usePixelSize } from "@/hooks/services/usePixelSize";

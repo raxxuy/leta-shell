@@ -5,6 +5,7 @@ import type { ConfigTuple } from "@/types/config";
 export interface LauncherConfigShape {
   maxResults: ConfigTuple<number>;
   webSearchEngine: ConfigTuple<WebSearchEngine>;
+  width: ConfigTuple<number>;
 }
 
 export const LauncherConfigContext = createContext<LauncherConfigShape>(

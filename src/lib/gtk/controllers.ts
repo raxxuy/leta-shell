@@ -37,3 +37,16 @@ export const createEscapeController = (onEscape: () => void) => {
 
   return controller;
 };
+
+export const createMouseHoverController = (
+  onHover: () => void,
+  onLeave: () => void,
+) => {
+  const controller = new Gtk.EventControllerMotion();
+  controller.set_propagation_phase(Gtk.PropagationPhase.CAPTURE);
+
+  controller.connect("enter", onHover);
+  controller.connect("leave", onLeave);
+
+  return controller;
+};

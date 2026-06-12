@@ -1,7 +1,7 @@
 import type AstalHyprland from "gi://AstalHyprland";
 import { Align } from "@/enums";
-import useWorkspaceState from "@/hooks/features/workspaces/useWorkspaceState";
-import { exec } from "@/lib/process";
+import { useWorkspaceState } from "@/hooks/features/workspaces/useWorkspaceState";
+import { focusWorkspace } from "@/lib/hyprland/dispatchers";
 import { scan } from "@/lib/theme";
 
 interface WorkspaceButtonProps {
@@ -9,11 +9,11 @@ interface WorkspaceButtonProps {
 }
 
 export default function WorkspaceButton({ workspace }: WorkspaceButtonProps) {
-  const { state, className, cursor } = useWorkspaceState(workspace);
+  const { state, cursor, className } = useWorkspaceState(workspace);
 
   const onWorkspaceClick = () => {
     if (state.peek() === "focused") return;
-    exec(`hyprctl dispatch 'hl.dsp.focus({ workspace = ${workspace.id} })'`);
+    focusWorkspace(workspace.id);
   };
 
   return (

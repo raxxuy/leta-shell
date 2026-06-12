@@ -1,3 +1,4 @@
+import AstalMpris from "gi://AstalMpris";
 import Gio from "gi://Gio";
 import GLib from "gi://GLib";
 import Pango from "gi://Pango";
@@ -25,3 +26,4 @@ export const { ModifierType, DragAction } = Gdk;
 export const { ApplicationFlags, FileMonitorEvent } = Gio;
 export const { EllipsizeMode, WrapMode } = Pango;
 export const { UserDirectory, FileTest } = GLib;
+export const { PlaybackStatus, Loop, Shuffle } = AstalMpris;

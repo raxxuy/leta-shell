@@ -20,7 +20,7 @@ export default function Popover({
     const isAnimated = access(animatedProp);
     const classes = access(classNameProp);
 
-    return clsx(classes, isAnimated && visible() && "animate-pop-in");
+    return clsx(classes, isAnimated && visible() && "animate-spring-in");
   });
 
   return (

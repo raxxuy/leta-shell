@@ -2,7 +2,7 @@ import {
   BarConfigContext,
   type BarConfigShape,
 } from "@/contexts/BarConfigContext";
-import useConfig from "@/hooks/services/config/useConfig";
+import useConfig from "@/hooks/services/useConfig";
 
 interface BarConfigProviderProps {
   children: () => JSX.Element;

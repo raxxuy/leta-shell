@@ -1,12 +1,18 @@
 import AstalWp from "gi://AstalWp";
 import { createBinding } from "ags";
 
-export default function useWirePlumber() {
+export const useWirePlumber = () => {
   const wp = AstalWp.get_default();
+  const audio = wp.audio;
   const speaker = wp.defaultSpeaker;
   const microphone = wp.defaultMicrophone;
 
-  const devices = createBinding(wp, "devices");
+  const speakers = createBinding(audio, "speakers")((s) => s ?? []);
+  const microphones = createBinding(audio, "microphones")((m) => m ?? []);
 
-  return { speaker, microphone, devices };
-}
+  const setDefaultEndpoint = (device: AstalWp.Endpoint) => {
+    device.set_is_default(true);
+  };
+
+  return { speaker, microphone, speakers, microphones, setDefaultEndpoint };
+};

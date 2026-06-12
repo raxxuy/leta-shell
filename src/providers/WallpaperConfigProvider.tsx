@@ -2,7 +2,7 @@ import {
   WallpaperConfigContext,
   type WallpaperConfigShape,
 } from "@/contexts/WallpaperConfigContext";
-import useConfig from "@/hooks/services/config/useConfig";
+import useConfig from "@/hooks/services/useConfig";
 
 interface WallpaperConfigProviderProps {
   children: () => JSX.Element;

@@ -1,16 +1,16 @@
 import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
-import PopupWindow from "@/components/ui/PopupWindow";
-import { Exclusivity, Keymode, Layer, RevealerTransitionType } from "@/enums";
+import Popup from "@/components/Popup";
+import { Exclusivity, Keymode, Layer } from "@/enums";
 import SettingsModule from "@/modules/settings";
 
 export default function SettingsWindow(gdkmonitor: Gdk.Monitor) {
   const { width, height } = gdkmonitor.geometry;
 
   return (
-    <PopupWindow
+    <Popup
       anchor="center"
-      animation="scale"
+      animation="popover"
       application={app}
       exclusivity={Exclusivity.EXCLUSIVE}
       gdkmonitor={gdkmonitor}
@@ -18,9 +18,8 @@ export default function SettingsWindow(gdkmonitor: Gdk.Monitor) {
       layer={Layer.OVERLAY}
       name="settings"
       namespace="leta-shell"
-      transitionType={RevealerTransitionType.NONE}
     >
       <SettingsModule height={height} width={width} />
-    </PopupWindow>
+    </Popup>
   );
 }

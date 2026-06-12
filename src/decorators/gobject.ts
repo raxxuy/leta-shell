@@ -6,7 +6,7 @@ import type { SignalOf } from "@/types/gobject";
 type Method<T extends GObject.Object, Args extends any[] = any[]> = (
   this: T,
   ...args: Args
-) => void | Promise<void>;
+) => any;
 
 type NotifyProps<T> = Array<Extract<keyof T, string> | (string & {})>;
 
@@ -48,7 +48,7 @@ export function emitNotify<T extends GObject.Object>(...props: NotifyProps<T>) {
   return (
     method: Method<T>,
     _ctx: ClassMethodDecoratorContext<T, typeof method>,
-  ) =>
+  ): any =>
     function (this: T, ...args: any[]) {
       const notify = () => {
         for (const prop of props) this.notify(prop);

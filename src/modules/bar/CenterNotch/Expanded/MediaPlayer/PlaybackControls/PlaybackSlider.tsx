@@ -2,7 +2,7 @@ import type AstalMpris from "gi://AstalMpris";
 import clsx from "clsx/lite";
 import { Orientation } from "@/enums";
 import usePlayback from "@/hooks/features/media/usePlayback";
-import { useSliderDrag } from "@/hooks/ui/interactions/useSliderDrag";
+import { useSliderDrag } from "@/hooks/interactions/useSliderDrag";
 
 interface PlaybackSliderProps {
   player: AstalMpris.Player;

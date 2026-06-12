@@ -1,6 +1,6 @@
 import { For, type Setter } from "ags";
 import { Align, Orientation } from "@/enums";
-import { useDragAndDrop } from "@/hooks/ui/interactions/useDragAndDrop";
+import { useDragAndDrop } from "@/hooks/interactions/useDragAndDrop";
 import { createReactiveMemo } from "@/lib/reactive";
 import { scan } from "@/lib/theme";
 import type { Reactive } from "@/types/reactive";

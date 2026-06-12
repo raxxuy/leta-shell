@@ -1,11 +1,13 @@
 import app from "ags/gtk4/app";
-import { toggleWindow } from "@/lib/window";
-import { isWindowName } from "@/lib/window/registry";
+import { isWindowName, toggleWindow } from "@/lib/window";
+import AuthService from "@/services/auth";
 
 type RequestHandler = (args: string[], response: (msg: string) => void) => void;
 
 const handlers: Record<string, RequestHandler> = {
   quit: (_, response) => {
+    if (AuthService.isLocked())
+      return response("ERROR: Cannot quit while locked");
     response("Quitting");
     app.quit();
   },

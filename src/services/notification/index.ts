@@ -40,7 +40,7 @@ export default class NotificationService extends Service {
     writeFile(CACHE_NOTIFICATIONS_FILE, "[]");
   }
 
-  @emitNotify("notifications")
+  @emitNotify("notifications", "history")
   private upsertNotification(
     notification: AstalNotifd.Notification,
     replaced: boolean,

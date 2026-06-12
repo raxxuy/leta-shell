@@ -1,6 +1,6 @@
 import { For } from "ags";
 import { Align } from "@/enums";
-import useWorkspaces from "@/hooks/features/workspaces/useWorkspaces";
+import { useWorkspaces } from "@/hooks/features/workspaces/useWorkspaces";
 import { useSpacing } from "@/hooks/services/useSpacing";
 import { cleanupWidget } from "@/lib/theme";
 import WorkspaceButton from "./WorkspaceButton";

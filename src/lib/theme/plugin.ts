@@ -23,69 +23,140 @@ export const { scan, cleanupWidget } = agsPlugin({
           "m-[5px_10px_15px] mt-4 rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-6 shadow-md",
         "bar-menubutton":
           "min-h-6.5 min-w-6.5 rounded-lg transition-colors checked:bg-white/20 hover:bg-white/15 active:bg-white/20",
+        "bar-endpoint-slider": [
+          "rounded-full bg-white/12",
+          "[&_highlight]:rounded-full [&_highlight]:bg-white/95",
+          "[&_slider:hover]:-my-0.5 [&_slider:hover]:min-h-[0.7rem] [&_slider:hover]:min-w-[0.7rem] [&_slider]:-my-px [&_slider]:min-h-2 [&_slider]:min-w-2 [&_slider]:rounded-full [&_slider]:bg-white",
+          "active:[&_slider]:-my-0.5 active:[&_slider]:min-h-[0.7rem] active:[&_slider]:min-w-[0.7rem]",
+        ],
+        "bar-switch": [
+          "min-h-4 min-w-8 rounded-full bg-white/15 p-0.5 transition-colors duration-200 checked:bg-primary/90",
+          "[&>slider]:min-h-3.5 [&>slider]:min-w-3.5 [&>slider]:rounded-full [&>slider]:bg-white [&>slider]:shadow-sm",
+        ],
         "bar-container":
-          "border border-tertiary/20 bg-zinc-950/95 px-4 shadow-md",
+          "border border-tertiary/20 bg-zinc-950/95 px-4 shadow-md animate-spring-in",
         "button-outline-custom":
           "rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 transition-colors hover:bg-white/10 active:bg-white/15 disabled:opacity-50",
         "menubutton-custom":
           "rounded-lg border border-white/10 transition-colors checked:bg-white/8 hover:bg-white/5 active:bg-white/8 [&>button]:px-4 [&>button]:py-1.5",
       },
-      // spacing: "",
+      // spacing: "",``
       colors: {
         primary: "var(--primary)",
         tertiary: "var(--tertiary)",
       },
       keyframes: {
-        "pop-in": {
+        "slide-up-fade": {
           "0%": {
-            transform: "scale(0)",
             opacity: "0",
+            transform: "translateY(8px) scale(0.98)",
           },
-          "80%": {
-            transform: "scale(1.05)",
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0) scale(1)",
+          },
+        },
+
+        "slide-down-fade": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(-8px) scale(0.98)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0) scale(1)",
+          },
+        },
+
+        "spring-in": {
+          "0%": {
+            opacity: "0",
+            transform: "scale(0.9)",
+          },
+          "60%": {
+            opacity: "1",
+            transform: "scale(1.03)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "scale(1)",
+          },
+        },
+
+        "popover-in": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(4px) scale(0.96)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0) scale(1)",
+          },
+        },
+
+        "popover-out": {
+          "0%": {
+            opacity: "1",
+            transform: "translateY(0) scale(1)",
+          },
+          "100%": {
+            opacity: "0",
+            transform: "translateY(4px) scale(0.96)",
+          },
+        },
+
+        "workspace-focus": {
+          "0%": {
+            opacity: "0.6",
+            transform: "scaleX(0.6)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "scaleX(1) scaleY(1.2)",
+          },
+        },
+
+        emphasize: {
+          "0%": {
+            transform: "scale(1)",
+          },
+          "40%": {
+            transform: "scale(1.08)",
           },
           "100%": {
             transform: "scale(1)",
-            opacity: "1",
           },
         },
-        wobble: {
-          "0%": {
-            transform: "scale(1.05) skewY(5deg)",
+
+        breathe: {
+          "0%, 100%": {
+            transform: "scale(1)",
           },
           "50%": {
-            transform: "scale(0.95) skewY(-5deg)",
-          },
-          "100%": {
-            transform: "scale(1) skewY(0deg)",
-          },
-        },
-        "scale-in": {
-          "0%": {
-            transform: "scale(0.95)",
-            opacity: "0",
-          },
-          "100%": {
-            transform: "scale(1)",
-            opacity: "1",
-          },
-        },
-        "scale-out": {
-          "0%": {
-            transform: "scale(1)",
-            opacity: "1",
-          },
-          "100%": {
-            transform: "scale(0.95)",
-            opacity: "0",
+            transform: "scale(1.04)",
           },
         },
       },
+
       animation: {
-        "pop-in": "pop-in 250ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
-        wobble: "wobble 200ms ease-out forwards",
-        "scale-in": "scale-in 100ms ease-out forwards",
-        "scale-out": "scale-out 200ms ease-out forwards",
+        "slide-up-fade":
+          "slide-up-fade 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards",
+
+        "slide-down-fade":
+          "slide-down-fade 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards",
+
+        "spring-in": "spring-in 300ms cubic-bezier(0.22, 1, 0.36, 1) forwards",
+
+        "popover-in": "popover-in 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards",
+
+        "popover-out": "popover-out 120ms ease-out forwards",
+
+        "workspace-focus":
+          "workspace-focus 250ms cubic-bezier(0.22, 1, 0.36, 1) forwards",
+
+        emphasize: "emphasize 300ms cubic-bezier(0.2, 0, 0, 1) forwards",
+
+        breathe: "breathe 2s ease-in-out infinite",
       },
     },
   },

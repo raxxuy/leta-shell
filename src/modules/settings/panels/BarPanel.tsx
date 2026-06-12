@@ -1,3 +1,4 @@
+import Select from "@/components/Select";
 import { Orientation } from "@/enums";
 import { useBar } from "@/hooks/features/bar/useBar";
 import { useSpacing } from "@/hooks/services/useSpacing";
@@ -5,7 +6,6 @@ import type { BarWidget } from "@/lib/config/schemas/bar";
 import { CenterNotchModeEnum } from "@/lib/config/schemas/bar/modules/center-notch";
 import { scan } from "@/lib/theme";
 import InputField from "@/modules/settings/components/InputField";
-import Select from "@/modules/settings/components/Select";
 import Stepper from "@/modules/settings/components/Stepper";
 import Reorderable from "../components/Reorderable";
 import Row from "../components/Row";

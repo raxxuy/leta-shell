@@ -1,7 +1,8 @@
 import type AstalTray from "gi://AstalTray";
-import { createBinding } from "ags";
+import { createEffect } from "ags";
 import type { Gtk } from "ags/gtk4";
-import MenuButton from "@/components/ui/MenuButton";
+import MenuButton from "@/components/MenuButton";
+import { useTrayItem } from "@/hooks/features/tray/useTrayItem";
 import { usePixelSize } from "@/hooks/services/usePixelSize";
 import { scan } from "@/lib/theme";
 
@@ -11,18 +12,20 @@ interface TrayItemProps {
 
 export default function TrayItem({ item }: TrayItemProps) {
   const pixelSize = usePixelSize();
-
-  const gicon = createBinding(item, "gicon");
+  const { gicon, menuModel, actionGroup } = useTrayItem(item);
 
   const init = (self: Gtk.MenuButton) => {
-    self.set_menu_model(item.menuModel ?? null);
-    self.insert_action_group("dbusmenu", item.actionGroup ?? null);
-
+    createEffect(() => self.insert_action_group("dbusmenu", actionGroup()));
     scan?.(self);
   };
 
   return (
-    <MenuButton $={init} class="tray-item bar-menubutton" focusable={false}>
+    <MenuButton
+      $={init}
+      class="tray-item bar-menubutton"
+      focusable={false}
+      menuModel={menuModel}
+    >
       <image
         gicon={gicon}
         pixelSize={pixelSize.sm}

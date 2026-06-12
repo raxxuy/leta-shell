@@ -1,7 +1,6 @@
 import { For, With } from "ags";
-import clsx from "clsx/lite";
-import MenuButton from "@/components/ui/MenuButton";
-import Popover from "@/components/ui/Popover";
+import MenuButton from "@/components/MenuButton";
+import Popover from "@/components/Popover";
 import { Cursor } from "@/constants";
 import { Align, Orientation } from "@/enums";
 import useBluetooth from "@/hooks/features/bluetooth/useBluetooth";
@@ -32,10 +31,7 @@ export default function Bluetooth() {
             <label class="font-semibold opacity-90" label="Bluetooth" />
             <switch
               active={isPowered}
-              class={clsx(
-                "min-h-4 min-w-8 rounded-full bg-white/15 p-0.5 transition-colors duration-200 checked:bg-primary/90",
-                "[&>slider]:min-h-3.5 [&>slider]:min-w-3.5 [&>slider]:rounded-full [&>slider]:bg-white [&>slider]:shadow-sm",
-              )}
+              class="bar-switch"
               cursor={Cursor.POINTER}
               focusable={false}
               halign={Align.END}
@@ -57,7 +53,11 @@ export default function Bluetooth() {
                       orientation={Orientation.VERTICAL}
                       spacing={spacing.md}
                     >
-                      <For cleanup={cleanupWidget} each={devices}>
+                      <For
+                        cleanup={cleanupWidget}
+                        each={devices}
+                        id={(device) => device.address}
+                      >
                         {(device) => <BluetoothDeviceItem device={device} />}
                       </For>
                     </box>

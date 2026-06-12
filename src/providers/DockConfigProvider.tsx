@@ -2,7 +2,7 @@ import {
   DockConfigContext,
   type DockConfigShape,
 } from "@/contexts/DockConfigContext";
-import useConfig from "@/hooks/services/config/useConfig";
+import useConfig from "@/hooks/services/useConfig";
 
 interface DockConfigProviderProps {
   children: () => JSX.Element;

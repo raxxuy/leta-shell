@@ -1,5 +1,5 @@
 import { With } from "ags";
-import Image from "@/components/ui/Image";
+import Image from "@/components/Image";
 import { useWallpaperService } from "@/hooks/services/useWallpaperService";
 import { cleanupWidget } from "@/lib/theme";
 

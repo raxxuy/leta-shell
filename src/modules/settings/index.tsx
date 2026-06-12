@@ -5,6 +5,7 @@ import useSettingsCategory, {
 } from "@/hooks/features/settings/useSettingsCategory";
 import { cleanupWidget } from "@/lib/theme";
 import BarConfigProvider from "@/providers/BarConfigProvider";
+import LauncherConfigProvider from "@/providers/LauncherConfigProvider";
 import BarPanel from "./panels/BarPanel";
 import LauncherPanel from "./panels/LauncherPanel";
 import Sidebar from "./Sidebar";
@@ -20,7 +21,9 @@ export default function SettingsModule({ width, height }: SettingsModuleProps) {
   const panels: Record<Category, JSX.Element> = {
     bar: <BarConfigProvider>{() => <BarPanel />}</BarConfigProvider>,
     global: <box></box>,
-    launcher: <LauncherPanel />,
+    launcher: (
+      <LauncherConfigProvider>{() => <LauncherPanel />}</LauncherConfigProvider>
+    ),
     wallpaper: <box></box>,
   };
 

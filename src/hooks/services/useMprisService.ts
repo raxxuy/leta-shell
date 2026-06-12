@@ -9,8 +9,8 @@ export const useMprisService = () => {
   const queue = createBinding(service, "queue");
   const players = createBinding(service, "players");
 
-  const next = service.next;
-  const previous = service.previous;
+  const next = () => service.next();
+  const previous = () => service.previous();
   const setActive = (activePlayer: AstalMpris.Player) =>
     service.setActive(activePlayer);
 

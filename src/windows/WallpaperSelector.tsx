@@ -1,7 +1,7 @@
 import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
-import PopupWindow from "@/components/ui/PopupWindow";
-import { Exclusivity, Keymode, Layer, RevealerTransitionType } from "@/enums";
+import Popup from "@/components/Popup";
+import { Exclusivity, Keymode, Layer } from "@/enums";
 import WallpaperSelectorModule from "@/modules/wallpaper-selector";
 import WallpaperConfigProvider from "@/providers/WallpaperConfigProvider";
 
@@ -22,9 +22,8 @@ const WallpaperSelectorWindowInner = ({
   const connector = gdkmonitor.connector as string;
 
   return (
-    <PopupWindow
-      anchor="center"
-      animation="scale"
+    <Popup
+      animation="popover"
       application={app}
       exclusivity={Exclusivity.IGNORE}
       gdkmonitor={gdkmonitor}
@@ -32,9 +31,8 @@ const WallpaperSelectorWindowInner = ({
       layer={Layer.OVERLAY}
       name="wallpaper-selector"
       namespace="leta-shell"
-      transitionType={RevealerTransitionType.NONE}
     >
-      <WallpaperSelectorModule connector={connector} width={width} />
-    </PopupWindow>
+      <WallpaperSelectorModule connector={connector} width={width * 0.9} />
+    </Popup>
   );
 };

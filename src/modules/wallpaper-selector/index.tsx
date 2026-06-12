@@ -21,28 +21,26 @@ export default function WallpaperSelectorModule({
   const { setWallpaper } = useWallpaperService(connector);
 
   return (
-    <box class="m-[5px_10px_15px]">
-      <box class="rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-4 shadow-lg">
-        <scrolledwindow
-          class="rounded-2xl"
-          heightRequest={THUMBNAIL_HEIGHT * 1.2}
-          hscrollbarPolicy={PolicyType.EXTERNAL}
-          kineticScrolling
-          vscrollbarPolicy={PolicyType.NEVER}
-          widthRequest={width}
-        >
-          <box class="px-1" hexpand spacing={spacing.xl} valign={Align.CENTER}>
-            <For cleanup={cleanupWidget} each={pictures}>
-              {(picture) => (
-                <ThumbnailButton
-                  onClick={() => setWallpaper(picture)}
-                  source={getThumbnail(picture)}
-                />
-              )}
-            </For>
-          </box>
-        </scrolledwindow>
-      </box>
+    <box class="m-[5px_10px_15px] rounded-2xl border border-tertiary/20 bg-zinc-950/95 px-6 py-4 shadow-lg">
+      <scrolledwindow
+        class="rounded-2xl"
+        heightRequest={THUMBNAIL_HEIGHT * 1.2}
+        hscrollbarPolicy={PolicyType.EXTERNAL}
+        kineticScrolling
+        vscrollbarPolicy={PolicyType.NEVER}
+        widthRequest={width}
+      >
+        <box hexpand spacing={spacing.xl} valign={Align.CENTER}>
+          <For cleanup={cleanupWidget} each={pictures}>
+            {(picture) => (
+              <ThumbnailButton
+                onClick={() => setWallpaper(picture)}
+                source={getThumbnail(picture)}
+              />
+            )}
+          </For>
+        </box>
+      </scrolledwindow>
     </box>
   );
 }

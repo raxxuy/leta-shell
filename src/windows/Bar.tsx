@@ -1,6 +1,6 @@
 import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
-import Window from "@/components/ui/Window";
+import Window from "@/components/Window";
 import { Exclusivity } from "@/enums";
 import { useBar } from "@/hooks/features/bar/useBar";
 import BarModule from "@/modules/bar";

@@ -1,5 +1,5 @@
 import { With } from "ags";
-import Image from "@/components/ui/Image";
+import Image from "@/components/Image";
 import { MprisContext } from "@/contexts/MprisContext";
 import { Align, Overflow } from "@/enums";
 import { useCoverArt } from "@/hooks/features/media/useCoverArt";

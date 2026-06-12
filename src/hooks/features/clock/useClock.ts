@@ -4,8 +4,9 @@ import { BarConfigContext } from "@/contexts/BarConfigContext";
 import { now } from "@/lib/time";
 
 export default function useClock() {
-  const { clockFormat } = BarConfigContext.use();
-  const [format] = clockFormat;
+  const {
+    clockFormat: [format],
+  } = BarConfigContext.use();
 
   const counter = createPoll(0, 1000, (prev) => prev + 1);
 

@@ -37,7 +37,7 @@ export default class ConfigService extends Service<ConfigServiceSignals> {
   configChanged(_key: ConfigKey, _path: Path<ConfigType<ConfigKey>>): void {}
 
   @getter(Object)
-  get configs() {
+  get configs(): Configs {
     return this.#configs;
   }
 
@@ -66,7 +66,10 @@ export default class ConfigService extends Service<ConfigServiceSignals> {
     scheduleWrite(key, parsed);
   }
 
-  bind<K extends ConfigKey, P extends Path<ConfigType<K>>>(key: K, path: P) {
+  bind<K extends ConfigKey, P extends Path<ConfigType<K>>>(
+    key: K,
+    path: P,
+  ): Accessor<Get<ConfigType<K>, P>> {
     const cacheKey = `${key}.${path}`;
 
     if (!this.#bindings.has(cacheKey)) {
@@ -89,12 +92,12 @@ export default class ConfigService extends Service<ConfigServiceSignals> {
   }
 
   @emitNotify("configs")
-  private setConfigs(configs: Configs) {
+  private setConfigs(configs: Configs): void {
     this.#configs = configs;
   }
 
   @monitor(CONFIG_DIR, Gio.FileMonitorEvent.CHANGES_DONE_HINT)
-  protected onConfigChanged() {
+  protected onConfigChanged(): void {
     const reloaded = initConfigs();
 
     if (JSON.stringify(reloaded) === JSON.stringify(this.#configs)) return;

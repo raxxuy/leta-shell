@@ -2,7 +2,7 @@ import AstalNotifd from "gi://AstalNotifd";
 import { onMount } from "ags";
 import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
-import Window from "@/components/ui/Window";
+import Window from "@/components/Window";
 import { Exclusivity, Layer, WindowAnchor } from "@/enums";
 import { useNotifications } from "@/hooks/features/notifications/useNotifications";
 import NotificationsModule from "@/modules/notifications";

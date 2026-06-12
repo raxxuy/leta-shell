@@ -1,4 +1,5 @@
 import { lock, logout, reboot, shutdown, suspend } from "@/lib/session";
+import { toggleWindow } from "@/lib/window";
 import type { LauncherProvider, LauncherResult } from "../types";
 
 export default class SessionProvider implements LauncherProvider {
@@ -9,7 +10,10 @@ export default class SessionProvider implements LauncherProvider {
       label: "Shutdown",
       description: "Power off the system",
       icon: "power-01",
-      activate: shutdown,
+      activate: () => {
+        shutdown();
+        toggleWindow("launcher");
+      },
     },
     {
       id: "reboot",
@@ -17,7 +21,10 @@ export default class SessionProvider implements LauncherProvider {
       label: "Reboot",
       description: "Restart the system",
       icon: "refresh-cw-01",
-      activate: reboot,
+      activate: () => {
+        reboot();
+        toggleWindow("launcher");
+      },
     },
     {
       id: "logout",
@@ -25,7 +32,10 @@ export default class SessionProvider implements LauncherProvider {
       label: "Log Out",
       description: "End the current session",
       icon: "log-out-02",
-      activate: logout,
+      activate: () => {
+        logout();
+        toggleWindow("launcher");
+      },
     },
     {
       id: "suspend",
@@ -33,7 +43,10 @@ export default class SessionProvider implements LauncherProvider {
       label: "Suspend",
       description: "Sleep the system",
       icon: "moon-01",
-      activate: suspend,
+      activate: () => {
+        suspend();
+        toggleWindow("launcher");
+      },
     },
     {
       id: "lock",
@@ -41,7 +54,10 @@ export default class SessionProvider implements LauncherProvider {
       label: "Lock",
       description: "Lock the screen",
       icon: "lock-01",
-      activate: lock,
+      activate: () => {
+        lock();
+        toggleWindow("launcher");
+      },
     },
   ];
 

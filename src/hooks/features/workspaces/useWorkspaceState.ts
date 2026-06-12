@@ -4,7 +4,7 @@ import clsx from "clsx/lite";
 import { Cursor } from "@/constants";
 
 const stateClasses = {
-  focused: "bg-primary px-5 scale-y-130",
+  focused: "bg-primary px-5 animate-workspace-focus",
   occupied: "bg-primary/60",
   empty: "bg-primary/20",
 } as const;
@@ -15,7 +15,7 @@ const stateCursors = {
   empty: Cursor.POINTER,
 } as const;
 
-export default function useWorkspaceState(workspace: AstalHyprland.Workspace) {
+export const useWorkspaceState = (workspace: AstalHyprland.Workspace) => {
   const hypr = AstalHyprland.get_default();
 
   const clients = createBinding(workspace, "clients");
@@ -32,14 +32,14 @@ export default function useWorkspaceState(workspace: AstalHyprland.Workspace) {
     return "empty";
   });
 
+  const cursor = state((s) => stateCursors[s]);
+
   const className = createMemo(() =>
     clsx(
-      "transform-cpu rounded-lg px-2 min-h-4 transition-[transform,color] ease-[cubic-bezier(0.34,1.56,0.64,1)] origin-center duration-300",
+      "rounded-lg px-2 min-h-4 transition-[transform,color] origin-center",
       stateClasses[state()],
     ),
   );
 
-  const cursor = state((s) => stateCursors[s]);
-
-  return { state, className, cursor };
-}
+  return { state, cursor, className };
+};

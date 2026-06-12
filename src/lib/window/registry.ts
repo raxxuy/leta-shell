@@ -1,12 +1,14 @@
-export const windows = {
-  bar: "bar",
-  launcher: "launcher",
-  notifications: "notifications",
-  settings: "settings",
-  wallpaper: "wallpaper",
-  "wallpaper-selector": "wallpaper-selector",
-} as const;
+export const windows = [
+  "bar",
+  "launcher",
+  "lock-screen",
+  "notifications",
+  "settings",
+  "wallpaper",
+  "wallpaper-selector",
+] as const;
 
-export const isWindowName = (x: string): x is WindowName => x in windows;
+export const isWindowName = (x: string): x is WindowName =>
+  windows.includes(x as WindowName);
 
-export type WindowName = keyof typeof windows;
+export type WindowName = (typeof windows)[number];
