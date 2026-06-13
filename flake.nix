@@ -133,6 +133,7 @@
             environment.systemPackages = [
               self.packages.${pkgs.stdenv.hostPlatform.system}.default
               pkgs.dart-sass
+              leta-toolkit.packages.${system}.default
             ];
           };
         };
@@ -150,6 +151,7 @@
             home.packages = [
               self.packages.${pkgs.stdenv.hostPlatform.system}.default
               pkgs.dart-sass
+              leta-toolkit.packages.${system}.default
             ];
           };
         };
