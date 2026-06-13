@@ -4,7 +4,7 @@ import type { Reactive } from "@/types/reactive";
 import Image from "./Image";
 
 type ImageButtonProps = JSX.IntrinsicElements["button"] & {
-  src: Reactive<string>;
+  src: Reactive<string | null>;
   file?: Reactive<boolean>;
   contentFit?: Reactive<Gtk.ContentFit>;
 };

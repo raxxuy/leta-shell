@@ -1,6 +1,7 @@
 import { For } from "ags";
 import { THUMBNAIL_HEIGHT } from "@/constants";
 import { Align, PolicyType } from "@/enums";
+import { useThumbnail } from "@/hooks/features/wallpaper/useThumbnail";
 import { usePicturesService } from "@/hooks/services/usePicturesService";
 import { useSpacing } from "@/hooks/services/useSpacing";
 import { useWallpaperService } from "@/hooks/services/useWallpaperService";
@@ -17,7 +18,7 @@ export default function WallpaperSelectorModule({
   width,
 }: WallpaperSelectorProps) {
   const spacing = useSpacing();
-  const { pictures, getThumbnail } = usePicturesService();
+  const { pictures } = usePicturesService();
   const { setWallpaper } = useWallpaperService(connector);
 
   return (
@@ -32,12 +33,15 @@ export default function WallpaperSelectorModule({
       >
         <box hexpand spacing={spacing.xl} valign={Align.CENTER}>
           <For cleanup={cleanupWidget} each={pictures}>
-            {(picture) => (
-              <ThumbnailButton
-                onClick={() => setWallpaper(picture)}
-                source={getThumbnail(picture)}
-              />
-            )}
+            {(picture) => {
+              const thumbnail = useThumbnail(picture);
+              return (
+                <ThumbnailButton
+                  onClick={() => setWallpaper(picture)}
+                  source={thumbnail}
+                />
+              );
+            }}
           </For>
         </box>
       </scrolledwindow>

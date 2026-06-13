@@ -4,4 +4,3 @@ export {
 } from "./controllers";
 export { createImageFile } from "./image";
 export { createDragAndDrop } from "./interactions";
-export { scaleCover } from "./pixbuf";

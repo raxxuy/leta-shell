@@ -6,7 +6,7 @@ export const usePicturesService = () => {
 
   const pictures = createBinding(service, "pictures");
 
-  const getThumbnail = (path: string) => service.getThumbnail(path);
+  const getThumbnail = async (path: string) => service.getThumbnail(path);
 
   return { pictures, getThumbnail };
 };

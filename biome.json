@@ -16,7 +16,6 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
       "a11y": {
         "noLabelWithoutControl": "off",
         "useButtonType": "off"

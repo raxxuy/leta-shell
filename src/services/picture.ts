@@ -24,7 +24,7 @@ export default class PictureService extends Service {
     return this.#pictures;
   }
 
-  getThumbnail(path: string): string | null {
+  async getThumbnail(path: string): Promise<string | null> {
     return renderImage(path, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT);
   }
 

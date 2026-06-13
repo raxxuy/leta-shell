@@ -1,18 +1,16 @@
-import GdkPixbuf from "gi://GdkPixbuf";
 import Gio from "gi://Gio";
 import {
   CACHE_WALLPAPERS_ORIGINAL_DIR,
   CACHE_WALLPAPERS_RENDERED_DIR,
 } from "@/constants";
 import { buildPath, ensureDir, fileExists } from "../fs";
-import { scaleCover } from "../gtk";
 import { hashPath } from "../hash";
 
-export const renderImage = (
+export const renderImage = async (
   path: string,
   w: number,
   h: number,
-): string | null => {
+): Promise<string | null> => {
   const hash = hashPath(path);
   if (!hash) return null;
 
@@ -29,10 +27,31 @@ export const renderImage = (
   const file = buildPath(resDir, `${hash}.png`);
   if (fileExists(file)) return file;
 
-  const pixbuf = GdkPixbuf.Pixbuf.new_from_file(path);
-  const cropped = scaleCover(pixbuf, w, h);
-  if (!cropped) return null;
+  return new Promise((resolve, reject) => {
+    const proc = Gio.Subprocess.new(
+      [
+        "leta-toolkit",
+        "image",
+        "cover",
+        "--input",
+        path,
+        "--output",
+        file,
+        "--width",
+        String(w),
+        "--height",
+        String(h),
+      ],
+      Gio.SubprocessFlags.NONE,
+    );
 
-  cropped.savev(file, "png", [], []);
-  return file;
+    proc.wait_async(null, (_, result) => {
+      try {
+        proc.wait_finish(result);
+        resolve(file);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  });
 };

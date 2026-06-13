@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/d233902339c02a9c334e7e593de68855ad26c4cb";
 
+    leta-toolkit.url = "github:raxxuy/leta-toolkit";
+
     ags = {
       url = "github:aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -15,6 +17,7 @@
       self,
       nixpkgs,
       ags,
+      leta-toolkit,
     }:
     let
       system = "x86_64-linux";
@@ -45,7 +48,7 @@
 
       nodeModules = pkgs.stdenv.mkDerivation {
         pname = "${pname}-node-modules";
-        version = "0.1.23";
+        version = "0.1.24";
         src = ./.;
         nativeBuildInputs = [ pkgs.bun ];
 
@@ -79,7 +82,10 @@
             makeWrapper
           ];
 
-          buildInputs = extraPackages ++ [ pkgs.gjs ];
+          buildInputs = extraPackages ++ [
+            pkgs.gjs
+            leta-toolkit.packages.${system}.default
+          ];
 
           installPhase = ''
             runHook preInstall
@@ -109,6 +115,7 @@
 
             pkgs.nodejs
             pkgs.bun
+            leta-toolkit.packages.${system}.default
           ];
         };
       };

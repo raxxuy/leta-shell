@@ -4,7 +4,7 @@ import { createImageFile } from "@/lib/gtk";
 import type { Reactive } from "@/types/reactive";
 
 type ImageProps = JSX.IntrinsicElements["overlay"] & {
-  src: Reactive<string>;
+  src: Reactive<string | null>;
   file?: Reactive<boolean>;
   contentFit?: Reactive<Gtk.ContentFit>;
 };

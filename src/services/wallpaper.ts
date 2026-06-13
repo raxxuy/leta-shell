@@ -30,7 +30,7 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
     return ConfigService.get_default().configs.wallpaper;
   }
 
-  get(monitorId: string): string | null {
+  async get(monitorId: string): Promise<string | null> {
     const size = this.#monitorSizes.get(monitorId);
     if (!size) return null;
 
@@ -41,7 +41,7 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
     const cached = this.#cache.get(key);
     if (cached) return cached;
 
-    const rendered = renderImage(path, size.width, size.height);
+    const rendered = await renderImage(path, size.width, size.height);
     if (rendered) this.#cache.set(key, rendered);
     return rendered;
   }
