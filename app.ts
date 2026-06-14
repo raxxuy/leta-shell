@@ -14,6 +14,7 @@ import BarWindow from "@/windows/Bar";
 import LauncherWindow from "@/windows/Launcher";
 import LockScreenWindow from "@/windows/LockScreen";
 import NotificationsWindow from "@/windows/Notifications";
+import ScreenshotWindow from "@/windows/Screenshot";
 import SettingsWindow from "@/windows/Settings";
 import WallpaperWindow from "@/windows/Wallpaper";
 import WallpaperSelectorWindow from "@/windows/WallpaperSelector";
@@ -26,6 +27,7 @@ const windowFactories = [
   NotificationsWindow,
   WallpaperSelectorWindow,
   SettingsWindow,
+  ScreenshotWindow,
 ];
 
 const services = [ConfigService, ThemeService, MprisService, AuthService];

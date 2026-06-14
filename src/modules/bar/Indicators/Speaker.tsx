@@ -3,7 +3,7 @@ import EndpointControl from "./EndpointControl";
 
 export default function Speaker() {
   const { speaker, speakers } = useWirePlumber();
-  
+
   return (
     <EndpointControl
       endpoint={speaker}

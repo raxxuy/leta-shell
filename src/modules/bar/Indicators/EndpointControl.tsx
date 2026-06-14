@@ -54,12 +54,11 @@ export default function EndpointControl({
               <Popover animated class="m-[5px_10px_15px] shadow-md">
                 <ContextMenu
                   class="rounded-lg border border-tertiary/20 bg-zinc-950/95 p-1.5 shadow-lg"
-                  items={endpoints(
-                    (endpoints) =>
-                      endpoints.map((endpoint) => ({
-                        label: endpoint.description ?? "",
-                        onClick: () => setDefaultEndpoint(endpoint),
-                      })),
+                  items={endpoints((endpoints) =>
+                    endpoints.map((endpoint) => ({
+                      label: endpoint.description ?? "",
+                      onClick: () => setDefaultEndpoint(endpoint),
+                    })),
                   )}
                   labelClass="font-medium capitalize"
                   spacing={spacing.sm}

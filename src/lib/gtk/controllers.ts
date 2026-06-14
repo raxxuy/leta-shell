@@ -23,6 +23,38 @@ export const createClickOutsideController = (
   return controller;
 };
 
+export const createSelectionController = (
+  onUpdate: (x: number, y: number, w: number, h: number) => void,
+  onRelease: () => void,
+) => {
+  const controller = new Gtk.GestureDrag();
+  let start: { x: number; y: number } | null = null;
+
+  controller.connect("drag-begin", (_, x, y) => {
+    start = { x: Math.round(x), y: Math.round(y) };
+    onUpdate(Math.round(x), Math.round(y), 0, 0);
+  });
+
+  controller.connect("drag-update", (_, offsetX, offsetY) => {
+    if (!start) return;
+    const x2 = start.x + offsetX;
+    const y2 = start.y + offsetY;
+    onUpdate(
+      Math.round(Math.min(start.x, x2)),
+      Math.round(Math.min(start.y, y2)),
+      Math.round(Math.abs(offsetX)),
+      Math.round(Math.abs(offsetY)),
+    );
+  });
+
+  controller.connect("drag-end", () => {
+    start = null;
+    onRelease();
+  });
+
+  return controller;
+};
+
 export const createEscapeController = (onEscape: () => void) => {
   const controller = new Gtk.EventControllerKey();
   controller.set_propagation_phase(Gtk.PropagationPhase.CAPTURE);

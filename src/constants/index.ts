@@ -11,6 +11,7 @@ export const CONFIG_DIR = buildPath(GLib.get_user_config_dir(), APP);
 export const PICTURES_DIR =
   GLib.get_user_special_dir(UserDirectory.DIRECTORY_PICTURES) ??
   buildPath(HOME_DIR, "Pictures");
+export const SCREENSHOTS_DIR = buildPath(PICTURES_DIR, "Screenshots");
 
 // Cache directories
 export const CACHE_SCSS_DIR = buildPath(CACHE_DIR, "scss");

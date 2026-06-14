@@ -5,6 +5,7 @@ import {
 } from "@/constants";
 import { buildPath, ensureDir, fileExists } from "../fs";
 import { hashPath } from "../hash";
+import { exec } from "../process";
 
 export const renderImage = async (
   path: string,
@@ -27,31 +28,22 @@ export const renderImage = async (
   const file = buildPath(resDir, `${hash}.png`);
   if (fileExists(file)) return file;
 
-  return new Promise((resolve, reject) => {
-    const proc = Gio.Subprocess.new(
-      [
-        "leta-toolkit",
-        "image",
-        "cover",
-        "--input",
-        path,
-        "--output",
-        file,
-        "--width",
-        String(w),
-        "--height",
-        String(h),
-      ],
-      Gio.SubprocessFlags.NONE,
-    );
-
-    proc.wait_async(null, (_, result) => {
-      try {
-        proc.wait_finish(result);
-        resolve(file);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  });
+  try {
+    await exec([
+      "leta-toolkit",
+      "image",
+      "cover",
+      "--input",
+      path,
+      "--output",
+      file,
+      "--width",
+      String(w),
+      "--height",
+      String(h),
+    ]);
+    return file;
+  } catch {
+    return null;
+  }
 };

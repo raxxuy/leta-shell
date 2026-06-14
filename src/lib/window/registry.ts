@@ -3,6 +3,7 @@ export const windows = [
   "launcher",
   "lock-screen",
   "notifications",
+  "screenshot",
   "settings",
   "wallpaper",
   "wallpaper-selector",
