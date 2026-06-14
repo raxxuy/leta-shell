@@ -66,11 +66,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1781366848,
-        "narHash": "sha256-scH7OsPJmyW4T6KGgw9U3YPf9mp9aEFjI/4qZPQq4eE=",
+        "lastModified": 1781476314,
+        "narHash": "sha256-Nz6zZq7td8hqp/qStVtVALbQ1KjclBU3erz9RoIs6Eo=",
         "owner": "raxxuy",
         "repo": "leta-toolkit",
-        "rev": "c4632e5472d9654a49225fd886d0d49d340295bf",
+        "rev": "fffd592e7ba53b3aa6a954192548d0627b0dd0c1",
         "type": "github"
       },
       "original": {
