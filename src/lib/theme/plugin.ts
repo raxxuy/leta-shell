@@ -21,6 +21,14 @@ export const { scan, cleanupWidget } = agsPlugin({
       apply: {
         "bar-popover":
           "m-[5px_10px_15px] mt-4 rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-6 shadow-md",
+        "bar-tray-item": [
+          "checked:[&_popover_scrolledwindow]:animate-spring-in",
+          "[&_popover]:[transition-property:transform,translate,scale,rotate]",
+          "[&_popover_scrolledwindow]:m-[5px_10px_15px] [&_popover_scrolledwindow]:rounded-2xl [&_popover_scrolledwindow]:border [&_popover_scrolledwindow]:border-solid [&_popover_scrolledwindow]:border-tertiary/20 [&_popover_scrolledwindow]:bg-zinc-950/95 [&_popover_scrolledwindow]:p-4 [&_popover_scrolledwindow]:pb-2 [&_popover_scrolledwindow]:shadow-md",
+          "[&_popover_scrolledwindow_box>modelbutton]:rounded-lg [&_popover_scrolledwindow_box>modelbutton]:px-2 [&_popover_scrolledwindow_box>modelbutton]:py-1 [&_popover_scrolledwindow_box>modelbutton]:transition-colors [&_popover_scrolledwindow_box>modelbutton]:mb-2",
+          "[&_popover_scrolledwindow_box>modelbutton]:hover:bg-white/10 [&_popover_scrolledwindow_box>modelbutton]:focus:bg-white/10 [&_popover_scrolledwindow_box>modelbutton]:active:bg-white/15",
+          "[&_popover_scrolledwindow_box>modelbutton>label]:text-zinc-100 [&_popover_scrolledwindow_box>modelbutton>label]:disabled:text-zinc-400",
+        ],
         "bar-menubutton":
           "min-h-6.5 min-w-6.5 rounded-lg transition-colors checked:bg-white/20 hover:bg-white/15 active:bg-white/20",
         "bar-endpoint-slider": [

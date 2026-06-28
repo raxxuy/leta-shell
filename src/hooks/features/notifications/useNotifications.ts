@@ -17,7 +17,7 @@ export const useNotifications = () => {
 
   const dndButtonClassName = dontDisturb((dnd) =>
     clsx(
-      "button-outline-custom",
+      "button-outline-custom py-0.5",
       dnd && "bg-primary/20 hover:bg-primary/25 active:bg-primary/30",
     ),
   );

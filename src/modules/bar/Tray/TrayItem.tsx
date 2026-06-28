@@ -22,7 +22,7 @@ export default function TrayItem({ item }: TrayItemProps) {
   return (
     <MenuButton
       $={init}
-      class="tray-item bar-menubutton"
+      class="bar-menubutton bar-tray-item"
       focusable={false}
       menuModel={menuModel}
     >

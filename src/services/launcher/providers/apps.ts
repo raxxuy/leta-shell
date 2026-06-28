@@ -13,7 +13,7 @@ export default class AppsProvider implements LauncherProvider {
   }
 
   search(query: string): LauncherResult[] {
-    return this.apps.fuzzy_query(query).map((app) => ({
+    return this.apps.exact_query(query).map((app) => ({
       id: app.entry,
       label: app.name,
       description: app.description,

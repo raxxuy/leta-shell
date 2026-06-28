@@ -36,7 +36,7 @@ export default function Notifications() {
                 <image iconName={iconName} pixelSize={pixelSize.sm} />
               </button>
               <button
-                class="button-outline-custom"
+                class="button-outline-custom py-0.5"
                 focusable={false}
                 onClicked={clearHistory}
                 sensitive={hasHistory}

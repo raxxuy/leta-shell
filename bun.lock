@@ -7,12 +7,12 @@
       "dependencies": {
         "ags": "github:Aylur/ags",
         "clsx": "^2.1.1",
-        "es-toolkit": "^1.47.1",
+        "es-toolkit": "^1.49.0",
         "tailwind2gtk": "github:raxxuy/tailwind2gtk",
         "zod": "^4.4.3",
       },
       "devDependencies": {
-        "@biomejs/biome": "^2.5.0",
+        "@biomejs/biome": "^2.5.1",
         "nodemon": "^3.1.14",
       },
     },
@@ -96,7 +96,7 @@
 
     "supports-color": ["supports-color@5.5.0", "", { "dependencies": { "has-flag": "^3.0.0" } }, "sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow=="],
 
-    "tailwind2gtk": ["tailwind2gtk@github:raxxuy/tailwind2gtk#95eda1e", {}, "raxxuy-tailwind2gtk-95eda1e", "sha512-CVWwetPFeJ+tfUYJjdmzcj5FLHoShU+LZZ9LsCdhhtS8UuMpv7PyE4a6bPAK8HY9FORD1S3caRxGZMTtp1ezzg=="],
+    "tailwind2gtk": ["tailwind2gtk@github:raxxuy/tailwind2gtk#35191ae", {}, "raxxuy-tailwind2gtk-35191ae", "sha512-tIT8f+NthAIxc0gl7uk1BssJZe+aDHfx/6Ty6D2jyIW493VF/drzldkGtzjw9TpnFAIu1FwEmB1kub3+CEf6+Q=="],
 
     "to-regex-range": ["to-regex-range@5.0.1", "", { "dependencies": { "is-number": "^7.0.0" } }, "sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ=="],
 
