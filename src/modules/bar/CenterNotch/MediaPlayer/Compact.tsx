@@ -8,7 +8,7 @@ import {
 } from "@/enums";
 import { useMediaPreview } from "@/hooks/features/media/useMediaPreview";
 import { useTrackInfo } from "@/hooks/features/media/useTrackInfo";
-import { cleanupWidget } from "@/lib/theme";
+import { cleanupWidget, scan } from "@/lib/theme";
 
 export default function MediaCompact() {
   const { activePlayer, onScroll } = useMediaPreview();
@@ -17,12 +17,19 @@ export default function MediaCompact() {
     <With cleanup={cleanupWidget} value={activePlayer}>
       {(player) => {
         if (!player)
-          return <label class="font-medium" hexpand label="No active player" />;
+          return (
+            <label
+              $={scan}
+              class="font-medium"
+              hexpand
+              label="No active player"
+            />
+          );
 
         const { previewLabel } = useTrackInfo(player);
 
         return (
-          <box overflow={Overflow.HIDDEN}>
+          <box $={scan} overflow={Overflow.HIDDEN}>
             <Gtk.EventControllerScroll
               flags={EventControllerScrollFlags.VERTICAL}
               onScroll={onScroll}

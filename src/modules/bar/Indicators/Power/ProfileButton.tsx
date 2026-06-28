@@ -1,6 +1,6 @@
 import { startCase } from "es-toolkit";
 import { Align } from "@/enums";
-import { usePowerProfile } from "@/hooks/features/power/usePowerProfiles";
+import { useProfileButton } from "@/hooks/features/power/useProfileButton";
 import { usePixelSize } from "@/hooks/services/usePixelSize";
 import { useSpacing } from "@/hooks/services/useSpacing";
 
@@ -15,7 +15,7 @@ export default function ProfileButton({
 }: ProfileButtonProps) {
   const spacing = useSpacing();
   const pixelSize = usePixelSize();
-  const { className, iconName } = usePowerProfile(profile);
+  const { className, iconName } = useProfileButton(profile);
 
   return (
     <button class={className} hexpand onClicked={onClicked}>

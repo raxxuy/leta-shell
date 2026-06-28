@@ -17,7 +17,7 @@ export default function Compact() {
         const Module = compactMap[m];
 
         return (
-          <box visible={mode(mode => mode === m)}>
+          <box visible={mode((mode) => mode === m)}>
             <Module />
           </box>
         );

@@ -1,28 +1,18 @@
-import { With } from "ags";
-import { MprisContext } from "@/contexts/MprisContext";
+import type AstalMpris from "gi://AstalMpris";
 import { Orientation } from "@/enums";
 import { useTrackInfo } from "@/hooks/features/media/useTrackInfo";
-import { cleanupWidget, scan } from "@/lib/theme";
 
-export default function TrackInfo() {
-  const { activePlayer } = MprisContext.use();
+interface TrackInfoProps {
+  player: AstalMpris.Player;
+}
+
+export default function TrackInfo({ player }: TrackInfoProps) {
+  const { title, artist } = useTrackInfo(player);
 
   return (
-    <box>
-      <With cleanup={cleanupWidget} value={activePlayer}>
-        {(player) => {
-          if (!player) return null;
-
-          const { title, artist } = useTrackInfo(player);
-
-          return (
-            <box $={scan} hexpand orientation={Orientation.VERTICAL}>
-              <label class="font-bold text-lg" label={title} />
-              <label class="font-semibold text-sm" label={artist} />
-            </box>
-          );
-        }}
-      </With>
+    <box hexpand orientation={Orientation.VERTICAL}>
+      <label class="font-bold text-lg" label={title} />
+      <label class="font-semibold text-sm" label={artist} />
     </box>
   );
 }

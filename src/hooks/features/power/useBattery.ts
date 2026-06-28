@@ -2,7 +2,7 @@ import AstalBattery from "gi://AstalBattery";
 import { createBinding, createComputed } from "ags";
 import { formatUtcTime } from "@/lib/time";
 
-export default function useBattery() {
+export const useBattery = () => {
   const battery = AstalBattery.get_default();
 
   const charging = createBinding(battery, "charging");
@@ -20,7 +20,7 @@ export default function useBattery() {
       "%-Hh %-Mm left",
     );
 
-    return `${chargingLabel} ·  ${timeLeftLabel}`;
+    return `${chargingLabel} · ${timeLeftLabel}`;
   });
 
   const iconName = createComputed(() => {
@@ -41,4 +41,4 @@ export default function useBattery() {
     iconName,
     detailedLabel,
   };
-}
+};
