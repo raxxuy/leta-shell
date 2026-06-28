@@ -47,3 +47,5 @@ export const CenterNotchSchema = z.object({
   media: CenterNotchMediaSchema.default(centerNotchDefaults.media),
   weather: CenterNotchWeatherSchema.default(centerNotchDefaults.weather),
 });
+
+export type CenterNotchMode = (typeof CenterNotchModeEnum.options)[number];

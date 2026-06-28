@@ -49,6 +49,8 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
   setWallpaper(monitorId: string, path: string): void {
     if (!this.config.enabled) return;
 
+    if (this.config.monitorWallpapers[monitorId] === path) return;
+
     ConfigService.get_default().setValue(
       "wallpaper",
       "monitorWallpapers",
@@ -62,6 +64,8 @@ export default class WallpaperService extends Service<WallpaperServiceSignals> {
 
   setGlobalWallpaper(path: string): void {
     if (!this.config.enabled) return;
+
+    if (this.config.globalWallpaper === path) return;
 
     ConfigService.get_default().setValue("wallpaper", "globalWallpaper", path);
     this.emit("wallpaper-changed", path, true);

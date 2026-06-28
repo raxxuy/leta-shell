@@ -1,10 +1,14 @@
 import Graphene from "gi://Graphene";
 import { Gdk, Gtk } from "ags/gtk4";
 
+export interface ClickOutsideOptions {
+  onClickOutside: () => void;
+  target: Gtk.Widget;
+}
+
 export const createClickOutsideController = (
   root: Gtk.Widget,
-  target: Gtk.Widget,
-  onClickOutside: () => void,
+  { target, onClickOutside }: ClickOutsideOptions,
 ) => {
   const controller = new Gtk.GestureClick();
   controller.set_propagation_phase(Gtk.PropagationPhase.CAPTURE);
@@ -23,10 +27,15 @@ export const createClickOutsideController = (
   return controller;
 };
 
-export const createSelectionController = (
-  onUpdate: (x: number, y: number, w: number, h: number) => void,
-  onRelease: () => void,
-) => {
+export interface SelectionOptions {
+  onRelease?: () => void;
+  onUpdate: (x: number, y: number, w: number, h: number) => void;
+}
+
+export const createSelectionController = ({
+  onUpdate,
+  onRelease,
+}: SelectionOptions) => {
   const controller = new Gtk.GestureDrag();
   let start: { x: number; y: number } | null = null;
 
@@ -49,7 +58,7 @@ export const createSelectionController = (
 
   controller.connect("drag-end", () => {
     start = null;
-    onRelease();
+    if (onRelease) onRelease();
   });
 
   return controller;
@@ -70,15 +79,25 @@ export const createEscapeController = (onEscape: () => void) => {
   return controller;
 };
 
-export const createMouseHoverController = (
-  onHover: () => void,
-  onLeave: () => void,
-) => {
+export interface MouseHoverOptions {
+  onEnter?: () => void;
+  onLeave?: () => void;
+}
+
+export const createMouseHoverController = ({
+  onEnter,
+  onLeave,
+}: MouseHoverOptions = {}) => {
   const controller = new Gtk.EventControllerMotion();
   controller.set_propagation_phase(Gtk.PropagationPhase.CAPTURE);
 
-  controller.connect("enter", onHover);
-  controller.connect("leave", onLeave);
+  if (onEnter) {
+    controller.connect("enter", onEnter);
+  }
+
+  if (onLeave) {
+    controller.connect("leave", onLeave);
+  }
 
   return controller;
 };

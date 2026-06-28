@@ -10,12 +10,12 @@ export interface PersistedNotification {
 }
 
 export const toPersistedNotification = (
-  n: AstalNotifd.Notification,
+  notification: AstalNotifd.Notification,
 ): PersistedNotification => ({
-  id: n.id,
-  appName: n.appName,
-  appIcon: n.appIcon,
-  summary: n.summary,
-  body: n.body,
-  time: n.time,
+  id: notification.id,
+  appName: notification.appName,
+  appIcon: notification.appIcon,
+  summary: notification.summary,
+  body: notification.body,
+  time: notification.time,
 });

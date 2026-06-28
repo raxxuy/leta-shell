@@ -10,7 +10,7 @@ import { useMediaPreview } from "@/hooks/features/media/useMediaPreview";
 import { useTrackInfo } from "@/hooks/features/media/useTrackInfo";
 import { cleanupWidget } from "@/lib/theme";
 
-export default function MediaPreview() {
+export default function MediaCompact() {
   const { activePlayer, onScroll } = useMediaPreview();
 
   return (

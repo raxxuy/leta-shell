@@ -40,6 +40,13 @@ export default class NotificationService extends Service {
     writeFile(CACHE_NOTIFICATIONS_FILE, "[]");
   }
 
+  sendNotification(props: Partial<AstalNotifd.Notification.ConstructorProps>) {
+    AstalNotifd.send_notification(
+      new AstalNotifd.Notification(props),
+      () => {},
+    );
+  }
+
   @emitNotify("notifications", "history")
   private upsertNotification(
     notification: AstalNotifd.Notification,

@@ -2,6 +2,7 @@ import Gio from "gi://Gio";
 import { type Accessor, createConnection } from "ags";
 import type GObject from "ags/gobject";
 import { getter, gtype, register, signal } from "ags/gobject";
+import { cloneDeep } from "es-toolkit";
 import { get, set } from "es-toolkit/compat";
 import { CONFIG_DIR } from "@/constants";
 import { emitNotify } from "@/decorators/gobject";
@@ -58,12 +59,11 @@ export default class ConfigService extends Service<ConfigServiceSignals> {
 
     if (Object.is(current, next)) return;
 
-    const updated = set({ ...this.#configs[key] }, path, next);
-    const parsed = schemas[key].parse(updated) as Configs[K];
+    const config = schemas[key].parse(
+      set(cloneDeep(this.#configs[key]), path, next),
+    ) as Configs[K];
 
-    this.setConfigs({ ...this.#configs, [key]: parsed });
-    this.emit("config-changed", key, path);
-    scheduleWrite(key, parsed);
+    this.commit(key, config, path);
   }
 
   bind<K extends ConfigKey, P extends Path<ConfigType<K>>>(
@@ -91,6 +91,20 @@ export default class ConfigService extends Service<ConfigServiceSignals> {
     return this.#bindings.get(cacheKey) as Accessor<Get<ConfigType<K>, P>>;
   }
 
+  private commit<K extends ConfigKey>(
+    key: K,
+    config: Configs[K],
+    path: Path<ConfigType<K>>,
+  ) {
+    this.setConfigs({
+      ...this.#configs,
+      [key]: config,
+    });
+
+    this.emit("config-changed", key, path);
+    scheduleWrite(key, config);
+  }
+
   @emitNotify("configs")
   private setConfigs(configs: Configs): void {
     this.#configs = configs;
@@ -98,14 +112,19 @@ export default class ConfigService extends Service<ConfigServiceSignals> {
 
   @monitor(CONFIG_DIR, Gio.FileMonitorEvent.CHANGES_DONE_HINT)
   protected onConfigChanged(): void {
-    const reloaded = initConfigs();
+    const configs = initConfigs();
 
-    if (JSON.stringify(reloaded) === JSON.stringify(this.#configs)) return;
+    if (JSON.stringify(configs) === JSON.stringify(this.#configs)) return;
 
-    this.setConfigs(reloaded);
+    this.setConfigs(configs);
 
-    for (const key of Object.keys(reloaded)) {
-      this.emit("config-changed", key, "");
+    for (const key in configs) {
+      if (
+        JSON.stringify(configs[key as ConfigKey]) !==
+        JSON.stringify(this.#configs[key as ConfigKey])
+      ) {
+        this.emit("config-changed", key as ConfigKey, "");
+      }
     }
   }
 }

@@ -70,7 +70,8 @@ export default function Popup({
 
   const bindControllers = () => {
     if (access(escapeProp)) useEscape(winRef, close);
-    if (access(clickOutsideProp)) useClickOutside(winRef, targetRef, close);
+    if (access(clickOutsideProp))
+      useClickOutside(winRef, { target: targetRef, onClickOutside: close });
   };
 
   return (
