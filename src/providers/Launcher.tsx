@@ -1,7 +1,4 @@
-import {
-  LauncherContext,
-  type LauncherShape,
-} from "@/contexts/LauncherContext";
+import { LauncherContext, type LauncherShape } from "@/contexts/Launcher";
 import { useLauncherService } from "@/hooks/services/useLauncherService";
 
 export interface LauncherProviderProps {

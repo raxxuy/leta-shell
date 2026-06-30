@@ -11,12 +11,16 @@ export default function PlaybackTime({ player }: PlaybackTimeProps) {
   return (
     <box hexpand>
       <label
-        class="text-sm text-zinc-200"
+        class="font-medium text-sm text-zinc-200"
         label={formattedPosition}
         xalign={0}
       />
       <box hexpand /> {/* spacer */}
-      <label class="text-sm text-zinc-200" label={formattedLength} xalign={1} />
+      <label
+        class="font-medium text-sm text-zinc-200"
+        label={formattedLength}
+        xalign={1}
+      />
     </box>
   );
 }

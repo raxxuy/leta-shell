@@ -1,5 +1,5 @@
 import { With } from "ags";
-import { MprisContext } from "@/contexts/MprisContext";
+import { MprisContext } from "@/contexts/Mpris";
 import { Align, Orientation } from "@/enums";
 import { useSpacing } from "@/hooks/services/useSpacing";
 import { cleanupWidget, scan } from "@/lib/theme";

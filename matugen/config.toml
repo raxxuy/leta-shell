@@ -18,3 +18,7 @@ output_path = "/fish"
 [templates.hypr]
 input_path = "templates/hypr"
 output_path = "/hypr"
+
+[templates.zed]
+input_path = "templates/zed"
+output_path = "/zed"

@@ -1,5 +1,5 @@
-import { LauncherConfigContext } from "@/contexts/LauncherConfigContext";
-import { LauncherContext } from "@/contexts/LauncherContext";
+import { LauncherContext } from "@/contexts/Launcher";
+import { LauncherConfigContext } from "@/contexts/LauncherConfig";
 
 export const useLauncher = () => {
   const { maxResults, webSearchEngine, width } = LauncherConfigContext.use();

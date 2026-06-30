@@ -4,8 +4,8 @@ import useSettingsCategory, {
   type Category,
 } from "@/hooks/features/settings/useSettingsCategory";
 import { cleanupWidget } from "@/lib/theme";
-import BarConfigProvider from "@/providers/BarConfigProvider";
-import LauncherConfigProvider from "@/providers/LauncherConfigProvider";
+import BarConfigProvider from "@/providers/BarConfig";
+import LauncherConfigProvider from "@/providers/LauncherConfig";
 import BarPanel from "./panels/BarPanel";
 import LauncherPanel from "./panels/LauncherPanel";
 import Sidebar from "./Sidebar";

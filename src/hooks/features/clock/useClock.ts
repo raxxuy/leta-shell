@@ -1,6 +1,6 @@
 import { createMemo } from "ags";
 import { createPoll } from "ags/time";
-import { BarConfigContext } from "@/contexts/BarConfigContext";
+import { BarConfigContext } from "@/contexts/BarConfig";
 import { now } from "@/lib/time";
 
 export default function useClock() {

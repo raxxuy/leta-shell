@@ -4,7 +4,7 @@ import Window from "@/components/Window";
 import { Exclusivity } from "@/enums";
 import { useBar } from "@/hooks/features/bar/useBar";
 import BarModule from "@/modules/bar";
-import BarConfigProvider from "@/providers/BarConfigProvider";
+import BarConfigProvider from "@/providers/BarConfig";
 
 export default function BarWindow(gdkmonitor: Gdk.Monitor) {
   return (

@@ -3,7 +3,7 @@ import app from "ags/gtk4/app";
 import Popup from "@/components/Popup";
 import { Exclusivity, Keymode, Layer } from "@/enums";
 import WallpaperSelectorModule from "@/modules/wallpaper-selector";
-import WallpaperConfigProvider from "@/providers/WallpaperConfigProvider";
+import WallpaperConfigProvider from "@/providers/WallpaperConfig";
 
 export default function WallpaperSelectorWindow(gdkmonitor: Gdk.Monitor) {
   return (

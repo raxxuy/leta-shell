@@ -1,7 +1,7 @@
 import {
   WallpaperConfigContext,
   type WallpaperConfigShape,
-} from "@/contexts/WallpaperConfigContext";
+} from "@/contexts/Wallpaper";
 import useConfig from "@/hooks/services/useConfig";
 
 interface WallpaperConfigProviderProps {

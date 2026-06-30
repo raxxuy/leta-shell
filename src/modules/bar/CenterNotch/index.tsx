@@ -1,13 +1,15 @@
 import type { Gtk } from "ags/gtk4";
+import { PopoverButton } from "@/components/PopoverButton";
 import { Cursor } from "@/constants";
 import { useCenterNotch } from "@/hooks/features/center-notch/useCenterNotch";
 import { useMouseHover } from "@/hooks/interactions/useMouseHover";
-import CenterNotchProvider from "@/providers/CenterNotchProvider";
+import CenterNotchProvider from "@/providers/CenterNotch";
 import Compact from "./Compact";
 import Expanded from "./Expanded";
 
 const CenterNotchInner = () => {
-  const { setOpen, hovered, setHovered, cycle, className } = useCenterNotch();
+  const { setOpen, hovered, setHovered, dragging, cycle, className } =
+    useCenterNotch();
 
   const init = (self: Gtk.Box) => {
     useMouseHover(self, {
@@ -24,7 +26,11 @@ const CenterNotchInner = () => {
         onClicked={() => cycle("prev")}
         visible={hovered}
       />
-      <menubutton cursor={Cursor.POINTER}>
+      <PopoverButton
+        cursor={Cursor.POINTER}
+        disabled={dragging}
+        hexpand={false}
+      >
         <Compact />
         <popover
           class="m-[5px_10px_15px] rounded-2xl bg-zinc-950/95 p-4 shadow-md"
@@ -33,7 +39,7 @@ const CenterNotchInner = () => {
         >
           <Expanded />
         </popover>
-      </menubutton>
+      </PopoverButton>
       <button
         class="ml-2"
         iconName="chevron-right"

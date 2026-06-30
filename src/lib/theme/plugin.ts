@@ -48,7 +48,6 @@ export const { scan, cleanupWidget } = agsPlugin({
         "menubutton-custom":
           "rounded-lg border border-white/10 transition-colors checked:bg-white/8 hover:bg-white/5 active:bg-white/8 [&>button]:px-4 [&>button]:py-1.5",
       },
-      // spacing: "",``
       colors: {
         primary: "var(--primary)",
         tertiary: "var(--tertiary)",
@@ -144,6 +143,23 @@ export const { scan, cleanupWidget } = agsPlugin({
             transform: "scale(1.04)",
           },
         },
+
+        "slide-in-right": {
+          "0%": { opacity: "0", transform: "translateX(16px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
+        },
+        "slide-in-left": {
+          "0%": { opacity: "0", transform: "translateX(-16px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
+        },
+        "slide-out-left": {
+          "0%": { opacity: "1", transform: "translateX(0)" },
+          "100%": { opacity: "0", transform: "translateX(-16px)" },
+        },
+        "slide-out-right": {
+          "0%": { opacity: "1", transform: "translateX(0)" },
+          "100%": { opacity: "0", transform: "translateX(16px)" },
+        },
       },
 
       animation: {
@@ -165,6 +181,15 @@ export const { scan, cleanupWidget } = agsPlugin({
         emphasize: "emphasize 300ms cubic-bezier(0.2, 0, 0, 1) forwards",
 
         breathe: "breathe 2s ease-in-out infinite",
+
+        "slide-in-right":
+          "slide-in-right 300ms cubic-bezier(0.2, 0, 0, 1) forwards",
+        "slide-in-left":
+          "slide-in-left 300ms cubic-bezier(0.2, 0, 0, 1) forwards",
+        "slide-out-left":
+          "slide-out-left 300ms cubic-bezier(0.2, 0, 0, 1) forwards",
+        "slide-out-right":
+          "slide-out-right 300ms cubic-bezier(0.2, 0, 0, 1) forwards",
       },
     },
   },

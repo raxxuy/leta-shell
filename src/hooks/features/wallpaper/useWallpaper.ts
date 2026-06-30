@@ -1,4 +1,4 @@
-import { WallpaperConfigContext } from "@/contexts/WallpaperConfigContext";
+import { WallpaperConfigContext } from "@/contexts/Wallpaper";
 
 export const useWallpaper = () => {
   const { enabled, useGlobal, globalWallpaper, monitorWallpapers } =

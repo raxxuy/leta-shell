@@ -1,7 +1,4 @@
-import {
-  DockConfigContext,
-  type DockConfigShape,
-} from "@/contexts/DockConfigContext";
+import { DockConfigContext, type DockConfigShape } from "@/contexts/DockConfig";
 import useConfig from "@/hooks/services/useConfig";
 
 interface DockConfigProviderProps {

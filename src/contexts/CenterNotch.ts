@@ -1,13 +1,14 @@
 import { type Accessor, createContext, type Setter } from "ags";
-import type { CenterNotchMode } from "@/lib/config/schemas/bar/modules/center-notch";
 
 export interface CenterNotchShape {
+  dragging: Accessor<boolean>;
   hovered: Accessor<boolean>;
-  mode: Accessor<CenterNotchMode>;
-  modes: CenterNotchMode[];
   open: Accessor<boolean>;
+  setDragging: Setter<boolean>;
   setHovered: Setter<boolean>;
   setOpen: Setter<boolean>;
+  setTransitioning: Setter<"next" | "prev" | null>;
+  transitioning: Accessor<"next" | "prev" | null>;
 }
 
 export const CenterNotchContext = createContext<CenterNotchShape>(

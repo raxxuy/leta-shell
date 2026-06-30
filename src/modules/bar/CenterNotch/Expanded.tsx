@@ -1,6 +1,6 @@
 import { useCenterNotch } from "@/hooks/features/center-notch/useCenterNotch";
 import type { CenterNotchMode } from "@/lib/config/schemas/bar/modules/center-notch";
-import { MprisProvider } from "@/providers/MprisProvider";
+import { MprisProvider } from "@/providers/Mpris";
 import MediaExpanded from "./MediaPlayer/Expanded";
 
 const expandedMap = {

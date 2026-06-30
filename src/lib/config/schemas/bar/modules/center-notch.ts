@@ -15,8 +15,10 @@ export const centerNotchWeatherDefaults = {
 
 export const centerNotchDefaults = {
   mode: "media",
-  media: centerNotchMediaDefaults,
-  weather: centerNotchWeatherDefaults,
+  modules: {
+    media: centerNotchMediaDefaults,
+    weather: centerNotchWeatherDefaults,
+  },
 } as const;
 
 export const CenterNotchModeEnum = z.enum(["media", "weather"]);
@@ -44,8 +46,14 @@ export const CenterNotchWeatherSchema = z.object({
 
 export const CenterNotchSchema = z.object({
   mode: CenterNotchModeEnum.default(centerNotchDefaults.mode),
-  media: CenterNotchMediaSchema.default(centerNotchDefaults.media),
-  weather: CenterNotchWeatherSchema.default(centerNotchDefaults.weather),
+  modules: z
+    .object({
+      media: CenterNotchMediaSchema,
+      weather: CenterNotchWeatherSchema,
+    })
+    .default(centerNotchDefaults.modules),
 });
 
-export type CenterNotchMode = (typeof CenterNotchModeEnum.options)[number];
+export type CenterNotchMode = z.infer<typeof CenterNotchModeEnum>;
+export type CenterNotchWeatherUnit = z.infer<typeof CenterNotchWeatherUnitEnum>;
+export type CenterNotchWeatherConfig = z.infer<typeof CenterNotchWeatherSchema>;

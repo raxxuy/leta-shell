@@ -1,7 +1,7 @@
 import {
   LauncherConfigContext,
   type LauncherConfigShape,
-} from "@/contexts/LauncherConfigContext";
+} from "@/contexts/LauncherConfig";
 import useConfig from "@/hooks/services/useConfig";
 
 interface LauncherConfigProviderProps {

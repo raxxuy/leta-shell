@@ -1,4 +1,4 @@
-import { LauncherContext } from "@/contexts/LauncherContext";
+import { LauncherContext } from "@/contexts/Launcher";
 
 export const useLauncherItem = (index: number) => {
   const { results } = LauncherContext.use();

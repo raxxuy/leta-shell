@@ -1,8 +1,8 @@
 import AstalCava from "gi://AstalCava";
 import AstalMpris from "gi://AstalMpris";
 import { createBinding, createEffect, createState, onCleanup } from "ags";
-import { BarConfigContext } from "@/contexts/BarConfigContext";
-import { MprisContext } from "@/contexts/MprisContext";
+import { BarConfigContext } from "@/contexts/BarConfig";
+import { MprisContext } from "@/contexts/Mpris";
 
 export const useAudioVisualizer = () => {
   const {

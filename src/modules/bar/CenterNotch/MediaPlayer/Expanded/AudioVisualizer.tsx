@@ -9,7 +9,7 @@ export default function AudioVisualizer() {
   const { count, values } = useAudioVisualizer();
 
   return (
-    <box $={scan} class="m-1" halign={Align.END} hexpand spacing={spacing.xs}>
+    <box class="m-1" halign={Align.END} hexpand spacing={spacing.xs}>
       <With cleanup={cleanupWidget} value={count}>
         {(c) => (
           <box

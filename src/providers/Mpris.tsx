@@ -1,4 +1,4 @@
-import { MprisContext, type MprisShape } from "@/contexts/MprisContext";
+import { MprisContext, type MprisShape } from "@/contexts/Mpris";
 import { useMprisService } from "@/hooks/services/useMprisService";
 
 interface MprisProviderProps {

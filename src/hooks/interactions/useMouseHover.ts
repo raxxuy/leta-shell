@@ -1,9 +1,6 @@
 import { onCleanup } from "ags";
 import type { Gtk } from "ags/gtk4";
-import {
-  createMouseHoverController,
-  type MouseHoverOptions,
-} from "@/lib/gtk/controllers";
+import { createMouseHoverController, type MouseHoverOptions } from "@/lib/gtk";
 
 export const useMouseHover = (
   widget: Gtk.Widget,

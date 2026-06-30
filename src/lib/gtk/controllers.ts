@@ -10,19 +10,63 @@ export const createClickOutsideController = (
   root: Gtk.Widget,
   { target, onClickOutside }: ClickOutsideOptions,
 ) => {
-  const controller = new Gtk.GestureClick();
-  controller.set_propagation_phase(Gtk.PropagationPhase.CAPTURE);
+  const controller = new Gtk.GestureClick({
+    propagationPhase: Gtk.PropagationPhase.CAPTURE,
+  });
 
   const handler = (_: Gtk.GestureClick, __: unknown, x: number, y: number) => {
     const [, rect] = target.compute_bounds(root);
     const point = new Graphene.Point({ x, y });
-
-    if (!rect.contains_point(point)) {
-      onClickOutside();
-    }
+    if (!rect.contains_point(point)) onClickOutside();
   };
 
   controller.connect("pressed", handler);
+
+  return controller;
+};
+
+export interface DragOptions {
+  onBegin?: (x: number, y: number) => void;
+  onEnd?: (offsetX: number, offsetY: number) => void;
+  onUpdate?: (
+    startX: number,
+    startY: number,
+    offsetX: number,
+    offsetY: number,
+  ) => void;
+  propagationPhase?: Gtk.PropagationPhase;
+  rounded?: boolean;
+}
+
+export const createDragController = ({
+  onBegin,
+  onEnd,
+  onUpdate,
+  propagationPhase = Gtk.PropagationPhase.BUBBLE,
+  rounded = false,
+}: DragOptions) => {
+  const controller = new Gtk.GestureDrag({
+    propagationPhase: propagationPhase,
+  });
+
+  const r = (n: number) => (rounded ? Math.round(n) : n);
+
+  let startX = 0;
+  let startY = 0;
+
+  controller.connect("drag-begin", (_, x: number, y: number) => {
+    startX = r(x);
+    startY = r(y);
+    onBegin?.(startX, startY);
+  });
+
+  controller.connect("drag-update", (_, offsetX: number, offsetY: number) => {
+    onUpdate?.(startX, startY, r(offsetX), r(offsetY));
+  });
+
+  controller.connect("drag-end", (_, offsetX: number, offsetY: number) => {
+    onEnd?.(r(offsetX), r(offsetY));
+  });
 
   return controller;
 };
@@ -36,42 +80,31 @@ export const createSelectionController = ({
   onUpdate,
   onRelease,
 }: SelectionOptions) => {
-  const controller = new Gtk.GestureDrag();
-  let start: { x: number; y: number } | null = null;
-
-  controller.connect("drag-begin", (_, x, y) => {
-    start = { x: Math.round(x), y: Math.round(y) };
-    onUpdate(Math.round(x), Math.round(y), 0, 0);
+  return createDragController({
+    rounded: true,
+    propagationPhase: Gtk.PropagationPhase.CAPTURE,
+    onBegin: (x, y) => onUpdate(x, y, 0, 0),
+    onUpdate: (startX, startY, offsetX, offsetY) => {
+      const x2 = startX + offsetX;
+      const y2 = startY + offsetY;
+      onUpdate(
+        Math.min(startX, x2),
+        Math.min(startY, y2),
+        Math.abs(offsetX),
+        Math.abs(offsetY),
+      );
+    },
+    onEnd: () => onRelease?.(),
   });
-
-  controller.connect("drag-update", (_, offsetX, offsetY) => {
-    if (!start) return;
-    const x2 = start.x + offsetX;
-    const y2 = start.y + offsetY;
-    onUpdate(
-      Math.round(Math.min(start.x, x2)),
-      Math.round(Math.min(start.y, y2)),
-      Math.round(Math.abs(offsetX)),
-      Math.round(Math.abs(offsetY)),
-    );
-  });
-
-  controller.connect("drag-end", () => {
-    start = null;
-    if (onRelease) onRelease();
-  });
-
-  return controller;
 };
 
 export const createEscapeController = (onEscape: () => void) => {
-  const controller = new Gtk.EventControllerKey();
-  controller.set_propagation_phase(Gtk.PropagationPhase.CAPTURE);
+  const controller = new Gtk.EventControllerKey({
+    propagationPhase: Gtk.PropagationPhase.CAPTURE,
+  });
 
   const handler = (_: Gtk.EventControllerKey, keyval: number) => {
-    if (keyval === Gdk.KEY_Escape) {
-      onEscape();
-    }
+    if (keyval === Gdk.KEY_Escape) onEscape();
   };
 
   controller.connect("key-pressed", handler);
@@ -88,16 +121,34 @@ export const createMouseHoverController = ({
   onEnter,
   onLeave,
 }: MouseHoverOptions = {}) => {
-  const controller = new Gtk.EventControllerMotion();
-  controller.set_propagation_phase(Gtk.PropagationPhase.CAPTURE);
+  const controller = new Gtk.EventControllerMotion({
+    propagationPhase: Gtk.PropagationPhase.CAPTURE,
+  });
 
-  if (onEnter) {
-    controller.connect("enter", onEnter);
-  }
+  if (onEnter) controller.connect("enter", onEnter);
+  if (onLeave) controller.connect("leave", onLeave);
 
-  if (onLeave) {
-    controller.connect("leave", onLeave);
-  }
+  return controller;
+};
+
+export interface ClickOptions {
+  button?: number;
+  onClick?: () => void;
+  onRelease?: () => void;
+}
+
+export const createClickController = ({
+  button = Gdk.BUTTON_PRIMARY,
+  onClick,
+  onRelease,
+}: ClickOptions) => {
+  const controller = new Gtk.GestureClick({
+    propagationPhase: Gtk.PropagationPhase.CAPTURE,
+    button,
+  });
+
+  if (onClick) controller.connect("pressed", onClick);
+  if (onRelease) controller.connect("released", onRelease);
 
   return controller;
 };

@@ -1,4 +1,4 @@
-import { MprisContext } from "@/contexts/MprisContext";
+import { MprisContext } from "@/contexts/Mpris";
 import { useScrollLock } from "@/hooks/interactions/useScrollLock";
 
 export const useMediaPreview = () => {

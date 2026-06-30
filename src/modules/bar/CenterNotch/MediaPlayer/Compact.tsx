@@ -21,6 +21,7 @@ export default function MediaCompact() {
             <label
               $={scan}
               class="font-medium"
+              halign={Align.CENTER}
               hexpand
               label="No active player"
             />

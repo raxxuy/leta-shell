@@ -1,6 +1,6 @@
 import AstalHyprland from "gi://AstalHyprland";
 import { range } from "es-toolkit";
-import { BarConfigContext } from "@/contexts/BarConfigContext";
+import { BarConfigContext } from "@/contexts/BarConfig";
 
 export const useWorkspaces = () => {
   const {

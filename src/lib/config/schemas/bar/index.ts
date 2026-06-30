@@ -42,5 +42,4 @@ export const BarSchema = z.object({
 });
 
 export type BarWidget = (typeof barWidgets)[number];
-
 export type BarConfig = z.infer<typeof BarSchema>;

@@ -48,7 +48,7 @@
 
       nodeModules = pkgs.stdenv.mkDerivation {
         pname = "${pname}-node-modules";
-        version = "0.1.28";
+        version = "0.1.29";
         src = ./.;
         nativeBuildInputs = [ pkgs.bun ];
 

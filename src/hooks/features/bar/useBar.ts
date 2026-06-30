@@ -1,5 +1,5 @@
 import clsx from "clsx/lite";
-import { BarConfigContext } from "@/contexts/BarConfigContext";
+import { BarConfigContext } from "@/contexts/BarConfig";
 
 export const useBar = () => {
   const {

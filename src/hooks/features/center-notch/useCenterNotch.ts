@@ -1,22 +1,40 @@
 import { createMemo } from "ags";
 import clsx from "clsx/lite";
-import { BarConfigContext } from "@/contexts/BarConfigContext";
-import { CenterNotchContext } from "@/contexts/CenterNotchContext";
+import { BarConfigContext } from "@/contexts/BarConfig";
+import { CenterNotchContext } from "@/contexts/CenterNotch";
+import {
+  type CenterNotchMode,
+  CenterNotchModeEnum,
+} from "@/lib/config/schemas/bar/modules/center-notch";
 
 export const useCenterNotch = () => {
   const {
     position: [position],
-    centerNotchMode: [, setCenterNotchMode],
+    centerNotchMode: [mode, setMode],
   } = BarConfigContext.use();
-  const { open, setOpen, hovered, setHovered, mode, modes } =
-    CenterNotchContext.use();
+  const {
+    open,
+    setOpen,
+    hovered,
+    setHovered,
+    dragging,
+    setDragging,
+    transitioning,
+    setTransitioning,
+  } = CenterNotchContext.use();
+
+  const modes = CenterNotchModeEnum.options;
 
   const cycle = (direction: "next" | "prev") => {
     const currentIndex = modes.indexOf(mode.peek());
     const nextIndex =
-      (direction === "next" ? currentIndex + 1 : currentIndex - 1) %
+      ((direction === "next" ? currentIndex + 1 : currentIndex - 1) +
+        modes.length) %
       modes.length;
-    setCenterNotchMode(modes[nextIndex]);
+
+    setTransitioning(direction);
+    setMode(modes[nextIndex]);
+    setTimeout(() => setTransitioning(null), 200);
   };
 
   let prev = false;
@@ -38,14 +56,41 @@ export const useCenterNotch = () => {
     );
   });
 
+  const modeClassName = (m: CenterNotchMode) =>
+    createMemo(() => {
+      const t = transitioning();
+      const active = mode() === m;
+
+      return clsx(
+        "min-w-56",
+        !dragging() && "transition-all duration-300",
+        t
+          ? active
+            ? t === "next"
+              ? "animate-slide-in-right"
+              : "animate-slide-in-left"
+            : t === "next"
+              ? "animate-slide-out-left"
+              : "animate-slide-out-right"
+          : active
+            ? "opacity-100 translate-x-0"
+            : "opacity-0 translate-x-0",
+      );
+    });
+
   return {
     open,
     setOpen,
     hovered,
     setHovered,
+    dragging,
+    setDragging,
+    transitioning,
     mode,
+    setMode,
     modes,
     cycle,
     className,
+    modeClassName,
   };
 };

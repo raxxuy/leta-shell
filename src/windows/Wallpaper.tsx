@@ -4,7 +4,7 @@ import Window from "@/components/Window";
 import { Exclusivity, Layer } from "@/enums";
 import { useWallpaper } from "@/hooks/features/wallpaper/useWallpaper";
 import WallpaperModule from "@/modules/wallpaper";
-import WallpaperConfigProvider from "@/providers/WallpaperConfigProvider";
+import WallpaperConfigProvider from "@/providers/WallpaperConfig";
 
 export default function WallpaperWindow(gdkmonitor: Gdk.Monitor) {
   return (

@@ -3,8 +3,8 @@ import app from "ags/gtk4/app";
 import Popup from "@/components/Popup";
 import { Exclusivity, Keymode, Layer } from "@/enums";
 import LauncherModule from "@/modules/launcher";
-import LauncherConfigProvider from "@/providers/LauncherConfigProvider";
-import LauncherProvider from "@/providers/LauncherProvider";
+import LauncherProvider from "@/providers/Launcher";
+import LauncherConfigProvider from "@/providers/LauncherConfig";
 
 export default function LauncherWindow(gdkmonitor: Gdk.Monitor) {
   return (
