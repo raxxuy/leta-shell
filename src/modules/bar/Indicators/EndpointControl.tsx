@@ -72,7 +72,7 @@ export default function EndpointControl({
               valign={Align.START}
             >
               <label
-                class="transform-cpu font-semibold hover:scale-105"
+                class="font-semibold hover:scale-105"
                 label={formattedVolume}
                 xalign={1}
               />

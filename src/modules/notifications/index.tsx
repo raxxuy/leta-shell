@@ -29,7 +29,7 @@ export default function NotificationsModule() {
           return (
             <button
               $={scan}
-              class="m-[5px_10px_15px] transform-cpu rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-4 shadow-md transition-transform hover:scale-102 hover:border-tertiary/40 active:scale-98 active:border-tertiary/60 active:bg-zinc-850"
+              class="m-[5px_10px_15px] rounded-2xl border border-tertiary/20 bg-zinc-950/95 p-4 shadow-md transition-transform hover:scale-102 hover:border-tertiary/40 active:scale-98 active:border-tertiary/60 active:bg-zinc-850"
               hexpand={false}
               onClicked={() => notification.dismiss()}
               widthRequest={400}

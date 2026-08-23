@@ -18,7 +18,7 @@ interface MediaButtonProps {
 
 const MediaButton = ({ iconName, onClick, pixelSize }: MediaButtonProps) => (
   <button
-    class="transition-transform hover:scale-110 hover:transform-cpu"
+    class="transition-transform hover:scale-110"
     cursor={Cursor.POINTER}
     focusable={false}
     onClicked={onClick}
