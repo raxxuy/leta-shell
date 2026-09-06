@@ -1,18 +1,23 @@
 import { getter, register } from "ags/gobject";
+import { debounce } from "es-toolkit";
+
 import { emitNotify } from "@/decorators/gobject";
 import type { LauncherConfig } from "@/lib/config/schemas/launcher";
 import Service from "../base";
 import ConfigService from "../config";
-import AppsProvider from "./providers/apps";
-import SessionProvider from "./providers/session";
-import WebProvider from "./providers/web";
-import type { LauncherProvider, LauncherResult } from "./types";
+import ProviderManager from "./providers";
+import type { LauncherResult } from "./types";
 
 @register({ GTypeName: "LauncherService" })
 export default class LauncherService extends Service {
   private static instance: LauncherService;
+  private providerManager: ProviderManager = new ProviderManager();
 
-  #providers: LauncherProvider[] = [];
+  private readonly searchDebounced = debounce(async (query: string) => {
+    const results = await this.providerManager.search(query);
+    this.setResults(results);
+  }, 100);
+
   #results: LauncherResult[] = [];
 
   static get_default(): LauncherService {
@@ -30,21 +35,15 @@ export default class LauncherService extends Service {
     return this.#results.slice(0, this.config.maxResults);
   }
 
-  search(query: string): void {
-    if (!query.trim()) {
+  async search(query: string): Promise<void> {
+    query = query.trim();
+
+    if (!query) {
       this.clear();
       return;
     }
 
-    const q = query.trim();
-
-    const results = this.#providers
-      .slice()
-      .sort((a, b) => a.priority - b.priority)
-      .filter((provider) => provider.shouldSearch(q))
-      .flatMap((provider) => provider.search(q));
-
-    this.setResults(results);
+    this.searchDebounced(query);
   }
 
   clear(): void {
@@ -58,10 +57,6 @@ export default class LauncherService extends Service {
 
   constructor() {
     super();
-    this.#providers = [
-      new AppsProvider(),
-      new WebProvider(),
-      new SessionProvider(),
-    ];
+    this.providerManager.addProvider("apps");
   }
 }

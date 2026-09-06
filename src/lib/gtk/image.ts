@@ -1,5 +1,7 @@
 import Gio from "gi://Gio";
+
 import { createMemo } from "ags";
+
 import type { Reactive } from "@/types/reactive";
 import { access } from "../reactive";
 

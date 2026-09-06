@@ -1,4 +1,5 @@
 import Graphene from "gi://Graphene";
+
 import { Gdk, Gtk } from "ags/gtk4";
 
 export interface ClickOutsideOptions {

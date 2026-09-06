@@ -1,5 +1,7 @@
 import AstalMpris from "gi://AstalMpris";
+
 import { getter, register } from "ags/gobject";
+
 import { connect, emitNotify } from "@/decorators/gobject";
 import Service from "./base";
 

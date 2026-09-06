@@ -1,33 +1,34 @@
 import z from "zod";
 
 export const launcherDefaults = {
-  width: 558,
   maxResults: 5,
   providers: {
-    web: {
-      searchEngine: "google",
+    apps: {
+      query: "exact",
     },
   },
 } as const;
 
-export const WebSearchEngineEnum = z.enum(["google", "duckduckgo", "brave"]);
+const AppsQuerySchema = z.enum(["exact", "fuzzy"]);
 
 export const LauncherSchema = z.object({
-  width: z.number().int().min(0).default(launcherDefaults.width),
   maxResults: z
-    .number()
-    .int()
-    .min(1)
-    .max(10)
+    .number({ error: (iss) => `Expected a number, got ${iss.input}` })
+    .min(1, {
+      error: (iss) =>
+        `Expected a number greater than or equal to 1, got ${iss.input}`,
+    })
+    .max(10, {
+      error: (iss) =>
+        `Expected a number less than or equal to 10, got ${iss.input}`,
+    })
     .default(launcherDefaults.maxResults),
   providers: z.object({
-    web: z.object({
-      searchEngine: WebSearchEngineEnum.default(
-        launcherDefaults.providers.web.searchEngine,
-      ).describe("The search engine used for web searches"),
+    apps: z.object({
+      query: AppsQuerySchema.default(launcherDefaults.providers.apps.query),
     }),
   }),
 });
 
-export type WebSearchEngine = z.infer<typeof WebSearchEngineEnum>;
+export type AppsQuerySchema = z.infer<typeof AppsQuerySchema>;
 export type LauncherConfig = z.infer<typeof LauncherSchema>;

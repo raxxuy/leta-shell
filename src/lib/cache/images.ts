@@ -1,4 +1,5 @@
 import Gio from "gi://Gio";
+
 import {
   CACHE_WALLPAPERS_ORIGINAL_DIR,
   CACHE_WALLPAPERS_RENDERED_DIR,

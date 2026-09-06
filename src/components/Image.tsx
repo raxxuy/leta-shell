@@ -1,12 +1,13 @@
 import { Gtk } from "ags/gtk4";
+
 import { ContentFit } from "@/enums";
-import { createImageFile } from "@/lib/gtk";
+import { createImageFile } from "@/lib/gtk/image";
 import type { Reactive } from "@/types/reactive";
 
 type ImageProps = JSX.IntrinsicElements["overlay"] & {
-  src: Reactive<string | null>;
-  file?: Reactive<boolean>;
   contentFit?: Reactive<Gtk.ContentFit>;
+  file?: Reactive<boolean>;
+  src: Reactive<string | null>;
 };
 
 export default function Image({

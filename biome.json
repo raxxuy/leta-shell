@@ -1,24 +1,21 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.5.10/schema.json",
-  "vcs": {
-    "enabled": true,
-    "clientKind": "git",
-    "useIgnoreFile": true
-  },
-  "files": {
-    "ignoreUnknown": false,
-    "includes": ["src/**", "styles/**", "app.ts"]
-  },
-  "formatter": {
-    "enabled": true,
-    "indentStyle": "space"
-  },
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "files": { "ignoreUnknown": false },
+  "formatter": { "enabled": true, "indentStyle": "space" },
   "linter": {
     "enabled": true,
     "rules": {
+      "preset": "recommended",
       "a11y": {
-        "noLabelWithoutControl": "off",
-        "useButtonType": "off"
+        "useButtonType": "off",
+        "noLabelWithoutControl": "off"
+      },
+      "style": {
+        "useImportType": {
+          "level": "error",
+          "options": { "style": "separatedType" }
+        }
       },
       "nursery": {
         "useSortedClasses": {
@@ -26,12 +23,11 @@
           "level": "warn"
         }
       }
-    }
+    },
+    "includes": ["**", "!dist"]
   },
   "javascript": {
-    "formatter": {
-      "quoteStyle": "double"
-    }
+    "formatter": { "quoteStyle": "double" }
   },
   "css": {
     "parser": {
@@ -42,7 +38,19 @@
     "enabled": true,
     "actions": {
       "source": {
-        "organizeImports": "on",
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              ["!:BUN:", ":NODE:", ":URL:"],
+              ":BLANK_LINE:",
+              ":PACKAGE:",
+              ":BLANK_LINE:",
+              [":ALIAS:", ":PATH:"],
+              { "type": true, "source": [":ALIAS:", ":PATH:"] }
+            ]
+          }
+        },
         "useSortedAttributes": "on",
         "useSortedProperties": "on",
         "useSortedInterfaceMembers": "on"

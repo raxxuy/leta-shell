@@ -1,9 +1,8 @@
 import { onCleanup } from "ags";
 import type { Gtk } from "ags/gtk4";
-import {
-  type ClickOutsideOptions,
-  createClickOutsideController,
-} from "@/lib/gtk";
+
+import type { ClickOutsideOptions } from "@/lib/gtk/controllers";
+import { createClickOutsideController } from "@/lib/gtk/controllers";
 
 export const useClickOutside = (
   root: Gtk.Widget,

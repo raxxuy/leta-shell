@@ -1,35 +1,35 @@
 import type { Gtk } from "ags/gtk4";
 
-export const findWidget = (
+export const findWidget = <T extends Gtk.Widget>(
   widget: Gtk.Widget,
   predicate: (widget: Gtk.Widget) => boolean,
   mode: "bfs" | "dfs" = "dfs",
-): Gtk.Widget | null => {
-  if (mode === "dfs") return dfs(widget, predicate);
-  return bfs(widget, predicate);
+): T | null => {
+  if (mode === "dfs") return dfs(widget as T, predicate);
+  return bfs(widget as T, predicate);
 };
 
-const dfs = (
-  widget: Gtk.Widget,
-  predicate: (widget: Gtk.Widget) => boolean,
-): Gtk.Widget | null => {
+const dfs = <T extends Gtk.Widget>(
+  widget: T,
+  predicate: (widget: T) => boolean,
+): T | null => {
   if (predicate(widget)) return widget;
 
   const children = widget.observe_children();
 
   for (let i = 0; i < children.get_n_items(); i++) {
-    const found = dfs(children.get_item(i) as Gtk.Widget, predicate);
+    const found = dfs(children.get_item(i) as T, predicate);
     if (found) return found;
   }
 
   return null;
 };
 
-const bfs = (
-  widget: Gtk.Widget,
-  predicate: (widget: Gtk.Widget) => boolean,
-): Gtk.Widget | null => {
-  const queue: Gtk.Widget[] = [widget];
+const bfs = <T extends Gtk.Widget>(
+  widget: T,
+  predicate: (widget: T) => boolean,
+): T | null => {
+  const queue: T[] = [widget];
 
   while (queue.length) {
     const current = queue.shift();
@@ -40,7 +40,7 @@ const bfs = (
     const children = current.observe_children();
 
     for (let i = 0; i < children.get_n_items(); i++) {
-      queue.push(children.get_item(i) as Gtk.Widget);
+      queue.push(children.get_item(i) as T);
     }
   }
 

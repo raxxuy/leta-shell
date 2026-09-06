@@ -1,8 +1,9 @@
 import { onCleanup } from "ags";
 import { Gtk } from "ags/gtk4";
+
 import { StateFlags } from "@/enums";
 import { useClick } from "@/hooks/interactions/useClick";
-import { findWidget } from "@/lib/gtk";
+import { findWidget } from "@/lib/gtk/widget";
 import { createReactiveMemo } from "@/lib/reactive";
 import type { Reactive } from "@/types/reactive";
 
@@ -18,11 +19,11 @@ export const PopoverButton = ({
   const disabled = createReactiveMemo(disabledProp);
 
   const init = (self: Gtk.Button) => {
-    const popover = findWidget(
+    const popover = findWidget<Gtk.Popover>(
       self,
       (widget) => widget instanceof Gtk.Popover,
       "bfs",
-    ) as Gtk.Popover | null;
+    );
 
     if (!popover) return null;
 

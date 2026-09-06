@@ -1,11 +1,12 @@
 import { register } from "ags/gobject";
+
 import { CACHE_COLORS_FILE, CACHE_THEMES_DIR } from "@/constants";
 import { connect } from "@/decorators/gobject";
 import { buildPath, dirExists, ensureDir, readFile, writeFile } from "@/lib/fs";
 import { hashPath } from "@/lib/hash";
-import { applyTheme, callMatugen, relinkTheme } from "@/lib/theme";
+import { applyTheme } from "@/lib/theme/apply";
+import { callMatugen, relinkTheme } from "@/lib/theme/matugen";
 import Service from "./base";
-import NotificationService from "./notification";
 import WallpaperService from "./wallpaper";
 
 @register({ GTypeName: "ThemeService" })
@@ -15,10 +16,6 @@ export default class ThemeService extends Service {
   static get_default(): ThemeService {
     if (!ThemeService.instance) ThemeService.instance = new ThemeService();
     return ThemeService.instance;
-  }
-
-  private get notificationService() {
-    return NotificationService.get_default();
   }
 
   private async generateTheme(path: string): Promise<void> {
@@ -35,19 +32,8 @@ export default class ThemeService extends Service {
 
       await Promise.all([relinkTheme(themeDir), this.applyColors(themeDir)]);
       await applyTheme();
-
-      this.notificationService.sendNotification({
-        appName: "Leta Shell",
-        summary: "Theme Applied",
-        body: "Theme has been successfully applied",
-      });
     } catch (error) {
       console.error("ThemeService: Failed to generate theme", error);
-      this.notificationService.sendNotification({
-        appName: "Leta Shell",
-        summary: "Theme Error",
-        body: "Failed to generate theme",
-      });
     }
   }
 

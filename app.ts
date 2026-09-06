@@ -1,74 +1,61 @@
-import type { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
-import style from "scss/index.scss";
-import { initCache } from "@/lib/cache";
-import { setupLockListener } from "@/lib/dbus/lock";
-import { applyTheme } from "@/lib/theme";
-import AuthService from "@/services/auth";
+
+import BarWindow from "@/features/bar/BarWindow";
+import LauncherWindow from "@/features/launcher/LauncherWindow";
+import WallpaperWindow from "@/features/wallpaper/WallpaperWindow";
+import WallpaperSelectorWindow from "@/features/wallpaper-selector/WallpaperSelectorWindow";
+import { initCache } from "@/lib/cache/init";
+import { initConfigs } from "@/lib/config";
+import LetaSocket from "@/lib/socket";
+import { applyTheme } from "@/lib/theme/apply";
 import ConfigService from "@/services/config";
+import HyprlandService from "@/services/hyprland";
+import LauncherService from "@/services/launcher";
 import MprisService from "@/services/mpris";
 import ThemeService from "@/services/theme";
 import WallpaperService from "@/services/wallpaper";
-import { startSocket, stopSocket } from "@/socket";
-import BarWindow from "@/windows/Bar";
-import LauncherWindow from "@/windows/Launcher";
-import LockScreenWindow from "@/windows/LockScreen";
-import NotificationsWindow from "@/windows/Notifications";
-import ScreenshotWindow from "@/windows/Screenshot";
-import SettingsWindow from "@/windows/Settings";
-import WallpaperWindow from "@/windows/Wallpaper";
-import WallpaperSelectorWindow from "@/windows/WallpaperSelector";
+import style from "./scss/index.scss";
 
-const windowFactories = [
+const windows = [
   BarWindow,
-  LauncherWindow,
-  LockScreenWindow,
   WallpaperWindow,
-  NotificationsWindow,
+  LauncherWindow,
   WallpaperSelectorWindow,
-  SettingsWindow,
-  ScreenshotWindow,
 ];
 
-const services = [ConfigService, ThemeService, MprisService, AuthService];
-
-const initializeInfrastructure = (): void => {
-  initCache();
-  startSocket();
-  setupLockListener();
-};
-
-const initializeServices = (): void => {
-  services.forEach((service) => {
-    service.get_default();
-  });
-
-  WallpaperService.get_default().initMonitors(app.monitors);
-};
-
-const mountWindows = (monitors: Gdk.Monitor[]): void => {
-  monitors.forEach((monitor) => {
-    windowFactories.forEach((windowFactory) => {
-      windowFactory(monitor);
-    });
-  });
-};
-
-const initializeEffects = (): void => {
-  applyTheme();
-
-  app.connect("shutdown", stopSocket);
-};
+const services = [
+  ConfigService,
+  HyprlandService,
+  WallpaperService,
+  LauncherService,
+  ThemeService,
+  MprisService,
+];
 
 app.start({
-  icons: `${SRC}/assets/icons`,
-  iconTheme: "custom",
+  icons: `${SRC}/assets`,
   css: style,
-
   main() {
-    initializeInfrastructure();
-    initializeServices();
-    mountWindows(app.monitors);
-    initializeEffects();
+    initCache();
+    initConfigs();
+    applyTheme();
+
+    const socket = LetaSocket.get_default();
+
+    services.forEach((service) => {
+      service.get_default();
+    });
+
+    WallpaperService.get_default().initMonitors(app.monitors);
+
+    app.monitors.forEach((monitor) => {
+      windows.forEach((window) => {
+        window(monitor);
+      });
+    });
+
+    app.connect("shutdown", () => {
+      socket.close();
+    });
   },
 });

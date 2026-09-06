@@ -1,9 +1,15 @@
 import AstalApps from "gi://AstalApps";
-import { toggleWindow } from "@/lib/window";
+
+import { toggleWindow } from "@/lib/window/utils";
+import ConfigService from "@/services/config";
 import type { LauncherProvider, LauncherResult } from "../types";
 
 export default class AppsProvider implements LauncherProvider {
   private apps: AstalApps.Apps = new AstalApps.Apps();
+
+  private get config() {
+    return ConfigService.get_default().configs.launcher.providers.apps;
+  }
 
   id = "apps";
   priority = 1;
@@ -13,7 +19,14 @@ export default class AppsProvider implements LauncherProvider {
   }
 
   search(query: string): LauncherResult[] {
-    return this.apps.exact_query(query).map((app) => ({
+    const apps = this.apps;
+
+    const results =
+      this.config.query === "exact"
+        ? apps.exact_query(query)
+        : apps.fuzzy_query(query);
+
+    return results.map((app) => ({
       id: app.entry,
       label: app.name,
       description: app.description,

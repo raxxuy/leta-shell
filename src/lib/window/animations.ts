@@ -1,8 +1,4 @@
 export const animations = {
-  spring: {
-    enter: "spring-in",
-    exit: "none",
-  },
   popover: {
     enter: "popover-in",
     exit: "popover-out",

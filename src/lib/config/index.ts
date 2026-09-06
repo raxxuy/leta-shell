@@ -1,11 +1,7 @@
 import { CONFIG_DIR } from "@/constants";
 import { buildPath, ensureDir, readFile, writeFile } from "../fs";
-import {
-  type ConfigKey,
-  type Configs,
-  schemaDefaults,
-  schemas,
-} from "./schemas";
+import type { ConfigKey, Configs } from "./schemas";
+import { schemaDefaults, schemas } from "./schemas";
 
 const getConfigPath = (key: ConfigKey): string =>
   buildPath(CONFIG_DIR, `${key}.json`);
@@ -14,12 +10,7 @@ const readConfigFile = <K extends ConfigKey>(key: K): Configs[K] | null => {
   const content = readFile(getConfigPath(key));
   if (!content) return null;
 
-  try {
-    return schemas[key].parse(JSON.parse(content)) as Configs[K];
-  } catch {
-    console.warn(`[config] Invalid "${key}", resetting to defaults`);
-    return null;
-  }
+  return schemas[key].parse(JSON.parse(content)) as Configs[K];
 };
 
 const writeConfigFile = <K extends ConfigKey>(
@@ -32,8 +23,10 @@ const loadOrCreate = <K extends ConfigKey>(key: K): Configs[K] => {
   if (existing) return existing;
 
   const defaults = schemas[key].parse(schemaDefaults[key]) as Configs[K];
-  if (!writeConfigFile(key, defaults))
+
+  if (!writeConfigFile(key, defaults)) {
     console.warn(`[config] Failed to write defaults for "${key}"`);
+  }
 
   return defaults;
 };

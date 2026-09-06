@@ -1,5 +1,6 @@
 import Gio from "gi://Gio";
 import GLib from "gi://GLib";
+
 import { FileTest } from "@/enums";
 
 export const buildPath = (...segments: string[]): string =>

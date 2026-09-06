@@ -1,5 +1,7 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: <> */
+
 import type Gio from "gi://Gio";
+
 import { onCleanup } from "ags";
 import { monitorFile } from "ags/file";
 

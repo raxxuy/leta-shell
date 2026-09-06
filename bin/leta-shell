@@ -1,8 +1,0 @@
-#!/bin/sh
-SOCKET="$XDG_RUNTIME_DIR/leta-shell.sock"
-
-if [ $# -eq 0 ]; then
-  exec @out@/bin/.leta-shell-wrapped
-else
-  echo "$*" | nc -U "$SOCKET"
-fi

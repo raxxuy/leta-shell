@@ -8,14 +8,21 @@ export const wallpaperDefaults = {
 } as const;
 
 export const WallpaperSchema = z.object({
-  enabled: z.boolean().default(wallpaperDefaults.enabled),
-  useGlobal: z.boolean().default(wallpaperDefaults.useGlobal),
+  enabled: z
+    .boolean({ error: (iss) => `Expected a boolean, got ${iss.input}` })
+    .default(wallpaperDefaults.enabled),
+  useGlobal: z
+    .boolean({ error: (iss) => `Expected a boolean, got ${iss.input}` })
+    .default(wallpaperDefaults.useGlobal),
   globalWallpaper: z
-    .string()
+    .string({ error: (iss) => `Expected a string, got ${iss.input}` })
     .nullable()
     .default(wallpaperDefaults.globalWallpaper),
   monitorWallpapers: z
-    .record(z.string(), z.string())
+    .record(
+      z.string({ error: (iss) => `Expected a string, got ${iss.input}` }),
+      z.string({ error: (iss) => `Expected a string, got ${iss.input}` }),
+    )
     .default(wallpaperDefaults.monitorWallpapers),
 });
 

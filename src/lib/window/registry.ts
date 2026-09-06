@@ -1,10 +1,6 @@
 export const windows = [
   "bar",
   "launcher",
-  "lock-screen",
-  "notifications",
-  "screenshot",
-  "settings",
   "wallpaper",
   "wallpaper-selector",
 ] as const;

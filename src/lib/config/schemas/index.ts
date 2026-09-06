@@ -1,23 +1,18 @@
 import type z from "zod";
-import { BarSchema, barDefaults } from "./bar";
-import { DockSchema, dockDefaults } from "./dock";
-import { GlobalSchema, globalDefaults } from "./global";
+
 import { LauncherSchema, launcherDefaults } from "./launcher";
+import { ThemeSchema, themeDefaults } from "./theme";
 import { WallpaperSchema, wallpaperDefaults } from "./wallpaper";
 
 export const schemaDefaults = {
-  bar: barDefaults,
-  dock: dockDefaults,
-  global: globalDefaults,
   launcher: launcherDefaults,
+  theme: themeDefaults,
   wallpaper: wallpaperDefaults,
 } as const;
 
 export const schemas = {
-  bar: BarSchema,
-  dock: DockSchema,
-  global: GlobalSchema,
   launcher: LauncherSchema,
+  theme: ThemeSchema,
   wallpaper: WallpaperSchema,
 } as const;
 

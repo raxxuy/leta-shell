@@ -1,19 +1,18 @@
 import Gio from "gi://Gio";
-import { type Accessor, createConnection } from "ags";
+
+import type { Accessor } from "ags";
+import { createConnection } from "ags";
 import type GObject from "ags/gobject";
 import { getter, gtype, register, signal } from "ags/gobject";
 import { cloneDeep } from "es-toolkit";
 import { get, set } from "es-toolkit/compat";
+
 import { CONFIG_DIR } from "@/constants";
 import { emitNotify } from "@/decorators/gobject";
 import { monitor } from "@/decorators/monitor";
 import { initConfigs } from "@/lib/config";
-import {
-  type ConfigKey,
-  type Configs,
-  type ConfigType,
-  schemas,
-} from "@/lib/config/schemas";
+import type { ConfigKey, Configs, ConfigType } from "@/lib/config/schemas";
+import { schemas } from "@/lib/config/schemas";
 import { resolveUpdater, scheduleWrite } from "@/lib/config/utils";
 import type { Get, Path, ValueOrUpdater } from "@/types/config";
 import Service from "./base";
@@ -112,18 +111,17 @@ export default class ConfigService extends Service<ConfigServiceSignals> {
 
   @monitor(CONFIG_DIR, Gio.FileMonitorEvent.CHANGES_DONE_HINT)
   protected onConfigChanged(): void {
-    const configs = initConfigs();
+    const prev = this.#configs;
+    const next = initConfigs();
 
-    if (JSON.stringify(configs) === JSON.stringify(this.#configs)) return;
+    if (JSON.stringify(next) === JSON.stringify(prev)) return;
 
-    this.setConfigs(configs);
+    this.setConfigs(next);
 
-    for (const key in configs) {
-      if (
-        JSON.stringify(configs[key as ConfigKey]) !==
-        JSON.stringify(this.#configs[key as ConfigKey])
-      ) {
-        this.emit("config-changed", key as ConfigKey, "");
+    for (const key in next) {
+      const k = key as ConfigKey;
+      if (JSON.stringify(next[k]) !== JSON.stringify(prev[k])) {
+        this.emit("config-changed", k, "");
       }
     }
   }

@@ -1,7 +1,8 @@
 import type GObject from "ags/gobject";
 import { register, signal } from "ags/gobject";
 import type { Gdk } from "ags/gtk4";
-import { renderImage } from "@/lib/cache";
+
+import { renderImage } from "@/lib/cache/images";
 import type { WallpaperConfig } from "@/lib/config/schemas/wallpaper";
 import Service from "./base";
 import ConfigService from "./config";

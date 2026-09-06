@@ -1,66 +1,41 @@
-import GLib from "gi://GLib";
-import type { Gtk } from "ags/gtk4";
+import { onMount } from "ags";
+import type { Astal, Gtk } from "ags/gtk4";
+import type { Timer } from "ags/time";
+import { timeout } from "ags/time";
+
+import { Align } from "@/enums";
 import { useClickOutside } from "@/hooks/interactions/useClickOutside";
 import { useEscape } from "@/hooks/interactions/useEscape";
-import { access, createReactiveMemo } from "@/lib/reactive";
-import { scan } from "@/lib/theme";
-import {
-  type Anchor,
-  animations,
-  type PositionKey,
-  positions,
-  resolveAnchor,
-  type WindowWithClose,
-} from "@/lib/window";
+import { createReactiveMemo } from "@/lib/reactive";
 import type { AnimationKey } from "@/lib/window/animations";
+import { animations } from "@/lib/window/animations";
 import type { Reactive } from "@/types/reactive";
 import type { WindowProps } from "./Window";
+import Window from "./Window";
 
-type PopupProps = Omit<WindowProps, "anchor"> & {
-  anchor?: Reactive<Anchor>;
+interface PopupProps extends WindowProps {
   animation?: Reactive<AnimationKey>;
-  animationDuration?: Reactive<number>;
   clickOutside?: Reactive<boolean>;
+  duration?: Reactive<number>;
   escape?: Reactive<boolean>;
-  position?: Reactive<PositionKey>;
-};
+}
 
 export default function Popup({
-  anchor: anchorProp,
-  animation: animationProp,
-  animationDuration: animationDurationProp = 100,
+  animation: animationProp = "none",
   clickOutside: clickOutsideProp = true,
+  duration: durationProp = 100,
   escape: escapeProp = true,
-  position: positionProp = "center",
   children,
   ...props
 }: PopupProps) {
-  const anchor = createReactiveMemo(anchorProp, resolveAnchor);
-  const animation = createReactiveMemo(
-    animationProp,
-    (key) => animations[key ?? "none"],
-  );
-  const animationDuration = createReactiveMemo(
-    animationDurationProp,
-    (duration) => duration,
-  );
-  const position = createReactiveMemo(positionProp, (pos) => positions[pos]);
-  const halign = position((p) => p.halign);
-  const valign = position((p) => p.valign);
-
-  let winRef: Gtk.Window;
+  let windowRef: Astal.Window;
   let targetRef: Gtk.Widget;
+  let timer: Timer;
 
-  const close = () => {
-    const anim = animation.peek();
-    targetRef.remove_css_class(`animate-${anim.enter}`);
-    targetRef.add_css_class(`animate-${anim.exit}`);
-
-    GLib.timeout_add(GLib.PRIORITY_DEFAULT, animationDuration.peek(), () => {
-      winRef.visible = false;
-      return GLib.SOURCE_REMOVE;
-    });
-  };
+  const animation = createReactiveMemo(animationProp, (key) => animations[key]);
+  const duration = createReactiveMemo(durationProp);
+  const hasClickOutside = createReactiveMemo(clickOutsideProp);
+  const hasEscape = createReactiveMemo(escapeProp);
 
   const onShow = () => {
     const anim = animation.peek();
@@ -68,29 +43,39 @@ export default function Popup({
     targetRef.add_css_class(`animate-${anim.enter}`);
   };
 
-  const bindControllers = () => {
-    if (access(escapeProp)) useEscape(winRef, close);
-    if (access(clickOutsideProp))
-      useClickOutside(winRef, { target: targetRef, onClickOutside: close });
+  const close = () => {
+    const anim = animation.peek();
+    targetRef.remove_css_class(`animate-${anim.enter}`);
+    targetRef.add_css_class(`animate-${anim.exit}`);
+
+    if (timer) timer.cancel();
+    timer = timeout(duration.peek(), () => (windowRef.visible = false));
   };
 
+  onMount(() => {
+    if (hasEscape.peek()) useEscape(windowRef, close);
+
+    if (hasClickOutside.peek()) {
+      useClickOutside(windowRef, { target: targetRef, onClickOutside: close });
+    }
+  });
+
   return (
-    <window
-      $={(self) => {
-        winRef = self;
-        (self as unknown as WindowWithClose).requestClose = close;
-        self.connect("notify::visible", () => {
-          if (self.visible) onShow();
-        });
-        bindControllers();
-        scan?.(self);
+    <Window
+      $={(ref) => {
+        windowRef = ref;
+        windowRef.hide = close;
       }}
-      anchor={anchor}
+      onShow={onShow}
       {...props}
     >
-      <box $={(self) => (targetRef = self)} halign={halign} valign={valign}>
+      <box
+        $={(ref) => (targetRef = ref)}
+        halign={Align.CENTER}
+        valign={Align.CENTER}
+      >
         {children}
       </box>
-    </window>
+    </Window>
   );
 }

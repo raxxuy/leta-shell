@@ -1,4 +1,5 @@
 import Gio from "gi://Gio";
+
 import { SRC_MATUGEN_CONFIG_FILE } from "@/constants";
 import { buildPath, ensureDir } from "../fs";
 import { exec } from "../process";

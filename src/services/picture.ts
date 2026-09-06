@@ -1,9 +1,11 @@
 import Gio from "gi://Gio";
+
 import { getter, register } from "ags/gobject";
+
 import { PICTURES_DIR, THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH } from "@/constants";
 import { emitNotify } from "@/decorators/gobject";
 import { monitor } from "@/decorators/monitor";
-import { renderImage } from "@/lib/cache";
+import { renderImage } from "@/lib/cache/images";
 import { listDir } from "@/lib/fs";
 import Service from "./base";
 

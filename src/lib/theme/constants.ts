@@ -1,10 +1,11 @@
 import GLib from "gi://GLib";
+
 import { buildPath } from "../fs";
 
 type ThemeSymlink = {
+  copy?: boolean;
   dest: string;
   reload?: string;
-  copy?: boolean;
 };
 
 export const THEME_SYMLINKS: Record<string, ThemeSymlink> = {

@@ -2,7 +2,7 @@
   description = "Leta Shell - AGS-based desktop shell";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/d233902339c02a9c334e7e593de68855ad26c4cb";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
     leta-toolkit.url = "github:raxxuy/leta-toolkit";
 
@@ -30,43 +30,14 @@
         astal4
         hyprland
         mpris
-        auth
-        apps
         cava
-        tray
-        notifd
-        battery
-        bluetooth
-        wireplumber
-        powerprofiles
+        apps
       ];
 
       extraPackages = astalPackages ++ [
         pkgs.libadwaita
         pkgs.libsoup_3
       ];
-
-      nodeModules = pkgs.stdenv.mkDerivation {
-        pname = "${pname}-node-modules";
-        version = "0.1.30";
-        src = ./.;
-        nativeBuildInputs = [ pkgs.bun ];
-
-        outputHashMode = "recursive";
-        outputHashAlgo = "sha256";
-        outputHash = "sha256-Q3lQieMuxe9TvoVLrTkpzl8n/XkO1xep9gTgLOX93mA=";
-
-        buildPhase = ''
-          export HOME=$TMPDIR
-          export BUN_INSTALL_CACHE_DIR=$TMPDIR/.bun-cache
-          bun install --frozen-lockfile
-        '';
-
-        installPhase = ''
-          mkdir -p $out/node_modules
-          cp -r node_modules/* $out/node_modules
-        '';
-      };
     in
     {
       packages.${system} = {
@@ -79,7 +50,6 @@
             wrapGAppsHook4
             gobject-introspection
             ags.packages.${system}.default
-            makeWrapper
           ];
 
           buildInputs = extraPackages ++ [
@@ -89,17 +59,11 @@
 
           installPhase = ''
             runHook preInstall
-            mkdir -p $out/bin $out/share/${pname}
-            cp -r * $out/share/${pname}
-            cp -r assets/icons/custom $out/share/icons/
 
-            ln -s ${nodeModules}/node_modules $out/share/${pname}/node_modules
-
-            cd $out/share/${pname}
-            ags bundle ${entry} $out/bin/.${pname}-wrapped -d "SRC='$out/share/${pname}'" -d "ENV='prod'"
-
-            substitute ${./bin/leta-shell} $out/bin/${pname} --replace "@out@" "$out"
-            chmod +x $out/bin/${pname}
+            mkdir -p $out/bin
+            mkdir -p $out/share
+            cp -r * $out/share
+            ags bundle ${entry} $out/bin/${pname} -d "SRC='$out/share'"
 
             runHook postInstall
           '';
@@ -113,47 +77,10 @@
               inherit extraPackages;
             })
 
-            pkgs.nodejs
             pkgs.bun
             leta-toolkit.packages.${system}.default
           ];
         };
       };
-
-      nixosModules.default =
-        {
-          config,
-          lib,
-          pkgs,
-          ...
-        }:
-        {
-          options.programs.leta-shell.enable = lib.mkEnableOption "Leta Shell";
-          config = lib.mkIf config.programs.leta-shell.enable {
-            environment.systemPackages = [
-              self.packages.${pkgs.stdenv.hostPlatform.system}.default
-              pkgs.dart-sass
-              leta-toolkit.packages.${system}.default
-            ];
-          };
-        };
-
-      homeManagerModules.default =
-        {
-          config,
-          lib,
-          pkgs,
-          ...
-        }:
-        {
-          options.programs.leta-shell.enable = lib.mkEnableOption "Leta Shell";
-          config = lib.mkIf config.programs.leta-shell.enable {
-            home.packages = [
-              self.packages.${pkgs.stdenv.hostPlatform.system}.default
-              pkgs.dart-sass
-              leta-toolkit.packages.${system}.default
-            ];
-          };
-        };
     };
 }

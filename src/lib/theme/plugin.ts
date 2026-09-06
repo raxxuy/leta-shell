@@ -1,5 +1,6 @@
 import { debounce } from "es-toolkit";
 import { agsPlugin } from "tailwind2gtk/plugins/ags";
+
 import {
   CACHE_UTILITIES_FILE,
   CACHE_UTILITIES_JSON_FILE,

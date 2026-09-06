@@ -1,6 +1,9 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: <> */
+
 import type GObject from "gi://GObject";
+
 import { onCleanup } from "ags";
+
 import type { SignalOf } from "@/types/gobject";
 
 type Method<T extends GObject.Object, Args extends any[] = any[]> = (
@@ -10,6 +13,14 @@ type Method<T extends GObject.Object, Args extends any[] = any[]> = (
 
 type NotifyProps<T> = Array<Extract<keyof T, string> | (string & {})>;
 
+type Signals<T> = T extends { $signals: infer S } ? S : object;
+
+type SignalArgs<Target, S extends PropertyKey> = S extends keyof Signals<Target>
+  ? Signals<Target>[S] extends (...args: infer A) => any
+    ? [Target, ...A]
+    : never
+  : never;
+
 /**
  * Connects a signal handler to a signal on a target object.
  * @param signal - The signal to listen to
@@ -17,10 +28,11 @@ type NotifyProps<T> = Array<Extract<keyof T, string> | (string & {})>;
  */
 export function connect<
   T extends GObject.Object,
-  Target extends GObject.Object = T,
->(signal: SignalOf<Target>, getTarget?: (self: T) => Target) {
+  Target extends GObject.Object,
+  S extends SignalOf<Target>,
+>(signal: S, getTarget?: (self: T) => Target) {
   return (
-    method: Method<T>,
+    method: Method<T, SignalArgs<Target, S>>,
     ctx: ClassMethodDecoratorContext<T, typeof method>,
   ): any => {
     ctx.addInitializer(function (this: T) {

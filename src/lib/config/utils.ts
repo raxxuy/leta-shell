@@ -1,9 +1,11 @@
-import type GLib from "gi://GLib";
+import type { Timer } from "ags/time";
+import { timeout } from "ags/time";
+
 import type { ValueOrUpdater } from "@/types/config";
 import { writeConfig } from ".";
 import type { ConfigKey, Configs } from "./schemas";
 
-const writeQueue = new Map<ConfigKey, GLib.Source>();
+const writeQueue = new Map<ConfigKey, Timer>();
 
 export const scheduleWrite = <K extends ConfigKey>(
   key: K,
@@ -11,14 +13,14 @@ export const scheduleWrite = <K extends ConfigKey>(
   delay = 300,
 ): void => {
   const existing = writeQueue.get(key);
-  if (existing) clearTimeout(existing);
+  if (existing) existing.cancel();
 
   writeQueue.set(
     key,
-    setTimeout(() => {
+    timeout(delay, () => {
       writeConfig(key, config);
       writeQueue.delete(key);
-    }, delay),
+    }),
   );
 };
 
