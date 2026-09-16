@@ -2,6 +2,7 @@ import app from "ags/gtk4/app";
 
 import BarWindow from "@/features/bar/BarWindow";
 import LauncherWindow from "@/features/launcher/LauncherWindow";
+import SettingsWindow from "@/features/settings/SettingsWindow";
 import WallpaperWindow from "@/features/wallpaper/WallpaperWindow";
 import WallpaperSelectorWindow from "@/features/wallpaper-selector/WallpaperSelectorWindow";
 import { initCache } from "@/lib/cache/init";
@@ -21,6 +22,7 @@ const windows = [
   WallpaperWindow,
   LauncherWindow,
   WallpaperSelectorWindow,
+  SettingsWindow,
 ];
 
 const services = [

@@ -9,15 +9,22 @@ export const themeDefaults = {
     xl: 24,
   },
   pixelSize: {
+    "2xs": 4,
     xs: 8,
-    sm: 16,
-    md: 24,
-    lg: 32,
-    xl: 40,
+    sm: 12,
+    md: 16,
+    lg: 20,
+    xl: 24,
+    "2xl": 28,
+    "3xl": 32,
+    "4xl": 36,
+    "5xl": 40,
+    "6xl": 44,
+    "7xl": 48,
   },
   colors: {
     base: {
-      color: "zinc-950",
+      value: "zinc-950",
       opacity: 95,
     },
   },
@@ -34,8 +41,9 @@ const NumberSchema = (defaultValue: number) =>
 
 const ColorSchema = (defaultValue: string, opacityDefaultValue: number) =>
   z.object({
-    color: z
+    value: z
       .string({ error: (iss) => `Expected a string, got ${iss.input}` })
+      .transform((value) => value.trim() || defaultValue)
       .default(defaultValue),
     opacity: NumberSchema(opacityDefaultValue),
   });
@@ -57,7 +65,7 @@ export const ThemeSchema = z.object({
   }),
   colors: z.object({
     base: ColorSchema(
-      themeDefaults.colors.base.color,
+      themeDefaults.colors.base.value,
       themeDefaults.colors.base.opacity,
     ),
   }),

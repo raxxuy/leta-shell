@@ -9,7 +9,6 @@ export const useClickOutside = (
   options: ClickOutsideOptions,
 ) => {
   const controller = createClickOutsideController(root, options);
-
   root.add_controller(controller);
 
   onCleanup(() => root.remove_controller(controller));

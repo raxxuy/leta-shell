@@ -26,7 +26,7 @@ export default function LauncherSearch() {
 
   return (
     <box class="p-6" spacing={spacing.md} valign={Align.CENTER}>
-      <Svg iconName="search" pixelSize={pixelSize.scale("sm", 1.25)} />
+      <Svg iconName="search" pixelSize={pixelSize.lg} />
       <overlay overflow={Overflow.HIDDEN}>
         <entry
           $={(ref) => (entryRef = ref)}

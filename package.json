@@ -1,21 +1,21 @@
 {
   "name": "leta-shell",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "dev": "bun run dev.ts"
   },
   "private": true,
   "devDependencies": {
-    "@biomejs/biome": "^2.5.10",
-    "@types/bun": "^1.4.1"
+    "@biomejs/biome": "^2.5.14",
+    "@types/bun": "^1.4.2"
   },
   "dependencies": {
     "ags": "github:Aylur/ags",
     "clsx": "^2.1.1",
-    "es-toolkit": "^1.51.0",
+    "es-toolkit": "^1.52.0",
     "tailwind2gtk": "github:raxxuy/tailwind2gtk#develop",
-    "zod": "^4.4.3"
+    "zod": "^4.6.5"
   },
   "peerDependencies": {
     "typescript": "^5.9.3"

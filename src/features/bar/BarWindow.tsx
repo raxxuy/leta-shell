@@ -4,6 +4,7 @@ import app from "ags/gtk4/app";
 import Window from "@/components/Window";
 import { ThemeProvider, useTheme } from "@/providers/ThemeProvider";
 import CenterNotch from "./modules/CenterNotch";
+import SettingsToggler from "./modules/SettingsToggler";
 import Workspaces from "./modules/Workspaces";
 
 const BarWindowInner = ({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) => {
@@ -31,6 +32,9 @@ const BarWindowInner = ({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) => {
         </box>
         <box $type="center">
           <CenterNotch />
+        </box>
+        <box $type="end" class={barClass}>
+          <SettingsToggler />
         </box>
       </centerbox>
     </Window>

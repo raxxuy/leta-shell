@@ -23,5 +23,5 @@ export default function Svg({ svg, iconName, ...props }: SvgProps) {
     return p;
   });
 
-  return <image {...props} paintable={paintable} />;
+  return <image cssName="svg" {...props} paintable={paintable} />;
 }

@@ -21,7 +21,7 @@ export default function LauncherItem({ result }: LauncherItemProps) {
       valign={Align.CENTER}
     >
       <box spacing={spacing.md} valign={Align.CENTER}>
-        <image iconName={result.icon} pixelSize={pixelSize.md} />
+        <image iconName={result.icon} pixelSize={pixelSize.xl} />
         <box
           orientation={Orientation.VERTICAL}
           spacing={spacing.xs}

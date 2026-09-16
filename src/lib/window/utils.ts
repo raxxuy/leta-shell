@@ -10,11 +10,8 @@ export const toggleWindow = (name: WindowName): void => {
     return;
   }
 
-  if (window.visible) {
-    window.hide();
-  } else {
-    window.show();
-  }
+  if (window.visible) window.hide();
+  else window.show();
 };
 
 export const getWindow = (name: WindowName): Astal.Window | undefined => {

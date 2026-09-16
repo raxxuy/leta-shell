@@ -33,7 +33,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [pixelSize] = useConfig("theme", "pixelSize");
   const [colors] = useConfig("theme", "colors");
 
-  const convertToClass = (color: Color) => `${color.color}/${color.opacity}`;
+  const convertToClass = (color: Color) => `${color.value}/${color.opacity}`;
 
   const value: ThemeContextValue = {
     colors: {

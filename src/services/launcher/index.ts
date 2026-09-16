@@ -16,7 +16,7 @@ export default class LauncherService extends Service {
   private readonly searchDebounced = debounce(async (query: string) => {
     const results = await this.providerManager.search(query);
     this.setResults(results);
-  }, 100);
+  }, 50);
 
   #results: LauncherResult[] = [];
 

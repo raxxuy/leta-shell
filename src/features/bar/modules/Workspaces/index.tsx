@@ -4,7 +4,7 @@ import { With } from "ags";
 
 import { Align } from "@/enums";
 import { useHyprland } from "@/hooks/services/useHyprland";
-import { cleanupWidget } from "@/lib/theme/plugin";
+import { cleanupWidget, scan } from "@/lib/theme/plugin";
 import { useTheme } from "@/providers/ThemeProvider";
 import WorkspaceButton from "./WorkspaceButton";
 
@@ -16,7 +16,7 @@ export default function Workspaces() {
     <box halign={Align.CENTER}>
       <With cleanup={cleanupWidget} value={focusedMonitor}>
         {(monitor) => (
-          <box spacing={spacing.sm}>
+          <box $={scan} spacing={spacing.sm}>
             {indexedWorkspaces.map((workspace, index) => (
               <box>
                 <With cleanup={cleanupWidget} value={workspace}>

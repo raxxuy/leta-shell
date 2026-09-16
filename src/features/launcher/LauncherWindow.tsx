@@ -4,12 +4,13 @@ import app from "ags/gtk4/app";
 
 import Popup from "@/components/Popup";
 import { Align, Orientation } from "@/enums";
-import { useTheme } from "@/providers/ThemeProvider";
+import { cleanupWidget } from "@/lib/theme/plugin";
+import { ThemeProvider, useTheme } from "@/providers/ThemeProvider";
 import LauncherItem from "./LauncherItem";
 import LauncherSearch from "./Search";
 import { useLauncher } from "./useLauncher";
 
-export default function LauncherWindow(gdkmonitor: Gdk.Monitor) {
+const LauncherWindowInner = ({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) => {
   const { colors, spacing } = useTheme();
   const { results } = useLauncher();
 
@@ -33,7 +34,7 @@ export default function LauncherWindow(gdkmonitor: Gdk.Monitor) {
       <box
         class={colors.base(
           (b) =>
-            `min-w-xl rounded-xl border border-tertiary/20 bg-${b} shadow-xl/20`,
+            `min-w-xl rounded-2xl border border-tertiary/20 bg-${b} shadow-xl/20`,
         )}
         orientation={Orientation.VERTICAL}
       >
@@ -48,11 +49,19 @@ export default function LauncherWindow(gdkmonitor: Gdk.Monitor) {
           spacing={spacing.xs}
           visible={hasResults}
         >
-          <For each={results}>
+          <For cleanup={cleanupWidget} each={results}>
             {(result) => <LauncherItem result={result} />}
           </For>
         </box>
       </box>
     </Popup>
+  );
+};
+
+export default function LauncherWindow(gdkmonitor: Gdk.Monitor) {
+  return (
+    <ThemeProvider>
+      {() => <LauncherWindowInner gdkmonitor={gdkmonitor} />}
+    </ThemeProvider>
   );
 }

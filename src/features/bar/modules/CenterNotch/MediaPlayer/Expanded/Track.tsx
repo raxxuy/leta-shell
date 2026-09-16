@@ -96,15 +96,13 @@ const MediaButton = ({ iconName, onClick, pixelSize }: MediaButtonProps) => (
 );
 
 const PlaybackButtons = ({ player }: TrackProps) => {
-  const { spacing } = useTheme();
+  const { spacing, pixelSize } = useTheme();
 
   const playbackIcons: Record<AstalMpris.PlaybackStatus, string> = {
     [AstalMpris.PlaybackStatus.PAUSED]: "play",
     [AstalMpris.PlaybackStatus.PLAYING]: "pause",
     [AstalMpris.PlaybackStatus.STOPPED]: "stop",
   };
-
-  const size = spacing.scale("lg", 1.25);
 
   const { playbackStatus } = createBindings(player, {
     playbackStatus: true,
@@ -117,17 +115,17 @@ const PlaybackButtons = ({ player }: TrackProps) => {
       <MediaButton
         iconName="skip-back"
         onClick={() => player.previous()}
-        pixelSize={size}
+        pixelSize={pixelSize.lg}
       />
       <MediaButton
         iconName={playbackIcon}
         onClick={() => player.play_pause()}
-        pixelSize={size}
+        pixelSize={pixelSize.lg}
       />
       <MediaButton
         iconName="skip-forward"
         onClick={() => player.next()}
-        pixelSize={size}
+        pixelSize={pixelSize.lg}
       />
     </box>
   );

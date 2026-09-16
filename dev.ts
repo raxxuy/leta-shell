@@ -8,7 +8,7 @@ const ENTRY_POINT = "./app.ts";
 let proc: Bun.Subprocess | null = null;
 
 const startAgs = () => {
-  proc = Bun.spawn(["ags", "run", ENTRY_POINT, "--define", "ENV='dev'"], {
+  proc = Bun.spawn(["ags", "run", ENTRY_POINT, "--define", "DEV=true"], {
     stdout: "inherit",
     stderr: "inherit",
   });

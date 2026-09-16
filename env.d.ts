@@ -1,5 +1,5 @@
 declare const SRC: string;
-declare const ENV: string;
+declare const DEV: boolean;
 
 declare module "inline:*" {
   const content: string;
