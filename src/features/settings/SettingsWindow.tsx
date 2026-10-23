@@ -8,11 +8,12 @@ import { Align, Orientation, PolicyType } from "@/enums";
 import type { ConfigKey } from "@/lib/config/schemas";
 import { cleanupWidget, scan } from "@/lib/theme/plugin";
 import { ThemeProvider, useTheme } from "@/providers/ThemeProvider";
+import LauncherSettings from "./sections/LauncherSettings";
 import ThemeSettings from "./sections/ThemeSettings";
 
 const sections: Record<ConfigKey, () => JSX.Element> = {
   theme: ThemeSettings,
-  launcher: () => <box />,
+  launcher: LauncherSettings,
   wallpaper: () => <box />,
 };
 

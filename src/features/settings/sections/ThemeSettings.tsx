@@ -91,6 +91,8 @@ const ThemeSettingsInner = () => {
                 />
 
                 <NumberField
+                  max={100}
+                  min={0}
                   onCommit={(opacity) => setValue("opacity", opacity)}
                   placeholder="Opacity (0-100)"
                   value={value.opacity}

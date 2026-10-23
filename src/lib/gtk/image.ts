@@ -12,6 +12,9 @@ export const createImageFile = (
   return createMemo(() => {
     const src = access(srcProp) ?? "";
     const isFile = access(isFileProp);
-    return isFile ? Gio.File.new_for_path(src) : Gio.File.new_for_uri(src);
+
+    if (isFile) return Gio.File.new_for_path(src);
+
+    Gio.File.new_for;
   });
 };

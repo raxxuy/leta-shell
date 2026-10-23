@@ -4,11 +4,13 @@ import app from "ags/gtk4/app";
 import Window from "@/components/Window";
 import { ThemeProvider, useTheme } from "@/providers/ThemeProvider";
 import CenterNotch from "./modules/CenterNotch";
+import Clock from "./modules/Clock";
 import SettingsToggler from "./modules/SettingsToggler";
+import Tray from "./modules/Tray";
 import Workspaces from "./modules/Workspaces";
 
 const BarWindowInner = ({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) => {
-  const { colors } = useTheme();
+  const { spacing, colors } = useTheme();
 
   const barClass = colors.base(
     (b) =>
@@ -27,13 +29,15 @@ const BarWindowInner = ({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) => {
       visible
     >
       <centerbox class="mx-4 -mt-px min-h-10">
-        <box $type="start" class={barClass}>
+        <box $type="start" class={barClass} spacing={spacing.lg}>
           <Workspaces />
+          <Tray />
         </box>
         <box $type="center">
           <CenterNotch />
         </box>
-        <box $type="end" class={barClass}>
+        <box $type="end" class={barClass} spacing={spacing.lg}>
+          <Clock />
           <SettingsToggler />
         </box>
       </centerbox>

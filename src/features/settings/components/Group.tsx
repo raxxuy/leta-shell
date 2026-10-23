@@ -10,11 +10,11 @@ interface SettingsGroupProps {
 
 export default function SettingsGroup({
   title: titleProp,
-  description: descriptionProp,
+  description: descriptionProp = "",
   children,
 }: SettingsGroupProps) {
   const title = createReactiveMemo(titleProp);
-  const description = createReactiveMemo(descriptionProp ?? "");
+  const description = createReactiveMemo(descriptionProp);
 
   return (
     <box

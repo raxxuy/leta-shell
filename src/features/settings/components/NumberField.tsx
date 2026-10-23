@@ -5,6 +5,8 @@ import { createReactiveMemo } from "@/lib/reactive";
 import type { Reactive } from "@/types/reactive";
 
 interface NumberFieldProps {
+  max?: Reactive<number>;
+  min?: Reactive<number>;
   onCommit: (value: number) => void;
   placeholder?: Reactive<string>;
   value: Reactive<number>;
@@ -12,11 +14,15 @@ interface NumberFieldProps {
 
 export default function NumberField({
   value: valueProp,
-  placeholder: placeholderProp,
+  placeholder: placeholderProp = "",
+  max: maxProp = Number.POSITIVE_INFINITY,
+  min: minProp = Number.NEGATIVE_INFINITY,
   onCommit,
 }: NumberFieldProps) {
   const value = createReactiveMemo(valueProp);
-  const placeholder = createReactiveMemo(placeholderProp ?? "");
+  const placeholder = createReactiveMemo(placeholderProp);
+  const max = createReactiveMemo(maxProp);
+  const min = createReactiveMemo(minProp);
   const [draft, setDraft] = createState(value.peek().toString());
 
   const commit = (text: string) => {
@@ -24,6 +30,18 @@ export default function NumberField({
 
     if (!Number.isFinite(parsed)) {
       setDraft(value.peek().toString());
+      return;
+    }
+
+    if (parsed > max.peek()) {
+      onCommit(max.peek());
+      setDraft(max.peek().toString());
+      return;
+    }
+
+    if (parsed < min.peek()) {
+      onCommit(min.peek());
+      setDraft(min.peek().toString());
       return;
     }
 

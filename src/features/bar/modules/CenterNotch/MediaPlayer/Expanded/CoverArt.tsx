@@ -1,5 +1,7 @@
 import type AstalMpris from "gi://AstalMpris";
 
+import { createMemo } from "ags";
+
 import Image from "@/components/Image";
 import { Overflow } from "@/enums";
 import { createBindings } from "@/lib/binding";
@@ -12,8 +14,15 @@ interface CoverArtProps {
 export default function CoverArt({ player }: CoverArtProps) {
   if (!player) return <box />;
 
-  const { coverArt } = createBindings(player, {
+  const { coverArt, artUrl } = createBindings(player, {
     coverArt: true,
+    artUrl: true,
+  });
+
+  const source = createMemo(() => {
+    if (coverArt()) return coverArt();
+    if (artUrl()) player.open_uri(artUrl());
+    return coverArt();
   });
 
   return (
@@ -22,7 +31,7 @@ export default function CoverArt({ player }: CoverArtProps) {
         class="min-h-26 min-w-26 rounded-xl"
         file
         overflow={Overflow.HIDDEN}
-        src={coverArt}
+        src={source}
       />
     </overlay>
   );

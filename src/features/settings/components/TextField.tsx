@@ -12,11 +12,11 @@ interface TextFieldProps {
 
 export default function TextField({
   value: valueProp,
-  placeholder: placeholderProp,
+  placeholder: placeholderProp = "",
   onCommit,
 }: TextFieldProps) {
   const value = createReactiveMemo(valueProp);
-  const placeholder = createReactiveMemo(placeholderProp ?? "");
+  const placeholder = createReactiveMemo(placeholderProp);
   const [draft, setDraft] = createState(value.peek().toString());
 
   const commit = (text: string) => {

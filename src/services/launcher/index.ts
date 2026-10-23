@@ -1,10 +1,12 @@
 import { getter, register } from "ags/gobject";
 import { debounce } from "es-toolkit";
 
-import { emitNotify } from "@/decorators/gobject";
+import { connect, emitNotify } from "@/decorators/gobject";
+import type { ConfigKey } from "@/lib/config/schemas";
 import type { LauncherConfig } from "@/lib/config/schemas/launcher";
 import Service from "../base";
 import ConfigService from "../config";
+import type { PROVIDERS } from "./providers";
 import ProviderManager from "./providers";
 import type { LauncherResult } from "./types";
 
@@ -55,8 +57,21 @@ export default class LauncherService extends Service {
     this.#results = results;
   }
 
+  private resetProviders(): void {
+    Object.entries(this.config.providers).forEach(([key, provider]) => {
+      const providerKey = key as keyof typeof PROVIDERS;
+      if (provider.enabled) this.providerManager.addProvider(providerKey);
+      else this.providerManager.removeProvider(providerKey);
+    });
+  }
+
+  @connect("config-changed", () => ConfigService.get_default())
+  protected onConfigChanged(_: ConfigService, key: ConfigKey): void {
+    if (key === "launcher") this.resetProviders();
+  }
+
   constructor() {
     super();
-    this.providerManager.addProvider("apps");
+    this.resetProviders();
   }
 }

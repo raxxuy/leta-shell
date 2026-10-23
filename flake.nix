@@ -32,6 +32,7 @@
         mpris
         cava
         apps
+        tray
       ];
 
       extraPackages = astalPackages ++ [

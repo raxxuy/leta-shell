@@ -57,3 +57,8 @@ export const [ThemeConfigProvider, useThemeConfig] = createConfigProvider(
   "theme",
   ["spacing", "pixelSize", "colors"] as const,
 );
+
+export const [LauncherConfigProvider, useLauncherConfig] = createConfigProvider(
+  "launcher",
+  ["maxResults", "providers.apps.enabled", "providers.apps.query"] as const,
+);

@@ -9,6 +9,7 @@ const APP = "leta-shell";
 
 // System directories
 export const HOME_DIR = GLib.get_home_dir();
+export const TEMP_DIR = GLib.get_tmp_dir();
 export const CACHE_DIR = buildPath(GLib.get_user_cache_dir(), APP);
 export const CONFIG_DIR = buildPath(GLib.get_user_config_dir(), APP);
 export const PICTURES_DIR =
