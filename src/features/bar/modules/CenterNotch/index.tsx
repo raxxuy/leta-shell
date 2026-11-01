@@ -14,8 +14,8 @@ export default function CenterNotch() {
 
   const centerNotchClass = createMemo(() => {
     return clsx(
-      open() ? "scale-1 opacity-0 -mt-8" : "scale-100",
-      `transition-all duration-100 bg-${colors.base()} px-4 min-h-11 rounded-b-xl min-w-26`,
+      open() ? "-mt-8 scale-1 opacity-0" : "scale-100",
+      `transition-all duration-100 bg-${colors.base()} min-h-11 min-w-26 rounded-b-xl px-4`,
     );
   });
 

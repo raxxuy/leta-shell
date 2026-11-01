@@ -34,7 +34,7 @@ const LauncherWindowInner = ({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) => {
       <box
         class={colors.base(
           (b) =>
-            `min-w-xl rounded-2xl border border-tertiary/20 bg-${b} shadow-xl/20`,
+            `min-w-xl rounded-2xl border border-secondary/20 bg-${b} shadow-xl/20`,
         )}
         orientation={Orientation.VERTICAL}
       >

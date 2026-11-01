@@ -1,24 +1,31 @@
 import Gio from "gi://Gio";
 
-import { SRC_MATUGEN_CONFIG_FILE } from "@/constants";
-import { buildPath, ensureDir } from "../fs";
+import { execAsync } from "ags/process";
+
+import { SRC_PALETTE_TEMPLATES_DIR } from "@/constants";
+import { buildPath, ensureDir, writeFile } from "../fs";
 import { exec } from "../process";
 import { THEME_SYMLINKS } from "./constants";
 
-export const callMatugen = async (
+export const THEME_OUTPUTS = ["colors.scss", ...Object.keys(THEME_SYMLINKS)];
+
+export const callPalette = async (
   path: string,
   outDir: string,
 ): Promise<void> => {
-  await exec([
-    "matugen",
-    "image",
+  const configPath = buildPath(outDir, "palette.toml");
+  const templates = THEME_OUTPUTS.map(
+    (file) =>
+      `${JSON.stringify(buildPath(SRC_PALETTE_TEMPLATES_DIR, file))} = ${JSON.stringify(file)}`,
+  );
+  writeFile(configPath, `[templates]\n${templates.join("\n")}\n`);
+  await execAsync([
+    "leta-toolkit",
+    "palette",
+    "--image",
     path,
-    "--mode",
-    "dark",
     "--config",
-    SRC_MATUGEN_CONFIG_FILE,
-    "--prefix",
-    outDir,
+    configPath,
   ]);
 };
 

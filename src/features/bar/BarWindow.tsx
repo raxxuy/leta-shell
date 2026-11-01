@@ -14,7 +14,7 @@ const BarWindowInner = ({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) => {
 
   const barClass = colors.base(
     (b) =>
-      `animate-spring-in rounded-b-2xl border border-tertiary/20 bg-${b} px-4 shadow-md`,
+      `animate-spring-in rounded-b-2xl border border-secondary/20 bg-${b} px-4 shadow-md`,
   );
 
   return (

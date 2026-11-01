@@ -39,7 +39,7 @@ const WallpaperSelectorWindowInner = ({
       <box
         class={colors.base(
           (b) =>
-            `m-[5px_10px_15px] rounded-2xl border border-tertiary/20 bg-${b} px-6 py-4 shadow-lg`,
+            `m-[5px_10px_15px] rounded-2xl border border-secondary/20 bg-${b} px-6 py-4 shadow-lg`,
         )}
       >
         <scrolledwindow

@@ -3,7 +3,7 @@
 
 @theme {
     --color-primary: var(--primary);
-    --color-tertiary: var(--tertiary);
+    --color-secondary: var(--secondary);
 
     --animate-workspace-focus: workspace-focus 250ms
         cubic-bezier(0.22, 1, 0.36, 1) forwards;
@@ -91,6 +91,6 @@
     }
 
     &:checked scrolledwindow {
-        @apply animate-spring-in m-[5px_10px_15px] rounded-2xl border border-solid border-tertiary/20 bg-zinc-950/95 p-4 pb-2 shadow-md;
+        @apply animate-spring-in m-[5px_10px_15px] rounded-2xl border border-solid border-secondary/20 bg-zinc-950/95 p-4 pb-2 shadow-md;
     }
 }

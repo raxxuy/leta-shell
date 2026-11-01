@@ -19,7 +19,7 @@ export const SCREENSHOTS_DIR = buildPath(PICTURES_DIR, "Screenshots");
 
 // Cache directories
 export const CACHE_SCSS_DIR = buildPath(CACHE_DIR, "scss");
-export const CACHE_THEMES_DIR = buildPath(CACHE_DIR, "themes");
+export const CACHE_THEMES_DIR = buildPath(CACHE_DIR, "palette-themes");
 
 export const CACHE_WALLPAPERS_DIR = buildPath(CACHE_DIR, "wallpapers");
 export const CACHE_WALLPAPERS_RENDERED_DIR = buildPath(
@@ -33,7 +33,7 @@ export const CACHE_WALLPAPERS_ORIGINAL_DIR = buildPath(
 
 // Source directories
 export const SRC_SCSS_DIR = buildPath(SRC, "scss");
-export const SRC_MATUGEN_DIR = buildPath(SRC, "matugen");
+export const SRC_PALETTE_TEMPLATES_DIR = buildPath(SRC, "palette", "templates");
 
 // Cache files
 export const CACHE_CSS_FILE = buildPath(CACHE_SCSS_DIR, "index.css");
@@ -52,10 +52,6 @@ export const CACHE_UTILITIES_JSON_FILE = buildPath(
 export const SRC_COLORS_FILE = buildPath(SRC_SCSS_DIR, "colors.scss");
 export const SRC_TAILWIND_FILE = buildPath(SRC, "tailwind.css");
 export const SRC_TAILWIND_EXTEND_FILE = buildPath(SRC, "tailwind.extend.css");
-export const SRC_MATUGEN_CONFIG_FILE = buildPath(
-  SRC_MATUGEN_DIR,
-  "config.toml",
-);
 
 // System
 export const USER_NAME = GLib.get_user_name();

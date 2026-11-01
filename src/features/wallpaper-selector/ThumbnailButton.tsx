@@ -19,7 +19,7 @@ export default function ThumbnailButton({
     <box $={scan} class="animate-spring-in">
       <overlay class="rounded-2xl px-1 shadow-md transition duration-200 hover:shadow-xl active:scale-97 active:shadow-lg">
         <button
-          class="rounded-2xl outline-2 outline-transparent transition-all duration-150 ease-out hover:outline-primary/40 focus:outline-primary"
+          class="hover:outline-primary/40 focus:outline-primary rounded-2xl outline-2 outline-transparent transition-all duration-150 ease-out"
           cursor={Cursors.POINTER}
           heightRequest={THUMBNAIL_HEIGHT}
           onClicked={onClicked}

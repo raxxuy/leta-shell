@@ -39,7 +39,7 @@ const SettingsWindowInner = ({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) => {
 
   const baseColor = colors.base(
     (b) =>
-      `min-h-216 min-w-6xl rounded-2xl border border-tertiary/15 bg-${b} shadow-2xl/30`,
+      `min-h-216 min-w-6xl rounded-2xl border border-secondary/15 bg-${b} shadow-2xl/30`,
   );
 
   return (
@@ -56,11 +56,11 @@ const SettingsWindowInner = ({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) => {
     >
       <box class={baseColor}>
         <box
-          class="min-w-56 border-tertiary/10 border-r bg-white/3"
+          class="border-secondary/10 min-w-56 border-r bg-white/3"
           orientation={Orientation.VERTICAL}
         >
           <label
-            class="px-5 pt-6 pb-5 font-semibold text-lg"
+            class="px-5 pt-6 pb-5 text-lg font-semibold"
             halign={Align.START}
             label="Settings"
           />
@@ -137,14 +137,14 @@ const SettingsWindowInner = ({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) => {
               >
                 <box orientation={Orientation.VERTICAL} spacing={spacing.xs}>
                   <label
-                    class="font-semibold text-2xl"
+                    class="text-2xl font-semibold"
                     halign={Align.START}
                     label={sectionInfo[section].title}
                     xalign={0}
                   />
 
                   <label
-                    class="font-medium text-sm text-white/50"
+                    class="text-sm font-medium text-white/50"
                     halign={Align.START}
                     label={sectionInfo[section].description}
                     xalign={0}

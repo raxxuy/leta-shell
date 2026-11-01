@@ -23,7 +23,7 @@ export default function SettingsGroup({
     >
       <box class="px-5 py-4" orientation={Orientation.VERTICAL}>
         <label
-          class="font-medium text-base"
+          class="text-base font-medium"
           halign={0}
           label={title}
           xalign={0}
@@ -31,7 +31,7 @@ export default function SettingsGroup({
 
         {description && (
           <label
-            class="mt-1 font-medium text-sm text-white/40"
+            class="mt-1 text-sm font-medium text-white/40"
             halign={0}
             label={description}
             xalign={0}

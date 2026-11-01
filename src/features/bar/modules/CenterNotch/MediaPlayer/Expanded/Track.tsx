@@ -28,8 +28,8 @@ const TrackInfo = ({ player }: TrackProps) => {
 
   return (
     <box class="text-shadow-xs" hexpand orientation={Orientation.VERTICAL}>
-      <label class="font-bold text-lg" label={title} />
-      <label class="font-semibold text-sm" label={artist} />
+      <label class="text-lg font-bold" label={title} />
+      <label class="text-sm font-semibold" label={artist} />
     </box>
   );
 };
@@ -44,7 +44,7 @@ const PlaybackTime = ({ player }: TrackProps) => {
   const formattedPosition = position((p) => formatDuration(Math.floor(p)));
 
   return (
-    <box class="font-medium text-shadow-xs text-sm" hexpand>
+    <box class="text-sm font-medium text-shadow-xs" hexpand>
       <label label={formattedPosition} xalign={0} />
       <box hexpand />
       <label label={formattedLength} xalign={1} />

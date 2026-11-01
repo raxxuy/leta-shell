@@ -2,10 +2,16 @@ import { register } from "ags/gobject";
 
 import { CACHE_COLORS_FILE, CACHE_THEMES_DIR } from "@/constants";
 import { connect } from "@/decorators/gobject";
-import { buildPath, dirExists, ensureDir, readFile, writeFile } from "@/lib/fs";
+import {
+  buildPath,
+  ensureDir,
+  fileExists,
+  readFile,
+  writeFile,
+} from "@/lib/fs";
 import { hashPath } from "@/lib/hash";
 import { applyTheme } from "@/lib/theme/apply";
-import { callMatugen, relinkTheme } from "@/lib/theme/matugen";
+import { callPalette, relinkTheme, THEME_OUTPUTS } from "@/lib/theme/palette";
 import Service from "./base";
 import WallpaperService from "./wallpaper";
 
@@ -25,9 +31,11 @@ export default class ThemeService extends Service {
 
       const themeDir = buildPath(CACHE_THEMES_DIR, hash);
 
-      if (!dirExists(themeDir)) {
-        ensureDir(themeDir);
-        await callMatugen(path, themeDir);
+      if (
+        !THEME_OUTPUTS.every((file) => fileExists(buildPath(themeDir, file)))
+      ) {
+        if (!ensureDir(themeDir)) throw new Error(`Cannot create ${themeDir}`);
+        await callPalette(path, themeDir);
       }
 
       await Promise.all([relinkTheme(themeDir), this.applyColors(themeDir)]);

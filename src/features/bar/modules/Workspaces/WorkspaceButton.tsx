@@ -14,9 +14,9 @@ interface WorkspaceButtonProps {
 }
 
 const stateClasses = {
-  focused: "bg-primary px-6 animate-workspace-focus",
-  occupied: "bg-primary/60",
-  empty: "bg-primary/20",
+  focused: "bg-secondary px-6 animate-workspace-focus",
+  occupied: "bg-secondary/60",
+  empty: "bg-secondary/20",
 } as const;
 
 export default function WorkspaceButton({

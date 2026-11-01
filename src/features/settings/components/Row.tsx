@@ -44,7 +44,7 @@ export default function SettingsRow({
 
         {description && (
           <label
-            class="font-medium text-sm text-white/40"
+            class="text-sm font-medium text-white/40"
             halign={Align.START}
             label={description}
             xalign={0}

@@ -1,0 +1,7 @@
+local colors = {}
+
+{{#colors}}
+colors.{{name}} = "rgba(" .. string.sub("{{hex}}", 2) .. "ff)"
+{{/colors}}
+
+return colors

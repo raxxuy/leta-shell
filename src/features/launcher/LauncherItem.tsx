@@ -28,13 +28,13 @@ export default function LauncherItem({ result }: LauncherItemProps) {
           valign={Align.CENTER}
         >
           <label
-            class="font-semibold text-base leading-0"
+            class="text-base leading-0 font-semibold"
             halign={Align.START}
             label={result.label}
             xalign={0}
           />
           <label
-            class="font-medium text-sm leading-none opacity-50"
+            class="text-sm leading-none font-medium opacity-50"
             ellipsize={EllipsizeMode.END}
             halign={Align.START}
             label={result.description}
