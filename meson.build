@@ -43,14 +43,21 @@ custom_target(
   install_dir: pkgdatadir,
 )
 
+# Runtime assets used by the theme compiler.
+install_subdir('scss', install_dir: pkgdatadir)
+if import('fs').exists('tailwind.extend.css')
+  install_data('tailwind.extend.css', install_dir: pkgdatadir)
+endif
+
 # wrapper
 custom_target(
   command: [
     find_program('echo'),
-    '#!@0@\nLD_PRELOAD="@1@/libgtk4-layer-shell.so" exec "@2@" "$@"'.format(
+    '#!@0@\nLETA_SHELL_ASSETS="@3@" LD_PRELOAD="@1@/libgtk4-layer-shell.so" exec "@2@" "$@"'.format(
       find_program('bash').full_path(),
       dependency('gtk4-layer-shell-0').get_variable('libdir'),
       pkgdatadir / name + '.js',
+      pkgdatadir,
     ),
   ],
   output: name,

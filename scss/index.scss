@@ -1,0 +1,10 @@
+@use "preflight";
+@use "colors" as *;
+@use "utilities" as *;
+
+tooltip {
+  padding: 0.5rem 1rem;
+  margin: 5px 10px 15px;
+  background-color: color-mix(in oklch, var(--color-zinc-950) 95%, transparent);
+  border-radius: var(--radius-lg);
+}

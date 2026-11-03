@@ -3,13 +3,19 @@
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
-    "@gnim-js/io": "^2.0.0-beta.26",
-    "@gnim-js/gtk4": "^2.0.0-beta.26",
-    "gnim": "^2.0.0-beta.26"
+    "@gnim-js/gtk4": "^2.0.0-beta.28",
+    "@gnim-js/io": "^2.0.0-beta.28",
+    "es-toolkit": "^1.53.1",
+    "gnim": "^2.0.0-beta.28",
+    "gnim-kit": "github:raxxuy/gnim-kit",
+    "tailwind2gtk": "github:raxxuy/tailwind2gtk#develop"
   },
   "scripts": {
     "types": "gnim types",
-    "dev": "LD_PRELOAD=\"$(pkg-config --variable=libdir gtk4-layer-shell-0)/libgtk4-layer-shell.so\" gnim dev --id dev.raxxuy.leta-shell src/main.tsx",
+    "dev": "LETA_SHELL_ASSETS=\"$PWD\" LD_PRELOAD=\"$(pkg-config --variable=libdir gtk4-layer-shell-0)/libgtk4-layer-shell.so\" gnim dev --id dev.raxxuy.leta-shell src/main.tsx",
     "build": "meson setup build --wipe --prefix \"$(pwd)/dist\" ; meson install -C build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.4"
   }
 }

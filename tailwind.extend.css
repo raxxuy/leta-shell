@@ -1,0 +1,7 @@
+/* biome-ignore-all lint/correctness/noUnknownTypeSelector: <> */
+@import "tailwind";
+
+@theme {
+    --color-primary: var(--primary);
+    --color-secondary: var(--secondary);
+}

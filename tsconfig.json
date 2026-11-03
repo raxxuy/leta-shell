@@ -22,7 +22,11 @@
     "jsxImportSource": "gnim",
 
     "types": ["gi", "gnim"],
-    "typeRoots": ["./.gnim/types"]
+    "typeRoots": ["./.gnim/types"],
+
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["./src/**/*"]
 }
