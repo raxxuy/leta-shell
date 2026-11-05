@@ -1,16 +1,17 @@
 import AstalHyprland from "gi://AstalHyprland?version=0.1";
 import { With } from "gnim";
 import { useHyprland } from "@/hooks/useHyprland";
-import { scan } from "@/lib/theme/plugin";
+import { useTheme } from "@/hooks/useTheme";
 import WorkspaceButton from "./WorkspaceButton";
 
 export default function Workspaces() {
+  const { spacing } = useTheme();
   const { focusedMonitor, indexedWorkspaces } = useHyprland();
 
   return (
     <With value={focusedMonitor}>
       {(monitor) => (
-        <box ref={scan} spacing={4}>
+        <box spacing={spacing.sm}>
           {indexedWorkspaces.map((workspace, index) => (
             <box>
               <With value={workspace}>

@@ -10,11 +10,12 @@ export const useHyprland = () => {
     workspaces: true,
   });
 
-  const { focusedWorkspace, focusedMonitor } = createBindings(
+  const { focusedWorkspace, focusedMonitor, clients } = createBindings(
     service.internal,
     {
       focusedWorkspace: true,
       focusedMonitor: true,
+      clients: true,
     },
   );
 
@@ -22,5 +23,5 @@ export const useHyprland = () => {
     workspaces.as((ws) => (id in ws ? ws[id] : null)),
   );
 
-  return { focusedWorkspace, focusedMonitor, workspaces, indexedWorkspaces };
+  return { focusedWorkspace, focusedMonitor, clients, workspaces, indexedWorkspaces };
 };

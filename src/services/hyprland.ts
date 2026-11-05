@@ -5,30 +5,34 @@ import { connect } from "@/decorators/connect";
 import { emitNotify } from "@/decorators/emitNotify";
 import { BaseService } from "./base";
 
+type Workspaces = Record<number, AstalHyprland.Workspace>;
+
+const getHyprland = () => AstalHyprland.get_default();
+
 @register
 export default class HyprlandService extends BaseService {
   declare readonly $readableProperties: GObject.Object.ReadableProperties &
     Annotations<HyprlandService, "workspaces">;
 
-  #workspaces: Record<number, AstalHyprland.Workspace> = {};
+  #workspaces: Workspaces = Object.fromEntries(
+    getHyprland().workspaces.map((workspace) => [workspace.id - 1, workspace]),
+  );
 
   get internal(): AstalHyprland.Hyprland {
-    return AstalHyprland.get_default();
+    return getHyprland();
   }
 
-  @property(gtype<Record<number, AstalHyprland.Workspace>>(Object))
-  get workspaces(): Record<number, AstalHyprland.Workspace> {
+  @property(gtype<Workspaces>(Object))
+  get workspaces(): Workspaces {
     return this.#workspaces;
   }
 
   @emitNotify<HyprlandService>("workspaces")
-  private setWorkspaces(
-    workspaces: Record<number, AstalHyprland.Workspace>,
-  ): void {
+  private setWorkspaces(workspaces: Workspaces): void {
     this.#workspaces = workspaces;
   }
 
-  @connect("workspace-added", () => AstalHyprland.get_default())
+  @connect("workspace-added", getHyprland)
   protected onWorkspaceAdded(
     _: AstalHyprland.Hyprland,
     workspace: AstalHyprland.Workspace,
@@ -36,19 +40,9 @@ export default class HyprlandService extends BaseService {
     this.setWorkspaces({ ...this.#workspaces, [workspace.id - 1]: workspace });
   }
 
-  @connect("workspace-removed", () => AstalHyprland.get_default())
+  @connect("workspace-removed", getHyprland)
   protected onWorkspaceRemoved(_: AstalHyprland.Hyprland, id: number): void {
     const { [id - 1]: _removed, ...rest } = this.#workspaces;
     this.setWorkspaces(rest);
-  }
-
-  constructor() {
-    super();
-
-    const hyprland = AstalHyprland.get_default();
-
-    for (const workspace of hyprland.workspaces) {
-      this.#workspaces[workspace.id - 1] = workspace;
-    }
   }
 }

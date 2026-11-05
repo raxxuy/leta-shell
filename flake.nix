@@ -6,6 +6,11 @@
       url = "github:aylur/astal";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    leta-toolkit = {
+      url = "github:raxxuy/leta-toolkit";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -13,6 +18,7 @@
       self,
       nixpkgs,
       astal,
+      leta-toolkit,
     }:
     let
       systems = [
@@ -36,6 +42,7 @@
             pkgs.gtk4-layer-shell # only used by the layer-shell template
             pkgs.dart-sass
             pkgs.rsync
+            leta-toolkit.packages.${system}.default
             (astal.packages.${system}.hyprland.overrideAttrs (old: {
               postPatch = (old.postPatch or "") + ''
                 substituteInPlace src/monitor.vala \
@@ -100,6 +107,7 @@
                     pkgs.dart-sass
                     pkgs.rsync
                     pkgs.coreutils
+                    leta-toolkit.packages.${system}.default
                   ]
                 }
             '';

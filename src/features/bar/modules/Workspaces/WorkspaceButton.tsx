@@ -1,42 +1,36 @@
 import type AstalHyprland from "gi://AstalHyprland?version=0.1";
-import { computed, createAccessor } from "gnim";
+import { computed } from "gnim";
 import { Cursors } from "@/constants";
 import { Align } from "@/enums";
 import { useHyprland } from "@/hooks/useHyprland";
 import { focusWorkspace } from "@/lib/hyprland/dispatch";
-import { scan } from "@/lib/theme/plugin";
+
+const stateClasses = {
+  focused: "min-w-6 bg-zinc-400",
+  occupied: "min-w-2 bg-zinc-400/60",
+  empty: "min-w-2 bg-zinc-400/25",
+} as const;
 
 interface WorkspaceButtonProps {
   id: number;
   workspace: AstalHyprland.Workspace;
 }
 
-const stateClasses = {
-  focused: "min-w-6 bg-zinc-900",
-  occupied: "min-w-2 bg-zinc-900/60",
-  empty: "min-w-2 bg-zinc-900/25",
-} as const;
-
 export default function WorkspaceButton({
   id,
   workspace,
 }: WorkspaceButtonProps) {
-  const { focusedWorkspace } = useHyprland();
-
-  const occupied = createAccessor(
-    () => workspace.get_clients().length > 0,
-    (notify) => {
-      const handler = workspace.connect("notify::clients", notify);
-      return () => workspace.disconnect(handler);
-    },
-  );
+  const { focusedWorkspace, clients } = useHyprland();
 
   const state = computed(() => {
-    const isOccupied = occupied();
     const isFocused = focusedWorkspace().id === workspace.id;
-
     if (isFocused) return "focused";
+
+    const isOccupied = clients().some(
+      (client) => client.workspace?.id === workspace.id,
+    );
     if (isOccupied) return "occupied";
+
     return "empty";
   });
 
@@ -50,8 +44,6 @@ export default function WorkspaceButton({
       cursor={Cursors.POINTER}
       focusable={false}
       onClicked={() => focusWorkspace(id)}
-      ref={scan}
-      tooltipText={`Workspace ${id}`}
       valign={Align.CENTER}
     >
       <box class={workspaceClass} />

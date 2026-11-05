@@ -8,6 +8,8 @@ import { AppRenderer } from "./components/renderer";
 import BarWindow from "./features/bar/BarWindow";
 import { initCache } from "./lib/cache";
 import { applyTheme } from "./lib/theme/apply";
+import { ThemeProvider } from "./providers/ConfigProvider";
+import ConfigService from "./services/config";
 
 @register
 export class App extends Gtk.Application {
@@ -35,6 +37,8 @@ export class App extends Gtk.Application {
     const display = Gdk.Display.get_default();
     if (!display) throw new Error("No display available");
 
+    const configService = ConfigService.get_default();
+
     initCache();
     applyTheme(this);
 
@@ -43,7 +47,11 @@ export class App extends Gtk.Application {
       () => <Windows application={this} display={display} />,
       this,
     );
-    this.connect("shutdown", dispose);
+
+    this.connect("shutdown", () => {
+      dispose();
+      configService.dispose();
+    });
 
     if (args.includes("--hello")) {
       print("Hello!");
@@ -58,11 +66,13 @@ const Windows = ({
   application: Gtk.Application;
   display: Gdk.Display;
 }) => (
-  <For each={display.get_monitors()}>
-    {(monitor: Gdk.Monitor) => (
-      <>
-        <BarWindow application={application} monitor={monitor} />
-      </>
-    )}
-  </For>
+  <ThemeProvider>
+    <For each={display.get_monitors()}>
+      {(monitor: Gdk.Monitor) => (
+        <>
+          <BarWindow application={application} monitor={monitor} />
+        </>
+      )}
+    </For>
+  </ThemeProvider>
 );

@@ -2,13 +2,13 @@ import type GObject from "gi://GObject?version=2.0";
 import { getMethod } from "./method";
 
 /** Notify after a synchronous method returns successfully. */
-export function emitNotify<T extends GObject.Object>(
+export const emitNotify = <T extends GObject.Object>(
   property: Extract<keyof T["$readableProperties"], string>,
-): (
+): ((
   prototype: T,
   name: string | symbol,
   descriptor: PropertyDescriptor,
-) => void {
+) => void) => {
   return (_prototype, _name, descriptor) => {
     const method = getMethod(descriptor, "emitNotify");
 
@@ -21,4 +21,4 @@ export function emitNotify<T extends GObject.Object>(
       return result;
     };
   };
-}
+};

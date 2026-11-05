@@ -8,7 +8,8 @@
     "es-toolkit": "^1.53.1",
     "gnim": "^2.0.0-beta.28",
     "gnim-kit": "github:raxxuy/gnim-kit",
-    "tailwind2gtk": "github:raxxuy/tailwind2gtk#develop"
+    "tailwind2gtk": "github:raxxuy/tailwind2gtk#develop",
+    "zod": "^4.6.7"
   },
   "scripts": {
     "types": "gnim types",

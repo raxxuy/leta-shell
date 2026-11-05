@@ -11,6 +11,7 @@
         "gnim": "^2.0.0-beta.28",
         "gnim-kit": "github:raxxuy/gnim-kit",
         "tailwind2gtk": "github:raxxuy/tailwind2gtk#develop",
+        "zod": "^4.6.7",
       },
       "devDependencies": {
         "@biomejs/biome": "^2.6.4",
@@ -56,10 +57,12 @@
 
     "gnim": ["gnim@2.0.0-beta.28", "", { "dependencies": { "intl-messageformat": "^11.2.13" }, "optionalDependencies": { "@gnim-js/linux-x64": "2.0.0-beta.28" }, "bin": { "gnim": "dist/bin/gnim.js" } }, "sha512-anT0qbhAtpoCWYkOjcUJg6D6fxOdl/YncoE7rC8fURktd+AhULAgU5/M8fD/q8hvIuHTBHkl97B/A0F8nRmzhg=="],
 
-    "gnim-kit": ["gnim-kit@github:raxxuy/gnim-kit#b9a2fe3", { "peerDependencies": { "@gnim-js/gtk4": "^2.0.0-beta.28", "gnim": "^2.0.0-beta.28" } }, "raxxuy-gnim-kit-b9a2fe3", "sha512-ntMpIpyetdU1cRdDBPQs+iJ46J20yk/l04gszzLw0oHSPsO7aydukwmO73V1TyqEnWDAOq3ggi0/j8BovudWkA=="],
+    "gnim-kit": ["gnim-kit@github:raxxuy/gnim-kit#42fa829", { "peerDependencies": { "@gnim-js/gtk4": "^2.0.0-beta.28", "gnim": "^2.0.0-beta.28" } }, "raxxuy-gnim-kit-42fa829", "sha512-jgpMas3S/UhmtiG0/vC/OjOlukURW+nO6L5Vw5ua4ijzaPjaJvwHbKEDRaCsbWuXdh+/imPSsUu8WE/tpF/fUA=="],
 
     "intl-messageformat": ["intl-messageformat@11.2.15", "", { "dependencies": { "@formatjs/fast-memoize": "3.1.7", "@formatjs/icu-messageformat-parser": "3.5.18" } }, "sha512-W4VNytsXyWgW5lvVchmsb9xgA5rSKqoflu3/IQ9UCtB0z4R+Bx9MoEkwFT/+30RCl/KzUoH0QGGe9lppF5SuvQ=="],
 
     "tailwind2gtk": ["tailwind2gtk@github:raxxuy/tailwind2gtk#867980e", {}, "raxxuy-tailwind2gtk-867980e", "sha512-3Dbckc/dlrS9WwNf8gPkpcZdp/AO7+VhS6Fwb0GaSidU6wrdPzCvGGl13uKzC79PvQxQg5dZyPLbMBTgZHfBKg=="],
+
+    "zod": ["zod@4.6.7", "", {}, "sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg=="],
   }
 }

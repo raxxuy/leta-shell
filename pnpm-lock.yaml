@@ -9,23 +9,26 @@ importers:
   .:
     dependencies:
       '@gnim-js/gtk4':
-        specifier: ^2.0.0-beta.26
-        version: 2.0.0-beta.26(gnim@2.0.0-beta.26)
+        specifier: ^2.0.0-beta.28
+        version: 2.0.0-beta.28(gnim@2.0.0-beta.28)
       '@gnim-js/io':
-        specifier: ^2.0.0-beta.26
-        version: 2.0.0-beta.26(gnim@2.0.0-beta.26)
+        specifier: ^2.0.0-beta.28
+        version: 2.0.0-beta.28(gnim@2.0.0-beta.28)
       es-toolkit:
         specifier: ^1.53.1
         version: 1.53.1
       gnim:
-        specifier: ^2.0.0-beta.26
-        version: 2.0.0-beta.26
+        specifier: ^2.0.0-beta.28
+        version: 2.0.0-beta.28
       gnim-kit:
-        specifier: github:raxxuy/gnim-kit#0cddafd2fe4b28d088d84bf240f61477339061ae
-        version: https://codeload.github.com/raxxuy/gnim-kit/tar.gz/0cddafd2fe4b28d088d84bf240f61477339061ae(@gnim-js/gtk4@2.0.0-beta.26(gnim@2.0.0-beta.26))(gnim@2.0.0-beta.26)
+        specifier: github:raxxuy/gnim-kit
+        version: https://codeload.github.com/raxxuy/gnim-kit/tar.gz/42fa829d691ccfb9abb2a4f7c773b723b1635243(@gnim-js/gtk4@2.0.0-beta.28(gnim@2.0.0-beta.28))(gnim@2.0.0-beta.28)
       tailwind2gtk:
         specifier: github:raxxuy/tailwind2gtk#develop
         version: https://codeload.github.com/raxxuy/tailwind2gtk/tar.gz/867980e531b341f7cf90710e7741732573d19c4c
+      zod:
+        specifier: ^4.6.7
+        version: 4.6.7
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.6.4
@@ -111,35 +114,35 @@ packages:
   '@formatjs/icu-skeleton-parser@2.1.11':
     resolution: {integrity: sha512-j8cUmOJzVgkHuS0QiQ6ga76UIoLOFSAMWhs7aZJztH3aAdCOAE6vpC8KVvFB4cU10ON0y2/5oOVmPJ43s2lTwA==}
 
-  '@gnim-js/gtk4@2.0.0-beta.26':
-    resolution: {integrity: sha512-RFETKdmWY+olXjB7mDddScN9f9lyT0XakT2zLuiaQogttxoQSGhD6ScEviFPQDWcbswovml+QojZ+LxquKu1Fw==}
+  '@gnim-js/gtk4@2.0.0-beta.28':
+    resolution: {integrity: sha512-giE2dQdSan5cHn6TOPFsmA2j68oqcGl0FtQGNcLOtbTnoWpDn7u1nYQK4D7kNu7O2hzIFJlhP+fRkjLpZKcW8w==}
     engines: {gjs: '>=1.83.0'}
     peerDependencies:
-      gnim: ^2.0.0-beta.26
+      gnim: ^2.0.0-beta.28
 
-  '@gnim-js/io@2.0.0-beta.26':
-    resolution: {integrity: sha512-W3OuQTf9RHwoe0+kh+kIz1tZDGLrqidiZtABZCwpqzNOeolb6CKWqZGrXY6rgsPJGixwkD/2q6abtxEvw0Pz2g==}
+  '@gnim-js/io@2.0.0-beta.28':
+    resolution: {integrity: sha512-Y3LHRvDVdUCAjHkFZHmzxWw1Zm7h1EsXKKfIInV6dpt+bdInsETYKzQfc0wg8ZX4jqalSoLdhS+eiZWVItpcfw==}
     engines: {gjs: '>=1.83.0'}
     peerDependencies:
-      gnim: ^2.0.0-beta.26
+      gnim: ^2.0.0-beta.28
 
-  '@gnim-js/linux-x64@2.0.0-beta.26':
-    resolution: {integrity: sha512-zjQWchDpHyAFmlJoJsBhqooy2r3ci42Qfhoyknv1t8Fm6dWpqdsuYu/CAj6BFOZGN6aEyBcqkU9I+YkniJJGvA==}
+  '@gnim-js/linux-x64@2.0.0-beta.28':
+    resolution: {integrity: sha512-xUMGaewlhTVQY6sPG1Z6ZfoS5pDrLKz1yUy3JPTkKxZEfgxd+vgdi9JUOHHWlUnRAvjP5h8xo1f2AJ5UCGKTeQ==}
     cpu: [x64]
     os: [linux]
 
   es-toolkit@1.53.1:
     resolution: {integrity: sha512-VhMc6IXmexu8iYFfL2aaAww6IvJTdHlqBLruLoEUs33YD4IcP5DdZcLOybMsMmmLsiy1c8PsiLsrM0DdIuuRUA==}
 
-  gnim-kit@https://codeload.github.com/raxxuy/gnim-kit/tar.gz/0cddafd2fe4b28d088d84bf240f61477339061ae:
-    resolution: {gitHosted: true, integrity: sha512-yeO6o401ES0aSuf3LS7VuYcX/UM0urPItqsYa35q/G+tyRvKX8VOtMWorXapCZqeaCQaVkcRj9BvccRiCHwjuQ==, tarball: https://codeload.github.com/raxxuy/gnim-kit/tar.gz/0cddafd2fe4b28d088d84bf240f61477339061ae}
+  gnim-kit@https://codeload.github.com/raxxuy/gnim-kit/tar.gz/42fa829d691ccfb9abb2a4f7c773b723b1635243:
+    resolution: {gitHosted: true, integrity: sha512-jM0bg+MwVeGYNwkzE9JTNt69XGFX3dy00ZYKZhGrwEW11VgVxWYSLkc67vsx5tY9C04sfEZ1U3RfxDccivFRIw==, tarball: https://codeload.github.com/raxxuy/gnim-kit/tar.gz/42fa829d691ccfb9abb2a4f7c773b723b1635243}
     version: 0.0.1
     peerDependencies:
-      '@gnim-js/gtk4': ^2.0.0-beta.26
-      gnim: ^2.0.0-beta.26
+      '@gnim-js/gtk4': ^2.0.0-beta.28
+      gnim: ^2.0.0-beta.28
 
-  gnim@2.0.0-beta.26:
-    resolution: {integrity: sha512-CTtRNPX4wL6gytzbcKx4pYacI4htaS0AAtBWC7oEBA8f+i3dAy71zD8I8zbpQNYp01ImdV4C+bLJJJGllAGnHg==}
+  gnim@2.0.0-beta.28:
+    resolution: {integrity: sha512-anT0qbhAtpoCWYkOjcUJg6D6fxOdl/YncoE7rC8fURktd+AhULAgU5/M8fD/q8hvIuHTBHkl97B/A0F8nRmzhg==}
     engines: {gjs: '>=1.83.0'}
     hasBin: true
 
@@ -149,6 +152,9 @@ packages:
   tailwind2gtk@https://codeload.github.com/raxxuy/tailwind2gtk/tar.gz/867980e531b341f7cf90710e7741732573d19c4c:
     resolution: {gitHosted: true, integrity: sha512-9IbvqJeo7e7Sv/KQkXH5eirKJclddU5Ahb/NzTrbv+f5f377Vt3UWLVNlh3HHTdLEBaf6/yM28kpGg2WqNDv9Q==, tarball: https://codeload.github.com/raxxuy/tailwind2gtk/tar.gz/867980e531b341f7cf90710e7741732573d19c4c}
     version: 0.4.10
+
+  zod@4.6.7:
+    resolution: {integrity: sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==}
 
 snapshots:
 
@@ -203,29 +209,29 @@ snapshots:
 
   '@formatjs/icu-skeleton-parser@2.1.11': {}
 
-  '@gnim-js/gtk4@2.0.0-beta.26(gnim@2.0.0-beta.26)':
+  '@gnim-js/gtk4@2.0.0-beta.28(gnim@2.0.0-beta.28)':
     dependencies:
-      gnim: 2.0.0-beta.26
+      gnim: 2.0.0-beta.28
 
-  '@gnim-js/io@2.0.0-beta.26(gnim@2.0.0-beta.26)':
+  '@gnim-js/io@2.0.0-beta.28(gnim@2.0.0-beta.28)':
     dependencies:
-      gnim: 2.0.0-beta.26
+      gnim: 2.0.0-beta.28
 
-  '@gnim-js/linux-x64@2.0.0-beta.26':
+  '@gnim-js/linux-x64@2.0.0-beta.28':
     optional: true
 
   es-toolkit@1.53.1: {}
 
-  gnim-kit@https://codeload.github.com/raxxuy/gnim-kit/tar.gz/0cddafd2fe4b28d088d84bf240f61477339061ae(@gnim-js/gtk4@2.0.0-beta.26(gnim@2.0.0-beta.26))(gnim@2.0.0-beta.26):
+  gnim-kit@https://codeload.github.com/raxxuy/gnim-kit/tar.gz/42fa829d691ccfb9abb2a4f7c773b723b1635243(@gnim-js/gtk4@2.0.0-beta.28(gnim@2.0.0-beta.28))(gnim@2.0.0-beta.28):
     dependencies:
-      '@gnim-js/gtk4': 2.0.0-beta.26(gnim@2.0.0-beta.26)
-      gnim: 2.0.0-beta.26
+      '@gnim-js/gtk4': 2.0.0-beta.28(gnim@2.0.0-beta.28)
+      gnim: 2.0.0-beta.28
 
-  gnim@2.0.0-beta.26:
+  gnim@2.0.0-beta.28:
     dependencies:
       intl-messageformat: 11.2.15
     optionalDependencies:
-      '@gnim-js/linux-x64': 2.0.0-beta.26
+      '@gnim-js/linux-x64': 2.0.0-beta.28
 
   intl-messageformat@11.2.15:
     dependencies:
@@ -233,3 +239,5 @@ snapshots:
       '@formatjs/icu-messageformat-parser': 3.5.18
 
   tailwind2gtk@https://codeload.github.com/raxxuy/tailwind2gtk/tar.gz/867980e531b341f7cf90710e7741732573d19c4c: {}
+
+  zod@4.6.7: {}
