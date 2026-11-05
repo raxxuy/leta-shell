@@ -1,6 +1,7 @@
 import type Gdk from "gi://Gdk?version=4.0";
 import type Gtk from "gi://Gtk?version=4.0";
 import { createPoll } from "@gnim-js/io/timer";
+import type { MaybeAccessor } from "gnim";
 import { Align } from "@/enums";
 import { formatTime, now } from "@/lib/time";
 import Workspaces from "./modules/Workspaces";
@@ -8,9 +9,14 @@ import Workspaces from "./modules/Workspaces";
 interface BarWindowProps {
   application: Gtk.Application;
   monitor: Gdk.Monitor;
+  visible: MaybeAccessor<boolean>;
 }
 
-export default function BarWindow({ application, monitor }: BarWindowProps) {
+export default function BarWindow({
+  application,
+  monitor,
+  visible,
+}: BarWindowProps) {
   const clock = createPoll(now(), 1000, () => now());
 
   return (
@@ -21,7 +27,7 @@ export default function BarWindow({ application, monitor }: BarWindowProps) {
       exclusivity="exclusive"
       monitor={monitor}
       namespace="leta-shell"
-      visible
+      visible={visible}
     >
       <centerbox class="px-4">
         <box halign={Align.START} slot="start" valign={Align.CENTER}>

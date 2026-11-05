@@ -23,7 +23,7 @@ export default function WorkspaceButton({
   const { focusedWorkspace, clients } = useHyprland();
 
   const state = computed(() => {
-    const isFocused = focusedWorkspace().id === workspace.id;
+    const isFocused = focusedWorkspace()?.id === workspace.id;
     if (isFocused) return "focused";
 
     const isOccupied = clients().some(

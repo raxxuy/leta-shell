@@ -17,6 +17,6 @@
     "build": "meson setup build --wipe --prefix \"$(pwd)/dist\" ; meson install -C build"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.6.4"
+    "@biomejs/biome": "^2.6.5"
   }
 }

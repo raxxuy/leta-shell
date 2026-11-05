@@ -1,7 +1,7 @@
 import Gdk from "gi://Gdk?version=4.0";
 import Gio from "gi://Gio?version=2.0";
 import Gtk from "gi://Gtk?version=4.0";
-import { For, render } from "gnim";
+import { createState, For, type MaybeAccessor, render } from "gnim";
 import { register } from "gnim/gobject";
 import { createDomain } from "gnim/intl";
 import { AppRenderer } from "./components/renderer";
@@ -40,13 +40,15 @@ export class App extends Gtk.Application {
     const configService = ConfigService.get_default();
 
     initCache();
-    applyTheme(this);
+    const [visible, setVisible] = createState(false);
 
     const dispose = render(
       new AppRenderer(),
-      () => <Windows application={this} display={display} />,
+      () => <Windows application={this} display={display} visible={visible} />,
       this,
     );
+
+    void applyTheme(this).then(() => setVisible(true));
 
     this.connect("shutdown", () => {
       dispose();
@@ -62,15 +64,17 @@ export class App extends Gtk.Application {
 const Windows = ({
   application,
   display,
+  visible,
 }: {
   application: Gtk.Application;
   display: Gdk.Display;
+  visible: MaybeAccessor<boolean>;
 }) => (
   <ThemeProvider>
     <For each={display.get_monitors()}>
       {(monitor: Gdk.Monitor) => (
         <>
-          <BarWindow application={application} monitor={monitor} />
+          <BarWindow application={application} monitor={monitor} visible={visible} />
         </>
       )}
     </For>
