@@ -58,3 +58,11 @@ export const copyFile = (source: string, destination: string): boolean =>
     null,
     null,
   );
+
+export const moveFile = (source: string, destination: string): boolean =>
+  Gio.File.new_for_path(source).move(
+    Gio.File.new_for_path(destination),
+    Gio.FileCopyFlags.OVERWRITE,
+    null,
+    null,
+  );

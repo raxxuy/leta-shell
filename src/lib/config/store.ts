@@ -1,6 +1,6 @@
 import { createState } from "gnim";
 import { CONFIG_DIR } from "@/constants";
-import { buildPath, ensureDir, readFile, writeFile } from "../fs";
+import { buildPath, ensureDir, fileExists, readFile, writeFile } from "../fs";
 import { configs } from "./schemas";
 import type {
   Config,
@@ -43,15 +43,22 @@ const createConfigStore = (dir = CONFIG_DIR): ConfigStore => {
       }),
     ) as Config;
 
-  const [value, setValue] = createState<ConfigValue>(loadInitial());
+  const write = (key: ConfigKey, config: ConfigValue): void => {
+    writeFile(fileFor(key), `${JSON.stringify(config[key], null, 2)}\n`);
+  };
 
   const persist = (next: ConfigValue): void => {
     ensureDir(dir);
-
-    for (const key of keys) {
-      writeFile(fileFor(key), `${JSON.stringify(next[key], null, 2)}\n`);
-    }
+    for (const key of keys) write(key, next);
   };
+
+  if (!ensureDir(dir)) throw new Error(`Failed to create config dir: ${dir}`);
+
+  const [value, setValue] = createState<ConfigValue>(loadInitial());
+
+  for (const key of keys) {
+    if (!fileExists(fileFor(key))) write(key, value.peek());
+  }
 
   const set = (input: ConfigInput): void => {
     const next = parse(input);
@@ -65,8 +72,12 @@ const createConfigStore = (dir = CONFIG_DIR): ConfigStore => {
     set(draft);
   };
 
+  const reload = (): void => {
+    const next = load();
+    if (JSON.stringify(next) !== JSON.stringify(value.peek())) setValue(next);
+  };
+
   const save = (): void => persist(value.peek());
-  const reload = (): void => setValue(load());
   const reset = (): void => set({});
 
   return { path: dir, value, set, update, save, reload, reset };

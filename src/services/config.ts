@@ -4,8 +4,12 @@ import { register } from "gnim/gobject";
 import { watchDecorated, watchFile } from "@/decorators/watchFile";
 import { configs } from "@/lib/config/schemas";
 import { config } from "@/lib/config/store";
-import { buildPath, ensureDir } from "@/lib/fs";
+import { buildPath } from "@/lib/fs";
 import { BaseService } from "./base";
+
+const configFiles = new Set(
+  Object.keys(configs).map((key) => buildPath(config.path, `${key}.json`)),
+);
 
 @register
 export default class ConfigService extends BaseService {
@@ -21,12 +25,9 @@ export default class ConfigService extends BaseService {
     Gio.FileMonitorEvent.MOVED_IN,
     Gio.FileMonitorEvent.MOVED_OUT,
   )
-  protected onConfigChanged(path: string, event: Gio.FileMonitorEvent) {
-    const isConfigFile = Object.keys(configs).some(
-      (key) => path === buildPath(this.store.path, `${key}.json`),
-    );
-
-    if (event !== Gio.FileMonitorEvent.RENAMED && !isConfigFile) return;
+  protected onConfigChanged(path: string, event: Gio.FileMonitorEvent): void {
+    if (event !== Gio.FileMonitorEvent.RENAMED && !configFiles.has(path))
+      return;
 
     try {
       this.store.reload();
@@ -37,11 +38,6 @@ export default class ConfigService extends BaseService {
 
   constructor() {
     super();
-
-    if (!ensureDir(this.store.path)) {
-      throw new Error(`Failed to create config directory: ${this.store.path}`);
-    }
-
     runScope(this.scope, () => onCleanup(watchDecorated(this)));
   }
 }
