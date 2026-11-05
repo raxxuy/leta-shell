@@ -10,8 +10,12 @@ const intrinsicWidgets = {
   button: Gtk.Button,
   calendar: Gtk.Calendar,
   centerbox: Gtk.CenterBox,
+  flowbox: Gtk.FlowBox,
+  flowboxchild: Gtk.FlowBoxChild,
   label: Gtk.Label,
   layerwindow: LayerWindow,
+  picture: Gtk.Picture,
+  scrolledwindow: Gtk.ScrolledWindow,
 };
 
 type WidgetProps<T> = T extends new (

@@ -1,12 +1,16 @@
 import Gdk from "gi://Gdk?version=4.0";
-import Gio from "gi://Gio?version=2.0";
+import type Gio from "gi://Gio?version=2.0";
 import Gtk from "gi://Gtk?version=4.0";
 import { createState, For, type MaybeAccessor, render } from "gnim";
 import { register } from "gnim/gobject";
 import { createDomain } from "gnim/intl";
 import { AppRenderer } from "./components/renderer";
+import { ApplicationFlags } from "./enums";
 import BarWindow from "./features/bar/BarWindow";
+import WallpaperPickerWindow from "./features/wallpaper/WallpaperPickerWindow";
+import WallpaperWindow from "./features/wallpaper/WallpaperWindow";
 import { initCache } from "./lib/cache";
+import { handleRequest } from "./lib/requests";
 import { applyTheme } from "./lib/theme/apply";
 import { ThemeProvider } from "./providers/ConfigProvider";
 import ConfigService from "./services/config";
@@ -18,7 +22,7 @@ export class App extends Gtk.Application {
   constructor() {
     super({
       applicationId: "dev.raxxuy.leta-shell",
-      flags: Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
+      flags: ApplicationFlags.HANDLES_COMMAND_LINE,
     });
   }
 
@@ -27,20 +31,29 @@ export class App extends Gtk.Application {
     cmd: Gio.ApplicationCommandLine,
   ): number {
     const [, ...args] = cmd.get_arguments();
-    if (cmd.isRemote) cmd.print_literal("Hello!\n");
-    else this.main(args);
-    cmd.done();
-    return 0;
+
+    try {
+      if (cmd.isRemote) handleRequest(this, args);
+      else this.main();
+      return 0;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      cmd.printerr_literal(`${message}\n`);
+      cmd.set_exit_status(1);
+      return 1;
+    } finally {
+      cmd.done();
+    }
   }
 
-  protected main(this: App, args: string[]) {
+  protected main(this: App): void {
     const display = Gdk.Display.get_default();
     if (!display) throw new Error("No display available");
 
-    const configService = ConfigService.get_default();
+    const config = ConfigService.get_default();
+    const [visible, setVisible] = createState(false);
 
     initCache();
-    const [visible, setVisible] = createState(false);
 
     const dispose = render(
       new AppRenderer(),
@@ -48,16 +61,14 @@ export class App extends Gtk.Application {
       this,
     );
 
-    void applyTheme(this).then(() => setVisible(true));
+    applyTheme(this)
+      .then(() => setVisible(true))
+      .catch((error) => console.error("Failed to apply theme:", error));
 
     this.connect("shutdown", () => {
       dispose();
-      configService.dispose();
+      config.dispose();
     });
-
-    if (args.includes("--hello")) {
-      print("Hello!");
-    }
   }
 }
 
@@ -72,11 +83,21 @@ const Windows = ({
 }) => (
   <ThemeProvider>
     <For each={display.get_monitors()}>
-      {(monitor: Gdk.Monitor) => (
-        <>
-          <BarWindow application={application} monitor={monitor} visible={visible} />
-        </>
-      )}
+      {(monitor: Gdk.Monitor) => {
+        const props = {
+          application,
+          monitor,
+          visible,
+        };
+
+        return (
+          <>
+            <BarWindow {...props} />
+            <WallpaperWindow {...props} />
+            <WallpaperPickerWindow {...props} />
+          </>
+        );
+      }}
     </For>
   </ThemeProvider>
 );

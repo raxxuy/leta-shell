@@ -13,4 +13,6 @@ type ThemeContextValue = {
   update: (edit: (draft: ThemeConfig) => void) => void;
 };
 
-export const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
+export const ThemeContext = createContext<ThemeContextValue | undefined>(
+  undefined,
+);

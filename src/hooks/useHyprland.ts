@@ -23,5 +23,11 @@ export const useHyprland = () => {
     workspaces.as((ws) => (id in ws ? ws[id] : null)),
   );
 
-  return { focusedWorkspace, focusedMonitor, clients, workspaces, indexedWorkspaces };
+  return {
+    focusedWorkspace,
+    focusedMonitor,
+    clients,
+    workspaces,
+    indexedWorkspaces,
+  };
 };
