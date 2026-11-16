@@ -2,7 +2,7 @@ import type GObject from "gi://GObject?version=2.0";
 import Gtk from "gi://Gtk?version=4.0";
 import { GtkRenderer } from "@gnim-js/gtk4";
 import type { CCProps, JSX } from "gnim";
-import { LayerWindow } from "gnim-kit";
+import { LayerWindow, Svg } from "gnim-kit";
 import { cleanupWidget, scan } from "@/lib/theme/plugin";
 
 const intrinsicWidgets = {
@@ -12,10 +12,12 @@ const intrinsicWidgets = {
   centerbox: Gtk.CenterBox,
   flowbox: Gtk.FlowBox,
   flowboxchild: Gtk.FlowBoxChild,
+  image: Gtk.Image,
   label: Gtk.Label,
   layerwindow: LayerWindow,
   picture: Gtk.Picture,
   scrolledwindow: Gtk.ScrolledWindow,
+  svg: Svg,
 };
 
 type WidgetProps<T> = T extends new (

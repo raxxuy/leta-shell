@@ -45,10 +45,12 @@
             leta-toolkit.packages.${system}.default
             (astal.packages.${system}.hyprland.overrideAttrs (old: {
               postPatch = (old.postPatch or "") + ''
+                # Hyprland >= 0.5x omits "id" from an empty specialWorkspace object.
+                # Patch only the expression so upstream formatting changes don't break it.
                 substituteInPlace src/monitor.vala \
                   --replace-fail \
-                    'special_workspace = hyprland.get_workspace((int)obj.get_object_member("specialWorkspace").get_int_member("id"));' \
-                    'special_workspace = obj.get_object_member("specialWorkspace").has_member("id") ? hyprland.get_workspace((int)obj.get_object_member("specialWorkspace").get_int_member("id")) : null;'
+                    '(int)obj.get_object_member("specialWorkspace").get_int_member("id")' \
+                    '(int)obj.get_object_member("specialWorkspace").get_int_member_with_default("id", 0)'
               '';
             }))
           ];

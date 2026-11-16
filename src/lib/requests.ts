@@ -10,6 +10,10 @@ export const handleRequest = (
     throw new Error("Usage: toggle <window-name>");
   }
 
+  toggle(application, name);
+};
+
+export const toggle = (application: Gtk.Application, name: string): void => {
   const windows = application
     .get_windows()
     .filter((window) => window.get_name() === name);

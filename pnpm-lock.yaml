@@ -9,20 +9,20 @@ importers:
   .:
     dependencies:
       '@gnim-js/gtk4':
-        specifier: ^2.0.0-beta.28
-        version: 2.0.0-beta.28(gnim@2.0.0-beta.28)
+        specifier: ^2.0.0-beta.29
+        version: 2.0.0-beta.29(gnim@2.0.0-beta.29)
       '@gnim-js/io':
-        specifier: ^2.0.0-beta.28
-        version: 2.0.0-beta.28(gnim@2.0.0-beta.28)
+        specifier: 2.0.0-beta.28
+        version: 2.0.0-beta.28(gnim@2.0.0-beta.29)
       es-toolkit:
-        specifier: ^1.53.1
-        version: 1.53.1
+        specifier: ^1.53.2
+        version: 1.53.2
       gnim:
-        specifier: ^2.0.0-beta.28
-        version: 2.0.0-beta.28
+        specifier: ^2.0.0-beta.29
+        version: 2.0.0-beta.29
       gnim-kit:
         specifier: github:raxxuy/gnim-kit
-        version: https://codeload.github.com/raxxuy/gnim-kit/tar.gz/42fa829d691ccfb9abb2a4f7c773b723b1635243(@gnim-js/gtk4@2.0.0-beta.28(gnim@2.0.0-beta.28))(gnim@2.0.0-beta.28)
+        version: https://codeload.github.com/raxxuy/gnim-kit/tar.gz/66684c59df57e5ef9cf1027cefe8000db0be933d(@gnim-js/gtk4@2.0.0-beta.29(gnim@2.0.0-beta.29))(gnim@2.0.0-beta.29)
       tailwind2gtk:
         specifier: github:raxxuy/tailwind2gtk#develop
         version: https://codeload.github.com/raxxuy/tailwind2gtk/tar.gz/867980e531b341f7cf90710e7741732573d19c4c
@@ -31,76 +31,76 @@ importers:
         version: 4.6.7
     devDependencies:
       '@biomejs/biome':
-        specifier: ^2.6.5
-        version: 2.6.5
+        specifier: ^2.6.8
+        version: 2.6.8
 
 packages:
 
-  '@biomejs/biome@2.6.5':
-    resolution: {integrity: sha512-n0sp74QbSVEkWXlH659TKv4oJNylwAvDeZ8K8vt/PbcF1xneuNWe57z/G0Bxfh00cufhWXF6DiStLM8+jcLUpg==}
+  '@biomejs/biome@2.6.8':
+    resolution: {integrity: sha512-kqZUFvX6/aYQOmzfRN5ANcfNS9wLH4aHLWWP/dQKyhRZVoA6rdWszA7DGugFcxPbMiznUyVYyukVl+ExZN4PQA==}
     engines: {node: '>=14.21.3'}
     hasBin: true
 
-  '@biomejs/cli-android-arm64@2.6.5':
-    resolution: {integrity: sha512-fkLzc1WRU7wRIUNmAm7cxILb4dd6eESz/VycWvVFKVn6tXx0gFQKdUbPnwT42xys8AEvIJQpFGcK00kURwqorg==}
+  '@biomejs/cli-android-arm64@2.6.8':
+    resolution: {integrity: sha512-X4JKPLK85kfUTwuuaORFplnBfGjKkp62PsFhhcL7F/Tpltc7pyUofjlkkMnlZZLWsifFl7LNB8ngVrwJg1uo1Q==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [android]
 
-  '@biomejs/cli-android-x64@2.6.5':
-    resolution: {integrity: sha512-fkZ9dPnDAzAcaPtPCiwqtkub5C9FQK/oGCGaU9sq+DysTaq13pE9FxBIMcEZ3ydn8/FfcMdXi/DDzKDP+qyn2Q==}
+  '@biomejs/cli-android-x64@2.6.8':
+    resolution: {integrity: sha512-C3Hk485vl+deEj53K08+SYYelPIPkdSZL3qHuD31Xi+qydVa4q2ze+aCYo1k3iJGWtvWtjHaGkDh7S2sX6wk8w==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [android]
 
-  '@biomejs/cli-darwin-arm64@2.6.5':
-    resolution: {integrity: sha512-bKd0EOREgnVjeZm4s9knQ+WdPOkWS3JHB+eWGHlx+Pq66bqQA1/KybwU0O+zuyAyXiphSCBcrLruZt3YtnJoaQ==}
+  '@biomejs/cli-darwin-arm64@2.6.8':
+    resolution: {integrity: sha512-DHyj+JnRHcn4YdvpiqgTFZMYKSPELMCfFpNNlEuu1L8DKTGXhzW7raIwdsbo2Ie9nCljQLAQkVWQk/mwM0ueiA==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [darwin]
 
-  '@biomejs/cli-darwin-x64@2.6.5':
-    resolution: {integrity: sha512-UkT9BECNOXSiW6SGddjyaRACy362Sc9n3vDaTFkccL0bC2gW7JzM16i4+JKPbEaDn1Sa+oETHV8KungnI/y40Q==}
+  '@biomejs/cli-darwin-x64@2.6.8':
+    resolution: {integrity: sha512-QWWUPjlA0RnkkgYnFLUHZu+RrDc0FdK0A+wEPA+dENQJwsuSHMH89lspnAw2QUWWc9VHyfluGx1Xmp6Y2GZi8Q==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [darwin]
 
-  '@biomejs/cli-linux-arm64-musl@2.6.5':
-    resolution: {integrity: sha512-kfc3AePW1a0/d/gUpcIz95nf3Ce8YY2/xL0Fk3fLqAhKsotqUi6PN6BaVWss4p6ijWbiuacZ9NQ4NiQtpjbYpw==}
+  '@biomejs/cli-linux-arm64-musl@2.6.8':
+    resolution: {integrity: sha512-WB9PhOitX+bRc0G3+GNJGlvbKoWn3JoB9z4E04JQizIC9aPCQyIvwvWG7QZHxw6k20Fi+dHLmZ2fSEmBa9HqiA==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@biomejs/cli-linux-arm64@2.6.5':
-    resolution: {integrity: sha512-H9cVMWBqW/lkFK9NHJdt0bpM2q7PacUDEjQoff9+m0dCV09H/jmBykfTCkbDthHf8+jCuWDJWiQFJ7bDkiGOcA==}
+  '@biomejs/cli-linux-arm64@2.6.8':
+    resolution: {integrity: sha512-0Bjim8lKwnrvXUHoI4k3Tb51BjoiLEwDnovCI8nSzkk6wj3dShiuAjrx6+X0Hjf4ejR1sRZgTQiSDHlpy9vB7w==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@biomejs/cli-linux-x64-musl@2.6.5':
-    resolution: {integrity: sha512-0mHVpLNt7/FugfZ2VPugUIEIiooWIyHGGJUqU9StxamBln9hz+maXRFIECU50jaf5/ZB93veGIViN5VKgw2AEA==}
+  '@biomejs/cli-linux-x64-musl@2.6.8':
+    resolution: {integrity: sha512-64Yzo+J4fEk7Kf9SMnVdVxC+Y2A2e/L86QTP9JjGQ57lsddyELLpbBcNMxSJggre2T1AvISwwSrOApkBAHDqNA==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@biomejs/cli-linux-x64@2.6.5':
-    resolution: {integrity: sha512-e6/WMSN/+FhH+ZOoBevps/euxFQmv6BXqYNuTn1+ITR6O4XYFjHF5PeVSNZnjkgSYmvhcDkfepSX5lXczMijGA==}
+  '@biomejs/cli-linux-x64@2.6.8':
+    resolution: {integrity: sha512-XIk3pLQT56I6Tti+u0DF8FtSNXjCMTPbxVTzfJ9cS2t1ImVKvrqV5b52GuEaJg6/wuiXvz0sjfb5saB4TPRjzA==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@biomejs/cli-win32-arm64@2.6.5':
-    resolution: {integrity: sha512-uBbfpdR/cH5up1iRJFGAPP97xKMzrgMs685CSrY7NM+Q4Unw7chY0o3JulEvJdmU6c6hGQxwqotMq7DDH0DzxA==}
+  '@biomejs/cli-win32-arm64@2.6.8':
+    resolution: {integrity: sha512-ezjCEZzHIWE2pdh83a7zLVcAAcDaERcTcvfA7uWlxqz/1CuDxgtfO19pDg9B6YY4wKYIDvYBw2QCMnqIshSwmw==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [win32]
 
-  '@biomejs/cli-win32-x64@2.6.5':
-    resolution: {integrity: sha512-07LaCeN9vvmbAAMOMsUjMfL5UbsCDkvVeyMJIgwNRc0xYqhizBGkjVzx05LYEwCXl2AiHcdzqVPR4IOYAsI1QQ==}
+  '@biomejs/cli-win32-x64@2.6.8':
+    resolution: {integrity: sha512-cD6HvGczZUiAYsY8s2TxxXj2AHFzEdMomvVJfEjzOjBM45nGqIDfBpbtvwGQzDCN8X2yKKk9u1jnDZisT2nxIg==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
@@ -114,11 +114,11 @@ packages:
   '@formatjs/icu-skeleton-parser@2.1.11':
     resolution: {integrity: sha512-j8cUmOJzVgkHuS0QiQ6ga76UIoLOFSAMWhs7aZJztH3aAdCOAE6vpC8KVvFB4cU10ON0y2/5oOVmPJ43s2lTwA==}
 
-  '@gnim-js/gtk4@2.0.0-beta.28':
-    resolution: {integrity: sha512-giE2dQdSan5cHn6TOPFsmA2j68oqcGl0FtQGNcLOtbTnoWpDn7u1nYQK4D7kNu7O2hzIFJlhP+fRkjLpZKcW8w==}
+  '@gnim-js/gtk4@2.0.0-beta.29':
+    resolution: {integrity: sha512-0i3HZCrqyfSV0TIdpq7s2Natcp3pjMLUSbLyDUq+AQDrD9EJxKvu2KBona2URlTp0ktCRgSRdE0uOErRX/rf6w==}
     engines: {gjs: '>=1.83.0'}
     peerDependencies:
-      gnim: ^2.0.0-beta.28
+      gnim: ^2.0.0-beta.29
 
   '@gnim-js/io@2.0.0-beta.28':
     resolution: {integrity: sha512-Y3LHRvDVdUCAjHkFZHmzxWw1Zm7h1EsXKKfIInV6dpt+bdInsETYKzQfc0wg8ZX4jqalSoLdhS+eiZWVItpcfw==}
@@ -126,23 +126,23 @@ packages:
     peerDependencies:
       gnim: ^2.0.0-beta.28
 
-  '@gnim-js/linux-x64@2.0.0-beta.28':
-    resolution: {integrity: sha512-xUMGaewlhTVQY6sPG1Z6ZfoS5pDrLKz1yUy3JPTkKxZEfgxd+vgdi9JUOHHWlUnRAvjP5h8xo1f2AJ5UCGKTeQ==}
+  '@gnim-js/linux-x64@2.0.0-beta.29':
+    resolution: {integrity: sha512-+spt91Z/HMV+IyuguI5NtEBMw/DZWSGAYWk7PkspFWzu8rND5Um6GEJd6FEtdsrPKsJnUItKcFyrssvDxUEkBA==}
     cpu: [x64]
     os: [linux]
 
-  es-toolkit@1.53.1:
-    resolution: {integrity: sha512-VhMc6IXmexu8iYFfL2aaAww6IvJTdHlqBLruLoEUs33YD4IcP5DdZcLOybMsMmmLsiy1c8PsiLsrM0DdIuuRUA==}
+  es-toolkit@1.53.2:
+    resolution: {integrity: sha512-iUqZ+NlwH4jUgRmXZUxFBsV/9762TQEa1O4IXLFBmDEjVHScBytKuseX23I0+v9ShZ5MYxEx6WKNzm6IPnex8g==}
 
-  gnim-kit@https://codeload.github.com/raxxuy/gnim-kit/tar.gz/42fa829d691ccfb9abb2a4f7c773b723b1635243:
-    resolution: {gitHosted: true, integrity: sha512-jM0bg+MwVeGYNwkzE9JTNt69XGFX3dy00ZYKZhGrwEW11VgVxWYSLkc67vsx5tY9C04sfEZ1U3RfxDccivFRIw==, tarball: https://codeload.github.com/raxxuy/gnim-kit/tar.gz/42fa829d691ccfb9abb2a4f7c773b723b1635243}
+  gnim-kit@https://codeload.github.com/raxxuy/gnim-kit/tar.gz/66684c59df57e5ef9cf1027cefe8000db0be933d:
+    resolution: {gitHosted: true, integrity: sha512-Zr/x1fgI8oHTuUugmu0sG9tjS0W5+SwVwjhDJJ0IcGVQW7VAhUzEy1BhAZq4JNlCI49/8irNm0caXNB5SI8epg==, tarball: https://codeload.github.com/raxxuy/gnim-kit/tar.gz/66684c59df57e5ef9cf1027cefe8000db0be933d}
     version: 0.0.1
     peerDependencies:
       '@gnim-js/gtk4': ^2.0.0-beta.28
       gnim: ^2.0.0-beta.28
 
-  gnim@2.0.0-beta.28:
-    resolution: {integrity: sha512-anT0qbhAtpoCWYkOjcUJg6D6fxOdl/YncoE7rC8fURktd+AhULAgU5/M8fD/q8hvIuHTBHkl97B/A0F8nRmzhg==}
+  gnim@2.0.0-beta.29:
+    resolution: {integrity: sha512-mAQ0lCDuwjf82wAVVB30nsbB3H/asXEq2ycKH/JeVd4VTVjd3Eh/Fxuht/y++/xHO70rUZX6+GiaaedUrK06fw==}
     engines: {gjs: '>=1.83.0'}
     hasBin: true
 
@@ -158,47 +158,47 @@ packages:
 
 snapshots:
 
-  '@biomejs/biome@2.6.5':
+  '@biomejs/biome@2.6.8':
     optionalDependencies:
-      '@biomejs/cli-android-arm64': 2.6.5
-      '@biomejs/cli-android-x64': 2.6.5
-      '@biomejs/cli-darwin-arm64': 2.6.5
-      '@biomejs/cli-darwin-x64': 2.6.5
-      '@biomejs/cli-linux-arm64': 2.6.5
-      '@biomejs/cli-linux-arm64-musl': 2.6.5
-      '@biomejs/cli-linux-x64': 2.6.5
-      '@biomejs/cli-linux-x64-musl': 2.6.5
-      '@biomejs/cli-win32-arm64': 2.6.5
-      '@biomejs/cli-win32-x64': 2.6.5
+      '@biomejs/cli-android-arm64': 2.6.8
+      '@biomejs/cli-android-x64': 2.6.8
+      '@biomejs/cli-darwin-arm64': 2.6.8
+      '@biomejs/cli-darwin-x64': 2.6.8
+      '@biomejs/cli-linux-arm64': 2.6.8
+      '@biomejs/cli-linux-arm64-musl': 2.6.8
+      '@biomejs/cli-linux-x64': 2.6.8
+      '@biomejs/cli-linux-x64-musl': 2.6.8
+      '@biomejs/cli-win32-arm64': 2.6.8
+      '@biomejs/cli-win32-x64': 2.6.8
 
-  '@biomejs/cli-android-arm64@2.6.5':
+  '@biomejs/cli-android-arm64@2.6.8':
     optional: true
 
-  '@biomejs/cli-android-x64@2.6.5':
+  '@biomejs/cli-android-x64@2.6.8':
     optional: true
 
-  '@biomejs/cli-darwin-arm64@2.6.5':
+  '@biomejs/cli-darwin-arm64@2.6.8':
     optional: true
 
-  '@biomejs/cli-darwin-x64@2.6.5':
+  '@biomejs/cli-darwin-x64@2.6.8':
     optional: true
 
-  '@biomejs/cli-linux-arm64-musl@2.6.5':
+  '@biomejs/cli-linux-arm64-musl@2.6.8':
     optional: true
 
-  '@biomejs/cli-linux-arm64@2.6.5':
+  '@biomejs/cli-linux-arm64@2.6.8':
     optional: true
 
-  '@biomejs/cli-linux-x64-musl@2.6.5':
+  '@biomejs/cli-linux-x64-musl@2.6.8':
     optional: true
 
-  '@biomejs/cli-linux-x64@2.6.5':
+  '@biomejs/cli-linux-x64@2.6.8':
     optional: true
 
-  '@biomejs/cli-win32-arm64@2.6.5':
+  '@biomejs/cli-win32-arm64@2.6.8':
     optional: true
 
-  '@biomejs/cli-win32-x64@2.6.5':
+  '@biomejs/cli-win32-x64@2.6.8':
     optional: true
 
   '@formatjs/fast-memoize@3.1.7': {}
@@ -209,29 +209,29 @@ snapshots:
 
   '@formatjs/icu-skeleton-parser@2.1.11': {}
 
-  '@gnim-js/gtk4@2.0.0-beta.28(gnim@2.0.0-beta.28)':
+  '@gnim-js/gtk4@2.0.0-beta.29(gnim@2.0.0-beta.29)':
     dependencies:
-      gnim: 2.0.0-beta.28
+      gnim: 2.0.0-beta.29
 
-  '@gnim-js/io@2.0.0-beta.28(gnim@2.0.0-beta.28)':
+  '@gnim-js/io@2.0.0-beta.28(gnim@2.0.0-beta.29)':
     dependencies:
-      gnim: 2.0.0-beta.28
+      gnim: 2.0.0-beta.29
 
-  '@gnim-js/linux-x64@2.0.0-beta.28':
+  '@gnim-js/linux-x64@2.0.0-beta.29':
     optional: true
 
-  es-toolkit@1.53.1: {}
+  es-toolkit@1.53.2: {}
 
-  gnim-kit@https://codeload.github.com/raxxuy/gnim-kit/tar.gz/42fa829d691ccfb9abb2a4f7c773b723b1635243(@gnim-js/gtk4@2.0.0-beta.28(gnim@2.0.0-beta.28))(gnim@2.0.0-beta.28):
+  gnim-kit@https://codeload.github.com/raxxuy/gnim-kit/tar.gz/66684c59df57e5ef9cf1027cefe8000db0be933d(@gnim-js/gtk4@2.0.0-beta.29(gnim@2.0.0-beta.29))(gnim@2.0.0-beta.29):
     dependencies:
-      '@gnim-js/gtk4': 2.0.0-beta.28(gnim@2.0.0-beta.28)
-      gnim: 2.0.0-beta.28
+      '@gnim-js/gtk4': 2.0.0-beta.29(gnim@2.0.0-beta.29)
+      gnim: 2.0.0-beta.29
 
-  gnim@2.0.0-beta.28:
+  gnim@2.0.0-beta.29:
     dependencies:
       intl-messageformat: 11.2.15
     optionalDependencies:
-      '@gnim-js/linux-x64': 2.0.0-beta.28
+      '@gnim-js/linux-x64': 2.0.0-beta.29
 
   intl-messageformat@11.2.15:
     dependencies:

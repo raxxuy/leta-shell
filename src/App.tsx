@@ -7,7 +7,6 @@ import { createDomain } from "gnim/intl";
 import { AppRenderer } from "./components/renderer";
 import { ApplicationFlags } from "./enums";
 import BarWindow from "./features/bar/BarWindow";
-import WallpaperPickerWindow from "./features/wallpaper/WallpaperPickerWindow";
 import WallpaperWindow from "./features/wallpaper/WallpaperWindow";
 import { initCache } from "./lib/cache";
 import { handleRequest } from "./lib/requests";
@@ -94,7 +93,6 @@ const Windows = ({
           <>
             <BarWindow {...props} />
             <WallpaperWindow {...props} />
-            <WallpaperPickerWindow {...props} />
           </>
         );
       }}
